@@ -1,0 +1,38 @@
+.uc_material_opening_hours *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    }
+    
+.uc_material_opening_hours{
+	padding:0px 10px;
+	}
+
+.uc_material_opening_hours table{
+	border-collapse: collapse;
+    border-spacing: 0;
+    line-height: 2;
+    width: 100%;
+	}
+
+.uc_material_opening_hours table tr{border-bottom: 1px solid #ededed;}
+
+.uc_material_opening_hours table tr td{
+	
+    padding: 12px 10px 12px 0;
+	font-size:13px;
+	font-family: 'Droid Sans', sans-serif;
+	color: #fff;
+  	vertical-align: top;
+	}
+	
+	.uc_material_opening_hours table tr:last-child
+	{
+		border-bottom:none;
+	}
+
+.uc_material_opening_hours table tr td:nth-child(2){ text-align:center;}
+.uc_material_opening_hours table tr td:nth-child(3){ text-align:right;}

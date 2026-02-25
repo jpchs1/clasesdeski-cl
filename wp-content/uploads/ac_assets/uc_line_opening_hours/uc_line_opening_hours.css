@@ -1,0 +1,21 @@
+@charset "utf-8";
+/* CSS Document */
+
+.uc_line_opening_hours *{
+	margin:0;
+	padding:0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+ .uc_line_opening_hours{ overflow:hidden;}
+
+.uc_line_opening_hours_inner{ width:126px;font-family: 'Lato', sans-serif; font-size:16px; text-align:center; float:left;}
+.uc_line_opening_hours_inner p{ padding:5px 0;}
+.uc_line_opening_hours_inner h2{ padding: 10px 0;font-size: 16px;}
+
+
+
+
+

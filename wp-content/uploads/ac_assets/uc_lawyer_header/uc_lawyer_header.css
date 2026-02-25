@@ -1,0 +1,122 @@
+.uc_lawyer_header *{
+	margin:0;
+	padding:0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	
+}
+
+.uc_lawyer_header .blue-background{
+	position:relative;
+	width:100%;
+	
+}	
+
+.uc_lawyer_header .uc_container_text_box{ 
+	padding:13% 0;
+	width: 100%;
+}
+
+.uc_lawyer_header .logo{
+	position: absolute;
+    left: 12%;
+	top:50px;
+}
+.uc_lawyer_header .uc_socila_icon {
+    position: absolute;
+    right:12%;
+	top:50px;
+}
+.uc_lawyer_header .uc_socila_icon a{
+	color:#ffffff;
+	display:inline-block;
+}
+.uc_lawyer_header .uc_socila_icon .fa{ 
+	margin-left:20px;
+	}
+
+.uc_lawyer_header .uc_container_text_box h1{
+	font-size:3.5vw;
+	font-family: 'Playfair Display', serif;
+	font-weight:400;
+	color:#ffffff;	
+	line-height: 65px;
+    text-align: center;
+    width: 50%;
+	margin:0 auto;
+	padding: 0 0 65px;
+}
+.uc_lawyer_header .uc_paragraph{	
+	font-family: 'Montserrat', sans-serif;
+	font-size:17px;
+	color:#ffffff;
+	font-weight:300;
+	line-height: 44px;
+	opacity:0.6;
+	 width: 315px;
+	 text-align:center;
+	 margin:0 auto;
+}
+.uc_lawyer_header .profile-box{
+	position:relative;	
+}
+.uc_lawyer_header .profile-box .profile-image{
+	position:absolute;
+	width:120px;
+	border:8px solid #ffffff;
+	border-radius:50%;
+	margin:0 auto;
+	left: 0;
+	right:0px;
+	top:-60px;
+}
+
+
+.uc_lawyer_header .profile-box a.contact-box{
+	position:absolute;
+	top:80px;
+	left:50%;
+	margin-left:-70px;
+	text-align:center;
+	width:137px;
+	color: #004a80;
+	text-decoration:none;
+    font-family: "Montserrat",sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+	text-transform:uppercase;
+	letter-spacing: 3px;
+}
+
+@media only screen and (max-width:1300px) {
+	.uc_lawyer_header .uc_paragraph{ line-height:normal;font-size: 22px;margin-top: 25px;}
+	.uc_lawyer_header .uc_container_text_box a { margin-top: 20px;}
+}
+@media only screen and (max-width: 1024px) {
+	.uc_lawyer_header .uc_container_text_box h1{ line-height:normal; padding: 0;}
+	.uc_lawyer_header .uc_paragraph{  font-size: 16px;}
+}
+@media only screen and (max-width: 800px) {	
+	
+}
+	
+@media only screen and (max-width: 768px) {	
+.uc_lawyer_header .logo{top:15px; left:15px;}
+.uc_lawyer_header .uc_socila_icon {top:15px; right:15px;}
+.uc_lawyer_header .uc_paragraph { font-size: 12px; margin-top: 10px;}
+	
+}
+@media only screen and (max-width: 640px) {		
+.uc_lawyer_header .uc_container_text_box {  padding: 8% 0 15%;}
+.uc_lawyer_header .uc_paragraph{width:100%;}
+
+}
+@media only screen and (max-width: 480px) {
+.uc_lawyer_header .logo{top:10px; left:15px;}	
+.uc_lawyer_header .uc_container_text_box {  padding: 20% 0;}
+.uc_lawyer_header .uc_container_text_box h1{ width: 100%;font-size: 5vw; padding:0 15px;}
+}
+@media only screen and (max-width: 360px) {
+	.uc_lawyer_header .uc_container_text_box {  padding: 20% 0 25%;}
+}

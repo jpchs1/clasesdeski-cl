@@ -1,0 +1,49 @@
+.uc_mega_icon_hover_effect {
+	height: 100px;
+	width: 100px;
+	background-color: #000;
+	color:#fff;
+	box-sizing: border-box;
+	text-align: center;
+	transition: all 0.3s ease 0s;
+	transform-origin: center center 0;
+	margin:0 auto;
+}
+.uc_mega_icon_hover_effect:hover, .uc_mega_icon_hover_effect:active {
+	box-shadow: inset 0 0 0 4px rgba(0, 0, 0, 0.15);
+	background-color: #111;
+	transform: scale(2.5);
+	transition: all 0.3s ease 0s;
+	color:black;
+}
+.uc_mega_icon_hover_effect:hover .uc_icon, .uc_mega_icon_hover_effect:active .uc_icon {
+	height: 30px;
+	font-size: 18px;
+	color: #fff;
+	line-height: 30px;
+	transition: all 0.3s ease 0s;
+}
+.uc_mega_icon_hover_effect .uc_detail {
+	padding: 5px;
+}
+.uc_mega_icon_hover_effect .uc_icon {
+	height: 100px;
+	width: 90px;
+	font-size: 34px;
+	color: #fff;
+	line-height: 90px;
+	transition: all 0.3s ease 0s;
+}
+.uc_mega_icon_hover_effect .uc_title {
+	margin: 0 0 4px 0;
+	font: 700 11px "Courier";
+	color: #fff;
+	line-height: 1.1;
+}
+.uc_mega_icon_hover_effect .uc_content {
+	margin: 0 0 10px;
+	padding: 0 10px;
+	font: 300 7px "Courier";
+	color: #fff;
+	line-height: 1.4;
+}

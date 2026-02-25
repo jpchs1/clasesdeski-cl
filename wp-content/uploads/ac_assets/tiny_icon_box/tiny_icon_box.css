@@ -1,0 +1,67 @@
+.uc_tiny_icon_box * {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.uc_tiny_icon_box {
+    position: relative;
+    font-family: Helvetica, ​Arial, ​sans-serif;
+    width: 100%;
+    overflow: hidden;
+  	padding-bottom:30px;
+}
+.uc_tiny_icon_box a {
+    transition: color 0.40s ease 0s, background-color 0.40s ease 0s;
+}
+.uc_tiny_icon_box .tiny_icon_box_container {
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+}
+.uc_tiny_icon_box .tiny_icon_box_container i {
+	font-family: 'FontAwesome';
+    float: left;
+    width: 40px;
+    font-size: 37px;
+    color: #fff;
+    margin-bottom: 24px;
+}
+.uc_tiny_icon_box p {
+    font-size: 16px;
+    line-height: 30px;
+    padding: 0px 0 20px 0;
+    margin: 0px;
+    color: #999999;
+}
+.uc_tiny_icon_box a.readmore {
+    background: #e6e6e6 none repeat scroll 0 0;
+    border: 2px solid #e6e6e6;
+    border-radius: 0;
+    color: #4c4c4c;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    margin: 0;
+    padding: 12px 21px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+.uc_tiny_icon_box a.readmore:hover {
+    background: #f0f0f0;
+    border: 2px solid #f0f0f0;
+}
+.uc_tiny_icon_box h3 {
+    color: #fff;
+    display: block;
+    font-weight: 700;
+    padding: 0px 0 14px 0;
+    margin: 0px;
+  	font-size:26px;
+}
+.uc_tiny_icon_box .tiny_icon_box_content {
+    overflow:hidden;
+    text-align: left;
+    padding-left: 15px;
+}

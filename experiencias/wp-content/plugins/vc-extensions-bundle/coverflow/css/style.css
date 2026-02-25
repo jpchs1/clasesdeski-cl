@@ -1,0 +1,111 @@
+.cq-coverflow .swiper {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.cq-coverflow .swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 300px;
+  /*height: 300px;*/
+  height: auto;
+}
+
+.cq-coverflow-caption{
+  display: inline-block;
+  margin-top: 8px;
+  background-color: none;
+}
+
+.cq-coverflow .cq-coverflow-link:focus {
+  outline: none;
+  border: none;
+}
+.cq-coverflow span.swiper-pagination-bullet {
+  opacity: 1;
+}
+
+.cq-coverflow-dot-grapefruit span.swiper-pagination-bullet {
+  background: #DA4453;
+}
+.cq-coverflow-dot-bittersweet span.swiper-pagination-bullet {
+  background: #E9573F;
+}
+.cq-coverflow-dot-sunflower span.swiper-pagination-bullet {
+  background: #F6BB42;
+}
+.cq-coverflow-dot-grass span.swiper-pagination-bullet {
+  background: #8CC152;
+}
+.cq-coverflow-dot-mint span.swiper-pagination-bullet {
+  background: #48CFAD;
+}
+.cq-coverflow-dot-aqua span.swiper-pagination-bullet {
+  background: #3BAFDA;
+}
+.cq-coverflow-dot-bluejeans span.swiper-pagination-bullet {
+  background: #4A89DC;
+}
+.cq-coverflow-dot-pinkrose span.swiper-pagination-bullet {
+  background: #D770AD;
+}
+.cq-coverflow-dot-lightgray span.swiper-pagination-bullet {
+  background: #F5F7FA;
+}
+.cq-coverflow-dot-mediumgray span.swiper-pagination-bullet {
+  background: #AAB2BD;
+}
+.cq-coverflow-dot-darkgray span.swiper-pagination-bullet {
+  background: #434A54;
+}
+
+.cq-coverflow-active-grapefruit span.swiper-pagination-bullet-active {
+  background: #DA4453;
+}
+.cq-coverflow-active-bittersweet span.swiper-pagination-bullet-active {
+  background: #E9573F;
+}
+.cq-coverflow-active-sunflower span.swiper-pagination-bullet-active {
+  background: #F6BB42;
+}
+.cq-coverflow-active-grass span.swiper-pagination-bullet-active {
+  background: #8CC152;
+}
+.cq-coverflow-active-mint span.swiper-pagination-bullet-active {
+  background: #48CFAD;
+}
+.cq-coverflow-active-aqua span.swiper-pagination-bullet-active {
+  background: #3BAFDA;
+}
+.cq-coverflow-active-bluejeans span.swiper-pagination-bullet-active {
+  background: #4A89DC;
+}
+.cq-coverflow-active-pinkrose span.swiper-pagination-bullet-active {
+  background: #D770AD;
+}
+.cq-coverflow-active-lightgray span.swiper-pagination-bullet-active {
+  background: #F5F7FA;
+}
+.cq-coverflow-active-mediumgray span.swiper-pagination-bullet-active {
+  background: #AAB2BD;
+}
+.cq-coverflow-active-darkgray span.swiper-pagination-bullet-active {
+  background: #434A54;
+}
+
+/*.cq-coverflow .swiper-3d .swiper-slide-shadow-left, .cq-coverflow .swiper-3d .swiper-slide-shadow-right{
+  background-image: none;
+}
+*/
+.cq-coverflow .swiper-slide img {
+  display: block;
+  width: 100%;
+}
+.cq-coverflow .swiper-button-next, .cq-coverflow .swiper-button-prev {
+  color: #222F46;
+}
+.cq-coverflow .swiper-button-next:focus, .cq-coverflow .swiper-button-prev:focus {
+  outline: none;
+  border: none;
+}

@@ -1,0 +1,146 @@
+
+.uc_music_header *{
+	margin:0;
+	padding:0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.uc_music_header .uc_container_holder
+{
+	position:relative;
+	min-height:882px;
+}
+.uc_music_header .uc_container_holder img
+{
+	width:100%;
+}
+
+.uc_music_header .uc_caption
+{ 
+	font-family:'Open Sans', sans-serif;
+	font-size:32px;
+	line-height:46px;
+	color:#ffffff;
+	font-weight:300;
+	position:absolute;
+	left:15%;
+	transform:translateX(-50%);
+	top:55%;
+	transform:translateY(-50%);
+}
+
+.uc_music_header .uc_caption h2
+{
+	font-family: 'Arvo', serif;
+	font-size:66px;
+	line-height:72px;
+	font-weight:700;
+	margin:0 0 22px 0;
+	
+}
+
+.uc_music_header .uc_caption .uc_description
+{
+	margin-bottom:46px;
+	max-width:437px;
+}
+
+.uc_music_header .uc_caption .uc_logo img
+{
+	margin:0 0 120px 0;
+	width:auto;
+}
+
+.uc_music_header .uc_caption a.uc_listen_btn
+{
+	color:#ffffff;
+	font-family:'Open Sans', sans-serif;
+	padding:29px 44px;
+	text-decoration:none;
+	display:block;
+	float:left;
+	font-size:20px;
+	line-height:20px;
+	font-weight:600;
+	letter-spacing:2px;
+	transition:all 0.3s ease-in-out;
+	-moz-transition:all 0.3s ease-in-out;
+	-webkit-transition:all 0.3s ease-in-out;
+	-ms-transition:all 0.3s ease-in-out;
+	border-radius:128px;	
+}
+
+
+
+@media only screen and (min-width: 1200px) and (max-width: 1464px)
+{
+	.uc_music_header .uc_caption{ top:40%;}
+	.uc_music_header .uc_caption .uc_logo img{ margin-bottom:48px;}
+	.uc_music_header .uc_caption h2{ margin-bottom:7px;}
+	.uc_music_header .uc_caption p{ margin-bottom:25px;}
+}
+
+@media only screen and (min-width: 900px) and (max-width: 1199px)
+{
+	.uc_music_header .uc_container_holder{ min-height:569px;}
+	.uc_music_header .uc_caption .uc_logo img{ margin-bottom:5%; width:21%;}
+	.uc_music_header .uc_caption h2{ font-size:44px; line-height:50px;}
+	.uc_music_header .uc_caption{ font-size:25px; line-height:32px; top:48%;}
+	.uc_music_header .uc_caption a.uc_listen_btn{ font-size:16px;  padding: 17px 26px;}
+	.uc_music_header .uc_caption p{ margin-bottom:30px;}
+	.uc_music_header .uc_caption .uc_description{ max-width:344px;}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 899px)
+{
+	.uc_music_header .uc_container_holder{ min-height:427px;}
+	.uc_music_header .uc_caption .uc_logo img{ margin-bottom:5%; width:18%;}
+	.uc_music_header .uc_caption h2{ font-size:38px; line-height:40px;}
+	.uc_music_header .uc_caption{ font-size:22px; line-height:26px; top:48%;}
+	.uc_music_header .uc_caption a.uc_listen_btn{ font-size:13px;  padding: 12px 26px;}
+	.uc_music_header .uc_caption p{ margin-bottom:30px;}
+	.uc_music_header .uc_caption .uc_description{ max-width:296px;}
+}
+
+@media only screen and (min-width: 590px) and (max-width: 767px)
+{
+	.uc_music_header .uc_container_holder{ min-height:427px;}
+	.uc_music_header .uc_caption .uc_logo img{ margin-bottom:5%; width:18%;}
+	.uc_music_header .uc_caption h2{ font-size:38px; line-height:40px;}
+	.uc_music_header .uc_caption{ font-size:22px; line-height:26px; top:41%;}
+	.uc_music_header .uc_caption a.uc_listen_btn{ font-size:13px;  padding: 12px 26px;}
+	.uc_music_header .uc_caption .uc_description{ max-width:296px; font-size:21px; margin-bottom:20px;}
+}
+
+@media only screen and (min-width: 416px) and (max-width: 589px)
+{
+	.uc_music_header .uc_container_holder{ min-height:318px;}
+	.uc_music_header .uc_caption .uc_logo img{ margin-bottom:5%; width:31%;}
+	.uc_music_header .uc_caption h2{ font-size:23px; line-height:38px; margin-bottom:7px;}
+	.uc_music_header .uc_caption{ font-size:13px; line-height:16px; top:45%;}
+	.uc_music_header .uc_caption a.uc_listen_btn{ font-size:13px;  padding: 8px 19px;}
+	.uc_music_header .uc_caption p{ margin-bottom:9px;}
+	.uc_music_header .uc_caption .uc_description{ max-width:205px; font-size:14px; margin-bottom:20px;}
+}
+
+@media only screen and (min-width: 416px) and (max-width: 480px)
+{
+	.uc_music_header .uc_caption .uc_logo img{ margin-bottom:5%; width:22%;}
+	.uc_music_header .uc_caption{ top:36%;}
+	.uc_music_header .uc_caption .uc_description{ margin-bottom:20px;}
+}
+
+@media only screen and (min-width: 320px) and (max-width: 415px)
+{
+	.uc_music_header .uc_container_holder{ min-height:427px;}
+	.uc_music_header .uc_caption .uc_logo img{ margin-bottom:2%; width:14%;}
+	.uc_music_header .uc_caption h2{ font-size:19px; line-height:19px; margin-bottom:7px;}
+	.uc_music_header .uc_caption{ font-size:13px; line-height:16px; top:21%;}
+	.uc_music_header .uc_caption a.uc_listen_btn{ font-size:13px;  padding: 8px 19px;}
+	.uc_music_header .uc_caption p{ margin-bottom:9px;}
+	.uc_music_header .uc_caption .uc_description{ margin-bottom:14px; max-width:179px;}
+}
+
+

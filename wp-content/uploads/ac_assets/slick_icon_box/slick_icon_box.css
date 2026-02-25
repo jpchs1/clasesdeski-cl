@@ -1,0 +1,93 @@
+.uc_slick_icon_box * {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.uc_slick_icon_box {
+    position: relative;
+    font-family: Helvetica, ​Arial, ​sans-serif;
+    width: 100%;
+}
+.uc_slick_icon_box a {
+    transition: color 0.40s ease 0s, background-color 0.40s ease 0s;
+}
+.uc_slick_icon_box .slick_icon_box_container {
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+}
+.uc_slick_icon_box .slick_icon_box_container i {
+    font-size: 63px;
+    color: #fff;
+    margin-bottom: 24px;
+}
+
+.uc_slick_icon_box .slick_icon_box_container span.bbb {
+    border: #fff 2px solid;
+    border-radius: 50%;
+    display: block;
+    height: 128px;
+    line-height: 128px;
+    padding: 9px;
+    width: 128px;
+    text-align: center;
+    margin: 0 auto 12px;
+    position:relative;
+}
+.uc_slick_icon_box p {
+    font-size: 16px;
+    line-height: 30px;
+    padding: 0px 0 20px 0;
+    margin: 0px;
+    color: #888;
+}
+.uc_slick_icon_box a.readmore {
+    background: #e6e6e6 none repeat scroll 0 0;
+    border: 2px solid #e6e6e6;
+    border-radius: 0;
+    color: #4c4c4c;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    margin: 0;
+    padding: 12px 21px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+.uc_slick_icon_box a.readmore:hover {
+    background: #fff;
+    border: 2px solid #fff;
+}
+.uc_slick_icon_box h3 {
+    color: #fff;
+    display: block;
+    font-weight: 700;
+    padding: 20px 0 14px 0;
+    margin: 0px;
+  	font-size:21px;
+}
+.uc_slick_icon_box span.bbb::before {
+    background: none;
+    border: 2px solid #fff;
+    border-radius: 100%;
+    content: "";
+    display: inline-block;
+    height: 115%;
+    left: 50%;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%) scale(0.5);
+    transition: all 0.3s cubic-bezier(0.69, -0.32, 0.27, 1.39) 0s;
+    visibility: hidden;
+    width: 115%;
+    z-index: 0;
+}
+
+.uc_slick_icon_box:hover span.bbb::before {
+  opacity: 1;
+  transform: translateY(-50%) translateX(-50%) scale(1);
+  visibility: visible;
+}

@@ -1,0 +1,108 @@
+.uc_photography_header *{
+	margin:0;
+	padding:0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	
+}
+
+.uc_photography_header{
+	position:relative;
+	width:100%;
+}
+.uc_photography_header:before{
+	background:rgba(0, 0, 0, 0.5);
+	content:"";
+	width:50%;
+	height:100%;
+	left:0px;
+	top:0px;
+	position:absolute;
+}
+	
+.uc_photography_header img{
+	width:100%;
+	display: block;
+}
+
+.uc_photography_header .uc_container_text_box{ 
+	padding:0%;
+	position:absolute;	
+	top:50%;
+	left: 10%;
+	width: 33%;
+	-webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+.uc_top-text{
+	 font-size: 12px;
+	 letter-spacing:6px;
+	 font-weight:700;
+	 color:#ffffff;
+	  margin: 0 0 20px;
+}
+.uc_photography_header .uc_container_text_box h1{
+	font-size:3.5vw;
+	font-weight:300;
+	color:#ffffff;	
+	line-height: 66px;
+}
+.uc_photography_header .uc_paragraph{
+	font-size:18px;
+	color:#ffffff;
+	font-weight:400;
+	margin-top:20px;
+	line-height: 28px;
+}
+
+.uc_photography_header .uc_container_text_box a{
+	font-size:12px;
+	border:1px solid #ffffff;
+	font-weight:700;
+	color:#ffffff;
+	padding:18px 57px;
+	text-decoration:none;
+	display:inline-block;
+	margin-top:35px;
+	border-radius: 43px;
+}
+
+
+@media only screen and (max-width:1300px) {
+	.uc_photography_header .uc_container_text_box a { margin-top: 20px;}
+}
+@media only screen and (max-width: 1024px) {
+	.uc_photography_header .uc_paragraph{font-size: 14px;margin-top: 4px;line-height: 20px;}
+	.uc_photography_header .uc_container_text_box a { margin-top: 14px; padding:12px 28px;font-size: 14px;}
+	.uc_photography_header .uc_container_text_box h1{ line-height:normal;}
+}
+@media only screen and (max-width: 800px) {	
+	.uc_photography_header .uc_container_text_box h1{ line-height:normal;}
+	.uc_photography_header .uc_container_text_box {  left: 15px;  width: 42%;}
+	.uc_photography_header .uc_container_text_box a { margin-top: 10px; font-size: 10px; padding: 5px 14px;}
+	
+}
+	
+@media only screen and (max-width: 768px) {	
+
+	.uc_photography_header .uc_socila_icon { right: 15px; }
+}
+@media only screen and (max-width: 640px) {	
+
+	.uc_photography_header .uc_paragraph { font-size: 15px;}
+	.uc_photography_header .uc_paragraph{ display:none;}
+	.uc_top-text {font-size: 10px;letter-spacing: 4px;}
+	.uc_photography_header::before{ width:59%;}
+	.uc_photography_header .uc_container_text_box h1{ letter-spacing: 5px;  font-size: 5.5vw;}
+	.uc_top-text{  margin: 0 0 5px;}
+
+}
+@media only screen and (max-width: 360px) {	
+	.uc_top-text {font-size: 9px;}
+	.uc_photography_header::before{ width:59%;}
+	.uc_photography_header .uc_container_text_box a {  font-size: 8px;}
+
+}

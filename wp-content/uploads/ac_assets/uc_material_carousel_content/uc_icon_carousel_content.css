@@ -1,0 +1,138 @@
+
+.uc_icon_content *{
+	margin:0;
+	padding:0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.uc_icon_content .uc
+{
+	margin:0 auto;
+}
+
+.uc_icon_content .uc_icon_content_top
+{
+	height:175px; 
+	position:relative;
+}
+.uc_icon_content .uc_icon_content_top span{
+	position:absolute;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);	
+}
+.uc_icon_content .uc_icon_content_top i
+{
+	
+	margin:0 auto;
+	float:none;
+	font-size: 50px !important;
+}
+
+.uc_icon_content .uc_icon_content_container_holder
+{
+	font-size:16px;
+	line-height:24px;
+	overflow:hidden;
+	color:#8a8a8a;
+	font-weight:400;
+	display:inline-block;
+	background-color:#ffffff;
+    margin: 0 0px 0px;
+	box-shadow:rgba(0,0,0,0.1) 0px 5px 10px;     
+	position:relative;
+	width:100%;
+}
+
+.uc_icon_content .owl-carousel .owl-stage-outer{ overflow:hidden;}
+
+.uc_icon_content .uc_icon_content_content h2
+{
+	font-size:20px;
+	margin-bottom:13px;
+	font-weight:400;
+}
+
+.uc_icon_content .uc_icon_content_content .title_border
+{
+	width:110px;
+	height:3px;
+	display:block;
+	margin-bottom:20px;
+}
+
+.uc_icon_content .uc_icon_content_content:hover .title_border
+{
+	background-color:#5cdc8f !important;
+}
+
+.uc_icon_content .uc_icon_content_content
+{
+	box-shadow:rgba(0,0,0,0.15) 3px 3px 3px;
+	padding:34px 20px;
+}
+
+
+
+.uc_icon_content .uc_icon_content_content p
+{
+	font-size:14px;
+	line-height:22px;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-ms-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+
+
+.uc_icon_content .uc_icon_content_content .uc_more_btn
+{
+	font-size:14px;
+	text-decoration:none;
+}
+
+.uc_icon_content .uc_icon_content_content:hover .uc_more_btn
+{
+	color:#50dfa8 !important;
+}
+
+.uc_icon_content .uc_icon_content_content:hover p
+{
+	color:#181818 !important;
+}
+
+.uc_icon_content .uc_icon_content_border
+{
+	height:4px;
+	display:block;
+	width:100px;
+	position:absolute;
+	left:50%;
+	top:0px;
+	margin-left:-50px;
+}
+
+.uc_icon_content  .uc_icon_content_placeholder
+{
+	background-color:#ffffff;
+}
+
+
+
+.uc_icon_content .uc_icon_content_content .uc_more_btn {
+	
+	display:block;
+	font-size:14px;
+	text-transform:uppercase;
+	text-decoration:none;
+}
+
+
+
+
+
+
+

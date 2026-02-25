@@ -1,0 +1,154 @@
+
+.uc_business_header *{
+	margin:0;
+	padding:0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.uc_business_header{
+	position:relative;
+	overflow:hidden;
+	clear:both;
+	background:#f1f1f1;
+}
+.uc_business_header .uc_container_left{
+	float:left;
+	width:50%;
+}
+.uc_business_header .uc_container_left .uc_container_holder{
+	font-family: "Montserrat",sans-serif;
+    font-weight: 400;
+    left: 8%;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34%;
+    z-index: 101;
+}
+.uc_business_header .uc_container_left .uc_container_holder a.uc_logo{
+	margin-bottom:80px;	
+	display:inline-block;
+}
+.uc_business_header .uc_container_left .uc_container_holder h1{
+	font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    margin: 0 0 18px;
+    text-transform: uppercase;
+	color:#212127;
+}
+.uc_business_header .uc_container_left .uc_container_holder h2{
+	font-size:68px;
+	margin-bottom:23px;
+	font-weight:700;
+	line-height:71px;
+	color:#212127;
+	letter-spacing:-4px;
+	padding-bottom:26px;
+	position:relative;
+}
+.uc_business_header .uc_container_left .uc_container_holder h2::after, 
+.uc_business_header .uc_container_left .uc_container_holder h2::before{
+	background: #000;
+	content: "";
+	display: block;
+	height: 2px;
+	position: absolute;
+	bottom: 0%;
+	left:48%;
+	width: 6%;
+}
+.uc_business_header .uc_container_left .uc_container_holder .uc_paragraph{
+	color: #212127;
+    font-family: "PT Serif",serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 29px;
+    margin: 0 auto 47px;
+    max-width: 69%;
+    opacity: 0.7;
+}
+.uc_business_header .uc_container_left .uc_container_holder a.uc_portfolio{
+	background:#f1f1f1;
+	border-radius: 40px;
+    color: #212127;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 52px;
+    padding: 4px 50px;
+    position: relative;
+    text-align: center;
+	text-transform:uppercase;
+	text-decoration:none;
+	letter-spacing:3px;
+	border:1px solid #212127;
+}
+.uc_business_header .uc_container_left .uc_container_holder a.uc_portfolio:hover{
+	border-radius: 40px;
+}
+.uc_business_header .uc_container_right{
+	float:right;
+	width:50%;
+	position:relative;
+}
+.uc_business_header .uc_container_right img{
+	width:100%;
+	height:auto;
+}
+
+@media only screen and (max-width: 1240px) {
+	.uc_business_header .uc_container_left .uc_container_holder h2{ font-size:62px;}
+}
+@media only screen and (max-width: 1100px) {
+	.uc_business_header .uc_container_left .uc_container_holder h2{ font-size:58px;}
+}
+@media only screen and (max-width: 1024px) {
+	.uc_business_header .uc_container_left .uc_container_holder h2{ font-size:57px; line-height:60px; max-width:inherit;}
+}
+@media only screen and (max-width: 980px) {
+	.uc_business_header .uc_container_left .uc_container_holder h2{ font-size:64px; line-height:normal;}
+	.uc_business_header .uc_container_left .uc_container_holder .uc_paragraph{ font-size:14px; line-height:24px; margin-bottom:22px; max-width: inherit;}
+	.uc_business_header .uc_container_left .uc_container_holder a.uc_portfolio{ line-height:40px; padding:4px 30px;}
+	.uc_business_header .uc_container_left .uc_container_holder a.uc_logo{ margin-bottom:30px;}
+}
+@media only screen and (max-width: 780px) {
+	.uc_business_header .uc_container_left .uc_container_holder h2{ font-size:32px; max-width: inherit; line-height:normal; letter-spacing:-3px;}
+	.uc_business_header .uc_container_left .uc_container_holder a.uc_logo{ margin-bottom:20px;}
+}
+@media only screen and (max-width: 680px) {
+	.uc_business_header .uc_container_left .uc_container_holder h1{ letter-spacing:4px;}
+	.uc_business_header .uc_container_left .uc_container_holder h2{ font-size:22px; max-width: inherit; line-height:normal; letter-spacing:-1px; padding-bottom:10px; margin-bottom:10px;}
+	.uc_business_header .uc_container_left .uc_container_holder .uc_paragraph{ line-height:normal; margin-bottom:20px; }
+	.uc_business_header .uc_container_right .uc_play img { width: 30%;}
+	.uc_business_header .uc_container_left .uc_container_holder{ width:44%; left:3%;}
+}
+@media only screen and (max-width: 580px) {
+	.uc_business_header .uc_container_left .uc_container_holder h2{ font-size:18px;}
+	.uc_business_header .uc_container_left .uc_container_holder a.uc_portfolio { font-size: 9px; line-height: 33px; padding: 0 20px;}
+	.uc_business_header .uc_container_left .uc_container_holder .uc_paragraph{ font-size:12px;}
+}
+@media only screen and (max-width: 480px) {
+	.uc_business_header .uc_container_left .uc_container_holder h2{ font-size:32px; max-width: inherit; letter-spacing:-1px; line-height:normal;}
+	.uc_business_header .uc_container_right, .uc_business_header .uc_container_left{ width:100%; float:none;}
+	.uc_business_header .uc_container_left .uc_container_holder { position: relative; top:20px; width: 100%; transform:none; left:0; padding:0 5%;}
+	.uc_business_header .uc_container_right{ margin-bottom:10px;}
+	.uc_business_header .uc_container_left .uc_container_holder a.uc_portfolio{ margin-bottom:50px;}
+	uc_container_left{ margin:40px 0;}
+}
+@media only screen and (max-width: 360px) {
+	.uc_business_header .uc_container_left .uc_container_holder h2{ font-size:28px; max-width: inherit; letter-spacing:-1px; line-height:normal;}
+}
+@media only screen and (max-width: 320px) {
+	.uc_business_header .uc_container_left .uc_container_holder h2{ font-size:24px; max-width: inherit; letter-spacing:-1px; line-height:normal;}
+}
+
+
+
+
+
+
+
+

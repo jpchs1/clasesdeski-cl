@@ -1,0 +1,85 @@
+
+.uc_gym_header *{
+	margin:0;
+	padding:0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.uc_gym_header{
+	position:relative;
+	overflow:hidden;
+}
+.uc_gym_header img{
+	width:100%;
+	height:auto;
+}
+.uc_gym_header .uc_gym_holder{
+	width:100%;
+	position:absolute;
+	left:0%;
+	top:50%;
+	transform:translateY(-50%);
+	-webkit-transform:translateY(-50%);
+	-moz-transform:translateY(-50%);
+	z-index:101;
+	text-align:center;
+	font-family: 'Poppins', sans-serif;
+	color:#fff;
+	font-weight:400;
+}
+.uc_gym_header .uc_gym_holder h1{
+	font-size:108px;
+	border:2px solid #fff;
+	display:inline-block;
+	line-height:108px;
+	padding:15px 35px;
+	margin-bottom:65px;
+}
+.uc_gym_header .uc_gym_holder .uc_paragraph{
+	font-size:39px;
+	font-weight:300;
+	line-height:60px;
+	margin:0 auto 40px;
+	max-width:630px;
+}
+.uc_gym_header .uc_gym_holder a.uc_start_workout{
+	background:#3b76ed;
+	border-radius: 40px;
+    color: #fff;
+    display: inline-block;
+    font-size: 18px;
+    line-height: normal;
+    padding: 16px 42px;
+    position: relative;
+    text-align: center;
+	text-transform:uppercase;
+	text-decoration:none;
+	letter-spacing:1px;
+}
+
+@media only screen and (max-width: 991px) {
+	.uc_gym_header .uc_gym_holder h1{ font-size:72px; margin-bottom:30px; line-height:normal;}
+	.uc_gym_header .uc_gym_holder .uc_paragraph{ font-size:28px; margin-bottom:28px; line-height:normal; max-width:444px;}
+	.uc_gym_header .uc_gym_holder a.uc_start_workout{ padding:12px 36px; font-size:16px;}
+}
+@media only screen and (max-width: 767px) {
+	.uc_gym_header .uc_gym_holder h1{ font-size:62px; margin-bottom:30px; line-height:normal;}
+	.uc_gym_header .uc_gym_holder .uc_paragraph{ font-size:24px; margin-bottom:28px; line-height:normal; max-width:380px;}
+	.uc_gym_header .uc_gym_holder a.uc_start_workout{ padding:11px 30px; font-size:14px;}
+}
+@media only screen and (max-width: 639px) {
+	.uc_gym_header .uc_gym_holder h1{ font-size:44px; margin-bottom:20px; line-height:normal;}
+	.uc_gym_header .uc_gym_holder .uc_paragraph{ font-size:20px; margin-bottom:15px; line-height:normal; max-width:315px;}
+	.uc_gym_header .uc_gym_holder a.uc_start_workout{ padding:11px 30px; font-size:14px;}
+}
+@media only screen and (max-width: 479px) {
+	.uc_gym_header .uc_gym_holder h1{ font-size:32px; margin-bottom:15px; line-height:normal; padding:8px 20px;}
+	.uc_gym_header .uc_gym_holder .uc_paragraph{ font-size:14px; margin-bottom:15px; line-height:normal; max-width:215px;}
+	.uc_gym_header .uc_gym_holder a.uc_start_workout{ padding:7px 20px; font-size:11px;}
+}
+@media only screen and (max-width: 359px) {
+	.uc_gym_header .uc_gym_holder h1{ font-size:28px; margin-bottom:10px; line-height:normal; padding:5px 17px;}
+	.uc_gym_header .uc_gym_holder .uc_paragraph{ font-size:12px; margin-bottom:10px; line-height:normal; max-width:187px;}
+	.uc_gym_header .uc_gym_holder a.uc_start_workout{ padding:6px 15px; font-size:9px;}
+}

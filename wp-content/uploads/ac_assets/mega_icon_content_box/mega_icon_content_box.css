@@ -1,0 +1,327 @@
+.uc_mega_icon_content_box * {
+	margin: 0px;
+	padding: 0px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	list-style: none;
+}
+.uc_mega_icon_content_box {
+	min-width: 220px;
+	height: 100%;
+	font-family: arial;
+	margin-right: auto;
+	margin-left: auto;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin: 0 auto;
+}
+.uc_mega_icon_content_box *:before, .uc_mega_icon_content_box *:after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.uc_mega_icon_content_box:before, .uc_mega_icon_content_box:after {
+	content: " ";
+	display: table;
+}
+.uc_mega_icon_content_box:after {
+	clear: both;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home {
+	margin-bottom: 0;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home {
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home:before, .uc_mega_icon_content_box .uc_htmlcontent_home:after {
+	content: " ";
+	display: table;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home:after {
+	clear: both;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home a {
+	background: transparent;
+	color: black;
+	text-decoration: none;
+	overflow: hidden;
+	display: block;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home a:hover, .uc_mega_icon_content_box .uc_htmlcontent_home a:focus {
+	color: #777777;
+}
+
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html {
+
+	color: #fff;
+	font-size: 15px;
+	line-height: 23px;
+	padding: 38px 0 43px 26px;
+	position: relative;
+	opacity: 1;
+	-moz-transition: all 0.2s ease;
+	-o-transition: all 0.2s ease;
+	-webkit-transition: all 0.2s ease;
+	transition: all 0.2s ease;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html span.arrow {
+	font-size: 30px;
+	line-height: 60px;
+	width: 60px;
+	height: 60px;
+	color: #fff;
+	font-weight: normal;
+	text-align: center;
+	background:rgba(0,0,0,0.4);
+	display: block;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html i {
+	color: #fff;
+	
+	line-height: 1em;
+	margin: 2px 0;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html h2 {
+	color: #fff;
+	font-size:35px;
+	margin: 0 0 8px;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html h2 span {
+	display: block;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html p {
+	margin: 0 0 10px;
+}
+
+
+
+
+
+@media only screen and (min-width: 1200px) {
+.uc_mega_icon_content_box {
+	padding-left: 0;
+	padding-right: 0;
+}
+}
+
+@media only screen and (min-width: 1200px) {
+.uc_mega_icon_content_box .uc_htmlcontent_home a:hover {
+	opacity: 0.7;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home a:hover .uc_item_html .fa {
+	animation: 0.4s ease-in-out .1s normal none 1 moveFromBottom;
+	-webkit-animation: 0.4s ease-in-out .1s normal none 1 moveFromBottom;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home a:hover .uc_item_html h2 {
+	animation: 0.4s ease-in-out .1s normal none 1 moveFromRight;
+	-webkit-animation: 0.4s ease-in-out .1s normal none 1 moveFromRight;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home a:hover .uc_item_html p {
+	animation: 0.4s ease-in-out .2s normal none 1 moveFromLeft;
+	-webkit-animation: 0.4s ease-in-out .2s normal none 1 moveFromLeft;
+}
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html {
+	font-size: 12px;
+	line-height: 18px;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html:after {
+	font-size: 20px;
+	line-height: 40px;
+	width: 40px;
+	height: 40px;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html .fa {
+	font-size: 60px;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html h2 {
+	font: normal 25px/32px "Lora", serif;
+}
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html {
+	padding: 20px;
+	font-size: 11px;
+	line-height: 18px;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html:after {
+	font-size: 20px;
+	line-height: 40px;
+	width: 40px;
+	height: 40px;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html .fa {
+	font-size: 40px;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html h2 {
+	font: normal 18px;
+}
+}
+
+@media (max-width: 767px) {
+.uc_mega_icon_content_box .uc_htmlcontent_home {
+	margin: 0 -5px;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home {
+	padding: 0 5px;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html {
+	padding: 10px 5px;
+	text-align: center;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html:after {
+	display: none;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html .fa {
+	font-size: 50px;
+	margin-bottom: 10px;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html h2 {
+	font: normal 13px;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html p {
+}
+}
+
+@media (max-width: 479px) {
+.uc_mega_icon_content_box {
+	padding: 30px 0;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home {
+	margin: 0 -5px;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home {
+	width: 100%;
+	padding: 5px;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html {
+	padding: 10px 5px;
+	text-align: center;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html:after {
+	display: none;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html .fa {
+	font-size: 50px;
+	margin-bottom: 10px;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html h2 {
+	font: normal 13px;
+}
+.uc_mega_icon_content_box .uc_htmlcontent_home .uc_item_html p {
+}
+}
+@-webkit-keyframes moveFromLeft {
+ from {
+ -webkit-transform: translateX(-100%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+ opacity: 0;
+}
+ to {
+ -webkit-transform: translateX(0%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+ opacity: 1;
+}
+}
+@-moz-keyframes moveFromLeft {
+ from {
+ -moz-transform: translateX(-100%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+ opacity: 0;
+}
+ to {
+ -moz-transform: translateX(0%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+ opacity: 1;
+}
+}
+@-ms-keyframes moveFromLeft {
+ from {
+ -ms-transform: translateX(-100%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+ opacity: 0;
+}
+ to {
+ -ms-transform: translateX(0%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+ opacity: 1;
+}
+}
+@-webkit-keyframes moveFromRight {
+ from {
+ -webkit-transform: translateX(100%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+ opacity: 0;
+}
+ to {
+ -webkit-transform: translateX(0%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+ opacity: 1;
+}
+}
+@-moz-keyframes moveFromRight {
+ from {
+ -moz-transform: translateX(100%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+ opacity: 0;
+}
+ to {
+ -moz-transform: translateX(0%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+ opacity: 1;
+}
+}
+@-ms-keyframes moveFromRight {
+ from {
+ -ms-transform: translateX(100%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+ opacity: 0;
+}
+ to {
+ -ms-transform: translateX(0%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+ opacity: 1;
+}
+}
+@-webkit-keyframes moveFromBottom {
+ from {
+ -webkit-transform: translateY(100%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+ opacity: 0;
+}
+ to {
+ -webkit-transform: translateY(0%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+ opacity: 1;
+}
+}
+@-moz-keyframes moveFromBottom {
+ from {
+ -moz-transform: translateY(100%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+ opacity: 0;
+}
+ to {
+ -moz-transform: translateY(0%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+ opacity: 1;
+}
+}
+@-ms-keyframes moveFromBottom {
+ from {
+ -ms-transform: translateY(100%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+ opacity: 0;
+}
+ to {
+ -ms-transform: translateY(0%);
+ filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+ opacity: 1;
+}
+}

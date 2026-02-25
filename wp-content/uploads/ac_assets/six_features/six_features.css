@@ -1,0 +1,102 @@
+.uc_six_features *{
+    margin:0;
+    padding: 0;
+}
+.uc_six_features{
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.uc_six_features:before,.uc_six_features:after {
+    clear: both
+}
+.uc_features_contain{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    margin-right: auto;
+    margin-left: auto;
+    
+}
+.uc_six_features .uc_features_contain .uc_benefit_box{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    display: inline-block;
+    margin-top: 60px;
+    width: 100%;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.uc_six_features .uc_features_contain .uc_benefit_box .uc_media{
+    margin-top: 0;
+    zoom: 1;
+    overflow: hidden;
+}
+.uc_six_features .uc_features_contain .uc_benefit_box .uc_media .uc_media-left{
+    padding: 0;
+    text-align: center;
+    display: table-cell;
+    vertical-align: top;
+    float: left;
+}
+.uc_six_features .uc_features_contain .uc_benefit_box .uc_media .uc_media-left .uc_location i{
+    width: 70px;
+    font-size: 36px;
+}
+.uc_six_features .uc_features_contain .uc_benefit_box .uc_media .uc_media_body{
+    width: 100%;
+    display: table-cell;
+    vertical-align: top;
+}
+.uc_six_features .uc_features_contain .uc_benefit_box .uc_media .uc_media_body .uc_tittle{
+    margin: 0 0 6px;
+    font: 600 20px/1;
+    color: #374048;
+}
+.uc_six_features .uc_features_contain .uc_benefit_box .uc_media .uc_media_body .uc_description{
+    color: #82898f;
+}
+@media only screen and (min-width: 1024px) {
+    .uc_six_features .uc_features_contain .uc_benefit_box{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    display: inline-block;
+    margin-top: 60px;
+    width: 33%;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+   }
+}
+@media only screen and (max-width: 1023px) {
+    .uc_six_features .uc_features_contain .uc_benefit_box{
+    
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    display: inline-block;
+    margin-top: 60px;
+    width: 49%;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+   }
+}
+@media only screen and (max-width: 767px) {
+    .uc_six_features .uc_features_contain .uc_benefit_box{
+    
+     box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    display: inline-block;
+    margin-top: 60px;
+    width: 100%;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+   }
+}
+

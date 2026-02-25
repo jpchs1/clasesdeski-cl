@@ -1,0 +1,231 @@
+/**
+ * Owl Carousel Admin CSS
+ * @ Owl Carousel Plugin - Howard Ehrenberg
+ */
+
+select#dd_owl_post_type {
+    text-transform: capitalize;
+}
+span.shortcode.owl-carousel-2 input.large-text.code {
+    width: 100%;
+}
+.inside #dd_owl_shortcode {
+    padding: 8px 15px;
+    background-color: #eee;
+    margin-bottom: 1em;
+}
+#items_displayed_metabox em + span {
+    min-width: 130px;
+    display: inline-block;
+    padding-left: 30px;
+}
+#Carousel_Data .inside h4 {
+    background: #ccc;
+    margin: 0 -12px;
+    padding: 10px;
+}
+#Carousel_Data #postOptions{
+    position: relative;
+}
+#Carousel_Data .form-table tr.heading {
+    border-bottom: 2px solid black;
+}
+#Carousel_Data .form-table tr.heading > th, .form-table tr.heading > td {
+    border-bottom: 2px solid black;
+}
+span.no-cats {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+#Carousel_Data span.ajax-loader {
+    background: url(spinner-2x.gif) no-repeat;
+    background-size: 40px 40px;
+    vertical-align: middle;
+    opacity: 1;
+    filter: alpha(opacity=80);
+    width: 40px;
+    height: 40px;
+    margin: 15px 0 0;
+    top: 40%;
+    left: 50%;
+    position: absolute;
+    z-index: 9;
+    display: none;
+}
+.ui-tooltip {
+	padding: 8px;
+	position: absolute;
+	z-index: 9999;
+	max-width: 300px;
+	-webkit-box-shadow: 0 0 5px #aaa;
+	box-shadow: 0 0 5px #aaa;
+}
+body .ui-tooltip {
+	border-width: 2px;
+}
+em.dd_owl_tooltip:before {
+    content: '';
+    background: url(images/wpicons.png) -519px -2px no-repeat;
+    display: block;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 7px;
+    left: 16px;
+}
+em.dd_owl_tooltip {
+    display: inline-block;
+    position: relative;
+    width: 20px;
+    height: 20px;
+}
+#taxterm .select2-container {
+    min-width: 300px;
+}
+
+
+/* Component containers jQuery UI
+----------------------------------*/
+.ui-widget {
+	font-family: Verdana,Arial,sans-serif;
+	font-size: 1.1em;
+}
+.ui-widget .ui-widget {
+	font-size: 1em;
+}
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
+	font-family: Verdana,Arial,sans-serif;
+	font-size: 1em;
+}
+.ui-widget-content {
+	border: 1px solid #aaaaaa;
+	background: #ffffff url("images/ui-bg_flat_75_ffffff_40x100.png") 50% 50% repeat-x;
+	color: #222222;
+}
+.ui-widget-content a {
+	color: #222222;
+}
+.ui-widget-header {
+	border: 1px solid #aaaaaa;
+	background: #cccccc url("images/ui-bg_highlight-soft_75_cccccc_1x100.png") 50% 50% repeat-x;
+	color: #222222;
+	font-weight: bold;
+}
+.ui-widget-header a {
+	color: #222222;
+}
+#dd_owl_post_ids {
+    display: none;
+}
+#dd_owl_image_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+#dd_owl_image_wrapper .dd-owl-image-preview {
+    flex: 0 1 110px;
+    width: 110px;
+    padding: 5px 10px 5px 0;
+    position: relative;
+    max-width: 110px;
+}
+#dd_owl_image_wrapper .dd-owl-image-preview img {
+    display: block;
+    width: 100px;
+    margin-right: auto;
+    height: auto;
+    margin-left: auto;
+}
+#dd_owl_image_wrapper ul.actions {
+    position: absolute;
+    top: 9px;
+    right: 10px;
+    padding: 2px;
+    z-index: 99;
+    display: none;
+}
+#dd_owl_image_wrapper ul.actions li {
+    float: right;
+    margin: 0 0 0 2px
+}
+#dd_owl_image_wrapper ul.actions li a {
+    width: 1em;
+    margin: 0;
+    height: 0;
+    display: block;
+    overflow: hidden
+}
+#dd_owl_image_wrapper ul ul.actions li a.delete {
+    display: block;
+    text-indent: -9999px;
+    position: relative;
+    height: 1em;
+    width: 1em;
+    font-size: 1.4em
+}
+#dd_owl_image_wrapper ul.actions li a.delete::before {
+    font-family: Dashicons;
+    font-size: 16px;
+    speak: none;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    text-indent: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    content: "\f153";
+    color: #999;
+    background: #fff;
+    border-radius: 50%;
+    height: 1em;
+    width: 1em;
+    line-height: 1em
+}
+#dd_owl_image_wrapper ul.actions li a.delete:hover::before {
+    color: #aa0000;
+}
+#dd_owl_image_wrapper li:hover ul.actions {
+    display: block
+}
+#dd-owl-loading {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.2);
+    z-index: 9999;
+    display: none;
+}
+
+#choose-postids .select2-container, select#dd_owl_post_ids {
+    min-width: 400px;
+}
+#choose-postids input.select2-search__field {
+    min-width: 250px;
+}
+
+.post-type-owl-carousel .side-box-label{
+    display: block;
+    margin-bottom: .4em;
+    font-weight: bold;
+}
+#carousel-functions-metabox table tr {
+    border-bottom: 1px solid #ccc;
+}
+@media (max-width: 500px){
+    #choose-postids .select2-container, select#dd_owl_post_ids {
+        min-width: 100%;
+    }
+}
+#dd_owl_prev, #dd_owl_next {
+    width: 350px;
+    max-width: 100%;
+}

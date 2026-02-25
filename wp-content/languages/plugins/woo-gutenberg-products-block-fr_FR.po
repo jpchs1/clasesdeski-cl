@@ -1,0 +1,56 @@
+# Translation of Plugins - WooCommerce Blocks - Stable (latest release) in French (France)
+# This file is distributed under the same license as the Plugins - WooCommerce Blocks - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2020-06-10 08:28:14+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"Language: fr\n"
+"Project-Id-Version: Plugins - WooCommerce Blocks - Stable (latest release)\n"
+
+#. Translators: %1$s is the install command, %2$s is the build command, %3$s is
+#. the watch command.
+#: src/Domain/Bootstrap.php:121
+msgid "WooCommerce Blocks development mode requires files to be built. From the plugin directory, run %1$s to install dependencies, %2$s to build the files or %3$s to build the files and watch for changes."
+msgstr "Le mode développement de WooCommerce nécessite la construction de fichiers. Depuis le répertoire des extensions, lancez %1$s pour installer les dépendances, %2$s pour construire les fichiers ou %3$s pour construire les fichiers suivre les modifications."
+
+#: src/StoreApi/Routes/Products.php:346
+msgid "Operator to compare product attribute terms."
+msgstr "Opérateur de comparaison pour les termes des attributs de produits."
+
+#: src/StoreApi/Routes/Products.php:265
+msgid "Operator to compare product category terms."
+msgstr "Opérateur de comparaison pour les termes de catégories de produits."
+
+#. Description of the plugin
+msgid "WooCommerce blocks for the Gutenberg editor."
+msgstr "Blocs WooCommerce pour l’éditeur Gutenberg."
+
+#. Plugin Name of the plugin
+msgid "WooCommerce Blocks"
+msgstr "WooCommerce Blocks"
+
+#: src/StoreApi/Routes/ProductsById.php:28
+#: src/StoreApi/Routes/ProductAttributesById.php:28
+#: src/StoreApi/Routes/ProductCategoriesById.php:28
+#: src/StoreApi/Schemas/ProductSchema.php:54
+#: src/StoreApi/Schemas/TermSchema.php:33
+#: src/StoreApi/Schemas/ProductAttributeSchema.php:33
+#: src/StoreApi/Schemas/ProductReviewSchema.php:53
+msgid "Unique identifier for the resource."
+msgstr "Identifiant unique pour la ressource."
+
+#. Author URI of the plugin
+msgid "https://woocommerce.com"
+msgstr "https://woocommerce.com"
+
+#. Author of the plugin
+msgid "Automattic"
+msgstr "Automattic"
+
+#. Plugin URI of the plugin
+msgid "https://github.com/woocommerce/woocommerce-gutenberg-products-block"
+msgstr "https://github.com/woocommerce/woocommerce-gutenberg-products-block"

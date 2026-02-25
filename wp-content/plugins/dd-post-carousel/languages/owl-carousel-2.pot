@@ -1,0 +1,611 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Custom Post Carousels with Owl\n"
+"POT-Creation-Date: 2020-12-07 06:20-0500\n"
+"PO-Revision-Date: 2020-12-07 06:08-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: owl-carousel-2.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+
+#: admin/ajax-functions.php:32
+msgid "There are no matching Taxonomies"
+msgstr ""
+
+#: admin/ajax-functions.php:71 admin/ajax-functions.php:74
+msgid "There are no matching terms"
+msgstr ""
+
+#: admin/class-owl-carousel-2-admin.php:103
+msgid "Select Carousel Images"
+msgstr ""
+
+#: admin/class-owl-carousel-2-admin.php:104
+msgid "Insert Images"
+msgstr ""
+
+#: admin/class-owl-carousel-2-admin.php:116
+msgctxt "post type general name"
+msgid "Carousels"
+msgstr ""
+
+#: admin/class-owl-carousel-2-admin.php:117
+msgctxt "post type singular name"
+msgid "Carousel"
+msgstr ""
+
+#: admin/class-owl-carousel-2-admin.php:118
+msgctxt "admin menu"
+msgid "Carousels"
+msgstr ""
+
+#: admin/class-owl-carousel-2-admin.php:119
+msgctxt "add new on admin bar"
+msgid "Carousel"
+msgstr ""
+
+#: admin/class-owl-carousel-2-admin.php:120
+msgctxt "Carousel"
+msgid "Add New"
+msgstr ""
+
+#: admin/class-owl-carousel-2-admin.php:121
+msgid "Add New Carousel Item"
+msgstr ""
+
+#: admin/class-owl-carousel-2-admin.php:122
+msgid "New Carousel"
+msgstr ""
+
+#: admin/class-owl-carousel-2-admin.php:123
+msgid "Edit Carousel"
+msgstr ""
+
+#: admin/class-owl-carousel-2-admin.php:124
+msgid "View Carousels"
+msgstr ""
+
+#: admin/class-owl-carousel-2-admin.php:125
+msgid "All Carousels"
+msgstr ""
+
+#: admin/class-owl-carousel-2-admin.php:126
+msgid "Search Carousels"
+msgstr ""
+
+#: admin/class-owl-carousel-2-admin.php:127
+msgid "No Carousel item found."
+msgstr ""
+
+#: admin/class-owl-carousel-2-admin.php:128
+msgid "No Carousel items found in Trash."
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:24
+msgid "Carousel Data"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:33
+msgid "Items Displayed"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:40
+msgid "Shortcode"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:130
+msgid "Post Type"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:133
+msgid "Choose a Post Type"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:146
+msgid "Type of Post"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:151
+#: admin/class-owl-carousel-2-meta.php:153
+msgid "Choose Images"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:159
+msgid "Delete"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:166
+msgid "Captions"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:168
+msgid "Show the image caption below image"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:173
+msgid "Taxonomy Display Options"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:175
+msgid "None - Show Latest Posts - set number of posts below"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:176
+msgid "By Taxonomy/Category - choose taxonomy below."
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:177
+msgid "By Post ID - Show Post / Product / Custom Post Type by Post ID."
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:178
+msgid "Only Show Taxonomies / Categories. Do not show individual posts."
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:179
+msgid "Show Featured &#40;Starred&#41; Products"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:184
+msgid "Post/Product ID&rsquo;s"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:188
+msgid "Select the items to be displayed, you may select multiple items."
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:192
+msgid "Taxonomy Type"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:195
+msgid "Taxonomy &#40;Category, Tag, etc&#41; of Post"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:200
+msgid "Taxonomy Term"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:203
+msgid "Category, Tag, or other term of Post - You may choose multiple terms."
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:208
+msgid "Number of Posts"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:211
+msgid ""
+"Enter the number of posts to show.  -1 &#40;negative 1&#41; shows all posts."
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:215
+msgid "Post Excerpt Length"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:218
+msgid ""
+"Number of words in the excerpt. If you put 0 &#40;zero&#41; it will not "
+"display any excerpt"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:222
+msgid "Post Excerpt more"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:225
+msgid "Check to hide this field "
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:226
+msgid ""
+"What to append to the excerpt if the excerpt needs to be trimmed. Default "
+"&#39;&hellip;&#39;"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:230
+msgid "Order Output"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:233
+msgid " Date Ascending"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:234
+msgid "Date Descending"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:235
+msgid "Random"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:236
+msgid "Title Ascending"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:237
+msgid "Title Descending"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:238
+msgid "Menu Order"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:257
+msgid "Hide the Post Title"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:259
+#: admin/class-owl-carousel-2-meta.php:282
+#: admin/class-owl-carousel-2-meta.php:321
+#: admin/class-owl-carousel-2-meta.php:363
+#: admin/class-owl-carousel-2-meta.php:369
+msgid "Yes"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:260
+msgid ""
+"Include the post title in the carousel. This is shown by default, check yes "
+"to hide it."
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:264
+msgid "Heading Type"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:267
+msgid "H1"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:268
+msgid "H2"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:269
+msgid "H3"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:270
+msgid "H4"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:271
+msgid "H5"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:272
+msgid "H6"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:273
+msgid "p"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:274
+msgid "Bold"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:276
+msgid "What type of heading should the title be?"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:280
+msgid "Show Link to Post"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:283
+msgid "Include a link to the post. Additional options are available"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:289
+msgid "Button Text"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:291
+msgid "Read More"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:292
+msgid "Text inside the button"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:294
+msgid "Button CSS Class"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:296
+msgid "classname"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:297
+msgid "CSS Class for the button"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:301
+msgid "Button CSS Display"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:304
+msgid "Inline"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:305
+msgid "Inline-Block"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:306
+msgid "Block"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:308
+msgid "CSS Display option for the link / Button "
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:311
+msgid "Button CSS margin"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:313
+msgid "10px"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:314
+msgid "Margins for Button"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:319
+msgid "Show Post Thumbnails"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:322
+msgid "Check to show the post thumbnail or featured image if it exists."
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:327
+msgid "Image On Click Options"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:329
+msgid "None - Just show image"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:330
+msgid "Open in Lightbox"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:331
+msgid "Link to Post"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:335
+msgid "Image Size Options"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:338
+msgid "Please Choose"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:339
+msgid "Custom Size"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:344
+msgid "Choose an existing image size or custom size "
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:348
+msgid "Image Width"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:350
+msgid "600"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:351
+msgid "Width of the image"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:353
+msgid "Image Height"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:355
+msgid "400"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:356
+msgid "Height of the Image"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:361
+msgid "Crop the Image"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:364
+msgid "If checked, image will be hard cropped"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:367
+msgid "Upscale Image"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:370
+msgid ""
+"If checked, the image will be made larger if smaller than the specified size"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:385
+msgid "CSS ID"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:387
+msgid "carousel-"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:388
+msgid "The CSS ID for the element no spaces please"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:392
+msgid "Loop"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:394
+msgid "Check to loop"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:395
+msgid ""
+"Create an infinite loop of with the carousel, so that it continues to play"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:397
+msgid "Margins around Carousel Items"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:400
+msgid "Space between each carousel item in Pixels"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:404
+msgid "Slide Duration"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:406
+msgid "Slide duration time"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:407
+msgid "Duration in ms."
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:409
+msgid "Slide Transition"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:411
+msgid "Slide transition time"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:412
+msgid "Transition Time in ms"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:417
+msgid "Pause on Hover"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:419
+msgid "Check to pause on hover"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:420
+msgid "Pause the carousel while the mouse is hovering on the item"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:422
+msgid "Show Dots"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:424
+msgid "Check to show dots"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:425
+msgid "Show the dots style navs underneath the carousel."
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:430
+msgid "Show Nav Arrows"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:432
+msgid "Show navigation arrows below the carousel"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:435
+msgid "Button Position"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:438
+msgid "Default (bottom)"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:439
+msgid "Vertically Centered"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:441
+msgid "Position of the Prev/Next Buttons "
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:446
+msgid "Prev Button Text"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:449
+msgid "Text for Prev Button"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:451
+msgid "Next Button Text"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:454
+msgid "Text for Next Button"
+msgstr ""
+
+#: admin/class-owl-carousel-2-meta.php:488
+msgid ""
+"This setting determines the number of slides shown for specific css "
+"breakpoints.  Each must be set."
+msgstr ""
+
+#: public/class-owl-carousel-2-public.php:547
+#, php-format
+msgid "Rated %s out of 5"
+msgstr ""
+
+#: public/class-owl-carousel-2-public.php:556
+msgid "Product Reviewed"
+msgstr ""
+
+#: public/class-owl-carousel-2-public.php:560
+msgid "There are no reviews for this carousel"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Custom Post Carousels with Owl"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://www.duckdiverllc.com/dd-owl-carousel-2/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Easily add any post type post as a custom post carousel with Owl Carousel 2. "
+"Works with any cusotm post type, WooCommerce Products, Featured Products, "
+"FAQ, etc."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Howard Ehrenberg"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.howardehrenberg.com"
+msgstr ""

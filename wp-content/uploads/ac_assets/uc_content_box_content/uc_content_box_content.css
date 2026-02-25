@@ -1,0 +1,192 @@
+.uc_content_content * {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+	font-family: 'Roboto', sans-serif;
+}
+
+
+
+.uc_content_content .uc-content-table {
+    background:#FFF;
+    text-align:left;
+    padding:30px 50px;
+    }
+	
+.uc_content_content .uc_container{
+	max-width:1170px;
+	margin:0 auto;
+	width:100%;
+}	
+	
+.uc_content_content .uc_section_bgw{	
+ 	background-color: #ffffff;
+    padding:0px;
+    position: relative;	
+	overflow: hidden;
+}
+
+
+.uc_content_content .uc_boxes {
+	float: left;
+    min-height: 1px;
+	padding:0px;
+	text-align: center;
+
+}
+
+
+.uc_content_content .uc_boxes:hover .uc_magnifier, .uc_entry:hover .uc_magnifier{
+    opacity: 1;
+}
+
+.uc_content_content .uc_entry {
+	text-align:center;
+	position:relative;
+	border-radius: 6px;
+	overflow:hidden;
+	margin-bottom: 30px;
+}
+
+
+.uc_content_content .uc_entry img{
+	
+    width: 100%;
+	border-radius: 6px;
+	 display: block;
+    height: auto;
+    max-width: 100%;
+	 vertical-align: middle;
+	 border:0;
+	 
+}
+
+.uc_content_content .uc_magnifier {
+    background: rgba(0, 0, 0, 0) linear-gradient(45deg, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0) 100%) repeat scroll 0 0;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: all 0.3s ease-in-out 0s;
+    z-index: 1;
+}
+
+.uc_content_content .uc_shop-bottom {
+ 	bottom: 0;
+    display: block;
+    left: 0;
+    margin: -15px auto;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    transition: all 0.3s ease-in-out 0s;
+}
+
+.uc_content_content .uc_boxes:hover .uc_shop-bottom, .uc_entry:hover .uc_shop-bottom {
+    top: 50%;
+}
+
+
+.uc_content_content .uc_shop-bottom a{
+	text-decoration:none;
+}
+
+.uc_content_content .uc_shop-bottom i {
+	 font-family: 'FontAwesome';
+	 color: #ffffff;
+    display: block;
+    font-size: 16px;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 auto;
+    text-align: center;
+    width: 40px;
+ 	background-color: #3ca1db !important;
+    border-color: #3ca1db !important;
+	border-radius: 100px;
+	text-decoration:none;
+}
+
+.uc_content_content .uc_boxes h3 {
+    color: #222222;
+    font-size: 18px;
+    line-height: 1;
+    display: block;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+}
+
+.uc_content_content .uc_boxes{
+	color: #555555;	
+}
+
+.uc_content_content .uc_boxes p {
+	margin-bottom: 0;
+	padding: 15px 0;
+	line-height: 26px;
+}
+
+.uc_content_content .owl-nav {
+	width:100px;
+	margin:0 auto;
+}
+.uc_content_content .owl-nav i{font-family: 'FontAwesome';}
+.uc_content_content .owl-nav .owl-prev , .uc_content_content .owl-nav .owl-next {
+	font-family: 'FontAwesome';
+	padding-top:2px;
+	color:#555;
+}
+
+.uc_content_content .owl-nav .owl-prev , .uc_content_content .owl-nav .owl-next {
+	font-family: 'FontAwesome';
+	float:left;
+	border: 1px solid #d9d9d9;
+	height: 25px;
+    width: 27px;
+	overflow:hidden;
+}
+
+
+.uc_content_content .owl-nav .owl-prev:hover{
+	background-color: #46abe5 !important;
+    border-color: #46abe5 !important;
+    color: #fff;
+}
+
+.uc_content_content .owl-nav .owl-prev:hover i, .uc_content_content .owl-nav .owl-next:hover i {
+	color:#fff;
+}
+
+.uc_content_content .owl-nav .owl-next:hover{
+	background-color: #46abe5 !important;
+    border-color: #46abe5 !important;
+    color: #fff;
+}
+
+
+@media only screen and (min-width: 961px) and (max-width: 1200px) {
+    
+    }
+	
+@media only screen and (min-width: 768px) and (max-width: 960px) {
+	.uc_content_content .owl-nav { display: none;}
+}
+    
+@media (max-width:767px) {
+    .uc_content_content .owl-nav { display: none;}
+	.uc_content_content .uc_boxes h3 {font-size: 17px;}
+	.uc_content_content .uc_boxes p { font-size: 16px;}
+    }
+    
+@media (max-width:420px) {
+    .uc_content_content .owl-nav { display: none;}
+	.uc_content_content .uc_boxes h3 {font-size: 20px;}
+	.uc_content_content .uc_boxes p { font-size: 15px;line-height: 1.4;}
+    }

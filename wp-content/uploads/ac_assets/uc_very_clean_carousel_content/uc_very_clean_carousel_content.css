@@ -1,0 +1,84 @@
+
+.uc_very_clean_content *{
+	margin:0;
+	padding:0px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.uc_very_clean_content .uc{
+	margin:0px;
+	padding:15px 0;
+}
+.uc_very_clean_content .uc_very_clean_content_container_holder{
+	position:relative;
+	width:100%;
+	padding: 0px;
+}
+
+.uc_very_clean_content .uc_very_clean_content_content{
+	padding: 14px 5px 8px;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 400;	
+	padding:20px 20px;
+}
+.uc_very_clean_content .uc_very_clean_content_content span.bbb{
+	display:inline-block;
+	font-size:25px;
+	margin-right:15px;
+}
+.uc_very_clean_content .uc_very_clean_content_content h2{
+	font-size:20px;
+	margin:0px;
+	display:inline-block;
+	font-family: 'Droid Serif', serif;
+	font-weight:700;
+	font-style:italic;
+}
+.uc_very_clean_content .uc_very_clean_content_content .uc_paragraph{
+	line-height: 24px;
+	font-size:16px;
+	font-family: 'Open Sans', sans-serif;
+	font-weight:400;
+	font-style:italic;
+	margin: 22px 0;
+}
+.uc_very_clean_content .uc_very_clean_content_content a.uc_more_btn {
+	line-height:24px;
+	font-size:16px;
+	font-weight:600;
+	font-style:italic;
+	text-decoration:none;
+}
+
+.uc_very_clean_content .uc_very_clean_content_container_holder:hover .uc_very_clean_content_content h2,
+.uc_very_clean_content .uc_very_clean_content_container_holder:hover .uc_very_clean_content_content span,
+.uc_very_clean_content .uc_very_clean_content_container_holder:hover .uc_very_clean_content_content .uc_paragraph{
+	color:#000 !important;
+	
+	transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-webkit-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+}
+.uc_very_clean_content .uc_very_clean_content_container_holder:hover .uc_very_clean_content_content a.uc_more_btn{
+	color:#50dfa8 !important;
+	
+	transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-webkit-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+}
+
+
+/*Pagination
+======================*/
+.uc_very_clean_content .owl-dots{ overflow:hidden; text-align:center; margin-top:22px;}
+.uc_very_clean_content .owl-dot { background-color:#c4c4cc; width:6px; height:6px; border-radius:50%; -moz-border-radius:50%; -webkit-border-radius:50%; display:inline-block; margin:4px 9px 3px; }
+.uc_very_clean_content .owl-dot.active { background-color:#333333; width:14px; height:14px; margin:0 15px; }
+
+@media only screen and (max-width: 639px) {
+	.uc_very_clean_content .uc_very_clean_content_content{ padding:10px;}
+	.uc_very_clean_content .uc_very_clean_content_content .uc_paragraph{ font-size:16px; line-height:20px;}
+	.uc_very_clean_content .uc_very_clean_content_content h2{ margin-bottom:0;}
+}

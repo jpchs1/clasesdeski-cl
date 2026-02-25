@@ -1,0 +1,79 @@
+.uc_resturant_header *{
+	margin:0;
+	padding:0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+    line-height:normal;
+}
+
+.uc_resturant_header .uc_container_holder{
+	position:relative;
+	width:100%;
+}
+	
+.uc_resturant_header .uc_container_holder img{
+	width:100%;
+}
+.uc_resturant_header .uc_container_text_box{
+	position:absolute;
+	top:50%;
+	width:100%;
+	text-align:center;
+	padding:0 15px;
+	-webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+.uc_resturant_header .uc_container_text_box h1{
+	font-size:6.5vw;
+	font-family: 'Poppins', sans-serif;
+	font-weight:bold;
+	color:#ffffff;	
+	}
+.uc_resturant_header .uc_paragraph{
+	font-family:"Georgia";
+	font-size:32px;
+	color:#ffffff;
+	font-style:italic;
+	margin: 0 auto;
+    max-width: 920px;
+}
+.uc_resturant_header .uc_container_text_box a{
+	font-size:24px;
+	font-family: 'Poppins', sans-serif;
+	font-weight:600;
+	color:#ffffff;
+	padding:22px 30px;
+	border:4px solid #ffffff;
+	text-decoration:none;
+	display:inline-block;
+	text-transform:uppercase;
+	letter-spacing:1px;
+	margin-top:50px;
+}
+
+
+@media only screen and (max-device-width: 1300px) {
+	.uc_resturant_header .uc_paragraph{font-size: 24px;}
+}
+
+@media only screen and (max-device-width: 1024px) {
+	.uc_resturant_header .uc_paragraph{font-size: 24px;}
+}
+@media only screen and (max-device-width: 678px) {
+	.uc_resturant_header .uc_container_text_box a{	 font-size: 18px; padding: 15px 24px;border: 2px solid #ffffff;}
+	.uc_resturant_header .uc_paragraph{font-size: 20px;}
+	.uc_resturant_header .uc_container_text_box a{font-size: 20px; padding: 19px 30px;}
+}
+@media only screen and (max-device-width: 640px) {
+	.uc_resturant_header .uc_paragraph{font-size: 18px;}
+}
+@media only screen and (max-device-width: 480px) {
+	.uc_resturant_header .uc_paragraph{font-size: 15px;}
+	.uc_resturant_header .uc_container_text_box a{	 margin-top: 18px; font-size: 15px; padding: 5px 15px; letter-spacing:inherit;}
+}
+@media only screen and (max-device-width: 360px) {
+	.uc_resturant_header .uc_paragraph{font-size: 15px;}
+	.uc_resturant_header .uc_container_text_box a{	 margin-top: 18px; font-size: 15px; padding: 5px 15px; letter-spacing:inherit;}
+}

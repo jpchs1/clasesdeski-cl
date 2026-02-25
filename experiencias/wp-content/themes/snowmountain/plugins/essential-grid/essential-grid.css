@@ -1,0 +1,54 @@
+/* Essential Grid styles
+----------------------------------------------------------------- */
+.esg-grid i[class*="eg-icon-"] {
+	color: #ffffff;
+}
+.esg-grid a:hover i[class*="eg-icon-"] {
+	color: #ffffff;
+}
+
+.flat-light .esg-filters .esg-sortbutton-order,
+.flat-light .esg-filters .esg-cartbutton-order {
+	line-height:36px;
+	margin:0;
+}
+.flat-light .esg-filters .esg-sortbutton {
+	padding-right: 0;
+}
+
+.minimal-light .esg-filters {
+	margin-bottom: 2rem!important;
+	margin-top: 2rem!important;
+}
+.esg-grid .mainul li.eg-washington-wrapper {
+	background-color: #ffffff!important;
+}
+.minimal-light .esg-filterbutton, .minimal-light .esg-navigationbutton, .minimal-light .esg-sortbutton, .minimal-light .esg-cartbutton a {
+	color: #505a61 !important;
+	margin-right: 5px;
+	cursor: pointer;
+	padding: 0px 10px;
+	border: none!important;
+	line-height: 19px!important;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	font-size: 16px!important;
+	font-weight: 700!important;
+	font-family: Raleway,cursive!important;
+	text-transform: uppercase;
+	display: inline-block;
+	background: #fff;
+	margin-bottom: 5px;
+	font-style: italic;
+}
+.minimal-light .esg-navigationbutton:hover, .minimal-light .esg-filterbutton:hover, .minimal-light .esg-sortbutton:hover, .minimal-light .esg-sortbutton-order:hover, .minimal-light .esg-cartbutton a:hover, .minimal-light .esg-filterbutton.selected {
+	background-color: #fff;
+	border-color: #bbb;
+	color: #8eb2c7 !important;
+	box-shadow: none!important;
+}
+
+.esgbox-toolbar .esgbox-button.esgbox-button--fullscreen {
+	display: none;
+}

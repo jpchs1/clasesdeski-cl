@@ -1,0 +1,39 @@
+/* Duck Diver Owl Carousel Public */
+.owl-wrapper {
+    width: 100%;
+}
+.owl-btn-wrapper {
+    margin-top: .75rem;
+    margin-bottom: .75rem;
+}
+.owl-wrapper .no-image{
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+.owl-wrapper .item {
+    max-width: 100%;   
+}
+
+.owl-theme.nav-centered .owl-nav {
+    margin-top: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+}
+.owl-theme.nav-centered .owl-nav button.owl-next, .owl-theme.nav-centered .owl-nav button.owl-prev {
+    position: absolute;
+}
+.owl-theme.nav-centered .owl-nav button.owl-next {
+    right: -2ch;
+}
+
+.owl-theme.nav-centered .owl-nav button.owl-prev {
+    left: -2ch;
+}
+.owl-carousel.woocommerce .star-rating {
+    float: left;
+    display: block;
+    line-height: 1;
+}

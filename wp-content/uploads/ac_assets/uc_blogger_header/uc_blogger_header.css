@@ -1,0 +1,132 @@
+body{ margin:0;}
+.uc_blogger_header *{
+	margin:0;
+	padding:0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.uc_blogger_header{
+	position:relative;
+	overflow:hidden;
+}
+.uc_blogger_header img{
+	width:100%;
+	height:auto;
+}
+.uc_blogger_header .uc_container_holder{
+	width:100%;
+	text-align:center;
+	position:absolute;
+	left:0%;
+	top:50%;
+	transform:translateY(-50%);
+	-webkit-transform:translateY(-50%);
+	-moz-transform:translateY(-50%);
+	z-index:101;
+	color:#FFFFFF;
+}
+.uc_blogger_header .uc_container_holder .uc_main_content_box{
+	max-width:26.5%;
+	margin:0 auto;
+}
+.uc_blogger_header .uc_container_holder .uc_content_box{
+	background:#dc3b46;
+	padding:21% 19% 0;
+	margin-bottom:55px;
+	clear:both;
+	overflow:hidden;
+	
+}
+.uc_blogger_header .uc_container_holder .uc_main_content_box h1{
+	font-size:16px;
+	font-weight:400;
+	margin-bottom:20px;
+	line-height:normal;
+	letter-spacing:7px;
+	opacity:0.7;
+}
+.uc_blogger_header .uc_container_holder .uc_main_content_box h2{
+	background:url(line.jpg) no-repeat center bottom;
+	font-weight:400;
+	margin-bottom:23px;
+	padding-bottom:25px;
+	font-size:36px;
+	line-height:40px;
+}
+.uc_blogger_header .uc_container_holder .uc_main_content_box .uc_paragraph{
+	font-size:16px;
+	font-weight:400;
+	display:block;
+	line-height:24px;
+	margin:0 auto 53px;
+	opacity:0.7;
+	max-width:58%;
+}
+.uc_blogger_header .uc_container_holder .uc_main_content_box a.uc_read_btn{
+	background:#fff;
+	padding:9% 0%;
+	display:block;
+	font-size:16px;
+	color:#dc3b46;
+	font-weight:700;
+	text-decoration:none;
+}
+.uc_blogger_header .uc_container_holder .uc_main_content_box .uc_social a{
+	margin:0 16px;
+	color:#fff;
+	font-size:18px;
+}
+
+@media only screen and (max-width: 1500px) {
+	.uc_blogger_header .uc_container_holder .uc_main_content_box{ max-width:36%;}
+}
+@media only screen and (max-width: 1300px) {
+	.uc_blogger_header .uc_container_holder .uc_main_content_box{ max-width:38%;}
+}
+@media only screen and (max-width: 1199px) {
+	.uc_blogger_header .uc_container_holder .uc_main_content_box{ max-width:50%;}
+	.uc_blogger_header .uc_container_holder .uc_content_box{ margin-bottom:20px; padding:10% 15% 0;}
+	.uc_blogger_header .uc_container_holder .uc_main_content_box a.uc_read_btn{ padding:5% 0;}
+}
+@media only screen and (max-width: 991px) {
+	.uc_blogger_header .uc_container_holder .uc_main_content_box{ max-width:60%;}
+	.uc_blogger_header .uc_container_holder .uc_content_box{ padding: 6% 12% 0;}
+	.uc_blogger_header .uc_container_holder .uc_main_content_box h2{ font-size:28px; line-height:32px; margin-bottom:15px;}
+	.uc_blogger_header .uc_container_holder .uc_main_content_box .uc_paragraph{ max-width:70%; font-size:14px; margin-bottom:20px;}
+}
+@media only screen and (max-width: 767px) {
+	.uc_blogger_header .uc_container_holder .uc_main_content_box{ max-width:60%;}
+	.uc_blogger_header .uc_container_holder .uc_main_content_box h2 { font-size: 18px; line-height: normal; margin-bottom: 10px; padding-bottom: 10px;}
+	.uc_blogger_header .uc_container_holder .uc_content_box{ padding-top:3%;}
+	.uc_blogger_header .uc_container_holder .uc_main_content_box a.uc_read_btn{ padding:3% 0; font-size: 13px;}
+	.uc_blogger_header .uc_container_holder .uc_main_content_box h1{ font-size:10px; margin-bottom:10px;}
+}
+@media only screen and (max-width: 639px) {
+	.uc_blogger_header .uc_container_holder .uc_main_content_box{ max-width:65%;}
+	.uc_blogger_header .uc_container_holder .uc_main_content_box .uc_paragraph{ display:none;}
+	.uc_blogger_header .uc_container_holder .uc_main_content_box h2{ font-size:14px; margin-bottom:10px; background:none;}
+	.uc_blogger_header .uc_container_holder .uc_main_content_box a.uc_read_btn{ font-size:12px;}
+	
+}
+@media only screen and (max-width: 479px) {
+	.uc_blogger_header .uc_container_holder .uc_main_content_box{ max-width:75%;}
+}
+@media only screen and (max-width: 359px) {
+	.uc_blogger_header .uc_container_holder .uc_main_content_box{ max-width:75%;}
+	.uc_blogger_header .uc_container_holder .uc_content_box{ padding-top:3%; margin-bottom:10px;}
+	.uc_blogger_header .uc_container_holder .uc_main_content_box h2{ font-size12px; margin-bottom:5px; letter-spacing:10px;}
+	.uc_blogger_header .uc_container_holder .uc_main_content_box a.uc_read_btn{ font-size:9px;}
+	.uc_blogger_header .uc_container_holder .uc_main_content_box h1{ font-size:9px; letter-spacing:4px; margin-bottom:5px;}
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,83 @@
+
+.uc_rainbow_border_tabs *{
+	margin:0;
+	padding:0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+#uc_rainbow_border_tabs{
+	font-weight:400;
+	font-size:14px;
+	line-height:normal;
+	padding:0;
+	margin:0;
+}
+
+/*tab nav
+===================*/
+#uc_rainbow_border_tabs .uc_tab_nav{
+	padding:20px 0px;
+}
+#uc_rainbow_border_tabs .uc_tab_nav{
+	list-style:none;
+	padding:0;
+	margin:0;
+}
+#uc_rainbow_border_tabs .uc_tab_nav li{
+	display:inline-block;
+	position:relative;
+	text-align:center;
+	height:65px;
+}
+#uc_rainbow_border_tabs .uc_tab_nav li a{
+	display:block;
+	padding:15px 35px;
+	position:relative;
+	border-top:3px solid transparent;
+	text-decoration:none;
+	margin:0 0 5px;
+	border-top:3px solid transparent;
+}
+#uc_rainbow_border_tabs .uc_tab_nav li a h2{
+	font-weight: 600;
+	font-size: 14px;
+	display: inline-block;
+	float: none;
+	line-height: 24px;
+	padding: 0;
+	position: relative;
+	margin: 0;
+	top:-4px;
+}
+#uc_rainbow_border_tabs .uc_tab_nav li a i{
+	font-size:25px;
+	display:inline-block;
+	margin-right:17px;
+}
+#uc_rainbow_border_tabs .uc_tab_nav li.r-tabs-state-active{
+	position:relative;
+}
+#uc_rainbow_border_tabs .uc_tab_nav li.r-tabs-state-active a{
+	background:#fff !important;
+	color:inherit !important;
+	height:35px;
+}
+
+/*tab content
+===================*/
+#uc_rainbow_border_tabs .uc_tab_content{
+	padding:18px 35px 20px;
+	font-size:14px;
+	font-weight:400;
+	position:relative;
+}
+#uc_rainbow_border_tabs .uc_tab_content p{
+	line-height:31px;
+	padding:0;
+	margin:0;
+}
+
+@media only screen and (max-width: 890px) {
+	#uc_rainbow_border_tabs .uc_tab_nav li a{ padding:15px 18px;}
+}

@@ -1,0 +1,14 @@
+@charset "utf-8";
+/* CSS Document */
+
+.uc_border_opening_hours *{
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;}
+ .clear{clear:both;}
+.uc_border_opening_hours{ overflow:hidden;}
+
+.uc_border_opening_hours_inner{ border:4px solid #000000; width:178px; height:172px; padding:25px; font-size:22px; text-align:center; margin:
+10px; float:left;}
+.uc_border_opening_hours_inner h2{ font-size:32px; margin: 10px 0 0 !important; text-align:center;line-height: 58px;}
+.uc_border_opening_hours_inner p{ margin:0px;line-height: 30px;}

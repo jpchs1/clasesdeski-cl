@@ -1,0 +1,50 @@
+.uc_image_opening_hours * {
+    padding:0;
+    margin:0;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    }
+
+.uc_image_opening_hours {
+    padding:20px;
+    min-height:220px;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    font-family: 'Roboto', sans-serif;
+    color:#fff;
+    background-repeat:no-repeat;
+  	background-position:100% bottom;
+    }
+.uc_image_opening_hours h6 
+{
+	margin-top: 0.6em;
+    margin-bottom: 1.2em;
+	color:#fff;
+	font-weight:bold;
+	font-size:12px;
+}    
+
+.uc_image_opening_hours h6 span 
+{
+	width:98px;
+	display:block;
+	float:left;
+}
+
+.uc_image_opening_hours i.uc_icon {
+    color:#fff;
+    font-size:36px;
+    margin-top:12px;
+	font-weight:300;
+    }
+    
+.uc_image_opening_hours h4 {
+    font-weight:400;
+    font-size:20px;
+    text-transform:uppercase;
+    color:#fff;
+    margin:15px 0 16px;
+    }
+    

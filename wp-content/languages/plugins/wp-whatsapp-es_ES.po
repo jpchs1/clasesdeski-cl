@@ -1,0 +1,620 @@
+# Translation of Plugins - WP Chat App - Development (trunk) in Spanish (Spain)
+# This file is distributed under the same license as the Plugins - WP Chat App - Development (trunk) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2024-03-20 12:48:00+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/4.0.1\n"
+"Language: es\n"
+"Project-Id-Version: Plugins - WP Chat App - Development (trunk)\n"
+
+#: views/woocommerce-button.php:66
+msgid "Third party integrations (PRO)"
+msgstr "Integraciones con terceros (PRO)"
+
+#: views/woocommerce-button.php:60
+msgid "Select accounts to display"
+msgstr "Selecciona las cuentas a mostrar"
+
+#: views/woocommerce-button.php:35
+msgid "After Add to Cart button"
+msgstr "Después del botón «Añadir al carrito»"
+
+#: views/woocommerce-button.php:26
+msgid "Before Add to Cart button"
+msgstr "Antes del botón «Añadir al carrito»"
+
+#: views/woocommerce-button.php:17
+msgid "Button position"
+msgstr "Posición del botón"
+
+#: views/woocommerce-button.php:8
+msgid "Enabled"
+msgstr "Activado"
+
+#: views/woocommerce-button.php:4
+msgid "Display WhatsApp click to chat button on WooCommerce single product pages."
+msgstr "Mostrar el botón de WhatsApp para chatear en las páginas de productos individuales de WooCommerce."
+
+#: views/url-settings.php:28
+msgid "URL for Mobile"
+msgstr "URL para móviles"
+
+#: views/url-settings.php:14
+msgid "URL for Desktop"
+msgstr "URL para escritorio"
+
+#: views/url-settings.php:5
+msgid "Open in new tab"
+msgstr "Abrir en una nueva pestaña"
+
+#: views/url-settings.php:1
+msgid "Choose how you want to redirect WhatsApp URL."
+msgstr "Elige cómo quieres redirigir la URL de WhatsApp."
+
+#: views/settings.php:16
+msgid "WhatsApp URL"
+msgstr "URL de WhatsApp"
+
+#: views/settings.php:15
+msgid "Analytics"
+msgstr "Analíticas"
+
+#: views/settings.php:14
+msgid "WooCommerce Button"
+msgstr "Botón de WooCommerce"
+
+#: views/selected-accounts.php:49 views/woocommerce-button.php:123
+msgid "Selected Accounts:"
+msgstr "Cuentas seleccionadas:"
+
+#: views/selected-accounts.php:47 views/woocommerce-button.php:121
+msgid "Please select accounts you want them to display in WhatsApp Chat Widget"
+msgstr "Selecciona las cuentas que quieres que se muestren en el widget de chat de WhatsApp"
+
+#: views/meta-button-style.php:39
+msgid "Button Text Color"
+msgstr "Color del texto del botón"
+
+#: views/meta-button-style.php:33
+msgid "Button Background Color"
+msgstr "Color de fondo del botón"
+
+#: views/meta-button-style.php:25 blocks/dist/blocks.build.js:1
+msgid "Square"
+msgstr "Cuadrado"
+
+#: views/meta-button-style.php:22 blocks/dist/blocks.build.js:1
+msgid "Round"
+msgstr "Redondeado"
+
+#: views/meta-button-style.php:17 blocks/dist/blocks.build.js:1
+msgid "Button Style"
+msgstr "Estilo del botón"
+
+#: views/meta-button-style.php:12
+msgid "This text applies only on shortcode button. Leave empty to use the default label."
+msgstr "Este texto solo se aplica al botón shortcode. Déjalo vacío para usar la etiqueta por defecto."
+
+#: views/meta-button-style.php:8
+msgid "Button Label"
+msgstr "Etiqueta del botón"
+
+#: views/meta-button-style.php:4
+msgid "This styling applies only to the shortcode buttons for this account."
+msgstr "Este estilo solo se aplica a los botones shortcode de esta cuenta."
+
+#: views/meta-accounts.php:111
+msgid "You can use this text to display on days this account does not work."
+msgstr "Puedes utilizar este texto para mostrar los días en que esta cuenta no funcione."
+
+#: views/meta-accounts.php:109
+msgid "You can use shortcode [njwa_time_work] to display the exact time this account is back to work on a working day."
+msgstr "Puedes utilizar el shortcode [njwa_time_work] para mostrar la hora exacta en que esta cuenta vuelve a trabajar un día laborable."
+
+#: views/meta-accounts.php:106
+msgid "Description text when offline (PRO)"
+msgstr "Texto descriptivo cuando no estás conectado (PRO)"
+
+#: views/meta-accounts.php:95
+msgid "Apply to All Days"
+msgstr "Aplicar a todos los días"
+
+#: views/meta-accounts.php:62
+msgid "This feature is now only available in Pro version.<br>If you still want to use it, please <a href=\"%s\">Upgrade PRO</a> or turn back to <a href=\"%s\">Version 2.6</a><br>Need help? <a href=\"%s\" style=\"color: #444\">Contact us</a>"
+msgstr "Esta característica sólo está disponible en la versión Pro.<br>Si aún quieres utilizarla, por favor <a href=\"%s\">Mejora a PRO</a> o vuelve a la <a href=\"%s\">Versión 2.6</a><br>¿Necesitas ayuda? <a href=\"%s\" style=\"color: #444\">Contacta con nosotros</a>"
+
+#: views/meta-accounts.php:54
+msgid "Custom Availability (PRO)"
+msgstr "Disponibilidad personalizada (PRO)"
+
+#: views/meta-accounts.php:42
+msgid "Always available online"
+msgstr "Siempre disponible en línea"
+
+#: views/meta-accounts.php:36
+msgid "Use [njwa_page_title] and [njwa_page_url] shortcodes to output the page's title and URL respectively."
+msgstr "Utiliza los shortcodes [njwa_page_title] y [njwa_page_url] para mostrar el título y la URL de la página, respectivamente."
+
+#: views/meta-accounts.php:31
+msgid "Predefined Text"
+msgstr "Texto predefinido"
+
+#: views/meta-accounts.php:17
+msgid "Refer to <a href=\"https://faq.whatsapp.com/en/general/21016748\" target=\"_blank\">https://faq.whatsapp.com/en/general/21016748</a> for a detailed explanation."
+msgstr "Consulta <a href=\"https://faq.whatsapp.com/en/general/21016748\" target=\"_blank\">https://faq.whatsapp.com/en/general/21016748</a> para una explicación detallada."
+
+#: views/meta-accounts.php:9
+msgid "Account Number or group chat URL"
+msgstr "Número de cuenta o URL del chat de grupo"
+
+#: views/floating-widget-settings.php:16
+msgid "Display Settings"
+msgstr "Ajustes de visualización"
+
+#: views/floating-widget-settings.php:15
+msgid "Design"
+msgstr "Diseño"
+
+#: views/floating-widget-settings.php:14
+msgid "Selected Accounts"
+msgstr "Cuentas seleccionadas"
+
+#: views/display-settings.php:36
+msgid "Hide on these pages..."
+msgstr "Ocultar en estas páginas..."
+
+#: views/display-settings.php:35
+msgid "Show on these pages..."
+msgstr "Mostrar en estas páginas..."
+
+#: views/display-settings.php:34
+msgid "Show on all pages and posts"
+msgstr "Mostrar en todas las páginas y entradas"
+
+#: views/display-settings.php:31
+msgid "Display on Pages"
+msgstr "Mostrar en las páginas"
+
+#: views/display-settings.php:22
+msgid "Show on mobile"
+msgstr "Mostrar en móviles"
+
+#: views/display-settings.php:13
+msgid "Show on desktop"
+msgstr "Mostrar en equipos de escritorio"
+
+#: views/design-settings.php:168
+msgid "GDPR Notice"
+msgstr "Aviso del RGPD"
+
+#: views/design-settings.php:91
+msgid "Right"
+msgstr "Derecha"
+
+#: views/design-settings.php:88
+msgid "Left"
+msgstr "Izquierda"
+
+#: views/design-settings.php:83
+msgid "Widget Position"
+msgstr "Posición del widget"
+
+#: views/design-settings.php:79
+msgid "Widget Background Color"
+msgstr "Color de fondo del widget"
+
+#: views/design-settings.php:68
+msgid "Regular Text"
+msgstr "Texto normal"
+
+#: views/design-settings.php:52 views/design-settings.php:162
+msgid "Description"
+msgstr "Descripción"
+
+#: views/design-settings.php:41
+msgid "Widget Font Size"
+msgstr "Tamaño de fuente del widget"
+
+#: views/design-settings.php:36
+msgid "Widget Text Color"
+msgstr "Color del texto del widget"
+
+#: views/design-settings.php:25
+msgid "Widget Label Width(px)"
+msgstr "Anchura de la etiqueta del widget (px)"
+
+#: views/design-settings.php:20
+msgid "Widget Label Text"
+msgstr "Texto de la etiqueta del widget"
+
+#: views/design-settings.php:10
+msgid "Show Widget Label"
+msgstr "Mostrar la etiqueta del widget"
+
+#: views/design-settings.php:5
+msgid "Widget Text"
+msgstr "Texto del widget"
+
+#: views/analytics.php:36 views/design-settings.php:182
+#: views/display-settings.php:105 views/url-settings.php:43
+#: views/woocommerce-button.php:79
+msgid "Save Changes"
+msgstr "Guardar cambios"
+
+#: views/analytics.php:21
+msgid "Please enable this feature if your website is using Google Analytics 4"
+msgstr "Activa esta característica si tu sitio web utiliza Google Analytics 4"
+
+#: views/analytics.php:5
+msgid "Google Analytics (PRO)"
+msgstr "Google Analytics (PRO)"
+
+#: views/analytics.php:1
+msgid "Enable WhatsApp trackers to monitor your WhatsApp widget, button and other guest activities."
+msgstr "Activa los rastreadores de WhatsApp para supervisar tu widget de WhatsApp, el botón y otras actividades de los invitados."
+
+#: includes/Upgrade.php:92
+msgid "Update WhatsApp Database"
+msgstr "Actualizar la base de datos de WhatsApp"
+
+#: includes/Upgrade.php:89
+msgid "WhatsApp has been updated! To use the latest version, you have to update your database to make your WhatsApp accounts work correctly."
+msgstr "¡WhatsApp se ha actualizado! Para utilizar la última versión, tienes que actualizar tu base de datos para que tus cuentas de WhatsApp funcionen correctamente."
+
+#: includes/Upgrade.php:86
+msgid "WhatsApp database update required"
+msgstr "Es obligatorio actualizar la base de datos de WhatsApp"
+
+#: includes/Upgrade.php:79
+msgid "Restored Successfully!"
+msgstr "¡Restaurado correctamente!"
+
+#: includes/Upgrade.php:73
+msgid "Please contact us! we can't restore your accounts!"
+msgstr "¡Ponte en contacto con nosotros! ¡No podemos restaurar tus cuentas!"
+
+#: includes/Settings.php:88
+msgid "Add New account"
+msgstr "Añadir una nueva cuenta"
+
+#: includes/Settings.php:75
+msgid "Documentation"
+msgstr "Documentación"
+
+#: includes/Settings.php:67 includes/Settings.php:94
+msgid "Go Pro"
+msgstr "Obtener la versión Pro"
+
+#: includes/Settings.php:62 includes/Settings.php:90
+msgid "Settings"
+msgstr "Ajustes"
+
+#. Author URI of the plugin
+#: whatsapp.php
+msgid "https://ninjateam.org"
+msgstr "https://ninjateam.org"
+
+#. Author of the plugin
+#: whatsapp.php
+msgid "NinjaTeam"
+msgstr "NinjaTeam"
+
+#: includes/Helper.php:32
+msgid "Saturday"
+msgstr "sábado"
+
+#: includes/Helper.php:31
+msgid "Friday"
+msgstr "viernes"
+
+#: includes/Helper.php:30
+msgid "Thursday"
+msgstr "jueves"
+
+#: includes/Helper.php:29
+msgid "Wednesday"
+msgstr "miércoles"
+
+#: includes/Helper.php:28
+msgid "Tuesday"
+msgstr "martes"
+
+#: includes/Helper.php:27
+msgid "Monday"
+msgstr "lunes"
+
+#: includes/Helper.php:26
+msgid "Sunday"
+msgstr "domingo"
+
+#: includes/Helper.php:21
+msgid "Always online"
+msgstr "Siempre en línea"
+
+#: includes/Fields.php:124
+msgid "I will be back soon"
+msgstr "Volveré pronto"
+
+#: includes/Fields.php:123
+msgid "I will be back in [njwa_time_work]"
+msgstr "Volveré en [njwa_time_work]"
+
+#: includes/PostType.php:48
+msgid "Search Account"
+msgstr "Buscar cuenta"
+
+#: includes/PostType.php:47
+msgid "View Accounts"
+msgstr "Ver cuentas"
+
+#: includes/PostType.php:46
+msgid "All Accounts"
+msgstr "Todas las cuentas"
+
+#: includes/PostType.php:45
+msgid "New Account"
+msgstr "Nueva cuenta"
+
+#: includes/PostType.php:44
+msgid "Edit Account"
+msgstr "Editar la cuenta"
+
+#: includes/PostType.php:42 includes/PostType.php:43
+msgid "Add New Account"
+msgstr "Añadir una nueva cuenta"
+
+#: includes/PostType.php:41
+msgid "Whatsapp Account"
+msgstr "Cuenta de Whatsapp"
+
+#: includes/PostType.php:40
+msgid "WhatsApp Accounts"
+msgstr "Cuentas de WhatsApp"
+
+#: includes/I18n.php:23
+msgid "Offline"
+msgstr "Sin conexión"
+
+#: includes/I18n.php:22 views/meta-button-style.php:73
+#: blocks/dist/blocks.build.js:1
+msgid "Online"
+msgstr "En línea"
+
+#: includes/Review.php:79
+msgid "No, thanks"
+msgstr "No, gracias"
+
+#: includes/Review.php:78
+msgid "Later"
+msgstr "Más tarde"
+
+#: includes/Review.php:77
+msgid "Rate now"
+msgstr "Valorar ahora"
+
+#: includes/Recommended/views/content.php:213
+msgid "This plugin doesn&#8217;t work with your version of PHP."
+msgstr "Este plugin no funciona con tu versión de PHP."
+
+#: includes/Recommended/views/content.php:204
+msgid "This plugin doesn&#8217;t work with your version of WordPress."
+msgstr "Este plugin no funciona con tu versión de WordPress."
+
+#. translators: %s: URL to Update PHP page.
+#: includes/Recommended/views/content.php:198
+#: includes/Recommended/views/content.php:217
+msgid "<a href=\"%s\">Learn more about updating PHP</a>."
+msgstr "<a href=\"%s\">Aprende más acerca de cómo actualizar PHP</a>."
+
+#. translators: %s: URL to WordPress Updates screen.
+#: includes/Recommended/views/content.php:192
+#: includes/Recommended/views/content.php:208
+msgid "<a href=\"%s\">Please update WordPress</a>."
+msgstr "<a href=\"%s\">Por favor, actualiza WordPress</a>."
+
+#. translators: 1: URL to WordPress Updates screen, 2: URL to Update PHP page.
+#: includes/Recommended/views/content.php:184
+msgid "<a href=\"%1$s\">Please update WordPress</a>, and then <a href=\"%2$s\">learn more about updating PHP</a>."
+msgstr "<a href=\"%1$s\">Por favor, actualiza WordPress</a> y luego <a href=\"%2$s\">aprende más acerca de cómo actualizar PHP</a>."
+
+#: includes/Recommended/views/content.php:180
+msgid "This plugin doesn&#8217;t work with your versions of WordPress and PHP."
+msgstr "Este plugin no funciona con tus versiones de WordPress y PHP."
+
+#: includes/Recommended/views/content.php:150
+msgctxt "plugin"
+msgid "Installed"
+msgstr "Instalado"
+
+#: includes/Recommended/views/content.php:144
+msgctxt "plugin"
+msgid "Cannot Activate"
+msgstr "No se puede activar"
+
+#. translators: %s: Plugin name.
+#: includes/Recommended/views/content.php:118
+msgctxt "plugin"
+msgid "Activate %s"
+msgstr "Activar %s"
+
+#: includes/Recommended/views/content.php:116
+msgid "Activate"
+msgstr "Activar"
+
+#: includes/Recommended/views/content.php:111
+msgctxt "plugin"
+msgid "Activated"
+msgstr "Activado"
+
+#: includes/Recommended/views/content.php:94
+msgctxt "plugin"
+msgid "Cannot Update"
+msgstr "No se puede actualizar"
+
+#: includes/Recommended/views/content.php:89
+msgid "Update Now"
+msgstr "Actualiza ahora"
+
+#. translators: %s: Plugin name and version.
+#: includes/Recommended/views/content.php:87
+msgctxt "plugin"
+msgid "Update %s now"
+msgstr "Actualizar %s ahora"
+
+#: includes/Recommended/views/content.php:71
+msgctxt "plugin"
+msgid "Cannot Install"
+msgstr "No se puede instalar"
+
+#: includes/Recommended/views/content.php:66
+msgid "Install Now"
+msgstr "Instalar ahora"
+
+#. translators: %s: Plugin name and version.
+#: includes/Recommended/views/content.php:65
+msgctxt "plugin"
+msgid "Install %s now"
+msgstr "Instalar %s ahora"
+
+#: includes/Recommended/Recommended.php:462
+msgid "Update success"
+msgstr "Actualización correcta"
+
+#: includes/Recommended/Recommended.php:438
+msgid "Install success"
+msgstr "Instalación correcta"
+
+#: includes/Recommended/Recommended.php:356
+msgid "Activate success"
+msgstr "Activación correcta"
+
+#: includes/Recommended/Recommended.php:328
+#: includes/Recommended/Recommended.php:372
+#: includes/Recommended/Recommended.php:481
+msgid "Error."
+msgstr "Error."
+
+#: includes/Recommended/Recommended.php:319
+#: includes/Recommended/Recommended.php:363
+#: includes/Recommended/Recommended.php:472
+msgid "Error exception."
+msgstr "Excepción de error."
+
+#: includes/Recommended/Recommended.php:311
+msgid "Get data success"
+msgstr "Datos obtenidos con éxito"
+
+#: includes/Recommended/Recommended.php:294
+#: includes/Recommended/Recommended.php:342
+#: includes/Recommended/Recommended.php:390
+msgid "Nonce is invalid"
+msgstr "Nonce no válido"
+
+#: includes/Recommended/Recommended.php:155
+#: includes/Recommended/Recommended.php:245
+#: includes/Recommended/Recommended.php:552
+msgid "Recommended Plugins"
+msgstr "Plugins recomendados"
+
+#: includes/PostType.php:267
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#: includes/PostType.php:266
+msgid "Active Days"
+msgstr "Días activos"
+
+#: includes/PostType.php:265 views/design-settings.php:44
+#: views/meta-accounts.php:23
+msgid "Title"
+msgstr "Título"
+
+#: includes/PostType.php:264
+msgid "Number"
+msgstr "Número"
+
+#: includes/PostType.php:263
+msgid "Avatar"
+msgstr "Avatar"
+
+#: includes/PostType.php:262 views/design-settings.php:60
+msgid "Account Name"
+msgstr "Nombre de la cuenta"
+
+#: includes/PostType.php:51
+msgid "Remove avatar"
+msgstr "Eliminar avatar"
+
+#: includes/PostType.php:50
+msgid "Select an image"
+msgstr "Seleccionar una imagen"
+
+#: includes/PostType.php:49 blocks/dist/blocks.build.js:1
+msgid "Avatar (PRO)"
+msgstr "Avatar (PRO)"
+
+#: includes/Fields.php:67
+msgid "Start a Conversation"
+msgstr "Comenzar una conversación"
+
+#: includes/Fields.php:29 includes/Upgrade.php:223
+msgid "Need Help? Chat with us"
+msgstr "¿Necesitas ayuda? Chatea con nosotros"
+
+#: includes/Fallback.php:13
+msgid "Read more details."
+msgstr "Lee más detalles."
+
+#: includes/Fallback.php:11
+msgid "It looks like you have another WhatsApp version installed, please delete it before activating this new version. All of the settings and data are still preserved."
+msgstr "Parece que tienes instalada otra versión de WhatsApp. Por favor, bórrala antes de activar esta nueva versión. Se conservan todos los ajustes y datos."
+
+#: includes/Cross.php:138
+msgid "Recommend"
+msgstr "Recomendar"
+
+#. Description of the plugin
+#: whatsapp.php
+msgid "Integrate your WhatsApp experience directly into your website. This is one of the best way to connect and interact with your customer."
+msgstr "Integra tu experiencia de WhatsApp directamente en tu sitio web. Es una de las mejores formas de conectar e interactuar con tu cliente."
+
+#: includes/Fields.php:68
+msgid "The team typically replies in a few minutes."
+msgstr "El equipo suele responder en unos minutos."
+
+#: includes/Fields.php:69
+msgid "Hi! Click one of our member below to chat on <strong>WhatsApp</strong>"
+msgstr "¡Hola! Haz clic en uno de nuestros miembros de abajo para chatear por <strong>WhatsApp</strong>"
+
+#: includes/Fields.php:81
+msgid "Need Help? <strong>Chat with us</strong>"
+msgstr "¿Necesitas ayuda? <strong>Chatea con nosotros</strong>"
+
+#: includes/Fields.php:90
+msgid "Please accept our <a href=\"https://ninjateam.org/privacy-policy/\">privacy policy</a> first to start a conversation."
+msgstr "Acepta primero nuestra <a href=\"https://ninjateam.org/privacy-policy/\">política de privacidad</a> para iniciar una conversación."
+
+#: views/woocommerce-button.php:53
+msgid "After long description"
+msgstr "Tras la descripción larga"
+
+#: views/woocommerce-button.php:44
+msgid "After short description"
+msgstr "Tras la descripción corta"
+
+#: includes/Settings.php:89
+msgid "Floating Widget"
+msgstr "Widget flotante"
+
+#: views/display-settings.php:5
+msgid "Time Symbols"
+msgstr "Símbolos de hora"
+
+#. Plugin Name of the plugin
+#: whatsapp.php
+msgid "WP Chat App"
+msgstr "WP Chat App"

@@ -1,0 +1,112 @@
+
+.uc_folder_tabs *{
+	margin:0;
+	padding:0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+#uc_folder_tabs{
+	font-weight:400;
+	font-size:14px;
+	line-height:normal;
+	padding:0;
+	margin:0;
+}
+
+/*tab nav
+===================*/
+#uc_folder_tabs .uc_tab_nav{
+	padding:20px 0px;
+}
+#uc_folder_tabs .uc_tab_nav{
+	list-style:none;
+	padding:0;
+	margin:0;z-index:99;
+}
+#uc_folder_tabs .uc_tab_nav li{
+	display:inline-block;
+	padding:0px 0px;
+	position:relative;
+	margin-right:10px;
+	text-align:center;
+	padding-top:5px;
+}
+#uc_folder_tabs .uc_tab_nav li.r-tabs-state-active span.bbb{
+	content:"";
+	position:absolute;
+	bottom:-25px;
+	left:50%;
+	margin-left:-8px;
+	display: inline-block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 8px 0 8px;
+}
+#uc_folder_tabs .uc_tab_nav li a{
+	display:block;
+	padding:7px 24% 15px;
+	position:relative;
+	border-top:3px solid transparent;
+	text-decoration:none;
+	bottom:-4px;
+}
+#uc_folder_tabs .uc_tab_nav li:last-child a{
+	border-right:0px;
+}
+#uc_folder_tabs .uc_tab_nav li a h2{
+	font-weight: 600;
+	font-size: 14px;
+	display: inline-block;
+	float: none;
+	line-height: 24px;
+	padding: 0;
+	position: relative;
+	margin: 0;
+}
+#uc_folder_tabs .uc_tab_nav li a i{
+	font-size:25px;
+	display:inline-block;
+	margin-right:17px;
+}
+#uc_folder_tabs .uc_tab_nav li.r-tabs-state-active a{
+	background:#fff !important;
+	color:#101112 !important;
+	border-color: #f87474 !important;
+	bottom:-1px;
+	padding-top:11px;
+  	padding-bottom:13px;
+	box-shadow:3px -3px 3px #ebebeb;
+	-webkit-box-shadow:3px -3px 3px #ebebeb;
+	-moz-box-shadow:3px -3px 3px #ebebeb;
+	-ms-box-shadow:3px -3px 3px #ebebeb;
+}
+#uc_folder_tabs .uc_tab_nav li.r-tabs-state-active{
+	z-index:100;
+}
+
+/*tab content
+===================*/
+#uc_folder_tabs .uc_tab_content{
+	padding:32px 42px;
+	font-size:14px;
+	font-weight:400;
+	margin-top: -1px;
+	position:relative;
+	box-shadow:3px -3px 3px #ebebeb;
+	-webkit-box-shadow:3px -3px 3px #ebebeb;
+	-ms-box-shadow:3px -3px 3px #ebebeb;
+	-moz-box-shadow:3px -3px 3px #ebebeb;
+	z-index:99;
+}
+#uc_folder_tabs .uc_tab_content p{
+	line-height:31px;
+	padding:0;
+	margin:0;
+}
+
+
+@media only screen and (max-width: 850px) {
+	#uc_folder_tabs .uc_tab_nav li a{ padding-left:19%; padding-right:19%;}
+}

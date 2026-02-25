@@ -1,0 +1,106 @@
+.uc_material_tabs * {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.uc_material_tabs {
+    position: relative;
+}
+.uc_icon_tabs a{transition: color 0.25s ease 0s, background-color 0.25s ease 0s;} 
+.uc_material_tabs ul.tabs{
+	padding:0px;
+	margin:0px;
+	list-style:none;
+	width:100%;
+	float:left;
+	clear:both;
+	border-bottom:#e5e5e5 2px solid;
+	}
+.uc_material_tabs ul.tabs li{
+	float:left;
+	padding:0px 19px; 
+	margin:0px 0 0 10px;
+    position:relative;
+	bottom:-2px;
+	}
+	
+.uc_material_tabs ul.tabs li a {
+	font-size:13px;
+	font-weight:400;
+	letter-spacing:2px;
+	text-transform:uppercase;		
+	padding: 16px 6px 16px;
+	margin:0;
+	display:block;
+	
+	text-decoration:none;
+	position:relative;
+	}
+.uc_material_tabs ul.tabs li.r-tabs-state-active{ 
+	
+	position:relative;
+	bottom:-2px;
+	}
+.uc_material_tabs ul.tabs li.r-tabs-state-active a{ 
+	
+	border-bottom:#ea088c 2px solid;
+	}
+.uc_material_tabs .tab-container {
+	padding:30px 0 20px ;
+	
+	clear:both;
+	width:100%;
+	overflow:hidden;
+	}
+.uc_material_tabs .tab-container img {
+	float:left;
+	margin: 5px 30px 10px 0;
+	}
+.uc_material_tabs .tab-container p{
+
+	font-size:14px; 
+	line-height:28px;
+	padding:0px 0 10px 0; 
+	margin:0px;	
+	}
+.uc_material_tabs .panes{ display:none;}
+
+@media only screen and (max-width: 775px) 
+{
+    .uc_material_tabs ul.tabs li{ margin:0px 0 0 6px;}
+}
+
+@media only screen and (max-width: 767px) 
+{
+	.uc_material_tabs ul.tabs li{ 
+	   width:100%;
+	   padding:0px;
+	   margin:0px;
+	   text-align:left;
+	   position:relative;
+	   }
+	.uc_material_tabs ul.tabs li a{ 
+	   width:100%;
+	   padding: 15px 10px;
+	    margin:20px 0 !important;
+	   text-align:left;
+	   border-bottom:#fff 2px solid;
+      text-decoration:none !important;
+	   }
+	.uc_material_tabs ul.tabs li.r-tabs-state-active a{
+		color:#4b4b4b;
+		padding:15px 10px;
+       
+		border-bottom:#ea088c 2px solid;
+	   }
+	 .uc_material_tabs ul.tabs li.r-tabs-state-active {
+		width:100%;
+		padding:0px;
+		margin:0px;
+	   }  
+
+   .uc_material_tabs .r-tabs-anchor{ text-decoration:none !important; }
+  .uc_material_tabs .tab-container{ margin-bottom:0px; }
+}

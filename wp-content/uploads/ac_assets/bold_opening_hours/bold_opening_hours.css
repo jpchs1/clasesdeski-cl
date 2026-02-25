@@ -1,0 +1,56 @@
+.uc_bold_opening_hours * {
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.uc_bold_opening_hours .uc_hours_item_container {
+	border: 2px solid #000;
+	background-color: white;
+}
+.uc_bold_opening_hours .uc_hours_item_box:first-child {
+	border-top: none;
+}
+.uc_bold_opening_hours .uc_hours_item_box {
+	padding: 20px;
+	border-top: 2px dashed #dddddd;
+	position: relative;
+}
+.uc_bold_opening_hours .uc_hours_item_box .uc_hours_item_icon {
+	border-radius: 100px;
+	bottom: 20px;
+	font-size: 20px;
+	margin-right: 15px;
+	padding: 5px;
+	position: absolute;
+	text-align: center;
+	top: 20px;
+	width: 29px;
+	color: #ffffff;
+	background: #1fce6d;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.uc_bold_opening_hours .uc_hours_item_box .uc_hours_item_content {
+	margin: 0 0 0 40px;
+}
+.uc_bold_opening_hours .uc_hours_item_box .uc_hours_item_content h5 {
+	font-size: 22px;
+	font-weight: 700;
+	color: #000000;
+	margin: 3px 0 4px;
+	line-height: 1.5em;
+	text-transform: uppercase;
+}
+.uc_bold_opening_hours .uc_hours_item_box .uc_hours_item_content p {
+	margin: 0;
+}
+.uc_bold_opening_hours .uc_hours_item_box .uc_hours_item_content p span {
+	display: block;
+	color: #999999;
+	font-size: 20px;
+	font-weight: 400;
+	line-height: 24px;
+}

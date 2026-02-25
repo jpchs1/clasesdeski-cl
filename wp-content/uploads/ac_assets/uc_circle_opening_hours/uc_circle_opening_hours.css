@@ -1,0 +1,14 @@
+@charset "utf-8";
+/* CSS Document */
+
+.uc_circle_opening_hours *{
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;}
+ 
+.clear{ clear:both;}
+.uc_circle_opening_hours{ overflow:hidden;}
+.uc_circle_opening_hours_inner{ border:10px solid #000000; max-width:100%; height:203px; padding:25px;font-family: 'Lato', sans-serif; border-radius:50%; position:relative; float:left; margin:5px;}
+.uc_circle_opening_hours .content_box{ position:absolute; left:0px; top:50%; transform:translatey(-50%); width:100%; font-size:16px; text-align:center;}
+.uc_circle_opening_hours h2{font-family: 'Lato', sans-serif; font-size:24px;margin: 10px 0 0;text-align:center}
+.uc_circle_opening_hours p{ margin:15px 0 0 0;}
