@@ -1,0 +1,55 @@
+# robots.txt for clasesdeski.cl
+# Optimized for SEO crawling
+
+User-agent: *
+Allow: /
+
+# Block WordPress admin and login
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+Disallow: /wp-login.php
+
+# Block WordPress includes
+Disallow: /wp-includes/
+
+# Block search results
+Disallow: /?s=
+Disallow: /search/
+
+# Block query string URLs (duplicate content)
+Disallow: /*?replytocom=
+Disallow: /*?add-to-cart=
+
+# Block feeds (optional, uncomment if needed)
+# Disallow: /feed/
+# Disallow: /comments/feed/
+
+# Block trackbacks and pingbacks
+Disallow: /trackback/
+Disallow: /xmlrpc.php
+
+# Block tag pages (thin content)
+Disallow: /tag/
+
+# Block author archives (thin content)
+Disallow: /author/
+
+# Block WP JSON API
+Disallow: /wp-json/
+
+# Block cart and checkout (no index value)
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /mi-cuenta/
+Disallow: /my-account/
+
+# Block cPanel and sensitive directories
+Disallow: /cgi-bin/
+Disallow: /.well-known/
+
+# Sitemap location
+Sitemap: https://www.clasesdeski.cl/sitemap_index.xml
+Sitemap: https://www.clasesdeski.cl/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 10
