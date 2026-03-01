@@ -463,16 +463,17 @@ function cdski_minify_html( $html ) {
 // =====================================================================
 add_action( 'wp_enqueue_scripts', 'cdski_enqueue_form_flow_scripts' );
 function cdski_enqueue_form_flow_scripts() {
-    // Only load on pages that have the calculator form (homepage)
-    if ( is_front_page() || is_home() ) {
-        wp_enqueue_script(
-            'cdski-form-flow',
-            get_stylesheet_directory_uri() . '/js/cdski-form-flow.js',
-            array( 'jquery' ),
-            '1.1.0',
-            true
-        );
-    }
+    // Load on all pages - the JS itself checks for #form_calculadora1
+    // before executing, so it's safe to load globally.
+    // Previously restricted to is_front_page()/is_home() but that
+    // condition fails on some WordPress setups.
+    wp_enqueue_script(
+        'cdski-form-flow',
+        get_stylesheet_directory_uri() . '/js/cdski-form-flow.js',
+        array( 'jquery' ),
+        '1.2.0',
+        true
+    );
 }
 
 // =====================================================================
@@ -480,9 +481,9 @@ function cdski_enqueue_form_flow_scripts() {
 // =====================================================================
 add_action( 'wp_head', 'cdski_booking_summary_styles' );
 function cdski_booking_summary_styles() {
-    if ( ! is_front_page() && ! is_home() ) {
-        return;
-    }
+    // Load on all pages - CSS is lightweight and scoped to #cdski-booking-summary
+    // Previously restricted to is_front_page()/is_home() but that condition
+    // fails on some WordPress setups (e.g. ?page_id=813 static front page).
     ?>
     <style id="cdski-booking-summary-css">
     #cdski-booking-summary {
