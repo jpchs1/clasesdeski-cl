@@ -560,8 +560,8 @@ function cdski_send_booking_emails( $entry_id, $form_id ) {
         return;
     }
 
-    // Get the entry data
-    if ( ! function_exists( 'FrmEntryMeta' ) && ! class_exists( 'FrmEntryMeta' ) ) {
+    // Get the entry data - ensure Formidable Pro classes are available
+    if ( ! class_exists( 'FrmEntry' ) ) {
         return;
     }
 
@@ -882,18 +882,6 @@ function cdski_email_detail_row( $label, $value ) {
     <tr>
         <td style="padding:6px 0;color:#94a3b8;font-size:14px;width:45%;">' . esc_html( $label ) . '</td>
         <td style="padding:6px 0;text-align:right;color:#e2e8f0;font-size:15px;font-weight:600;">' . $value . '</td>
-    </tr>
-    </table>';
-}
-
-/**
- * Helper: build a detail row for the contact section (light background)
- */
-function cdski_email_contact_row( $label, $value ) {
-    return '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-    <tr>
-        <td style="padding:4px 0;color:#64748b;font-size:13px;width:40%;">' . esc_html( $label ) . '</td>
-        <td style="padding:4px 0;text-align:right;color:#1a2332;font-size:14px;font-weight:500;">' . esc_html( $value ) . '</td>
     </tr>
     </table>';
 }
