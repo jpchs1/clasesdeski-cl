@@ -469,7 +469,7 @@ function cdski_enqueue_form_flow_scripts() {
             'cdski-form-flow',
             get_stylesheet_directory_uri() . '/js/cdski-form-flow.js',
             array( 'jquery' ),
-            '1.0.0',
+            '1.1.0',
             true
         );
     }
@@ -545,6 +545,17 @@ function cdski_booking_summary_styles() {
         font-weight: 800 !important;
         color: #f7941d !important;
     }
+    /* Hide Quantity and Product (WooCommerce) fields on page 2 */
+    #form_calculadora1 .frm_form_field input[name="item_meta[60]"],
+    #form_calculadora1 .frm_form_field select[name="item_meta[61]"],
+    #form_calculadora1 .frm_form_field select[name="item_meta[62]"] {
+        display: none !important;
+    }
+    #frm_field_60_container,
+    #frm_field_61_container,
+    #frm_field_62_container {
+        display: none !important;
+    }
     </style>
     <?php
 }
@@ -578,15 +589,23 @@ function cdski_send_booking_emails( $entry_id, $form_id ) {
     $precio       = isset( $metas[19] ) ? $metas[19] : '';
     $precio_desc  = isset( $metas[20] ) ? $metas[20] : '';
 
-    // Page 2 fields - contact / booking info
-    $nombre       = isset( $metas[24] ) ? $metas[24] : '';
-    $email_client = isset( $metas[34] ) ? $metas[34] : '';
-    $telefono     = isset( $metas[32] ) ? $metas[32] : '';
-    $fecha        = isset( $metas[33] ) ? $metas[33] : '';
-    $centro_ski   = isset( $metas[36] ) ? $metas[36] : '';
-    $nivel        = isset( $metas[37] ) ? $metas[37] : '';
-    $comentarios  = isset( $metas[35] ) ? $metas[35] : '';
-    $disciplina   = isset( $metas[60] ) ? $metas[60] : '';
+    // Page 2 fields - contact / booking info (verified from live site)
+    // 24=Fecha, 27=Tomo conocimiento, 32=Nombre, 33=Apellido,
+    // 36=Email, 37=Telefono, 60=Quantity(WC), 61=Product(WC), 62=Product(WC)
+    $fecha        = isset( $metas[24] ) ? $metas[24] : '';
+    $nombre       = isset( $metas[32] ) ? $metas[32] : '';
+    $apellido     = isset( $metas[33] ) ? $metas[33] : '';
+    $email_client = isset( $metas[36] ) ? $metas[36] : '';
+    $telefono     = isset( $metas[37] ) ? $metas[37] : '';
+    $comentarios  = '';
+    $centro_ski   = '';
+    $nivel        = '';
+    $disciplina   = '';
+
+    // Combine nombre + apellido
+    if ( ! empty( $apellido ) ) {
+        $nombre = trim( $nombre . ' ' . $apellido );
+    }
 
     // If email_client is empty, try other fields that might hold email
     if ( empty( $email_client ) ) {

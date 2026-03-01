@@ -4,6 +4,18 @@
  * Captures page 1 data (persons, modality, price) from the Formidable Forms
  * multi-page calculator form (form_id=2, key=calculadora1) and displays
  * a styled summary card when page 2 (Agendar Clases) loads via AJAX.
+ * Also hides the Quantity and duplicate Product fields on page 2.
+ *
+ * Page 2 field IDs (verified from live site):
+ *   item_meta[24] = Fecha (date picker)
+ *   item_meta[27] = Tomo conocimiento de (checkboxes)
+ *   item_meta[32] = Nombre
+ *   item_meta[33] = Apellido
+ *   item_meta[36] = Email
+ *   item_meta[37] = Telefono
+ *   item_meta[60] = Quantity   (WooCommerce - HIDE)
+ *   item_meta[61] = Product    (WooCommerce - HIDE)
+ *   item_meta[62] = Product    (WooCommerce - HIDE)
  *
  * Important: Formidable replaces the entire fieldset content via AJAX
  * when changing pages, so we must store data BEFORE the page swap.
@@ -63,7 +75,7 @@
     /* ── build the summary card HTML ───────────────────────── */
 
     function buildSummaryHTML(d) {
-        return '<div id="cdski-booking-summary">' +
+        return '<div id="cdski-booking-summary" class="frm_form_field">' +
             '<div class="cdski-summary-header">' +
                 '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
                 '<path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>' +
@@ -91,6 +103,31 @@
         '</div>';
     }
 
+    /* ── hide Quantity and Product fields on page 2 ────────── */
+
+    function hideQuantityAndProductFields() {
+        var form = document.getElementById('form_' + FORM_KEY);
+        if (!form) return;
+
+        // Field selectors for Quantity (60), Product (61), Product (62)
+        var fieldsToHide = [
+            'input[name="item_meta[60]"]',
+            'select[name="item_meta[61]"]',
+            'select[name="item_meta[62]"]'
+        ];
+
+        fieldsToHide.forEach(function(selector) {
+            var el = form.querySelector(selector);
+            if (el) {
+                // Walk up to the .frm_form_field container and hide it
+                var container = el.closest('.frm_form_field');
+                if (container) {
+                    container.style.display = 'none';
+                }
+            }
+        });
+    }
+
     /* ── inject the summary card into page 2 ───────────────── */
 
     function injectSummary() {
@@ -112,29 +149,50 @@
         var form = document.getElementById('form_' + FORM_KEY);
         if (!form) return;
 
-        var $form      = $(form);
-        var html       = buildSummaryHTML(data);
+        var html = buildSummaryHTML(data);
 
-        // Formidable replaces the inner fieldset content for page 2.
-        // Insert the summary card before the first visible form field.
-        var $firstField = $form.find('.frm_form_field:visible').first();
-        if ($firstField.length) {
-            $firstField.before(html);
-        } else {
-            // Fallback: prepend inside fieldset
-            var $fieldset = $form.find('fieldset');
-            if ($fieldset.length) {
-                // Insert after the rootline/progress bar if it exists
-                var $rootline = $fieldset.find('.frm_rootline_group, .frm_page_bar');
-                if ($rootline.length) {
-                    $rootline.last().after(html);
-                } else {
-                    $fieldset.prepend(html);
-                }
+        // Look for page 2 indicator: the date field (item_meta[24])
+        var dateField = form.querySelector('input[name="item_meta[24]"]');
+        if (dateField) {
+            var dateContainer = dateField.closest('.frm_form_field');
+            if (dateContainer) {
+                dateContainer.insertAdjacentHTML('beforebegin', html);
+                summaryInjected = true;
+                return;
             }
         }
 
-        summaryInjected = true;
+        // Fallback: insert before the first visible field on page 2
+        var $form = $(form);
+        var $firstField = $form.find('.frm_form_field:visible').first();
+        if ($firstField.length) {
+            $firstField.before(html);
+            summaryInjected = true;
+            return;
+        }
+
+        // Last fallback: prepend inside fieldset after progress bar
+        var $fieldset = $form.find('fieldset');
+        if ($fieldset.length) {
+            var $rootline = $fieldset.find('.frm_rootline_group, .frm_page_bar');
+            if ($rootline.length) {
+                $rootline.last().after(html);
+            } else {
+                $fieldset.prepend(html);
+            }
+            summaryInjected = true;
+        }
+    }
+
+    /* ── handle page 2 load ───────────────────────────────── */
+
+    function onPage2Loaded() {
+        summaryInjected = false;
+        // Always hide Quantity/Product fields and inject summary
+        setTimeout(function() {
+            hideQuantityAndProductFields();
+            injectSummary();
+        }, 200);
     }
 
     /* ── event listeners ───────────────────────────────────── */
@@ -157,17 +215,13 @@
         );
 
         // 3. Formidable fires frmPageChanged after AJAX page swap completes
-        $(document).on('frmPageChanged', function() {
-            summaryInjected = false;
-            setTimeout(injectSummary, 200);
-        });
+        $(document).on('frmPageChanged', onPage2Loaded);
 
         // 4. Backup: intercept any AJAX completion for our form
         $(document).ajaxComplete(function(event, xhr, settings) {
             if (settings && settings.data && typeof settings.data === 'string' &&
                 settings.data.indexOf('form_id=' + FORM_ID) > -1) {
-                summaryInjected = false;
-                setTimeout(injectSummary, 300);
+                onPage2Loaded();
             }
         });
 
@@ -176,7 +230,10 @@
             var observer = new MutationObserver(function() {
                 var finalBtn = form.querySelector('.frm_final_submit');
                 if (finalBtn && !summaryInjected) {
-                    setTimeout(injectSummary, 150);
+                    setTimeout(function() {
+                        hideQuantityAndProductFields();
+                        injectSummary();
+                    }, 150);
                 }
             });
             observer.observe(form, { childList: true, subtree: true });
@@ -184,6 +241,11 @@
 
         // Capture initial data on page load
         capturePageOneData();
+
+        // If already on page 2 (e.g. page loaded with frm_page=2), handle immediately
+        if (form && form.querySelector('input[name="item_meta[24]"]')) {
+            onPage2Loaded();
+        }
     }
 
     /* ── bootstrap ─────────────────────────────────────────── */
