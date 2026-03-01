@@ -5,9 +5,1071 @@
  Author:       Axiomthemes
  Author URI:   http://axiomthemes.com/
  Template:     mounthood
- Version:      1.0
+ Version:      1.1
  License:      GNU General Public License v2 or later
  License URI:  http://www.gnu.org/licenses/gpl-2.0.html
  Tags:         flexible-header, custom-background, custom-colors, custom-header, custom-menu, featured-image-header, featured-images, full-width-template, microformats, post-formats, theme-options, threaded-comments, translation-ready
  Text Domain:  mounthood-child
 */
+
+/* ==========================================================================
+   RESPONSIVE FIXES - clasesdeski.cl
+   Comprehensive mobile/tablet responsive overrides
+   ========================================================================== */
+
+/* ------------------------------------------------------------------
+   GLOBAL: Prevent horizontal overflow on all devices
+   ------------------------------------------------------------------ */
+html,
+body {
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ------------------------------------------------------------------
+   TABLET (max-width: 1024px)
+   ------------------------------------------------------------------ */
+@media (max-width: 1024px) {
+
+    /* --- Header / Navigation --- */
+    .top_panel_navi_wrap .menu_main_nav_area,
+    .top_panel_navi_wrap .menu_main_nav {
+        display: none !important;
+    }
+
+    .header_mobile {
+        display: block !important;
+    }
+
+    .top_panel_navi_wrap .content_wrap {
+        padding: 0 15px;
+    }
+
+    /* Inner pages header - force mobile layout */
+    .top_panel_style_2 .top_panel_wrap .content_wrap,
+    .top_panel_style_3 .top_panel_wrap .content_wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 15px;
+    }
+
+    .top_panel_style_2 .menu_main_nav_area,
+    .top_panel_style_3 .menu_main_nav_area {
+        display: none !important;
+    }
+
+    /* Page title / breadcrumbs */
+    .top_panel_title .content_wrap {
+        padding: 20px 15px;
+    }
+
+    .top_panel_title h1 {
+        font-size: 1.8em;
+    }
+
+    /* --- Content sections --- */
+    .content_wrap {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 15px;
+        padding-right: 15px;
+        box-sizing: border-box;
+    }
+
+    /* Fix VC rows full width */
+    .vc_row[data-vc-full-width="true"] {
+        max-width: 100vw !important;
+        overflow: hidden;
+    }
+
+    /* Columns stack on tablet */
+    .columns_wrap > [class*="column-1_3"],
+    .columns_wrap > [class*="column-1_4"],
+    .columns_wrap > [class*="column-2_3"] {
+        width: 100% !important;
+        margin-right: 0 !important;
+        margin-bottom: 20px;
+    }
+
+    .columns_wrap > [class*="column-1_2"] {
+        width: 100% !important;
+        margin-right: 0 !important;
+        margin-bottom: 20px;
+    }
+
+    /* --- Footer --- */
+    .footer_wrap .columns_wrap > [class*="column-"] {
+        width: 100% !important;
+        margin-bottom: 20px;
+    }
+
+    .copyright_wrap .content_wrap {
+        text-align: center;
+    }
+
+    .copyright_wrap .copyright_style_menu .menu_footer_nav {
+        text-align: center;
+    }
+
+    /* Services cards */
+    .sc_services_style_services-2 .sc_services_columns .column-1_3 {
+        width: 50% !important;
+    }
+
+    /* Price blocks */
+    .sc_price_block {
+        margin-bottom: 20px;
+    }
+
+    /* Estadias/Airbnb section */
+    .elementor-widget-wrap .elementor-element {
+        width: 100% !important;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   MOBILE (max-width: 767px)
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+
+    /* --- Announcement bar --- */
+    .top_panel_style_7 .top_panel_wrap,
+    .top-bar,
+    [class*="top_panel"] .top_panel_top {
+        font-size: 12px;
+        padding: 6px 10px;
+        text-align: center;
+        line-height: 1.4;
+    }
+
+    /* --- Header Mobile --- */
+    .header_mobile .content_wrap {
+        padding: 0 10px;
+    }
+
+    .header_mobile .logo {
+        max-width: 70%;
+    }
+
+    .header_mobile .logo img,
+    .header_mobile .logo_main {
+        max-height: 50px;
+        width: auto;
+    }
+
+    .header_mobile .logo_text {
+        font-size: 0.85em;
+        line-height: 1.3;
+    }
+
+    .top_panel_navi_wrap .logo_slogan {
+        font-size: 10px;
+        line-height: 1.3;
+        display: block;
+        max-width: 200px;
+    }
+
+    /* Menu button and cart icon */
+    .header_mobile .menu_button,
+    .header_mobile .menu_main_cart {
+        font-size: 1.2em;
+    }
+
+    .header_mobile .side_wrap {
+        width: 85%;
+    }
+
+    /* --- Hero Slider (Revolution Slider) --- */
+    rs-module-wrap,
+    .rev_slider_wrapper {
+        width: 100% !important;
+        max-width: 100vw !important;
+        left: 0 !important;
+    }
+
+    rs-module,
+    .rev_slider {
+        width: 100% !important;
+        max-width: 100vw !important;
+    }
+
+    rs-fullwidth-wrap {
+        width: 100% !important;
+        max-width: 100vw !important;
+        left: 0 !important;
+        margin-left: 0 !important;
+    }
+
+    .tp-caption {
+        font-size: 70% !important;
+    }
+
+    /* Slider CTA buttons */
+    rs-layer a.sc_button,
+    .tp-caption a.sc_button {
+        font-size: 12px !important;
+        padding: 8px 16px !important;
+        margin-bottom: 6px !important;
+    }
+
+    /* --- Page Title Header --- */
+    .top_panel_title {
+        padding: 15px 0;
+        min-height: auto !important;
+    }
+
+    .top_panel_title h1 {
+        font-size: 1.6em;
+        line-height: 1.2;
+    }
+
+    .breadcrumbs {
+        font-size: 12px;
+    }
+
+    /* --- Content sections --- */
+    .page_content_wrap {
+        padding: 20px 0;
+    }
+
+    .content_wrap {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    /* Fix any section that overflows */
+    section,
+    .vc_row,
+    .wpb_row,
+    .vc_section,
+    .elementor-section,
+    .sc_section {
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+
+    /* --- Typography adjustments --- */
+    h1 {
+        font-size: 1.8em !important;
+        line-height: 1.2 !important;
+    }
+
+    h2 {
+        font-size: 1.5em !important;
+        line-height: 1.2 !important;
+    }
+
+    h3 {
+        font-size: 1.2em !important;
+        line-height: 1.3 !important;
+    }
+
+    h4 {
+        font-size: 1.1em !important;
+    }
+
+    /* Section titles */
+    .sc_section_title h2,
+    .sc_title {
+        font-size: 1.4em !important;
+        word-wrap: break-word;
+    }
+
+    /* --- Columns stacking --- */
+    .columns_wrap > [class*="column-"] {
+        width: 100% !important;
+        float: none !important;
+        margin-right: 0 !important;
+        margin-bottom: 20px;
+    }
+
+    .columns_wrap {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* VC columns */
+    .vc_col-sm-6,
+    .vc_col-sm-4,
+    .vc_col-sm-3,
+    .vc_col-sm-8,
+    .vc_col-sm-2 {
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* Elementor columns */
+    .elementor-col-33,
+    .elementor-col-25,
+    .elementor-col-50,
+    .elementor-col-66 {
+        width: 100% !important;
+    }
+
+    .elementor-row,
+    .elementor-widget-wrap {
+        flex-wrap: wrap !important;
+    }
+
+    .elementor-column {
+        width: 100% !important;
+    }
+
+    /* --- "Que Ofrecemos" Section --- */
+    .sc_services .columns_wrap > [class*="column-"] {
+        width: 100% !important;
+    }
+
+    .sc_services_item {
+        margin-bottom: 25px;
+    }
+
+    .sc_services_style_services-2 .sc_services_columns .column-1_3 {
+        width: 100% !important;
+    }
+
+    /* Three icon boxes row */
+    .sc_icons .columns_wrap > [class*="column-"] {
+        width: 100% !important;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .sc_icons .sc_icons_item {
+        display: block;
+        text-align: center;
+    }
+
+    /* --- Calculator / Form Section --- */
+    .frm_forms,
+    .frm_form_fields {
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .frm_forms .frm_radio label,
+    .frm_forms .frm_checkbox label {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .frm_forms .frm_radio .frm_image_option {
+        width: 100px;
+        margin: 5px;
+    }
+
+    .frm_forms .frm_radio .frm_image_option img {
+        max-width: 80px;
+        height: auto;
+    }
+
+    .frm_forms fieldset {
+        padding: 10px !important;
+    }
+
+    .frm_forms .frm_submit button,
+    .frm_forms .frm_submit input[type="submit"] {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    /* --- CTA / Promo sections --- */
+    .sc_promo .sc_promo_block {
+        min-width: 100% !important;
+        padding: 20px !important;
+    }
+
+    .sc_promo .sc_promo_image {
+        min-width: 100% !important;
+        height: 200px !important;
+    }
+
+    .sc_call_to_action .sc_call_to_action_descr {
+        font-size: 1em;
+        padding: 0 10px;
+    }
+
+    .sc_call_to_action .sc_button {
+        margin-top: 15px;
+    }
+
+    /* --- Counters / Stats --- */
+    .sc_skills_counter .columns_wrap > [class*="column-"] {
+        width: 33.333% !important;
+        float: left !important;
+        text-align: center;
+    }
+
+    .sc_skills_counter .sc_skills_item .sc_skills_total {
+        font-size: 2em;
+    }
+
+    .sc_skills_counter .sc_skills_item .sc_skills_label {
+        font-size: 0.8em;
+    }
+
+    /* --- Shop / Products Grid --- */
+    .woocommerce ul.products li.product,
+    .woocommerce-page ul.products li.product {
+        width: 48% !important;
+        margin-right: 4% !important;
+        margin-bottom: 20px;
+    }
+
+    .woocommerce ul.products li.product:nth-child(2n) {
+        margin-right: 0 !important;
+    }
+
+    .woocommerce ul.products li.product:nth-child(2n+1) {
+        clear: left;
+    }
+
+    .sc_scroll_horizontal .sc_blogger .isotope_item,
+    .sc_scroll_horizontal .sc_blogger [class*=column-] {
+        width: 280px;
+    }
+
+    /* --- Contact Form / Booking Form --- */
+    .wpcf7 {
+        padding: 15px !important;
+    }
+
+    .wpcf7 .wpcf7-form p {
+        margin-bottom: 10px;
+    }
+
+    .wpcf7 input[type="text"],
+    .wpcf7 input[type="email"],
+    .wpcf7 input[type="tel"],
+    .wpcf7 textarea,
+    .wpcf7 select {
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    .wpcf7 .wpcf7-submit {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    /* Accommodation booking form row */
+    .wpcf7 .columns_wrap > [class*="column-"] {
+        width: 100% !important;
+        margin-bottom: 10px;
+    }
+
+    /* Select dropdowns side by side */
+    .wpcf7 .wpcf7-form-control-wrap select {
+        width: 100%;
+    }
+
+    /* --- Blog Carousel Section --- */
+    .sc_blogger_slider .swiper-slide,
+    .sc_blogger .isotope_item {
+        width: 260px !important;
+    }
+
+    .sc_blogger .post_title {
+        font-size: 0.95em;
+    }
+
+    /* --- Testimonials / Reviews Section --- */
+    .sc_testimonials .swiper-slide {
+        padding: 15px;
+    }
+
+    .sc_testimonial_content {
+        font-size: 1em;
+    }
+
+    .sc_testimonial_author {
+        font-size: 0.85em;
+    }
+
+    /* Client reviews carousel (custom Swiper) */
+    .swiper-container,
+    .swiper {
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .swiper-wrapper {
+        width: 100%;
+    }
+
+    .swiper-slide {
+        flex-shrink: 0;
+    }
+
+    /* Review cards */
+    .glsr-review,
+    .site-reviews .glsr-review {
+        padding: 15px !important;
+    }
+
+    .glsr-review .glsr-review-title {
+        font-size: 1em;
+    }
+
+    /* --- Estadias / Airbnb Cards --- */
+    .elementor-widget-image-carousel .swiper-slide img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Make Airbnb listings stack */
+    .elementor-section .elementor-container .elementor-row {
+        flex-wrap: wrap !important;
+    }
+
+    /* --- Price Blocks --- */
+    .sc_price_block {
+        margin-bottom: 25px;
+        width: 100% !important;
+    }
+
+    .sc_price_block .sc_price_block_money {
+        font-size: 2em;
+    }
+
+    /* --- Footer --- */
+    .footer_wrap {
+        padding: 20px 0;
+    }
+
+    .footer_wrap .columns_wrap > [class*="column-"] {
+        width: 100% !important;
+        float: none !important;
+        margin-bottom: 20px;
+        padding: 15px !important;
+    }
+
+    .footer_wrap .widget_title,
+    .footer_wrap h5 {
+        font-size: 1.1em;
+    }
+
+    /* Footer social icons */
+    .footer_wrap .sc_socials a {
+        margin: 0 5px;
+    }
+
+    /* --- Copyright / Bottom Bar --- */
+    .copyright_wrap {
+        padding: 15px 10px;
+    }
+
+    .copyright_wrap .content_wrap {
+        text-align: center;
+    }
+
+    .copyright_style_menu .menu_footer_nav {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .copyright_style_menu .menu_footer_nav li {
+        display: inline-block;
+        margin: 3px 5px;
+    }
+
+    .copyright_style_text {
+        text-align: center;
+        font-size: 12px;
+    }
+
+    /* --- WhatsApp Button --- */
+    .wa-chat-box-content-send-btn-wrap,
+    .floating-wpp,
+    .wa__btn_popup {
+        bottom: 15px !important;
+        right: 15px !important;
+    }
+
+    /* Scroll to top */
+    .scroll_to_top {
+        right: 10px !important;
+        bottom: 70px !important;
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 14px;
+    }
+
+    /* --- Misc / Utility --- */
+    .margin_top_large {
+        margin-top: 20px !important;
+    }
+
+    .margin_bottom_large {
+        margin-bottom: 20px !important;
+    }
+
+    .padding_top_large {
+        padding-top: 20px !important;
+    }
+
+    .padding_bottom_large {
+        padding-bottom: 20px !important;
+    }
+
+    /* Inline videos */
+    iframe,
+    embed,
+    object,
+    video {
+        max-width: 100%;
+    }
+
+    /* Tables responsive */
+    .sc_table {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Email signup / Newsletter */
+    .mc4wp-form .mc4wp-form-fields {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mc4wp-form input[type="email"] {
+        width: 100% !important;
+        margin-bottom: 10px;
+    }
+
+    .mc4wp-form input[type="submit"] {
+        width: 100%;
+    }
+
+    /* Gallery lightbox images */
+    .gallery .gallery-item {
+        width: 50% !important;
+        float: left;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   SMALL MOBILE (max-width: 480px)
+   ------------------------------------------------------------------ */
+@media (max-width: 480px) {
+
+    /* Tighter header */
+    .header_mobile .panel_middle {
+        padding: 5px 0;
+    }
+
+    .header_mobile .content_wrap {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .top_panel_navi_wrap .logo_slogan {
+        font-size: 9px;
+        max-width: 160px;
+    }
+
+    /* Hero slider text smaller */
+    .tp-caption {
+        font-size: 55% !important;
+    }
+
+    rs-layer a.sc_button,
+    .tp-caption a.sc_button {
+        font-size: 10px !important;
+        padding: 6px 12px !important;
+    }
+
+    /* Typography even smaller */
+    h1 {
+        font-size: 1.5em !important;
+    }
+
+    h2 {
+        font-size: 1.3em !important;
+    }
+
+    h3 {
+        font-size: 1.1em !important;
+    }
+
+    /* Counter stats: stack vertical */
+    .sc_skills_counter .columns_wrap > [class*="column-"] {
+        width: 100% !important;
+        float: none !important;
+        margin-bottom: 15px;
+    }
+
+    /* Products: single column */
+    .woocommerce ul.products li.product,
+    .woocommerce-page ul.products li.product {
+        width: 100% !important;
+        margin-right: 0 !important;
+    }
+
+    /* Gallery single column */
+    .gallery .gallery-item {
+        width: 100% !important;
+        float: none;
+    }
+
+    /* Form radio images even smaller */
+    .frm_forms .frm_radio .frm_image_option {
+        width: 80px;
+    }
+
+    .frm_forms .frm_radio .frm_image_option img {
+        max-width: 60px;
+    }
+
+    /* Calculator form tighter */
+    .frm_forms .frm_fields_container .frm_form_field {
+        margin-bottom: 10px;
+    }
+
+    /* Footer compact */
+    .footer_wrap .columns_wrap > [class*="column-"] {
+        padding: 10px !important;
+    }
+
+    /* Copyright */
+    .copyright_style_menu .menu_footer_nav li {
+        margin: 2px 3px;
+        font-size: 11px;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   LANDSCAPE PHONES (special case)
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) and (orientation: landscape) {
+
+    /* Two-column products in landscape */
+    .woocommerce ul.products li.product,
+    .woocommerce-page ul.products li.product {
+        width: 48% !important;
+        margin-right: 4% !important;
+    }
+
+    .woocommerce ul.products li.product:nth-child(2n) {
+        margin-right: 0 !important;
+    }
+
+    /* Counter stats row in landscape */
+    .sc_skills_counter .columns_wrap > [class*="column-"] {
+        width: 33.333% !important;
+        float: left !important;
+    }
+
+    /* Gallery two columns */
+    .gallery .gallery-item {
+        width: 50% !important;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   INNER PAGES - Specific responsive fixes
+   ------------------------------------------------------------------ */
+
+/* --- Servicios page --- */
+@media (max-width: 767px) {
+    /* Service cards grid */
+    .sc_services .sc_services_columns .column-1_3,
+    .sc_services .sc_services_columns .column-1_2 {
+        width: 100% !important;
+        margin-bottom: 20px;
+    }
+
+    .sc_services_item .sc_services_item_featured_left,
+    .sc_services_item .sc_services_item_featured_right {
+        float: none;
+        width: 100%;
+        margin: 0 0 15px 0;
+    }
+
+    /* Price plan cards stack */
+    .sc_price_block_wrap .columns_wrap > [class*="column-"] {
+        width: 100% !important;
+    }
+
+    /* Single service page */
+    .single-services .sidebar_show .content,
+    .single-services .sidebar {
+        width: 100% !important;
+        float: none !important;
+        padding: 0 !important;
+    }
+}
+
+/* --- Clases page --- */
+@media (max-width: 767px) {
+    /* Text content sections */
+    .sc_section .sc_section_inner {
+        padding: 15px !important;
+    }
+
+    /* Numbered sections */
+    .sc_section .sc_section_number {
+        font-size: 3em;
+    }
+
+    /* CTA boxes side by side become stacked */
+    .sc_promo.sc_promo_size_small .sc_promo_block {
+        min-width: 100% !important;
+        margin: 0 0 15px 0 !important;
+    }
+
+    /* Info boxes at bottom */
+    .sc_icons .sc_icons_item {
+        margin-bottom: 20px;
+    }
+}
+
+/* --- Nosotros page --- */
+@media (max-width: 767px) {
+    .sc_team .columns_wrap > [class*="column-"] {
+        width: 100% !important;
+        margin-bottom: 20px;
+    }
+
+    .sc_team_item {
+        text-align: center;
+    }
+}
+
+/* --- Shop page --- */
+@media (max-width: 767px) {
+    .woocommerce .woocommerce-ordering,
+    .woocommerce .woocommerce-result-count {
+        float: none;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .woocommerce .woocommerce-ordering select {
+        width: 100%;
+    }
+
+    /* Product single page */
+    .woocommerce div.product .woocommerce-product-gallery,
+    .woocommerce div.product .summary {
+        width: 100% !important;
+        float: none !important;
+    }
+
+    .woocommerce div.product .woocommerce-product-gallery {
+        margin-bottom: 20px;
+    }
+
+    /* Cart table responsive */
+    .woocommerce table.cart,
+    .woocommerce-page table.cart {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+/* --- Blog page --- */
+@media (max-width: 767px) {
+    .blog .content_wrap,
+    .archive .content_wrap {
+        padding: 15px !important;
+    }
+
+    .post_item {
+        margin-bottom: 25px;
+    }
+
+    .post_item .post_featured img {
+        width: 100%;
+        height: auto;
+    }
+
+    .post_item .post_title {
+        font-size: 1.2em;
+    }
+
+    /* Single post */
+    .single .content_wrap .content,
+    .single .content_wrap .sidebar {
+        width: 100% !important;
+        float: none !important;
+    }
+
+    .post_item_single .post_content img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* --- Experiencias page --- */
+@media (max-width: 767px) {
+    .tribe-events-list .tribe-events-event-image {
+        width: 100%;
+        float: none;
+        margin: 0 0 15px 0;
+    }
+
+    .tribe-events-list .tribe-events-content {
+        padding: 0;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   FIX: Revolution Slider container forcing narrow width
+   This is the main issue causing the black bar on the right
+   ------------------------------------------------------------------ */
+@media (max-width: 1024px) {
+    rs-fullwidth-wrap {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        left: 50% !important;
+        transform: translateX(-50%);
+        margin-left: 0 !important;
+    }
+
+    rs-module-wrap {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    rs-module {
+        width: 100% !important;
+    }
+
+    /* Prevent body overflow from slider */
+    .page_wrap,
+    .body_wrap {
+        overflow-x: hidden;
+        max-width: 100vw;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   FIX: Full-width sections on mobile
+   Ensure VC and Elementor full-width rows span correctly
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+    .vc_row[data-vc-full-width="true"],
+    .vc_row-fluid,
+    .elementor-section-full_width {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+    }
+
+    .vc_row[data-vc-stretch-content="true"] > .wpb_column > .vc_column-inner {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   FIX: Top announcement bar on mobile
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+    .top_panel_style_7 .top_panel_wrap .top_panel_top,
+    .topbar-wrap,
+    .top_panel_top_wrap {
+        font-size: 11px;
+        line-height: 1.4;
+        padding: 5px 10px;
+    }
+
+    .top_panel_top_wrap .content_wrap {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .top_panel_top_wrap a.sc_button {
+        font-size: 11px !important;
+        padding: 3px 8px !important;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   FIX: Swiper carousels overflow
+   ------------------------------------------------------------------ */
+.swiper-container,
+.swiper {
+    overflow: hidden;
+    max-width: 100%;
+}
+
+/* ------------------------------------------------------------------
+   FIX: Image galleries and carousels on mobile
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+    .sc_slider_swiper .swiper-slide img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+    /* Fancy box / lightbox gallery */
+    .fancybox-slide {
+        padding: 10px !important;
+    }
+
+    /* Image inside elementor */
+    .elementor-widget-image img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Slider navigation arrows */
+    .sc_slider_controls_wrap a,
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 14px !important;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   PRINT STYLES
+   ------------------------------------------------------------------ */
+@media print {
+    .header_mobile,
+    .top_panel_navi_wrap,
+    .scroll_to_top,
+    .wa-chat-box,
+    .floating-wpp,
+    footer {
+        display: none !important;
+    }
+
+    body {
+        font-size: 12pt;
+    }
+
+    .content_wrap {
+        width: 100% !important;
+        padding: 0 !important;
+    }
+}
