@@ -1052,6 +1052,32 @@ img {
 
 
 /* ------------------------------------------------------------------
+   HIDE WooCommerce Quantity/Product fields on Formidable page 2
+   These fields (60, 61, 62) should not be visible to users.
+   Using multiple selector strategies for maximum compatibility.
+   ------------------------------------------------------------------ */
+#frm_field_60_container,
+#frm_field_61_container,
+#frm_field_62_container {
+    display: none !important;
+}
+
+/* Target by field name attribute - broader selectors */
+.frm_form_field input[name="item_meta[60]"],
+.frm_form_field select[name="item_meta[61]"],
+.frm_form_field select[name="item_meta[62]"] {
+    display: none !important;
+}
+
+/* Target parent containers using label text matching */
+.frm_form_field[id*="frm_field_60"],
+.frm_form_field[id*="frm_field_61"],
+.frm_form_field[id*="frm_field_62"] {
+    display: none !important;
+}
+
+
+/* ------------------------------------------------------------------
    PRINT STYLES
    ------------------------------------------------------------------ */
 @media print {
