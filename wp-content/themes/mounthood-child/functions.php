@@ -457,3 +457,443 @@ function cdski_minify_html( $html ) {
     $html = preg_replace( '/^\s+/m', '', $html );
     return $html;
 }
+
+// =====================================================================
+// 26. ENQUEUE FORM FLOW SCRIPT (calculator -> booking summary)
+// =====================================================================
+add_action( 'wp_enqueue_scripts', 'cdski_enqueue_form_flow_scripts' );
+function cdski_enqueue_form_flow_scripts() {
+    // Only load on pages that have the calculator form (homepage)
+    if ( is_front_page() || is_home() ) {
+        wp_enqueue_script(
+            'cdski-form-flow',
+            get_stylesheet_directory_uri() . '/js/cdski-form-flow.js',
+            array( 'jquery' ),
+            '1.0.0',
+            true
+        );
+    }
+}
+
+// =====================================================================
+// 27. INLINE CSS FOR BOOKING SUMMARY CARD
+// =====================================================================
+add_action( 'wp_head', 'cdski_booking_summary_styles' );
+function cdski_booking_summary_styles() {
+    if ( ! is_front_page() && ! is_home() ) {
+        return;
+    }
+    ?>
+    <style id="cdski-booking-summary-css">
+    #cdski-booking-summary {
+        background: linear-gradient(135deg, #1a2332 0%, #2d3e50 100%);
+        border-radius: 16px;
+        padding: 0;
+        margin: 0 0 28px 0;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        color: #fff;
+    }
+    .cdski-summary-header {
+        background: linear-gradient(135deg, #f7941d 0%, #f15a22 100%);
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+    }
+    .cdski-summary-header svg {
+        flex-shrink: 0;
+    }
+    .cdski-summary-body {
+        padding: 20px 24px 24px;
+    }
+    .cdski-summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+    }
+    .cdski-summary-label {
+        color: #94a3b8;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .cdski-summary-value {
+        font-size: 15px;
+        font-weight: 600;
+        color: #e2e8f0;
+    }
+    .cdski-summary-divider {
+        height: 1px;
+        background: rgba(255,255,255,0.1);
+        margin: 10px 0;
+    }
+    .cdski-price-strike {
+        text-decoration: line-through;
+        color: #94a3b8 !important;
+        font-size: 14px !important;
+    }
+    .cdski-summary-total {
+        padding-top: 4px;
+    }
+    .cdski-price-final {
+        font-size: 22px !important;
+        font-weight: 800 !important;
+        color: #f7941d !important;
+    }
+    </style>
+    <?php
+}
+
+// =====================================================================
+// 28. FORMIDABLE FORMS: CUSTOM EMAIL ON SUBMISSION (form_id = 2)
+//     Sends modern HTML email to both client and admin
+// =====================================================================
+add_action( 'frm_after_create_entry', 'cdski_send_booking_emails', 30, 2 );
+function cdski_send_booking_emails( $entry_id, $form_id ) {
+    // Only for form id 2 (calculadora1)
+    if ( (int) $form_id !== 2 ) {
+        return;
+    }
+
+    // Get the entry data
+    if ( ! function_exists( 'FrmEntryMeta' ) && ! class_exists( 'FrmEntryMeta' ) ) {
+        return;
+    }
+
+    $entry = FrmEntry::getOne( $entry_id, true );
+    if ( ! $entry ) {
+        return;
+    }
+
+    $metas = $entry->metas;
+
+    // Field mappings (from form analysis)
+    $personas     = isset( $metas[17] ) ? $metas[17] : '';
+    $plan         = isset( $metas[16] ) ? $metas[16] : '';
+    $precio       = isset( $metas[19] ) ? $metas[19] : '';
+    $precio_desc  = isset( $metas[20] ) ? $metas[20] : '';
+
+    // Page 2 fields - contact / booking info
+    $nombre       = isset( $metas[24] ) ? $metas[24] : '';
+    $email_client = isset( $metas[34] ) ? $metas[34] : '';
+    $telefono     = isset( $metas[32] ) ? $metas[32] : '';
+    $fecha        = isset( $metas[33] ) ? $metas[33] : '';
+    $centro_ski   = isset( $metas[36] ) ? $metas[36] : '';
+    $nivel        = isset( $metas[37] ) ? $metas[37] : '';
+    $comentarios  = isset( $metas[35] ) ? $metas[35] : '';
+    $disciplina   = isset( $metas[60] ) ? $metas[60] : '';
+
+    // If email_client is empty, try other fields that might hold email
+    if ( empty( $email_client ) ) {
+        // Check all metas for something that looks like an email
+        foreach ( $metas as $key => $val ) {
+            if ( is_string( $val ) && is_email( $val ) ) {
+                $email_client = $val;
+                break;
+            }
+        }
+    }
+
+    // If nombre is empty, try to build from available fields
+    if ( empty( $nombre ) ) {
+        foreach ( $metas as $key => $val ) {
+            if ( is_string( $val ) && strlen( $val ) > 2 && strlen( $val ) < 100 && ! is_email( $val ) && ! is_numeric( $val ) && $key > 20 ) {
+                $nombre = $val;
+                break;
+            }
+        }
+    }
+
+    // Format prices
+    $precio_fmt      = '$' . number_format( (float) $precio, 0, ',', '.' );
+    $precio_desc_fmt = '$' . number_format( (float) $precio_desc, 0, ',', '.' );
+
+    // Map personas to number
+    $personas_map = array( 'Dos' => '2', 'Tres' => '3', 'Cuatro' => '4', 'Cinco' => '5' );
+    $personas_num = isset( $personas_map[ $personas ] ) ? $personas_map[ $personas ] : $personas;
+
+    // Build the modern HTML email
+    $html = cdski_build_email_html( array(
+        'nombre'       => $nombre,
+        'personas'     => $personas,
+        'personas_num' => $personas_num,
+        'plan'         => $plan,
+        'precio'       => $precio_fmt,
+        'precio_desc'  => $precio_desc_fmt,
+        'email'        => $email_client,
+        'telefono'     => $telefono,
+        'fecha'        => $fecha,
+        'centro_ski'   => $centro_ski,
+        'nivel'        => $nivel,
+        'comentarios'  => $comentarios,
+        'disciplina'   => $disciplina,
+        'entry_id'     => $entry_id,
+        'all_metas'    => $metas,
+    ) );
+
+    $subject_admin  = 'Nueva Reserva de Clase #' . $entry_id . ' - ' . esc_html( $nombre ?: 'Cliente' );
+    $subject_client = 'Tu Reserva de Clase con CDSKI - Confirmacion #' . $entry_id;
+
+    $headers = array(
+        'Content-Type: text/html; charset=UTF-8',
+        'From: CDSKI Clases de Ski <info@clasesdeski.cl>',
+        'Reply-To: info@clasesdeski.cl',
+    );
+
+    // Send to admin
+    wp_mail( 'info@clasesdeski.cl', $subject_admin, $html, $headers );
+
+    // Send to client (if we have their email)
+    if ( ! empty( $email_client ) && is_email( $email_client ) ) {
+        wp_mail( $email_client, $subject_client, $html, $headers );
+    }
+}
+
+/**
+ * Build the modern HTML email template
+ */
+function cdski_build_email_html( $data ) {
+    $nombre       = esc_html( $data['nombre'] ?: 'Estimado/a Cliente' );
+    $personas     = esc_html( $data['personas'] );
+    $personas_num = esc_html( $data['personas_num'] );
+    $plan         = esc_html( $data['plan'] );
+    $precio       = esc_html( $data['precio'] );
+    $precio_desc  = esc_html( $data['precio_desc'] );
+    $email        = esc_html( $data['email'] );
+    $telefono     = esc_html( $data['telefono'] );
+    $fecha        = esc_html( $data['fecha'] );
+    $centro_ski   = esc_html( $data['centro_ski'] );
+    $nivel        = esc_html( $data['nivel'] );
+    $comentarios  = esc_html( $data['comentarios'] );
+    $disciplina   = esc_html( $data['disciplina'] );
+    $entry_id     = intval( $data['entry_id'] );
+    $all_metas    = $data['all_metas'];
+    $date_now     = wp_date( 'j \d\e F, Y - H:i', null, new DateTimeZone( 'America/Santiago' ) );
+
+    // Build extra fields row if they have values
+    $extra_rows = '';
+    if ( ! empty( $telefono ) ) {
+        $extra_rows .= cdski_email_detail_row( 'Telefono', $telefono );
+    }
+    if ( ! empty( $email ) ) {
+        $extra_rows .= cdski_email_detail_row( 'Email', $email );
+    }
+    if ( ! empty( $fecha ) ) {
+        $extra_rows .= cdski_email_detail_row( 'Fecha Preferida', $fecha );
+    }
+    if ( ! empty( $centro_ski ) ) {
+        $extra_rows .= cdski_email_detail_row( 'Centro de Ski', $centro_ski );
+    }
+    if ( ! empty( $nivel ) ) {
+        $extra_rows .= cdski_email_detail_row( 'Nivel', $nivel );
+    }
+    if ( ! empty( $disciplina ) && $disciplina !== '1' ) {
+        $extra_rows .= cdski_email_detail_row( 'Disciplina', $disciplina );
+    }
+    if ( ! empty( $comentarios ) ) {
+        $extra_rows .= cdski_email_detail_row( 'Comentarios', $comentarios );
+    }
+
+    // Include any remaining filled non-system meta fields
+    $known_fields = array( 0, 16, 17, 19, 20, 24, 27, 32, 33, 34, 35, 36, 37, 60, 61, 62, 8, 18, 28, 29, 30, 31, 86, 87, 88, 89, 90, 91, 92, 93 );
+    $additional = '';
+    foreach ( $all_metas as $key => $val ) {
+        if ( in_array( (int) $key, $known_fields, true ) ) {
+            continue;
+        }
+        if ( ! empty( $val ) && is_string( $val ) && strlen( $val ) > 0 && strlen( $val ) < 500 ) {
+            $additional .= cdski_email_detail_row( 'Campo #' . $key, esc_html( $val ) );
+        }
+    }
+
+    $html = '<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reserva CDSKI</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f0f2f5;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;">
+
+<!-- Preheader (hidden preview text) -->
+<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">
+    Reserva de Clase #' . $entry_id . ' - ' . $personas_num . ' personas, ' . $plan . ' - ' . $precio_desc . '
+</div>
+
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f0f2f5;">
+<tr><td align="center" style="padding:32px 16px;">
+
+<!-- Main Container -->
+<table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:20px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+
+<!-- Header with gradient -->
+<tr>
+<td style="background:linear-gradient(135deg,#1a2332 0%,#0f4c75 50%,#1a2332 100%);padding:40px 40px 32px;text-align:center;">
+    <img src="https://clasesdeski.cl/wp-content/uploads/2021/10/cdski.svg" alt="CDSKI" width="120" style="max-width:120px;margin-bottom:16px;" />
+    <h1 style="color:#ffffff;font-size:26px;font-weight:800;margin:0 0 8px;letter-spacing:-0.5px;">Reserva de Clase</h1>
+    <p style="color:#94a3b8;font-size:14px;margin:0;">Confirmacion #' . $entry_id . ' &bull; ' . $date_now . '</p>
+</td>
+</tr>
+
+<!-- Greeting -->
+<tr>
+<td style="padding:32px 40px 0;">
+    <p style="color:#1a2332;font-size:17px;margin:0 0 4px;">Hola <strong>' . $nombre . '</strong>,</p>
+    <p style="color:#64748b;font-size:15px;margin:0;line-height:1.6;">
+        Hemos recibido tu solicitud de reserva de clase. A continuacion el detalle de tu pedido:
+    </p>
+</td>
+</tr>
+
+<!-- Class Details Card -->
+<tr>
+<td style="padding:24px 40px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:linear-gradient(135deg,#1a2332 0%,#2d3e50 100%);border-radius:16px;overflow:hidden;">
+    <tr>
+    <td style="background:linear-gradient(135deg,#f7941d 0%,#f15a22 100%);padding:14px 24px;">
+        <p style="color:#ffffff;font-size:15px;font-weight:700;margin:0;">Detalle de la Clase</p>
+    </td>
+    </tr>
+    <tr>
+    <td style="padding:20px 24px 24px;">
+        ' . cdski_email_detail_row( 'Personas', $personas_num . ' (' . $personas . ')' ) . '
+        ' . cdski_email_detail_row( 'Modalidad', $plan ) . '
+        <!-- Divider -->
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr><td style="padding:8px 0;"><div style="height:1px;background:rgba(255,255,255,0.1);"></div></td></tr>
+        </table>
+        ' . cdski_email_detail_row( 'Precio Regular', '<span style="text-decoration:line-through;color:#94a3b8;">' . $precio . '</span>' ) . '
+        <!-- Final Price -->
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td style="padding:6px 0;color:#94a3b8;font-size:14px;">Precio con Descuento</td>
+            <td style="padding:6px 0;text-align:right;">
+                <span style="color:#f7941d;font-size:24px;font-weight:800;">' . $precio_desc . '</span>
+            </td>
+        </tr>
+        </table>
+    </td>
+    </tr>
+    </table>
+</td>
+</tr>';
+
+    // Contact / Additional Info section (if we have any data)
+    if ( ! empty( $extra_rows ) || ! empty( $additional ) ) {
+        $html .= '
+<!-- Contact / Additional Info -->
+<tr>
+<td style="padding:0 40px 24px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f8fafc;border-radius:12px;border:1px solid #e2e8f0;">
+    <tr>
+    <td style="padding:16px 20px 4px;">
+        <p style="color:#1a2332;font-size:14px;font-weight:700;margin:0 0 12px;text-transform:uppercase;letter-spacing:0.5px;">Informacion de Contacto</p>
+    </td>
+    </tr>
+    <tr>
+    <td style="padding:0 20px 16px;">
+        ' . $extra_rows . $additional . '
+    </td>
+    </tr>
+    </table>
+</td>
+</tr>';
+    }
+
+    // Included items
+    $html .= '
+<!-- Whats Included -->
+<tr>
+<td style="padding:0 40px 24px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+    <tr><td style="padding-bottom:12px;"><p style="color:#1a2332;font-size:14px;font-weight:700;margin:0;text-transform:uppercase;letter-spacing:0.5px;">Incluido en tu Clase</p></td></tr>
+    <tr><td style="padding:0 0 6px;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0"><tr>
+        <td style="padding-right:10px;vertical-align:top;color:#22c55e;font-size:16px;">&#10003;</td>
+        <td style="color:#475569;font-size:14px;line-height:1.5;">Ticket y Equipo directamente en el Centro de Ski</td>
+        </tr></table>
+    </td></tr>
+    <tr><td style="padding:0 0 6px;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0"><tr>
+        <td style="padding-right:10px;vertical-align:top;color:#22c55e;font-size:16px;">&#10003;</td>
+        <td style="color:#475569;font-size:14px;line-height:1.5;">Comienzo a las 11:00 hrs por seguridad / condicion de las pistas</td>
+        </tr></table>
+    </td></tr>
+    <tr><td style="padding:0 0 6px;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0"><tr>
+        <td style="padding-right:10px;vertical-align:top;color:#22c55e;font-size:16px;">&#10003;</td>
+        <td style="color:#475569;font-size:14px;line-height:1.5;">Fotos y Videos de experiencia incluidos</td>
+        </tr></table>
+    </td></tr>
+    </table>
+</td>
+</tr>
+
+<!-- CTA Button -->
+<tr>
+<td style="padding:0 40px 32px;" align="center">
+    <a href="https://wa.me/56940211459?text=%C2%A1Hola%20CDSKI!%20Tengo%20la%20reserva%20%23' . $entry_id . '" style="display:inline-block;background:linear-gradient(135deg,#f7941d 0%,#f15a22 100%);color:#ffffff;text-decoration:none;padding:14px 36px;border-radius:50px;font-size:15px;font-weight:700;letter-spacing:0.3px;">
+        Contactar por WhatsApp
+    </a>
+</td>
+</tr>
+
+<!-- Footer -->
+<tr>
+<td style="background:#f8fafc;padding:24px 40px;border-top:1px solid #e2e8f0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+    <tr>
+    <td style="text-align:center;">
+        <p style="color:#64748b;font-size:13px;margin:0 0 4px;">CDSKI - Experiencia de Guia &amp; Clases de Ski y Snowboard</p>
+        <p style="color:#94a3b8;font-size:12px;margin:0 0 4px;">Mall Sport, Las Condes, Santiago, Chile</p>
+        <p style="color:#94a3b8;font-size:12px;margin:0 0 12px;">
+            <a href="mailto:info@clasesdeski.cl" style="color:#f7941d;text-decoration:none;">info@clasesdeski.cl</a> &bull;
+            <a href="https://clasesdeski.cl" style="color:#f7941d;text-decoration:none;">clasesdeski.cl</a>
+        </p>
+        <p style="color:#cbd5e1;font-size:11px;margin:0;">&copy; ' . date( 'Y' ) . ' CDSKI. Todos los derechos reservados.</p>
+    </td>
+    </tr>
+    </table>
+</td>
+</tr>
+
+</table>
+<!-- End Main Container -->
+
+</td></tr>
+</table>
+
+</body>
+</html>';
+
+    return $html;
+}
+
+/**
+ * Helper: build a detail row for the email (dark background version)
+ */
+function cdski_email_detail_row( $label, $value ) {
+    return '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+    <tr>
+        <td style="padding:6px 0;color:#94a3b8;font-size:14px;width:45%;">' . esc_html( $label ) . '</td>
+        <td style="padding:6px 0;text-align:right;color:#e2e8f0;font-size:15px;font-weight:600;">' . $value . '</td>
+    </tr>
+    </table>';
+}
+
+/**
+ * Helper: build a detail row for the contact section (light background)
+ */
+function cdski_email_contact_row( $label, $value ) {
+    return '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+    <tr>
+        <td style="padding:4px 0;color:#64748b;font-size:13px;width:40%;">' . esc_html( $label ) . '</td>
+        <td style="padding:4px 0;text-align:right;color:#1a2332;font-size:14px;font-weight:500;">' . esc_html( $value ) . '</td>
+    </tr>
+    </table>';
+}
