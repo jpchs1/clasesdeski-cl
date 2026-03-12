@@ -2194,3 +2194,11 @@ img {
         padding: 24px;
     }
 }
+
+/* ------------------------------------------------------------------
+   FIX: Remove blank space on home page caused by hidden VC parallax row
+   The row with vc_hidden + vc_parallax still occupies vertical space.
+   ------------------------------------------------------------------ */
+.vc_row.vc_hidden {
+    display: none !important;
+}
