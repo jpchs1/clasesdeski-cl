@@ -66,6 +66,10 @@ function cdski_disable_emojis_remove_dns_prefetch( $urls, $relation_type ) {
 add_filter( 'script_loader_src', 'cdski_remove_script_version', 15, 1 );
 add_filter( 'style_loader_src', 'cdski_remove_script_version', 15, 1 );
 function cdski_remove_script_version( $src ) {
+    // Keep version string on our form-flow JS so cache busts work
+    if ( $src && strpos( $src, 'cdski-form-flow' ) !== false ) {
+        return $src;
+    }
     if ( $src && strpos( $src, 'ver=' ) !== false ) {
         $parts = explode( '?ver', $src );
         return $parts[0];
@@ -471,7 +475,7 @@ function cdski_enqueue_form_flow_scripts() {
         'cdski-form-flow',
         get_stylesheet_directory_uri() . '/js/cdski-form-flow-v9.js',
         array( 'jquery' ),
-        '9.1.0',
+        '9.2.0',
         true
     );
 }

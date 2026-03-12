@@ -311,11 +311,12 @@
             overlay.innerHTML = '<span class="cdski-raw-clp" style="font-size:18px;">' + clpFormatted + '</span>' +
                 (usdFormatted ? ' <span class="cdski-raw-usd" style="font-size:14px;color:#f7941d;font-weight:600;">(' + usdFormatted + ')</span>' : '<span class="cdski-raw-usd" style="font-size:14px;color:#f7941d;font-weight:600;"></span>');
 
-            // Hide the raw input text visually but keep it fully "visible" to
-            // Formidable's conditional-logic checks (jQuery :visible needs
-            // offsetHeight > 0).  We make the text transparent instead of
-            // collapsing the element so the value is still submitted.
-            input.style.cssText = 'color:transparent !important;-webkit-text-fill-color:transparent !important;position:relative !important;z-index:0 !important;pointer-events:none !important;';
+            // Hide the raw input visually but keep offsetHeight > 0 so that
+            // jQuery :visible returns true.  Formidable clears values of
+            // fields it considers hidden (offsetHeight === 0) before
+            // submission, which caused $0 prices in confirmation emails.
+            // Using 1px dimensions keeps the field "visible" to Formidable.
+            input.style.cssText = 'position:absolute !important;opacity:0 !important;height:1px !important;width:1px !important;overflow:hidden !important;pointer-events:none !important;';
 
             // Also hide the "AGENDAR CLASE" button next to the raw input
             var agendarBtn = container.querySelector('button[type="submit"]');
@@ -1044,17 +1045,20 @@
         // Pre-hide all number inputs inside the form via CSS so that when
         // Formidable shows new price fields on radio change, the raw value
         // is never visible (prevents flash of unformatted price).
-        // IMPORTANT: We use color:transparent instead of height:0 because
+        // IMPORTANT: We use height:1px/width:1px instead of height:0 because
         // Formidable clears values of fields that jQuery :visible considers
-        // hidden (offsetHeight === 0).  Transparent text keeps the input
-        // "visible" to Formidable so values are submitted correctly.
+        // hidden (offsetHeight === 0).  1px dimensions keep offsetHeight > 0
+        // so Formidable treats them as visible and submits their values.
         if (!document.getElementById('cdski-price-prehide-css')) {
             var prehideStyle = document.createElement('style');
             prehideStyle.id = 'cdski-price-prehide-css';
             prehideStyle.textContent =
                 '#form_' + FORM_KEY + ' input[type="number"] {' +
-                    'color: transparent !important;' +
-                    '-webkit-text-fill-color: transparent !important;' +
+                    'position: absolute !important;' +
+                    'opacity: 0 !important;' +
+                    'height: 1px !important;' +
+                    'width: 1px !important;' +
+                    'overflow: hidden !important;' +
                     'pointer-events: none !important;' +
                 '}';
             document.head.appendChild(prehideStyle);
