@@ -1934,8 +1934,259 @@ img {
 }
 
 /* ------------------------------------------------------------------
-   Homepage SEO Content Section
+   UNIFIED FOOTER: Replaces old SEO section + widget footer on homepage
    ------------------------------------------------------------------ */
+.cdski-unified-footer {
+    background: #111111 !important;
+    padding: 60px 0 40px !important;
+    color: #c0c8d0 !important;
+    font-size: 15px !important;
+    line-height: 1.7 !important;
+}
+
+/* 4-column grid */
+.cdski-uf-grid {
+    display: grid !important;
+    grid-template-columns: 1.4fr 1fr 1fr 1.2fr !important;
+    gap: 40px !important;
+    align-items: start !important;
+}
+
+/* Column titles */
+.cdski-uf-title {
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    margin: 0 0 14px !important;
+    letter-spacing: 0.5px !important;
+}
+
+.cdski-uf-col-title {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #c8a951 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    margin: 0 0 20px !important;
+    padding-bottom: 12px !important;
+    border-bottom: 2px solid rgba(200, 169, 81, 0.3) !important;
+}
+
+/* Brand column */
+.cdski-uf-brand p {
+    color: #9aa5b0 !important;
+    font-size: 14px !important;
+    line-height: 1.7 !important;
+    margin: 0 0 8px !important;
+}
+
+.cdski-uf-motto {
+    font-style: italic !important;
+    color: #c8a951 !important;
+    font-size: 13px !important;
+    margin: 12px 0 18px !important;
+}
+
+/* Buttons */
+.cdski-uf-buttons {
+    display: flex !important;
+    gap: 10px !important;
+    margin-bottom: 20px !important;
+}
+
+.cdski-uf-btn {
+    display: inline-block !important;
+    padding: 8px 20px !important;
+    border-radius: 6px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    text-align: center !important;
+}
+
+.cdski-uf-btn-primary {
+    background: linear-gradient(135deg, #c8a951, #d4b96a) !important;
+    color: #111111 !important;
+}
+
+.cdski-uf-btn-primary:hover {
+    background: linear-gradient(135deg, #d4b96a, #e0ca80) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(200, 169, 81, 0.3) !important;
+    color: #111111 !important;
+}
+
+.cdski-uf-btn-outline {
+    border: 1px solid rgba(200, 169, 81, 0.5) !important;
+    color: #c8a951 !important;
+    background: transparent !important;
+}
+
+.cdski-uf-btn-outline:hover {
+    border-color: #c8a951 !important;
+    background: rgba(200, 169, 81, 0.1) !important;
+    color: #d4b96a !important;
+}
+
+/* Social icons in unified footer */
+.cdski-uf-social {
+    margin-top: 8px !important;
+}
+
+.cdski-uf-social .share_wrap {
+    display: flex !important;
+    gap: 8px !important;
+}
+
+.cdski-uf-social .share_wrap a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #c0c8d0 !important;
+    transition: all 0.3s ease !important;
+    font-size: 14px !important;
+}
+
+.cdski-uf-social .share_wrap a:hover {
+    background: #c8a951 !important;
+    color: #111111 !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Links column */
+.cdski-uf-links ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.cdski-uf-links li {
+    padding: 0 !important;
+    margin: 0 0 10px !important;
+    border: none !important;
+}
+
+.cdski-uf-links a {
+    color: #9aa5b0 !important;
+    text-decoration: none !important;
+    font-size: 14px !important;
+    transition: all 0.25s ease !important;
+    display: inline-block !important;
+}
+
+.cdski-uf-links a:hover {
+    color: #c8a951 !important;
+    padding-left: 6px !important;
+}
+
+/* Weather column */
+.cdski-uf-weather .textwidget {
+    margin-top: 0 !important;
+}
+
+.cdski-uf-weather .wpc-weather-id {
+    background: transparent !important;
+}
+
+/* Contact column */
+.cdski-uf-contact ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.cdski-uf-contact li {
+    padding: 0 !important;
+    margin: 0 0 14px !important;
+    color: #9aa5b0 !important;
+    font-size: 14px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    border: none !important;
+}
+
+.cdski-uf-icon {
+    font-size: 16px !important;
+    flex-shrink: 0 !important;
+}
+
+.cdski-uf-contact a {
+    color: #c8a951 !important;
+    text-decoration: none !important;
+    transition: color 0.25s ease !important;
+}
+
+.cdski-uf-contact a:hover {
+    color: #d4b96a !important;
+    text-decoration: underline !important;
+}
+
+/* SEO text block at bottom */
+.cdski-uf-seo {
+    margin-top: 32px !important;
+    padding-top: 24px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+.cdski-uf-seo p {
+    color: #5a6570 !important;
+    font-size: 12px !important;
+    line-height: 1.7 !important;
+    margin: 0 !important;
+}
+
+.cdski-uf-seo a {
+    color: #7a8590 !important;
+    text-decoration: none !important;
+}
+
+.cdski-uf-seo a:hover {
+    color: #c8a951 !important;
+}
+
+/* Hide the original widget footer on homepage (JS backup) */
+body.home .footer_wrap.widget_area,
+body.page-template-default.home .footer_wrap.widget_area {
+    display: none !important;
+}
+
+/* Hide the old cdski-seo-section if it still appears */
+body.home .cdski-seo-section {
+    display: none !important;
+}
+
+/* Responsive: tablet */
+@media (max-width: 1024px) {
+    .cdski-uf-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 36px !important;
+    }
+}
+
+/* Responsive: mobile */
+@media (max-width: 767px) {
+    .cdski-unified-footer {
+        padding: 40px 0 30px !important;
+    }
+    .cdski-uf-grid {
+        grid-template-columns: 1fr !important;
+        gap: 30px !important;
+    }
+    .cdski-uf-buttons {
+        flex-direction: column !important;
+    }
+    .cdski-uf-btn {
+        text-align: center !important;
+    }
+}
+
+/* Legacy SEO section styles (kept for non-homepage pages) */
 .cdski-seo-section {
     background: #f8fafc;
     padding: 48px 0;

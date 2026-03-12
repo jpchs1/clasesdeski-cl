@@ -455,6 +455,44 @@
         }, 200);
     }
 
+    /* ── set default selections: 2 personas + Full-day ────── */
+
+    function setDefaultSelections() {
+        var form = document.getElementById('form_' + FORM_KEY);
+        if (!form) return;
+
+        // Default personas: "Dos" (2 personas)
+        var personasRadios = form.querySelectorAll('input[name="item_meta[17]"]');
+        var anyPersonasChecked = false;
+        personasRadios.forEach(function(r) { if (r.checked) anyPersonasChecked = true; });
+        if (!anyPersonasChecked) {
+            personasRadios.forEach(function(r) {
+                if (r.value === 'Dos') {
+                    r.checked = true;
+                    r.dispatchEvent(new Event('change', { bubbles: true }));
+                    // Also mark the label as selected for Formidable's visual state
+                    var label = r.closest('label') || form.querySelector('label[for="' + r.id + '"]');
+                    if (label) label.click();
+                }
+            });
+        }
+
+        // Default plan: "Full-day (Día completo)"
+        var planRadios = form.querySelectorAll('input[name="item_meta[16]"]');
+        var anyPlanChecked = false;
+        planRadios.forEach(function(r) { if (r.checked) anyPlanChecked = true; });
+        if (!anyPlanChecked) {
+            planRadios.forEach(function(r) {
+                if (r.value && r.value.indexOf('Full') > -1) {
+                    r.checked = true;
+                    r.dispatchEvent(new Event('change', { bubbles: true }));
+                    var label = r.closest('label') || form.querySelector('label[for="' + r.id + '"]');
+                    if (label) label.click();
+                }
+            });
+        }
+    }
+
     /* ── event listeners ───────────────────────────────────── */
 
     function init() {
@@ -508,6 +546,9 @@
             });
             observer.observe(form, { childList: true, subtree: true });
         }
+
+        // Set default selections: 2 personas (Dos) + Full-day
+        setDefaultSelections();
 
         // Capture initial data on page load
         capturePageOneData();
