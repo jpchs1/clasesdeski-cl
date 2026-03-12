@@ -1071,65 +1071,394 @@ function cdski_add_enhanced_hreflang_tags() {
 }
 
 // =====================================================================
-// 32. HOMEPAGE CONTENT INJECTION: SEO-rich intro + internal links
+// 32. HOMEPAGE INTEGRATED SECTIONS (via wp_head + DOMContentLoaded JS)
+//     This theme does NOT call wp_footer(), so all DOM injection uses
+//     wp_head to output a <script> that runs on DOMContentLoaded.
 // =====================================================================
-add_action( 'wp_footer', 'cdski_homepage_seo_content', 5 );
-function cdski_homepage_seo_content() {
+add_action( 'wp_head', 'cdski_homepage_head_injection', 99 );
+function cdski_homepage_head_injection() {
     if ( ! is_front_page() && ! is_home() ) {
         return;
     }
     ?>
-    <section class="cdski-seo-section" aria-label="CDSKI Chile Information">
-        <div class="content_wrap">
-            <div class="cdski-seo-content">
-                <h2>CDSKI Chile: Experiencia de Guía &amp; Clases de Ski y Snowboard</h2>
-                <p>Aprende ski o snowboard en Chile de una forma diferente. En CDSKI Chile creemos que el aprendizaje en la nieve debe ser emocionante, entretenido y motivador. Por eso cada clase combina técnica, seguridad y diversión en la montaña.</p>
-                <p>Nuestro lema lo resume todo: <strong>&ldquo;Nos divertimos y entretenemos mientras aprendemos.&rdquo;</strong></p>
+    <script>
+    document.addEventListener('DOMContentLoaded', function(){
 
-                <div class="cdski-seo-links">
-                    <h3>Descubre Más Sobre CDSKI</h3>
-                    <ul>
-                        <li><a href="/about-cdski/">Sobre CDSKI Chile</a> &ndash; Nuestra filosofía, valores y manifiesto</li>
-                        <li><a href="/nuestro-metodo/">Nuestro Método</a> &ndash; Cómo enseñamos ski y snowboard</li>
-                        <li><a href="/niveles/">Niveles de Progreso</a> &ndash; Los 7 niveles del alumno CDSKI</li>
-                        <li><a href="/experiencia-cdski/">La Experiencia CDSKI</a> &ndash; Más que clases: experiencias guiadas</li>
-                        <li><a href="/clases-ski-snowboard/">Clases de Ski y Snowboard</a> &ndash; Clases privadas, grupales y días guiados</li>
-                        <li><a href="/seguridad-montana/">Seguridad y Cultura de Montaña</a> &ndash; Código del esquiador CDSKI</li>
-                    </ul>
-                </div>
+        /* =============================================================
+           A) CREATE & INSERT HOMEPAGE SECTIONS
+           ============================================================= */
 
-                <div class="cdski-seo-keywords-block">
-                    <h3>Clases y Experiencias de Ski en Chile</h3>
-                    <p>CDSKI ofrece <a href="/clases-ski-snowboard/">clases de ski en Chile</a>, <a href="/clases-ski-snowboard/">clases de snowboard en Chile</a>, <a href="/clases-ski-snowboard/">clases de ski en Valle Nevado</a>, y <a href="/experiencia-cdski/">experiencias guiadas de ski</a> en los principales centros de ski de la Región Metropolitana: Valle Nevado, Colorado y La Parva. Nuestros <a href="/about-cdski/">instructores expertos</a> ofrecen clases privadas de ski, clases privadas de snowboard y experiencias de guía de montaña personalizadas para familias, turistas, principiantes y esquiadores intermedios.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        // --- SECTION A: Descubre CDSKI Card Grid ---
+        var discoverHTML = ''
+            + '<section id="cdski-discover-cards" class="cdski-hp-discover" style="opacity:0;transition:opacity .4s ease;" aria-label="Descubre CDSKI">'
+            + '<div class="content_wrap">'
+            + '<div class="cdski-hp-discover-header">'
+            + '<span class="cdski-hp-label">DESCUBRE CDSKI</span>'
+            + '<h2>M\u00e1s que Clases: Una Experiencia Completa</h2>'
+            + '<p>Conoce nuestra filosof\u00eda, metodolog\u00eda y todo lo que hace \u00fanica la experiencia CDSKI en la monta\u00f1a.</p>'
+            + '</div>'
+            + '<div class="cdski-hp-cards-grid">'
+            + '<a href="/about-cdski/" class="cdski-hp-card"><span class="cdski-hp-card-icon">\u2605</span><h3>Sobre CDSKI</h3><p>Filosof\u00eda, valores y manifiesto de nuestra escuela</p><span class="cdski-hp-card-arrow">\u2192</span></a>'
+            + '<a href="/nuestro-metodo/" class="cdski-hp-card"><span class="cdski-hp-card-icon">\u25C6</span><h3>Nuestro M\u00e9todo</h3><p>C\u00f3mo ense\u00f1amos ski y snowboard de forma entretenida</p><span class="cdski-hp-card-arrow">\u2192</span></a>'
+            + '<a href="/niveles/" class="cdski-hp-card"><span class="cdski-hp-card-icon">\u25B2</span><h3>Niveles de Progreso</h3><p>Los 7 niveles del alumno CDSKI</p><span class="cdski-hp-card-arrow">\u2192</span></a>'
+            + '<a href="/experiencia-cdski/" class="cdski-hp-card"><span class="cdski-hp-card-icon">\u2744</span><h3>La Experiencia CDSKI</h3><p>Experiencias guiadas personalizadas en la monta\u00f1a</p><span class="cdski-hp-card-arrow">\u2192</span></a>'
+            + '<a href="/clases-ski-snowboard/" class="cdski-hp-card"><span class="cdski-hp-card-icon">\u2733</span><h3>Clases de Ski y Snowboard</h3><p>Clases privadas, grupales y d\u00edas guiados</p><span class="cdski-hp-card-arrow">\u2192</span></a>'
+            + '<a href="/seguridad-montana/" class="cdski-hp-card"><span class="cdski-hp-card-icon">\u26F0</span><h3>Seguridad y Monta\u00f1a</h3><p>C\u00f3digo del esquiador y cultura de monta\u00f1a</p><span class="cdski-hp-card-arrow">\u2192</span></a>'
+            + '</div>'
+            + '</div>'
+            + '</section>';
+
+        // --- SECTION B: Experience CTA Banner ---
+        var expCtaHTML = ''
+            + '<section id="cdski-experience-cta" class="cdski-hp-exp-cta" style="opacity:0;transition:opacity .4s ease;" aria-label="Experiencia CDSKI">'
+            + '<div class="content_wrap">'
+            + '<div class="cdski-hp-exp-inner">'
+            + '<div class="cdski-hp-exp-text">'
+            + '<h2>Vive la Experiencia CDSKI en la Monta\u00f1a</h2>'
+            + '<p>\u201cNos divertimos y entretenemos mientras aprendemos.\u201d Cada clase es una aventura personalizada con instructores expertos en Valle Nevado, Colorado y La Parva.</p>'
+            + '</div>'
+            + '<div class="cdski-hp-exp-actions">'
+            + '<a href="/clases-ski-snowboard/" class="cdski-btn cdski-btn-primary">Reserva tu Clase</a>'
+            + '<a href="https://api.whatsapp.com/send?phone=56940211459&text=Hola%20CDSKI!" class="cdski-btn cdski-btn-whatsapp">WhatsApp</a>'
+            + '</div>'
+            + '</div>'
+            + '</div>'
+            + '</section>';
+
+        // --- SECTION C: Pre-footer SEO Navigation ---
+        var prefooterHTML = ''
+            + '<section id="cdski-prefooter" class="cdski-hp-prefooter" style="opacity:0;transition:opacity .4s ease;" aria-label="CDSKI Chile Informaci\u00f3n">'
+            + '<div class="content_wrap">'
+            + '<div class="cdski-hp-prefooter-grid">'
+            + '<div class="cdski-hp-prefooter-about">'
+            + '<h3>CDSKI Chile</h3>'
+            + '<p>Experiencia de Gu\u00eda &amp; Clases de Ski y Snowboard en Valle Nevado, Colorado y La Parva. Aprende ski o snowboard con instructores expertos en los Andes chilenos.</p>'
+            + '<p>\u201cNos divertimos y entretenemos mientras aprendemos.\u201d</p>'
+            + '<div class="cdski-hp-prefooter-ctas">'
+            + '<a href="/clases-ski-snowboard/" class="cdski-btn cdski-btn-outline">Ver Clases</a>'
+            + '<a href="/experiencia-cdski/" class="cdski-btn cdski-btn-outline">La Experiencia</a>'
+            + '</div>'
+            + '</div>'
+            + '<div class="cdski-hp-prefooter-links">'
+            + '<h4>Explora CDSKI</h4>'
+            + '<ul>'
+            + '<li><a href="/about-cdski/">Sobre CDSKI Chile</a></li>'
+            + '<li><a href="/nuestro-metodo/">Nuestro M\u00e9todo</a></li>'
+            + '<li><a href="/niveles/">Niveles de Progreso</a></li>'
+            + '<li><a href="/experiencia-cdski/">La Experiencia CDSKI</a></li>'
+            + '<li><a href="/clases-ski-snowboard/">Clases de Ski y Snowboard</a></li>'
+            + '<li><a href="/seguridad-montana/">Seguridad y Monta\u00f1a</a></li>'
+            + '</ul>'
+            + '</div>'
+            + '<div class="cdski-hp-prefooter-seo">'
+            + '<h4>Clases y Experiencias de Ski en Chile</h4>'
+            + '<p>CDSKI ofrece <a href="/clases-ski-snowboard/">clases de ski en Chile</a>, <a href="/clases-ski-snowboard/">clases de snowboard en Chile</a>, <a href="/clases-ski-snowboard/">clases de ski en Valle Nevado</a>, y <a href="/experiencia-cdski/">experiencias guiadas de ski</a> en los principales centros de ski de la Regi\u00f3n Metropolitana. Nuestros <a href="/about-cdski/">instructores expertos</a> ofrecen clases privadas, grupales y experiencias de gu\u00eda de monta\u00f1a personalizadas para familias, turistas, principiantes y esquiadores intermedios.</p>'
+            + '</div>'
+            + '</div>'
+            + '</div>'
+            + '</section>';
+
+        // Create temp container to parse HTML strings into DOM elements
+        function htmlToElement(html) {
+            var t = document.createElement('div');
+            t.innerHTML = html;
+            return t.firstElementChild;
+        }
+
+        var discover  = htmlToElement(discoverHTML);
+        var expCta    = htmlToElement(expCtaHTML);
+        var prefooter = htmlToElement(prefooterHTML);
+
+        /* =============================================================
+           Find the main content container by walking up from "QUE OFRECEMOS"
+           ============================================================= */
+        var container = null;
+        var allDivs = document.querySelectorAll('article div');
+        for (var i = 0; i < allDivs.length; i++) {
+            if (allDivs[i].textContent.substring(0, 200).indexOf('QUE OFRECEMOS') !== -1 && allDivs[i].children.length < 5) {
+                var el = allDivs[i];
+                for (var lvl = 0; lvl < 10; lvl++) {
+                    var p = el.parentElement;
+                    if (!p) break;
+                    if (p.children.length > 10) { container = p; break; }
+                    el = p;
+                }
+                break;
+            }
+        }
+
+        function findRowByText(cont, searchText) {
+            if (!cont) return null;
+            var kids = cont.children;
+            for (var i = 0; i < kids.length; i++) {
+                if (kids[i].textContent.substring(0, 200).indexOf(searchText) !== -1) return kids[i];
+            }
+            return null;
+        }
+
+        if (container) {
+            /* Position A: "Descubre CDSKI" cards after "QUE OFRECEMOS" row */
+            var queRow = findRowByText(container, 'QUE OFRECEMOS');
+            if (queRow && queRow.nextSibling) {
+                container.insertBefore(discover, queRow.nextSibling);
+            } else {
+                container.appendChild(discover);
+            }
+
+            /* Position B: "Experience CTA" after "Bienvenidos a" row */
+            var bienRow = findRowByText(container, 'Bienvenidos a');
+            if (bienRow && bienRow.nextSibling) {
+                container.insertBefore(expCta, bienRow.nextSibling);
+            } else {
+                container.appendChild(expCta);
+            }
+        } else {
+            /* Fallback: append to body before footer */
+            var ft = document.querySelector('footer');
+            if (ft && ft.parentNode) {
+                ft.parentNode.insertBefore(discover, ft);
+                ft.parentNode.insertBefore(expCta, ft);
+            } else {
+                document.body.appendChild(discover);
+                document.body.appendChild(expCta);
+            }
+        }
+
+        /* Position C: Pre-footer before <footer> */
+        var footer = document.querySelector('footer');
+        if (footer && footer.parentNode) {
+            footer.parentNode.insertBefore(prefooter, footer);
+        } else {
+            document.body.appendChild(prefooter);
+        }
+
+        /* Fade in all sections */
+        setTimeout(function(){
+            discover.style.opacity  = '1';
+            expCta.style.opacity    = '1';
+            prefooter.style.opacity = '1';
+        }, 80);
+
+        /* =============================================================
+           B) REORGANIZE MAIN MENU
+           ============================================================= */
+        var cdskiPages = [
+            {href: '/about-cdski/',          text: 'Sobre CDSKI'},
+            {href: '/nuestro-metodo/',       text: 'Nuestro M\u00e9todo'},
+            {href: '/niveles/',              text: 'Niveles'},
+            {href: '/experiencia-cdski/',     text: 'Experiencia CDSKI'},
+            {href: '/clases-ski-snowboard/', text: 'Clases Ski & Snowboard'},
+            {href: '/seguridad-montana/',    text: 'Seguridad'}
+        ];
+        var slugs = ['/about-cdski/','/nuestro-metodo/','/niveles/',
+                     '/experiencia-cdski/','/clases-ski-snowboard/','/seguridad-montana/'];
+
+        var mainNav = document.querySelector('header nav > ul, nav.main_menu > ul, .header_main_menu nav > ul, ul.main_menu_nav');
+        if (!mainNav) {
+            /* Try broader search */
+            var navs = document.querySelectorAll('header ul');
+            for (var ni = 0; ni < navs.length; ni++) {
+                if (navs[ni].children.length > 3) { mainNav = navs[ni]; break; }
+            }
+        }
+
+        if (mainNav) {
+            /* Hide flat menu items linking to our 6 pages */
+            var items = mainNav.querySelectorAll(':scope > li');
+            for (var i = 0; i < items.length; i++) {
+                var a = items[i].querySelector('a');
+                if (a) {
+                    try {
+                        var path = new URL(a.href, location.origin).pathname;
+                        if (slugs.indexOf(path) !== -1) {
+                            items[i].style.display = 'none';
+                        }
+                    } catch(e) {}
+                }
+            }
+
+            /* Create "CDSKI" mega-dropdown */
+            var nosotrosLi = null;
+            var blogLi = null;
+            items = mainNav.querySelectorAll(':scope > li');
+            for (var j = 0; j < items.length; j++) {
+                var link = items[j].querySelector('a');
+                if (!link) continue;
+                var txt = link.textContent.trim().toLowerCase();
+                if (txt === 'nosotros') nosotrosLi = items[j];
+                if (txt === 'blog') blogLi = items[j];
+            }
+
+            var newLi = document.createElement('li');
+            newLi.className = 'menu-item menu-item-has-children cdski-mega-menu';
+            var newA = document.createElement('a');
+            newA.href = '/about-cdski/';
+            newA.textContent = 'CDSKI';
+            newLi.appendChild(newA);
+
+            var subUl = document.createElement('ul');
+            subUl.className = 'sub-menu cdski-dropdown';
+            for (var k = 0; k < cdskiPages.length; k++) {
+                var li = document.createElement('li');
+                li.className = 'menu-item';
+                var la = document.createElement('a');
+                la.href = cdskiPages[k].href;
+                la.textContent = cdskiPages[k].text;
+                li.appendChild(la);
+                subUl.appendChild(li);
+            }
+            newLi.appendChild(subUl);
+
+            if (nosotrosLi && nosotrosLi.nextSibling) {
+                mainNav.insertBefore(newLi, nosotrosLi.nextSibling);
+            } else if (blogLi) {
+                mainNav.insertBefore(newLi, blogLi);
+            } else {
+                mainNav.appendChild(newLi);
+            }
+        }
+
+        /* =============================================================
+           C) ADD LINKS TO FOOTER
+           ============================================================= */
+        var footerBar = document.querySelector('.copyright_wrap ul, footer ul');
+        if (!footerBar) {
+            var allFooterDivs = document.querySelectorAll('footer ~ div, footer div');
+            for (var d = 0; d < allFooterDivs.length; d++) {
+                var ul = allFooterDivs[d].querySelector('ul');
+                if (ul) { footerBar = ul; break; }
+            }
+        }
+        if (footerBar) {
+            var footerLinks = [
+                {href: '/about-cdski/',          text: 'Sobre CDSKI'},
+                {href: '/nuestro-metodo/',       text: 'Nuestro M\u00e9todo'},
+                {href: '/experiencia-cdski/',     text: 'Experiencia'},
+                {href: '/clases-ski-snowboard/', text: 'Clases'},
+                {href: '/seguridad-montana/',    text: 'Seguridad'}
+            ];
+            for (var f = 0; f < footerLinks.length; f++) {
+                var fli = document.createElement('li');
+                fli.className = 'menu-item cdski-footer-item';
+                var fa = document.createElement('a');
+                fa.href = footerLinks[f].href;
+                fa.textContent = footerLinks[f].text;
+                fli.appendChild(fa);
+                footerBar.appendChild(fli);
+            }
+        }
+
+    }); /* end DOMContentLoaded */
+    </script>
     <?php
 }
 
 // =====================================================================
-// 33. INTERNAL LINKING: Navigation for new content pages
+// 33. INTERNAL LINKING: Navigation for content sub-pages (via wp_head)
+//     Injects navigation bar on the 6 content pages via DOMContentLoaded.
 // =====================================================================
-add_action( 'wp_footer', 'cdski_internal_nav_footer', 10 );
-function cdski_internal_nav_footer() {
-    // Only show on new content pages
+add_action( 'wp_head', 'cdski_internal_nav_head', 99 );
+function cdski_internal_nav_head() {
     if ( ! is_page( array( 'about-cdski', 'nuestro-metodo', 'niveles', 'experiencia-cdski', 'clases-ski-snowboard', 'seguridad-montana' ) ) ) {
         return;
     }
     ?>
-    <nav class="cdski-internal-nav" aria-label="Páginas CDSKI">
-        <div class="content_wrap">
-            <h3>Explora CDSKI</h3>
-            <div class="cdski-internal-nav-grid">
-                <a href="/about-cdski/" class="cdski-nav-link">Sobre CDSKI</a>
-                <a href="/nuestro-metodo/" class="cdski-nav-link">Nuestro Método</a>
-                <a href="/niveles/" class="cdski-nav-link">Niveles de Progreso</a>
-                <a href="/experiencia-cdski/" class="cdski-nav-link">La Experiencia CDSKI</a>
-                <a href="/clases-ski-snowboard/" class="cdski-nav-link">Clases de Ski y Snowboard</a>
-                <a href="/seguridad-montana/" class="cdski-nav-link">Seguridad y Montaña</a>
-            </div>
-        </div>
-    </nav>
+    <script>
+    document.addEventListener('DOMContentLoaded', function(){
+        var navHTML = ''
+            + '<nav class="cdski-internal-nav" aria-label="P\u00e1ginas CDSKI">'
+            + '<div class="content_wrap">'
+            + '<h3>Explora CDSKI</h3>'
+            + '<div class="cdski-internal-nav-grid">'
+            + '<a href="/about-cdski/" class="cdski-nav-link">Sobre CDSKI</a>'
+            + '<a href="/nuestro-metodo/" class="cdski-nav-link">Nuestro M\u00e9todo</a>'
+            + '<a href="/niveles/" class="cdski-nav-link">Niveles de Progreso</a>'
+            + '<a href="/experiencia-cdski/" class="cdski-nav-link">La Experiencia CDSKI</a>'
+            + '<a href="/clases-ski-snowboard/" class="cdski-nav-link">Clases de Ski y Snowboard</a>'
+            + '<a href="/seguridad-montana/" class="cdski-nav-link">Seguridad y Monta\u00f1a</a>'
+            + '</div>'
+            + '</div>'
+            + '</nav>';
+
+        var t = document.createElement('div');
+        t.innerHTML = navHTML;
+        var nav = t.firstElementChild;
+
+        var footer = document.querySelector('footer');
+        if (footer && footer.parentNode) {
+            footer.parentNode.insertBefore(nav, footer);
+        } else {
+            document.body.appendChild(nav);
+        }
+
+        /* Also add menu reorganization on content pages */
+        var cdskiPages = [
+            {href: '/about-cdski/',          text: 'Sobre CDSKI'},
+            {href: '/nuestro-metodo/',       text: 'Nuestro M\u00e9todo'},
+            {href: '/niveles/',              text: 'Niveles'},
+            {href: '/experiencia-cdski/',     text: 'Experiencia CDSKI'},
+            {href: '/clases-ski-snowboard/', text: 'Clases Ski & Snowboard'},
+            {href: '/seguridad-montana/',    text: 'Seguridad'}
+        ];
+        var slugs = ['/about-cdski/','/nuestro-metodo/','/niveles/',
+                     '/experiencia-cdski/','/clases-ski-snowboard/','/seguridad-montana/'];
+
+        var mainNav = document.querySelector('header nav > ul, nav.main_menu > ul, .header_main_menu nav > ul, ul.main_menu_nav');
+        if (!mainNav) {
+            var navs = document.querySelectorAll('header ul');
+            for (var ni = 0; ni < navs.length; ni++) {
+                if (navs[ni].children.length > 3) { mainNav = navs[ni]; break; }
+            }
+        }
+        if (mainNav) {
+            var items = mainNav.querySelectorAll(':scope > li');
+            for (var i = 0; i < items.length; i++) {
+                var a = items[i].querySelector('a');
+                if (a) {
+                    try {
+                        var path = new URL(a.href, location.origin).pathname;
+                        if (slugs.indexOf(path) !== -1) items[i].style.display = 'none';
+                    } catch(e) {}
+                }
+            }
+            var nosotrosLi = null, blogLi = null;
+            items = mainNav.querySelectorAll(':scope > li');
+            for (var j = 0; j < items.length; j++) {
+                var link = items[j].querySelector('a');
+                if (!link) continue;
+                var txt = link.textContent.trim().toLowerCase();
+                if (txt === 'nosotros') nosotrosLi = items[j];
+                if (txt === 'blog') blogLi = items[j];
+            }
+            if (!document.querySelector('.cdski-mega-menu')) {
+                var newLi = document.createElement('li');
+                newLi.className = 'menu-item menu-item-has-children cdski-mega-menu';
+                var newA = document.createElement('a');
+                newA.href = '/about-cdski/';
+                newA.textContent = 'CDSKI';
+                newLi.appendChild(newA);
+                var subUl = document.createElement('ul');
+                subUl.className = 'sub-menu cdski-dropdown';
+                for (var k = 0; k < cdskiPages.length; k++) {
+                    var li = document.createElement('li');
+                    li.className = 'menu-item';
+                    var la = document.createElement('a');
+                    la.href = cdskiPages[k].href;
+                    la.textContent = cdskiPages[k].text;
+                    li.appendChild(la);
+                    subUl.appendChild(li);
+                }
+                newLi.appendChild(subUl);
+                if (nosotrosLi && nosotrosLi.nextSibling) {
+                    mainNav.insertBefore(newLi, nosotrosLi.nextSibling);
+                } else if (blogLi) {
+                    mainNav.insertBefore(newLi, blogLi);
+                } else {
+                    mainNav.appendChild(newLi);
+                }
+            }
+        }
+    });
+    </script>
     <?php
 }
