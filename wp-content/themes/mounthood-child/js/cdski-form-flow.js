@@ -67,16 +67,41 @@
 
     /* ── helpers ───────────────────────────────────────────── */
 
+    /**
+     * Parse a CLP value that may use Chilean locale formatting.
+     * Formidable Forms outputs values like "266.913" where "." is the
+     * thousands separator (meaning 266,913 CLP).  We detect this pattern
+     * (digits separated by dots where every group after the first has
+     * exactly 3 digits) and strip the dots so JS reads the full integer.
+     */
+    function parseCLPValue(val) {
+        if (val === null || val === undefined || val === '') return 0;
+        var s = String(val).trim();
+        // Pattern: one or more groups of exactly 3 digits after dots  →  thousands sep
+        // e.g. "266.913"  →  266913  |  "1.266.913"  →  1266913
+        if (/^\d{1,3}(\.\d{3})+$/.test(s)) {
+            return parseInt(s.replace(/\./g, ''), 10) || 0;
+        }
+        // Also handle comma as decimal separator (Chilean: "266.913,50")
+        if (/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(s)) {
+            return parseInt(s.replace(/\./g, '').replace(/,.*$/, ''), 10) || 0;
+        }
+        // Fallback: standard parseFloat for normal numeric strings
+        var num = parseFloat(s);
+        return isNaN(num) ? 0 : Math.round(num);
+    }
+
     function formatCLP(val) {
-        if (!val || isNaN(val)) return 'CLP $0';
-        var num = Math.round(parseFloat(val));
+        var num = parseCLPValue(val);
+        if (!num) return 'CLP $0';
         return 'CLP $' + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     }
 
     function formatUSD(clpVal) {
-        if (!clpVal || isNaN(clpVal) || !dolarObservado) return '';
-        var num = parseFloat(clpVal) / dolarObservado;
-        return 'USD $' + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        var num = parseCLPValue(clpVal);
+        if (!num || !dolarObservado) return '';
+        var usd = num / dolarObservado;
+        return 'USD $' + usd.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
     function formatPriceBlock(val) {
