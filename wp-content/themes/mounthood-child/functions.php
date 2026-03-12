@@ -471,7 +471,7 @@ function cdski_enqueue_form_flow_scripts() {
         'cdski-form-flow',
         get_stylesheet_directory_uri() . '/js/cdski-form-flow.js',
         array( 'jquery' ),
-        '1.2.0',
+        '2.0.0',
         true
     );
 }
@@ -479,6 +479,31 @@ function cdski_enqueue_form_flow_scripts() {
 // =====================================================================
 // 27. INLINE CSS FOR BOOKING SUMMARY CARD
 // =====================================================================
+// =====================================================================
+// 27b. INLINE CSS FOR USD PRICE DISPLAY
+// =====================================================================
+add_action( 'wp_head', 'cdski_usd_price_styles' );
+function cdski_usd_price_styles() {
+    ?>
+    <style id="cdski-usd-price-css">
+    .cdski-usd-price {
+        display: block;
+        font-size: 12px;
+        color: #94a3b8;
+        font-weight: 400;
+        margin-top: 2px;
+    }
+    .cdski-summary-total .cdski-usd-price {
+        color: #fbbf24;
+        font-size: 13px;
+    }
+    .cdski-price-strike .cdski-usd-price {
+        text-decoration: line-through;
+    }
+    </style>
+    <?php
+}
+
 add_action( 'wp_head', 'cdski_booking_summary_styles' );
 function cdski_booking_summary_styles() {
     // Load on all pages - CSS is lightweight and scoped to #cdski-booking-summary
