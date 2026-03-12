@@ -568,8 +568,9 @@
         // Fix datepicker visibility globally
         fixDatepickerVisibility();
 
-        // Format raw price fields on page 1
-        formatRawPriceFields();
+        // Format raw price fields on page 1 (runs on interval to catch
+        // Formidable's async value population without MutationObserver conflicts)
+        setInterval(formatRawPriceFields, 500);
 
         // 1. Capture data on every radio change (keeps storedData fresh)
         $(document).on('change',
@@ -610,9 +611,7 @@
                         updateTomoConocimientoText();
                     }, 150);
                 }
-                // Re-format raw price fields whenever form DOM changes (debounced)
-                clearTimeout(_formatPriceTimer);
-                _formatPriceTimer = setTimeout(formatRawPriceFields, 100);
+                // Price field formatting handled by setInterval in init()
             });
             observer.observe(form, { childList: true, subtree: true });
         }
