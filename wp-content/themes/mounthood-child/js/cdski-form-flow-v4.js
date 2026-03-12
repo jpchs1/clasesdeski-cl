@@ -157,14 +157,28 @@
             if (r.checked) plan = r.value;
         });
 
-        var precioEl = form.querySelector('input[name="item_meta[19]"]');
-        var descEl   = form.querySelector('input[name="item_meta[20]"]');
+        // Find the currently VISIBLE price fields dynamically.
+        // Formidable uses different field IDs per persona/plan combination.
+        var precio = '';
+        var precioDescuento = '';
+        var allContainers = form.querySelectorAll('.frm_form_field');
+        allContainers.forEach(function(c) {
+            var lbl = c.querySelector('.frm_primary_label');
+            if (!lbl) return;
+            var isVisible = c.offsetParent !== null && c.style.display !== 'none';
+            if (!isVisible) return;
+            var inp = c.querySelector('input[type="number"], input[type="text"][name^="item_meta"]');
+            if (!inp || !inp.value) return;
+            var lt = lbl.textContent.trim();
+            if (lt === 'Precio') precio = inp.value;
+            else if (lt === 'Precio con Descuento') precioDescuento = inp.value;
+        });
 
         var data = {
             personas:        personas,
             plan:            plan,
-            precio:          precioEl ? precioEl.value : '',
-            precioDescuento: descEl   ? descEl.value   : ''
+            precio:          precio,
+            precioDescuento: precioDescuento
         };
 
         if (data.personas && data.plan) {
@@ -240,24 +254,36 @@
         var form = document.getElementById('form_' + FORM_KEY);
         if (!form) return;
 
-        var fields = [
-            { selector: 'input[name="item_meta[19]"]', id: 'cdski-precio-overlay' },
-            { selector: 'input[name="item_meta[20]"]', id: 'cdski-descuento-overlay' }
-        ];
+        // Dynamically find ALL price field containers by their label text.
+        // Formidable uses different field IDs per persona/plan combination
+        // (e.g. item_meta[19], item_meta[28], item_meta[31], etc.)
+        // so we cannot hardcode selectors. Instead, find fields by label.
+        var allContainers = form.querySelectorAll('.frm_form_field');
 
-        fields.forEach(function(f) {
-            var input = form.querySelector(f.selector);
+        allContainers.forEach(function(container) {
+            var label = container.querySelector('.frm_primary_label');
+            if (!label) return;
+
+            var labelText = label.textContent.trim();
+            if (labelText !== 'Precio' && labelText !== 'Precio con Descuento') return;
+
+            var input = container.querySelector('input[type="number"], input[type="text"][name^="item_meta"]');
             if (!input) return;
 
-            var container = input.closest('.frm_form_field');
-            if (!container) return;
+            // Only process visible fields (Formidable hides inactive combos)
+            var isVisible = container.offsetParent !== null && container.style.display !== 'none';
+            if (!isVisible) {
+                // Clean up any stale overlay on hidden fields
+                var staleOverlay = container.querySelector('.cdski-price-overlay');
+                if (staleOverlay) staleOverlay.remove();
+                return;
+            }
 
-            // Parse the raw value (may use , or . as thousands sep depending on locale)
+            // Parse the raw value
             var rawVal = input.value;
             if (!rawVal) return;
 
             // Normalize: Formidable may output "392,275" or "392.275" depending on locale
-            // Remove commas if they look like thousands separators (e.g. "392,275")
             var normalized = rawVal;
             if (/^\d{1,3}(,\d{3})+$/.test(normalized)) {
                 normalized = normalized.replace(/,/g, '');
@@ -268,8 +294,8 @@
             var clpFormatted = formatCLP(normalized);
             var usdFormatted = formatUSD(normalized);
 
-            // Check if overlay already exists, update it
-            var existing = container.querySelector('#' + f.id);
+            // Check if overlay already exists in this container, update it
+            var existing = container.querySelector('.cdski-price-overlay');
             if (existing) {
                 var clpEl = existing.querySelector('.cdski-raw-clp');
                 var usdEl = existing.querySelector('.cdski-raw-usd');
@@ -280,7 +306,7 @@
 
             // Create overlay div
             var overlay = document.createElement('div');
-            overlay.id = f.id;
+            overlay.className = 'cdski-price-overlay';
             overlay.style.cssText = 'margin-top:4px;font-size:16px;font-weight:700;color:#1a2332;line-height:1.4;';
             overlay.innerHTML = '<span class="cdski-raw-clp" style="font-size:18px;">' + clpFormatted + '</span>' +
                 (usdFormatted ? ' <span class="cdski-raw-usd" style="font-size:14px;color:#f7941d;font-weight:600;">(' + usdFormatted + ')</span>' : '<span class="cdski-raw-usd" style="font-size:14px;color:#f7941d;font-weight:600;"></span>');
@@ -799,12 +825,25 @@
         setInterval(formatRawPriceFields, 500);
 
         // 1. Capture data on every radio change (keeps storedData fresh)
+        //    Use multiple timeouts to catch Formidable's async price recalculation
         $(document).on('change',
             '#form_' + FORM_KEY + ' input[name="item_meta[17]"], ' +
             '#form_' + FORM_KEY + ' input[name="item_meta[16]"]',
             function() {
-                capturePageOneData();
-                setTimeout(formatRawPriceFields, 300);
+                // Formidable needs time to show/hide the correct price fields
+                // and populate their values. Use staggered timeouts.
+                var delays = [200, 500, 1000, 1500];
+                delays.forEach(function(ms) {
+                    setTimeout(function() {
+                        capturePageOneData();
+                        formatRawPriceFields();
+                        // Update summary card if it exists
+                        var summary = document.getElementById('cdski-booking-summary');
+                        if (summary && storedData) {
+                            summary.outerHTML = buildSummaryHTML(storedData);
+                        }
+                    }, ms);
+                });
             }
         );
 
