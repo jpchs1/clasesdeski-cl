@@ -6,6 +6,12 @@
  * a styled summary card when page 2 (Agendar Clases) loads via AJAX.
  * Also hides the Quantity and duplicate Product fields on page 2.
  *
+ * Features:
+ *   - "Cotizador Online" title injected above the form
+ *   - Prices displayed in CLP (with dots) and USD (using dolar observado)
+ *   - Calendar datepicker month/year visibility fix
+ *   - Updated "Tomo conocimiento de" disclaimer text
+ *
  * Page 2 field IDs (verified from live site):
  *   item_meta[24] = Fecha (date picker)
  *   item_meta[27] = Tomo conocimiento de (checkboxes)
@@ -27,17 +33,86 @@
     var FORM_ID        = '2';
     var storedData     = null;
     var summaryInjected = false;
+    var titleInjected   = false;
+    var dolarObservado  = null;
+
+    /* ── fetch dolar observado from mindicador.cl ──────────── */
+
+    function fetchDolarObservado() {
+        $.ajax({
+            url: 'https://mindicador.cl/api/dolar',
+            dataType: 'json',
+            timeout: 8000,
+            success: function(resp) {
+                if (resp && resp.serie && resp.serie.length > 0) {
+                    dolarObservado = resp.serie[0].valor;
+                    updatePriceDisplays();
+                }
+            },
+            error: function() {
+                $.ajax({
+                    url: 'https://mindicador.cl/api',
+                    dataType: 'json',
+                    timeout: 8000,
+                    success: function(resp) {
+                        if (resp && resp.dolar && resp.dolar.valor) {
+                            dolarObservado = resp.dolar.valor;
+                            updatePriceDisplays();
+                        }
+                    }
+                });
+            }
+        });
+    }
 
     /* ── helpers ───────────────────────────────────────────── */
 
-    function formatPrice(val) {
-        if (!val || isNaN(val)) return '$0';
+    function formatCLP(val) {
+        if (!val || isNaN(val)) return 'CLP $0';
         var num = Math.round(parseFloat(val));
-        return '$' + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        return 'CLP $' + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    function formatUSD(clpVal) {
+        if (!clpVal || isNaN(clpVal) || !dolarObservado) return '';
+        var num = parseFloat(clpVal) / dolarObservado;
+        return 'USD $' + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    function formatPriceBlock(val) {
+        var clp = formatCLP(val);
+        var usd = formatUSD(val);
+        if (usd) {
+            return clp + ' <span class="cdski-usd-price">(' + usd + ')</span>';
+        }
+        return clp;
     }
 
     var personasMap = { 'Dos': '2', 'Tres': '3', 'Cuatro': '4', 'Cinco': '5' };
     function personasToNum(txt) { return personasMap[txt] || txt; }
+
+    /* ── inject "Cotizador Online" title above the form ──── */
+
+    function injectCotizadorTitle() {
+        if (titleInjected) return;
+        var form = document.getElementById('form_' + FORM_KEY);
+        if (!form) return;
+
+        if (document.getElementById('cdski-cotizador-title')) {
+            titleInjected = true;
+            return;
+        }
+
+        var titleHTML = '<div id="cdski-cotizador-title" style="text-align:center;margin-bottom:20px;">' +
+            '<h2 style="color:#f7941d;font-size:28px;font-weight:800;margin:0 0 5px;letter-spacing:0.5px;text-transform:uppercase;">' +
+            'Cotizador Online' +
+            '</h2>' +
+            '<div style="width:60px;height:3px;background:linear-gradient(135deg,#f7941d 0%,#f15a22 100%);margin:0 auto;border-radius:2px;"></div>' +
+            '</div>';
+
+        form.insertAdjacentHTML('beforebegin', titleHTML);
+        titleInjected = true;
+    }
 
     /* ── capture page-1 values BEFORE Formidable replaces them ── */
 
@@ -93,11 +168,11 @@
                 '<div class="cdski-summary-divider"></div>' +
                 '<div class="cdski-summary-row cdski-summary-price">' +
                     '<div class="cdski-summary-label">Precio Regular</div>' +
-                    '<div class="cdski-summary-value cdski-price-strike">' + formatPrice(d.precio) + '</div>' +
+                    '<div class="cdski-summary-value cdski-price-strike">' + formatPriceBlock(d.precio) + '</div>' +
                 '</div>' +
                 '<div class="cdski-summary-row cdski-summary-total">' +
                     '<div class="cdski-summary-label">Precio con Descuento</div>' +
-                    '<div class="cdski-summary-value cdski-price-final">' + formatPrice(d.precioDescuento) + '</div>' +
+                    '<div class="cdski-summary-value cdski-price-final">' + formatPriceBlock(d.precioDescuento) + '</div>' +
                 '</div>' +
             '</div>' +
         '</div>';
@@ -126,6 +201,190 @@
                 }
             }
         });
+    }
+
+    /* ── update price displays when dolar arrives ──────────── */
+
+    function updatePriceDisplays() {
+        var summary = document.getElementById('cdski-booking-summary');
+        if (summary && storedData) {
+            var strikeEl = summary.querySelector('.cdski-price-strike');
+            var finalEl  = summary.querySelector('.cdski-price-final');
+            if (strikeEl) strikeEl.innerHTML = formatPriceBlock(storedData.precio);
+            if (finalEl)  finalEl.innerHTML  = formatPriceBlock(storedData.precioDescuento);
+        }
+    }
+
+    /* ── update "Tomo conocimiento de" disclaimer text ────── */
+
+    function updateTomoConocimientoText() {
+        var form = document.getElementById('form_' + FORM_KEY);
+        if (!form) return;
+
+        var field = form.querySelector('[name="item_meta[27][]"]') ||
+                    form.querySelector('[name="item_meta[27]"]');
+        if (!field) return;
+
+        var container = field.closest('.frm_form_field');
+        if (!container) return;
+
+        if (container.querySelector('.cdski-disclaimer-notice')) return;
+
+        var disclaimerHTML = '<div class="cdski-disclaimer-notice" style="' +
+            'background:linear-gradient(135deg,#fff8e1 0%,#fff3cd 100%);' +
+            'border:1px solid #f7941d;' +
+            'border-radius:10px;' +
+            'padding:14px 18px;' +
+            'margin-top:12px;' +
+            'font-size:13px;' +
+            'line-height:1.6;' +
+            'color:#5a4a00;' +
+            '">' +
+            '<p style="margin:0 0 8px;font-weight:700;color:#d4760a;font-size:14px;">Importante:</p>' +
+            '<ul style="margin:0;padding-left:18px;">' +
+            '<li style="margin-bottom:4px;">Esto es <strong>solo una cotizacion</strong> y no constituye una reserva confirmada.</li>' +
+            '<li style="margin-bottom:4px;">Para agendar su clase, se debe <strong>abonar el 30%</strong> del valor total para generar la reserva/booking.</li>' +
+            '<li><strong>Sujeto a disponibilidad</strong>, cupos limitados.</li>' +
+            '</ul>' +
+            '</div>';
+
+        container.insertAdjacentHTML('beforeend', disclaimerHTML);
+    }
+
+    /* ── fix datepicker calendar month/year visibility ─────── */
+
+    function fixDatepickerVisibility() {
+        if (document.getElementById('cdski-datepicker-fix')) return;
+
+        var css = document.createElement('style');
+        css.id = 'cdski-datepicker-fix';
+        css.textContent =
+            '.ui-datepicker .ui-datepicker-header {' +
+                'background: #1a2332 !important;' +
+                'color: #fff !important;' +
+                'padding: 8px !important;' +
+                'border: none !important;' +
+                'border-radius: 8px 8px 0 0 !important;' +
+            '}' +
+            '.ui-datepicker .ui-datepicker-title {' +
+                'color: #fff !important;' +
+                'font-weight: 700 !important;' +
+                'font-size: 15px !important;' +
+            '}' +
+            '.ui-datepicker .ui-datepicker-title select,' +
+            '.ui-datepicker .ui-datepicker-title .ui-datepicker-month,' +
+            '.ui-datepicker .ui-datepicker-title .ui-datepicker-year {' +
+                'color: #fff !important;' +
+                'background: #2d3e50 !important;' +
+                'border: 1px solid rgba(255,255,255,0.2) !important;' +
+                'border-radius: 4px !important;' +
+                'padding: 4px 8px !important;' +
+                'font-size: 14px !important;' +
+                'font-weight: 600 !important;' +
+                '-webkit-appearance: auto !important;' +
+                'appearance: auto !important;' +
+                'cursor: pointer !important;' +
+            '}' +
+            '.ui-datepicker .ui-datepicker-title select option {' +
+                'color: #1a2332 !important;' +
+                'background: #fff !important;' +
+            '}' +
+            '.ui-datepicker .ui-datepicker-prev,' +
+            '.ui-datepicker .ui-datepicker-next {' +
+                'color: #fff !important;' +
+                'cursor: pointer !important;' +
+                'top: 8px !important;' +
+            '}' +
+            '.ui-datepicker .ui-datepicker-prev span,' +
+            '.ui-datepicker .ui-datepicker-next span {' +
+                'color: #fff !important;' +
+            '}' +
+            '.ui-datepicker .ui-datepicker-prev:hover,' +
+            '.ui-datepicker .ui-datepicker-next:hover {' +
+                'background: rgba(255,255,255,0.1) !important;' +
+                'border-radius: 4px !important;' +
+            '}' +
+            '.ui-datepicker {' +
+                'z-index: 99999 !important;' +
+                'background: #fff !important;' +
+                'border-radius: 8px !important;' +
+                'box-shadow: 0 8px 32px rgba(0,0,0,0.15) !important;' +
+                'border: none !important;' +
+                'font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;' +
+            '}' +
+            '.ui-datepicker table {' +
+                'font-size: 14px !important;' +
+            '}' +
+            '.ui-datepicker th {' +
+                'color: #94a3b8 !important;' +
+                'font-weight: 600 !important;' +
+                'padding: 6px !important;' +
+            '}' +
+            '.ui-datepicker td a,' +
+            '.ui-datepicker td span {' +
+                'text-align: center !important;' +
+                'padding: 6px !important;' +
+                'border-radius: 4px !important;' +
+            '}' +
+            '.ui-datepicker td a:hover {' +
+                'background: #f7941d !important;' +
+                'color: #fff !important;' +
+            '}' +
+            '.ui-datepicker .ui-state-active {' +
+                'background: #f7941d !important;' +
+                'color: #fff !important;' +
+            '}' +
+            '.flatpickr-calendar {' +
+                'z-index: 99999 !important;' +
+            '}' +
+            '.flatpickr-months .flatpickr-month,' +
+            '.flatpickr-current-month {' +
+                'color: #fff !important;' +
+                'fill: #fff !important;' +
+                'background: #1a2332 !important;' +
+            '}' +
+            '.flatpickr-current-month .flatpickr-monthDropdown-months,' +
+            '.flatpickr-current-month input.cur-year {' +
+                'color: #fff !important;' +
+                'background: #2d3e50 !important;' +
+                'border: 1px solid rgba(255,255,255,0.2) !important;' +
+                'border-radius: 4px !important;' +
+                'font-weight: 600 !important;' +
+                '-webkit-appearance: auto !important;' +
+                'appearance: auto !important;' +
+            '}' +
+            '.flatpickr-current-month .flatpickr-monthDropdown-months option {' +
+                'color: #1a2332 !important;' +
+                'background: #fff !important;' +
+            '}' +
+            '.flatpickr-months .flatpickr-prev-month,' +
+            '.flatpickr-months .flatpickr-next-month {' +
+                'color: #fff !important;' +
+                'fill: #fff !important;' +
+            '}' +
+            '.flatpickr-months .flatpickr-prev-month svg,' +
+            '.flatpickr-months .flatpickr-next-month svg {' +
+                'fill: #fff !important;' +
+            '}' +
+            '#ui-datepicker-div .ui-datepicker-header {' +
+                'background: #1a2332 !important;' +
+                'color: #fff !important;' +
+            '}' +
+            '#ui-datepicker-div .ui-datepicker-title select {' +
+                'color: #fff !important;' +
+                'background: #2d3e50 !important;' +
+                'border: 1px solid rgba(255,255,255,0.3) !important;' +
+                'padding: 4px 8px !important;' +
+                'border-radius: 4px !important;' +
+                'font-size: 14px !important;' +
+                '-webkit-appearance: auto !important;' +
+                'appearance: auto !important;' +
+            '}' +
+            '#ui-datepicker-div {' +
+                'z-index: 99999 !important;' +
+            '}';
+
+        document.head.appendChild(css);
     }
 
     /* ── inject the summary card into page 2 ───────────────── */
@@ -188,10 +447,11 @@
 
     function onPage2Loaded() {
         summaryInjected = false;
-        // Always hide Quantity/Product fields and inject summary
         setTimeout(function() {
             hideQuantityAndProductFields();
             injectSummary();
+            updateTomoConocimientoText();
+            fixDatepickerVisibility();
         }, 200);
     }
 
@@ -199,6 +459,15 @@
 
     function init() {
         var form = document.getElementById('form_' + FORM_KEY);
+
+        // Fetch dolar observado for USD conversion
+        fetchDolarObservado();
+
+        // Inject "Cotizador Online" title
+        injectCotizadorTitle();
+
+        // Fix datepicker visibility globally
+        fixDatepickerVisibility();
 
         // 1. Capture data on every radio change (keeps storedData fresh)
         $(document).on('change',
@@ -233,6 +502,7 @@
                     setTimeout(function() {
                         hideQuantityAndProductFields();
                         injectSummary();
+                        updateTomoConocimientoText();
                     }, 150);
                 }
             });
