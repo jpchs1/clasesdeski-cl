@@ -469,11 +469,17 @@ function cdski_enqueue_form_flow_scripts() {
     // condition fails on some WordPress setups.
     wp_enqueue_script(
         'cdski-form-flow',
-        get_stylesheet_directory_uri() . '/js/cdski-form-flow.js',
+        get_stylesheet_directory_uri() . '/js/cdski-form-flow-v4.js',
         array( 'jquery' ),
-        '2.0.0',
+        '4.0.0',
         true
     );
+
+    // Inline script to clear stale sessionStorage data from old JS versions
+    wp_add_inline_script('cdski-form-flow', '
+        try { sessionStorage.removeItem("cdski_calc_data"); } catch(e) {}
+        try { sessionStorage.removeItem("cdskiPageOneData"); } catch(e) {}
+    ', 'before');
 }
 
 // =====================================================================
