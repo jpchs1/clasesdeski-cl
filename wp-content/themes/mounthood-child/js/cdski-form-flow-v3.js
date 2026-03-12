@@ -485,6 +485,230 @@
         document.head.appendChild(css);
     }
 
+    /* ── enhance form visuals: invitation text, tooltips, styling ── */
+
+    var _formVisualsInjected = false;
+
+    function enhanceFormVisuals() {
+        if (_formVisualsInjected) return;
+        var form = document.getElementById('form_' + FORM_KEY);
+        if (!form) return;
+
+        var personasContainer = document.getElementById('frm_field_17_container');
+        var planContainer     = document.getElementById('frm_field_16_container');
+        if (!personasContainer || !planContainer) return;
+
+        _formVisualsInjected = true;
+
+        /* ---- 1. Inject CSS for visual enhancements ---- */
+        if (!document.getElementById('cdski-form-enhance-css')) {
+            var style = document.createElement('style');
+            style.id = 'cdski-form-enhance-css';
+            style.textContent =
+                /* Section labels */
+                '#frm_field_17_container .frm_primary_label,' +
+                '#frm_field_16_container .frm_primary_label {' +
+                    'font-size: 17px !important;' +
+                    'font-weight: 800 !important;' +
+                    'color: #1a2332 !important;' +
+                    'letter-spacing: 0.3px !important;' +
+                    'margin-bottom: 2px !important;' +
+                '}' +
+                /* Invitation subtitle */
+                '.cdski-invite-subtitle {' +
+                    'font-size: 13px;' +
+                    'color: #6b7a8d;' +
+                    'font-weight: 500;' +
+                    'margin: 0 0 12px;' +
+                    'display: flex;' +
+                    'align-items: center;' +
+                    'gap: 6px;' +
+                '}' +
+                '.cdski-invite-subtitle svg {' +
+                    'flex-shrink: 0;' +
+                '}' +
+                /* "Por grupo familiar" badge */
+                '#frm_field_17_container .frm_description {' +
+                    'display: inline-block !important;' +
+                    'background: linear-gradient(135deg, #e8f4fd 0%, #dbeafe 100%) !important;' +
+                    'color: #1e40af !important;' +
+                    'font-size: 12px !important;' +
+                    'font-weight: 600 !important;' +
+                    'padding: 4px 12px !important;' +
+                    'border-radius: 20px !important;' +
+                    'margin-top: 8px !important;' +
+                    'border: 1px solid #93c5fd !important;' +
+                '}' +
+                /* Hide static schedule text - replaced by tooltips */
+                '#frm_field_16_container .frm_description {' +
+                    'display: none !important;' +
+                '}' +
+                /* Radio card enhancements */
+                '#frm_field_17_container .frm_radio label .frm_image_option_container,' +
+                '#frm_field_16_container .frm_radio label .frm_image_option_container {' +
+                    'transition: transform 0.2s ease, box-shadow 0.2s ease !important;' +
+                    'border-radius: 12px !important;' +
+                '}' +
+                '#frm_field_17_container .frm_radio label .frm_image_option_container:hover,' +
+                '#frm_field_16_container .frm_radio label .frm_image_option_container:hover {' +
+                    'transform: translateY(-3px) !important;' +
+                    'box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;' +
+                '}' +
+                /* Tooltip styles for modalidad */
+                '.cdski-plan-card-wrapper {' +
+                    'position: relative;' +
+                    'display: inline-block;' +
+                '}' +
+                '.cdski-schedule-tooltip {' +
+                    'position: absolute;' +
+                    'bottom: calc(100% + 8px);' +
+                    'left: 50%;' +
+                    'transform: translateX(-50%);' +
+                    'background: #1a2332;' +
+                    'color: #fff;' +
+                    'padding: 10px 16px;' +
+                    'border-radius: 10px;' +
+                    'font-size: 13px;' +
+                    'font-weight: 500;' +
+                    'line-height: 1.5;' +
+                    'white-space: nowrap;' +
+                    'opacity: 0;' +
+                    'visibility: hidden;' +
+                    'transition: opacity 0.25s ease, visibility 0.25s ease;' +
+                    'z-index: 100;' +
+                    'pointer-events: none;' +
+                    'box-shadow: 0 6px 20px rgba(0,0,0,0.25);' +
+                '}' +
+                '.cdski-schedule-tooltip::after {' +
+                    'content: "";' +
+                    'position: absolute;' +
+                    'top: 100%;' +
+                    'left: 50%;' +
+                    'transform: translateX(-50%);' +
+                    'border: 6px solid transparent;' +
+                    'border-top-color: #1a2332;' +
+                '}' +
+                '.cdski-schedule-tooltip .cdski-tt-icon {' +
+                    'margin-right: 6px;' +
+                '}' +
+                '.cdski-plan-card-wrapper:hover .cdski-schedule-tooltip,' +
+                '.cdski-plan-card-wrapper:focus-within .cdski-schedule-tooltip {' +
+                    'opacity: 1;' +
+                    'visibility: visible;' +
+                '}' +
+                /* Schedule info bar below plan */
+                '.cdski-schedule-info-bar {' +
+                    'margin-top: 10px;' +
+                    'padding: 8px 14px;' +
+                    'background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);' +
+                    'border: 1px solid #f59e0b;' +
+                    'border-radius: 8px;' +
+                    'font-size: 13px;' +
+                    'color: #92400e;' +
+                    'font-weight: 600;' +
+                    'text-align: center;' +
+                    'transition: all 0.3s ease;' +
+                    'line-height: 1.4;' +
+                '}' +
+                '.cdski-schedule-info-bar .cdski-sib-icon {' +
+                    'margin-right: 4px;' +
+                '}';
+            document.head.appendChild(style);
+        }
+
+        /* ---- 2. Add invitation subtitle under personas label ---- */
+        var personasLabel = personasContainer.querySelector('.frm_primary_label');
+        if (personasLabel && !personasContainer.querySelector('.cdski-invite-subtitle')) {
+            var sub1 = document.createElement('p');
+            sub1.className = 'cdski-invite-subtitle';
+            sub1.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b7a8d" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' +
+                'Selecciona la cantidad de personas para tu clase';
+            personasLabel.parentNode.insertBefore(sub1, personasLabel.nextSibling);
+        }
+
+        /* ---- 3. Add invitation subtitle under plan label ---- */
+        var planLabel = planContainer.querySelector('.frm_primary_label');
+        if (planLabel && !planContainer.querySelector('.cdski-invite-subtitle')) {
+            var sub2 = document.createElement('p');
+            sub2.className = 'cdski-invite-subtitle';
+            sub2.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b7a8d" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
+                'Elige tu modalidad preferida';
+            planLabel.parentNode.insertBefore(sub2, planLabel.nextSibling);
+        }
+
+        /* ---- 4. Add tooltips on modalidad cards ---- */
+        var scheduleMap = {
+            'Half-day':  '11:00 a 14:00 hrs',
+            'Full-day':  '11:00 a 14:00 hrs y 15:00 a 16:30 hrs'
+        };
+
+        var planRadios = planContainer.querySelectorAll('.frm_radio label');
+        planRadios.forEach(function(label) {
+            if (label.querySelector('.cdski-schedule-tooltip')) return;
+            var imgContainer = label.querySelector('.frm_image_option_container');
+            if (!imgContainer) return;
+
+            var labelText = label.textContent.trim();
+            var scheduleText = '';
+            var planKey = '';
+            if (labelText.indexOf('Half-day') > -1) {
+                scheduleText = scheduleMap['Half-day'];
+                planKey = 'Half-day';
+            } else if (labelText.indexOf('Full-day') > -1) {
+                scheduleText = scheduleMap['Full-day'];
+                planKey = 'Full-day';
+            }
+            if (!scheduleText) return;
+
+            // Wrap the image container in a wrapper div for tooltip positioning
+            var wrapper = document.createElement('div');
+            wrapper.className = 'cdski-plan-card-wrapper';
+            imgContainer.parentNode.insertBefore(wrapper, imgContainer);
+            wrapper.appendChild(imgContainer);
+
+            // Create tooltip
+            var tooltip = document.createElement('div');
+            tooltip.className = 'cdski-schedule-tooltip';
+            tooltip.innerHTML = '<span class="cdski-tt-icon">&#9200;</span> ' +
+                '<strong>' + planKey + ':</strong> ' + scheduleText;
+            wrapper.appendChild(tooltip);
+        });
+
+        /* ---- 5. Add dynamic schedule info bar below plan cards ---- */
+        if (!planContainer.querySelector('.cdski-schedule-info-bar')) {
+            var infoBar = document.createElement('div');
+            infoBar.className = 'cdski-schedule-info-bar';
+            infoBar.id = 'cdski-schedule-info-bar';
+            infoBar.innerHTML = '<span class="cdski-sib-icon">&#128197;</span> Pasa el cursor sobre cada modalidad para ver los horarios';
+
+            // Insert after the radio options container
+            var optContainer = planContainer.querySelector('.frm_opt_container');
+            if (optContainer) {
+                optContainer.parentNode.insertBefore(infoBar, optContainer.nextSibling);
+            }
+        }
+
+        /* ---- 6. Listen for plan radio changes to update info bar ---- */
+        $(document).on('change', '#frm_field_16_container input[type="radio"]', function() {
+            var selectedLabel = this.closest('label') || this.parentNode;
+            var labelText = selectedLabel ? selectedLabel.textContent.trim() : '';
+            var bar = document.getElementById('cdski-schedule-info-bar');
+            if (!bar) return;
+
+            if (labelText.indexOf('Half-day') > -1) {
+                bar.innerHTML = '<span class="cdski-sib-icon">&#9728;&#65039;</span> <strong>Half-day:</strong> de 11:00 a 14:00 hrs';
+            } else if (labelText.indexOf('Full-day') > -1) {
+                bar.innerHTML = '<span class="cdski-sib-icon">&#9728;&#65039;</span> <strong>Full-day:</strong> de 11:00 a 14:00 hrs y de 15:00 a 16:30 hrs';
+            }
+        });
+
+        // Trigger initial state if a plan is already selected
+        var checkedPlan = planContainer.querySelector('input[type="radio"]:checked');
+        if (checkedPlan) {
+            $(checkedPlan).trigger('change');
+        }
+    }
+
     /* ── inject the summary card into page 2 ───────────────── */
 
     function injectSummary() {
@@ -566,6 +790,9 @@
 
         // Fix datepicker visibility globally
         fixDatepickerVisibility();
+
+        // Enhance form visuals: invitation text, tooltips, styling
+        enhanceFormVisuals();
 
         // Format raw price fields on page 1 (runs on interval to catch
         // Formidable's async value population without MutationObserver conflicts)
