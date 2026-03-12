@@ -659,6 +659,147 @@
                 '#frm_field_16_container .frm_radio .cdski-radio-selected ~ .frm_image_option_text {' +
                     'font-weight: 700 !important;' +
                     'color: #f7941d !important;' +
+                '}' +
+                /* ──── Button & Navigation Improvements ──── */
+                /* Step navigation tabs (rootline) */
+                '#form_calculadora1 .frm_rootline_group {' +
+                    'display: flex !important;' +
+                    'justify-content: center !important;' +
+                    'gap: 12px !important;' +
+                    'margin-bottom: 20px !important;' +
+                    'padding: 10px 0 !important;' +
+                '}' +
+                '#form_calculadora1 .frm_rootline_group .frm_rootline_single {' +
+                    'flex: none !important;' +
+                '}' +
+                '#form_calculadora1 .frm_rootline_group .frm_rootline_single input[type="button"] {' +
+                    'background: linear-gradient(135deg, #e0e5ec 0%, #cfd8e3 100%) !important;' +
+                    'color: #4a5568 !important;' +
+                    'border: 2px solid #cbd5e0 !important;' +
+                    'border-radius: 50% !important;' +
+                    'width: 44px !important;' +
+                    'height: 44px !important;' +
+                    'font-size: 16px !important;' +
+                    'font-weight: 700 !important;' +
+                    'cursor: pointer !important;' +
+                    'transition: all 0.3s ease !important;' +
+                    'box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;' +
+                    'line-height: 1 !important;' +
+                    'padding: 0 !important;' +
+                '}' +
+                '#form_calculadora1 .frm_rootline_group .frm_rootline_single.frm_current_page input[type="button"],' +
+                '#form_calculadora1 .frm_rootline_group .frm_rootline_single input[type="button"][disabled] {' +
+                    'background: linear-gradient(135deg, #f7941d 0%, #f15a22 100%) !important;' +
+                    'color: #fff !important;' +
+                    'border-color: #f7941d !important;' +
+                    'box-shadow: 0 4px 15px rgba(247,148,29,0.4) !important;' +
+                    'transform: scale(1.1) !important;' +
+                '}' +
+                '#form_calculadora1 .frm_rootline_group .frm_rootline_single input[type="button"]:hover:not([disabled]) {' +
+                    'background: linear-gradient(135deg, #f7941d 0%, #f15a22 100%) !important;' +
+                    'color: #fff !important;' +
+                    'border-color: #f7941d !important;' +
+                    'transform: scale(1.05) !important;' +
+                '}' +
+                /* Step labels */
+                '#form_calculadora1 .frm_rootline_group .frm_rootline_single .frm_rootline_title {' +
+                    'font-size: 11px !important;' +
+                    'font-weight: 600 !important;' +
+                    'color: #4a5568 !important;' +
+                    'margin-top: 6px !important;' +
+                    'text-align: center !important;' +
+                    'max-width: 120px !important;' +
+                '}' +
+                '#form_calculadora1 .frm_rootline_group .frm_rootline_single.frm_current_page .frm_rootline_title {' +
+                    'color: #f7941d !important;' +
+                    'font-weight: 700 !important;' +
+                '}' +
+                /* Progress bar */
+                '#form_calculadora1 .frm_rootline_group .frm_percent_complete {' +
+                    'display: none !important;' +
+                '}' +
+                '#form_calculadora1 .frm_page_bar .frm_percent_complete {' +
+                    'display: none !important;' +
+                '}' +
+                /* Connector line between steps */
+                '#form_calculadora1 .frm_rootline_group .frm_rootline_single::after {' +
+                    'background: #e0e5ec !important;' +
+                    'height: 3px !important;' +
+                    'top: 22px !important;' +
+                '}' +
+                '#form_calculadora1 .frm_rootline_group .frm_rootline_single.frm_current_page::after {' +
+                    'background: linear-gradient(90deg, #f7941d, #e0e5ec) !important;' +
+                '}' +
+                /* "Continuar" submit button */
+                '#form_calculadora1 button[type="submit"].frm_button_submit,' +
+                '#form_calculadora1 .frm_submit button[type="submit"],' +
+                '#form_calculadora1 button.frm_next_page,' +
+                '#form_calculadora1 .frm_next_page {' +
+                    'display: block !important;' +
+                    'width: 100% !important;' +
+                    'max-width: 320px !important;' +
+                    'margin: 25px auto 10px !important;' +
+                    'padding: 14px 32px !important;' +
+                    'background: linear-gradient(135deg, #f7941d 0%, #f15a22 100%) !important;' +
+                    'color: #fff !important;' +
+                    'border: none !important;' +
+                    'border-radius: 50px !important;' +
+                    'font-size: 16px !important;' +
+                    'font-weight: 700 !important;' +
+                    'letter-spacing: 0.5px !important;' +
+                    'text-transform: uppercase !important;' +
+                    'cursor: pointer !important;' +
+                    'transition: all 0.3s ease !important;' +
+                    'box-shadow: 0 4px 15px rgba(247,148,29,0.4) !important;' +
+                '}' +
+                '#form_calculadora1 button[type="submit"].frm_button_submit:hover,' +
+                '#form_calculadora1 .frm_submit button[type="submit"]:hover,' +
+                '#form_calculadora1 button.frm_next_page:hover,' +
+                '#form_calculadora1 .frm_next_page:hover {' +
+                    'background: linear-gradient(135deg, #e8850f 0%, #d94e1a 100%) !important;' +
+                    'transform: translateY(-2px) !important;' +
+                    'box-shadow: 0 6px 20px rgba(247,148,29,0.5) !important;' +
+                '}' +
+                /* Submit container alignment */
+                '#form_calculadora1 .frm_submit {' +
+                    'text-align: center !important;' +
+                    'margin-top: 15px !important;' +
+                '}' +
+                /* "Anterior" (Previous) button on page 2 */
+                '#form_calculadora1 .frm_prev_page,' +
+                '#form_calculadora1 button.frm_prev_page {' +
+                    'display: block !important;' +
+                    'width: 100% !important;' +
+                    'max-width: 320px !important;' +
+                    'margin: 8px auto !important;' +
+                    'padding: 12px 28px !important;' +
+                    'background: transparent !important;' +
+                    'color: #4a5568 !important;' +
+                    'border: 2px solid #cbd5e0 !important;' +
+                    'border-radius: 50px !important;' +
+                    'font-size: 14px !important;' +
+                    'font-weight: 600 !important;' +
+                    'letter-spacing: 0.3px !important;' +
+                    'cursor: pointer !important;' +
+                    'transition: all 0.3s ease !important;' +
+                '}' +
+                '#form_calculadora1 .frm_prev_page:hover,' +
+                '#form_calculadora1 button.frm_prev_page:hover {' +
+                    'background: #f7f8fa !important;' +
+                    'border-color: #f7941d !important;' +
+                    'color: #f7941d !important;' +
+                '}' +
+                /* Smooth transitions for form field changes */
+                '#form_calculadora1 .frm_form_field {' +
+                    'transition: opacity 0.2s ease !important;' +
+                '}' +
+                /* Price overlay transitions */
+                '.cdski-price-overlay {' +
+                    'transition: opacity 0.3s ease !important;' +
+                '}' +
+                /* Prevent layout jump during radio change */
+                '#form_calculadora1 .frm_opt_container {' +
+                    'min-height: 120px !important;' +
                 '}';
             document.head.appendChild(style);
         }
@@ -866,6 +1007,31 @@
         // Fix datepicker visibility globally
         fixDatepickerVisibility();
 
+        // Fix WooCommerce product grid layout (Necesitas Equiparte? section)
+        // Products were stacking vertically because float:none was applied.
+        // Use flexbox to force horizontal layout on desktop.
+        if (!document.getElementById('cdski-products-grid-fix')) {
+            var gridFixStyle = document.createElement('style');
+            gridFixStyle.id = 'cdski-products-grid-fix';
+            gridFixStyle.textContent =
+                '@media (min-width: 768px) {' +
+                    '.woocommerce ul.products.columns-4 {' +
+                        'display: flex !important;' +
+                        'flex-wrap: wrap !important;' +
+                        'list-style: none !important;' +
+                        'padding: 0 !important;' +
+                    '}' +
+                    '.woocommerce ul.products.columns-4 li.product {' +
+                        'flex: 0 0 25% !important;' +
+                        'max-width: 25% !important;' +
+                        'box-sizing: border-box !important;' +
+                        'padding: 0 15px !important;' +
+                        'list-style: none !important;' +
+                    '}' +
+                '}';
+            document.head.appendChild(gridFixStyle);
+        }
+
         // Enhance form visuals: invitation text, tooltips, styling
         enhanceFormVisuals();
 
@@ -899,6 +1065,14 @@
             '#form_' + FORM_KEY + ' input[name="item_meta[17]"], ' +
             '#form_' + FORM_KEY + ' input[name="item_meta[16]"]',
             function() {
+                // Add transition class to prevent visual flash
+                var form = document.getElementById('form_' + FORM_KEY);
+                if (form) {
+                    // Fade out the price area during transition
+                    var priceOverlays = form.querySelectorAll('.cdski-price-overlay');
+                    priceOverlays.forEach(function(el) { el.style.opacity = '0'; });
+                }
+
                 // Immediately format prices at 0ms to prevent flash of raw values.
                 // CSS pre-hides number inputs, but we need overlays ASAP.
                 formatRawPriceFields();
@@ -914,6 +1088,11 @@
                     setTimeout(function() {
                         capturePageOneData();
                         formatRawPriceFields();
+                        // Fade price overlays back in
+                        if (form) {
+                            var overlays = form.querySelectorAll('.cdski-price-overlay');
+                            overlays.forEach(function(el) { el.style.opacity = '1'; });
+                        }
                         // Update summary card if it exists
                         var summary = document.getElementById('cdski-booking-summary');
                         if (summary && storedData) {

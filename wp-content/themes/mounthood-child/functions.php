@@ -471,7 +471,7 @@ function cdski_enqueue_form_flow_scripts() {
         'cdski-form-flow',
         get_stylesheet_directory_uri() . '/js/cdski-form-flow-v9.js',
         array( 'jquery' ),
-        '9.0.0',
+        '9.1.0',
         true
     );
 }
