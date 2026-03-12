@@ -455,6 +455,46 @@
         }, 200);
     }
 
+    /* ── set default selections: 2 personas + Full-day ────── */
+
+    /**
+     * Force-select a radio: set .checked, update attribute, trigger jQuery change
+     * only (no click event — click can cause Formidable to toggle/reset).
+     */
+    function forceSelectRadio(radios, matchFn) {
+        var form = document.getElementById('form_' + FORM_KEY);
+        if (!form) return;
+        radios.forEach(function(r) {
+            if (matchFn(r)) {
+                r.checked = true;
+                r.setAttribute('checked', 'checked');
+                // Only trigger change (not click) to avoid Formidable toggling
+                if (window.jQuery) {
+                    jQuery(r).prop('checked', true).trigger('change');
+                } else {
+                    r.dispatchEvent(new Event('change', {bubbles: true}));
+                }
+            } else {
+                r.checked = false;
+                r.removeAttribute('checked');
+            }
+        });
+    }
+
+    function setDefaultPersonas() {
+        var form = document.getElementById('form_' + FORM_KEY);
+        if (!form) return;
+        var radios = form.querySelectorAll('input[name="item_meta[17]"]');
+        forceSelectRadio(radios, function(r) { return r.value === 'Dos'; });
+    }
+
+    function setDefaultPlan() {
+        var form = document.getElementById('form_' + FORM_KEY);
+        if (!form) return;
+        var radios = form.querySelectorAll('input[name="item_meta[16]"]');
+        forceSelectRadio(radios, function(r) { return r.value && r.value.indexOf('Full') > -1; });
+    }
+
     /* ── event listeners ───────────────────────────────────── */
 
     function init() {
@@ -508,6 +548,36 @@
             });
             observer.observe(form, { childList: true, subtree: true });
         }
+
+        // Set default selections using a persistent interval that keeps
+        // re-applying until Formidable stops resetting them.
+        // Personas at 500ms, then plan via interval every 500ms for up to 10s.
+        setTimeout(function() {
+            setDefaultPersonas();
+            capturePageOneData();
+        }, 500);
+
+        var planAttempts = 0;
+        var planInterval = setInterval(function() {
+            planAttempts++;
+            var f = document.getElementById('form_' + FORM_KEY);
+            if (!f) { clearInterval(planInterval); return; }
+            var planRadios = f.querySelectorAll('input[name="item_meta[16]"]');
+            var fullDayChecked = false;
+            planRadios.forEach(function(r) {
+                if (r.value && r.value.indexOf('Full') > -1 && r.checked) {
+                    fullDayChecked = true;
+                }
+            });
+            if (!fullDayChecked) {
+                setDefaultPlan();
+                capturePageOneData();
+            }
+            // Stop after 10 seconds (20 attempts at 500ms)
+            if (planAttempts >= 20 || fullDayChecked) {
+                clearInterval(planInterval);
+            }
+        }, 500);
 
         // Capture initial data on page load
         capturePageOneData();

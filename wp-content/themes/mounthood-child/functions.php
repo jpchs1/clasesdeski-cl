@@ -1071,7 +1071,7 @@ function cdski_add_enhanced_hreflang_tags() {
 }
 
 // =====================================================================
-// 32. HOMEPAGE CONTENT INJECTION: SEO-rich intro + internal links
+// 32. HOMEPAGE UNIFIED FOOTER: Brand info, links, weather, contact
 // =====================================================================
 add_action( 'wp_footer', 'cdski_homepage_seo_content', 5 );
 function cdski_homepage_seo_content() {
@@ -1079,32 +1079,112 @@ function cdski_homepage_seo_content() {
         return;
     }
     ?>
-    <section class="cdski-seo-section" aria-label="CDSKI Chile Information">
+    <style>
+    /* Inline critical CSS for unified footer (bypasses LiteSpeed CSS cache) */
+    .cdski-unified-footer{background:#111!important;padding:60px 0 40px!important;color:#c0c8d0!important;font-size:15px!important;line-height:1.7!important}
+    .cdski-uf-grid{display:grid!important;grid-template-columns:1.4fr 1fr 1fr 1.2fr!important;gap:40px!important;align-items:start!important}
+    .cdski-uf-title{font-size:22px!important;font-weight:800!important;color:#fff!important;margin:0 0 14px!important;letter-spacing:.5px!important}
+    .cdski-uf-col-title{font-size:17px!important;font-weight:700!important;color:#c8a951!important;text-transform:uppercase!important;letter-spacing:1.5px!important;margin:0 0 18px!important;padding-bottom:10px!important;border-bottom:2px solid rgba(200,169,81,.3)!important}
+    .cdski-uf-motto{font-style:italic!important;color:#c8a951!important;font-size:14px!important;margin:10px 0 18px!important}
+    .cdski-uf-links ul{list-style:none!important;margin:0!important;padding:0!important}
+    .cdski-uf-links li{margin-bottom:10px!important}
+    .cdski-uf-links a{color:#c0c8d0!important;text-decoration:none!important;transition:color .2s,padding-left .2s!important;font-size:14px!important}
+    .cdski-uf-links a:hover{color:#c8a951!important;padding-left:6px!important}
+    .cdski-uf-contact ul{list-style:none!important;margin:0!important;padding:0!important}
+    .cdski-uf-contact li{margin-bottom:12px!important;display:flex!important;align-items:flex-start!important;gap:10px!important}
+    .cdski-uf-contact a{color:#c8a951!important;text-decoration:none!important}
+    .cdski-uf-btn{display:inline-block!important;padding:10px 22px!important;border-radius:6px!important;font-size:13px!important;font-weight:700!important;text-transform:uppercase!important;letter-spacing:1px!important;text-decoration:none!important;transition:all .25s!important;margin-right:10px!important;margin-bottom:8px!important}
+    .cdski-uf-btn-primary{background:#c8a951!important;color:#111!important}
+    .cdski-uf-btn-primary:hover{background:#d4b96a!important;transform:translateY(-2px)!important}
+    .cdski-uf-btn-outline{border:2px solid rgba(200,169,81,.5)!important;color:#c8a951!important;background:transparent!important}
+    .cdski-uf-btn-outline:hover{border-color:#c8a951!important;background:rgba(200,169,81,.1)!important}
+    .cdski-uf-seo{margin-top:30px!important;padding-top:20px!important;border-top:1px solid rgba(255,255,255,.08)!important;font-size:13px!important;color:#8a9aaa!important;text-align:center!important}
+    .cdski-uf-seo a{color:#b8942e!important;text-decoration:none!important}
+    .cdski-uf-social .share_wrap{display:flex!important;gap:12px!important;margin-top:14px!important}
+    .cdski-uf-social .share_wrap a{color:#c0c8d0!important;font-size:18px!important;transition:color .2s!important}
+    .cdski-uf-social .share_wrap a:hover{color:#c8a951!important}
+    @media(max-width:960px){.cdski-uf-grid{grid-template-columns:1fr 1fr!important;gap:30px!important}}
+    @media(max-width:600px){.cdski-uf-grid{grid-template-columns:1fr!important;gap:24px!important}.cdski-unified-footer{padding:40px 0 30px!important}}
+    </style>
+    <footer class="cdski-unified-footer" aria-label="CDSKI Chile Information">
         <div class="content_wrap">
-            <div class="cdski-seo-content">
-                <h2>CDSKI Chile: Experiencia de Guía &amp; Clases de Ski y Snowboard</h2>
-                <p>Aprende ski o snowboard en Chile de una forma diferente. En CDSKI Chile creemos que el aprendizaje en la nieve debe ser emocionante, entretenido y motivador. Por eso cada clase combina técnica, seguridad y diversión en la montaña.</p>
-                <p>Nuestro lema lo resume todo: <strong>&ldquo;Nos divertimos y entretenemos mientras aprendemos.&rdquo;</strong></p>
+            <div class="cdski-uf-grid">
 
-                <div class="cdski-seo-links">
-                    <h3>Descubre Más Sobre CDSKI</h3>
+                <!-- Column 1: Brand -->
+                <div class="cdski-uf-col cdski-uf-brand">
+                    <h3 class="cdski-uf-title">CDSKI Chile</h3>
+                    <p>Experiencia de Gu&iacute;a &amp; Clases de Ski y Snowboard en Valle Nevado, Colorado y La Parva.</p>
+                    <p class="cdski-uf-motto">&ldquo;Nos divertimos y entretenemos mientras aprendemos.&rdquo;</p>
+                    <div class="cdski-uf-buttons">
+                        <a href="/clases-ski-snowboard/" class="cdski-uf-btn cdski-uf-btn-primary">Ver Clases</a>
+                        <a href="/experiencia-cdski/" class="cdski-uf-btn cdski-uf-btn-outline">La Experiencia</a>
+                    </div>
+                    <div class="cdski-uf-social" id="cdski-uf-social-target"></div>
+                </div>
+
+                <!-- Column 2: Explore links -->
+                <div class="cdski-uf-col cdski-uf-links">
+                    <h4 class="cdski-uf-col-title">Explora CDSKI</h4>
                     <ul>
-                        <li><a href="/about-cdski/">Sobre CDSKI Chile</a> &ndash; Nuestra filosofía, valores y manifiesto</li>
-                        <li><a href="/nuestro-metodo/">Nuestro Método</a> &ndash; Cómo enseñamos ski y snowboard</li>
-                        <li><a href="/niveles/">Niveles de Progreso</a> &ndash; Los 7 niveles del alumno CDSKI</li>
-                        <li><a href="/experiencia-cdski/">La Experiencia CDSKI</a> &ndash; Más que clases: experiencias guiadas</li>
-                        <li><a href="/clases-ski-snowboard/">Clases de Ski y Snowboard</a> &ndash; Clases privadas, grupales y días guiados</li>
-                        <li><a href="/seguridad-montana/">Seguridad y Cultura de Montaña</a> &ndash; Código del esquiador CDSKI</li>
+                        <li><a href="/about-cdski/">Sobre CDSKI Chile</a></li>
+                        <li><a href="/nuestro-metodo/">Nuestro M&eacute;todo</a></li>
+                        <li><a href="/niveles/">Niveles de Progreso</a></li>
+                        <li><a href="/experiencia-cdski/">La Experiencia CDSKI</a></li>
+                        <li><a href="/clases-ski-snowboard/">Clases de Ski y Snowboard</a></li>
+                        <li><a href="/seguridad-montana/">Seguridad y Monta&ntilde;a</a></li>
                     </ul>
                 </div>
 
-                <div class="cdski-seo-keywords-block">
-                    <h3>Clases y Experiencias de Ski en Chile</h3>
-                    <p>CDSKI ofrece <a href="/clases-ski-snowboard/">clases de ski en Chile</a>, <a href="/clases-ski-snowboard/">clases de snowboard en Chile</a>, <a href="/clases-ski-snowboard/">clases de ski en Valle Nevado</a>, y <a href="/experiencia-cdski/">experiencias guiadas de ski</a> en los principales centros de ski de la Región Metropolitana: Valle Nevado, Colorado y La Parva. Nuestros <a href="/about-cdski/">instructores expertos</a> ofrecen clases privadas de ski, clases privadas de snowboard y experiencias de guía de montaña personalizadas para familias, turistas, principiantes y esquiadores intermedios.</p>
+                <!-- Column 3: Weather (moved from widget footer via JS) -->
+                <div class="cdski-uf-col cdski-uf-weather" id="cdski-uf-weather-target">
+                    <h4 class="cdski-uf-col-title">El Tiempo Hoy</h4>
+                    <!-- Weather widget content will be moved here via JS -->
                 </div>
+
+                <!-- Column 4: Contact -->
+                <div class="cdski-uf-col cdski-uf-contact">
+                    <h4 class="cdski-uf-col-title">Cont&aacute;ctanos</h4>
+                    <ul>
+                        <li><span class="cdski-uf-icon">&#x1F4CD;</span> Mallsport, Las Condes</li>
+                        <li><span class="cdski-uf-icon">&#x2709;</span> <a href="mailto:info@clasesdeski.cl">info@clasesdeski.cl</a></li>
+                        <li><span class="cdski-uf-icon">&#x1F552;</span> 8:00 am &ndash; 10:00 pm, Lunes a Domingo</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- SEO keywords block (visually hidden but crawlable) -->
+            <div class="cdski-uf-seo">
+                <p>CDSKI ofrece <a href="/clases-ski-snowboard/">clases de ski en Chile</a>, <a href="/clases-ski-snowboard/">clases de snowboard en Chile</a>, <a href="/clases-ski-snowboard/">clases de ski en Valle Nevado</a>, y <a href="/experiencia-cdski/">experiencias guiadas de ski</a> en los principales centros de ski de la Regi&oacute;n Metropolitana.</p>
             </div>
         </div>
-    </section>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Move weather widget content into unified footer
+        var weatherWidget = document.querySelector('#text-2 .textwidget');
+        var weatherTarget = document.getElementById('cdski-uf-weather-target');
+        if (weatherWidget && weatherTarget) {
+            var weatherContent = weatherWidget.cloneNode(true);
+            weatherTarget.appendChild(weatherContent);
+        }
+
+        // Move social icons into unified footer
+        var socialWidget = document.querySelector('#text-2 .widget_socials .share_wrap, #widget_socials .share_wrap');
+        var socialTarget = document.getElementById('cdski-uf-social-target');
+        if (socialWidget && socialTarget) {
+            var socialContent = socialWidget.cloneNode(true);
+            socialTarget.appendChild(socialContent);
+        }
+
+        // Hide the original widget footer on homepage (now merged into unified footer)
+        var widgetFooter = document.querySelector('.footer_wrap.widget_area');
+        if (widgetFooter) {
+            widgetFooter.style.display = 'none';
+        }
+    });
+    </script>
     <?php
 }
 
