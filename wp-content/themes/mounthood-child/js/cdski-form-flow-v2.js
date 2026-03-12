@@ -228,6 +228,71 @@
         });
     }
 
+    /* ── format the raw Precio / Precio con Descuento fields on page 1 ── */
+
+    function formatRawPriceFields() {
+        var form = document.getElementById('form_' + FORM_KEY);
+        if (!form) return;
+
+        var fields = [
+            { selector: 'input[name="item_meta[19]"]', id: 'cdski-precio-overlay' },
+            { selector: 'input[name="item_meta[20]"]', id: 'cdski-descuento-overlay' }
+        ];
+
+        fields.forEach(function(f) {
+            var input = form.querySelector(f.selector);
+            if (!input) return;
+
+            var container = input.closest('.frm_form_field');
+            if (!container) return;
+
+            // Parse the raw value (may use , or . as thousands sep depending on locale)
+            var rawVal = input.value;
+            if (!rawVal) return;
+
+            // Normalize: Formidable may output "392,275" or "392.275" depending on locale
+            // Remove commas if they look like thousands separators (e.g. "392,275")
+            var normalized = rawVal;
+            if (/^\d{1,3}(,\d{3})+$/.test(normalized)) {
+                normalized = normalized.replace(/,/g, '');
+            } else {
+                normalized = String(parseCLPValue(rawVal));
+            }
+
+            var clpFormatted = formatCLP(normalized);
+            var usdFormatted = formatUSD(normalized);
+
+            // Check if overlay already exists, update it
+            var existing = container.querySelector('#' + f.id);
+            if (existing) {
+                var clpEl = existing.querySelector('.cdski-raw-clp');
+                var usdEl = existing.querySelector('.cdski-raw-usd');
+                if (clpEl) clpEl.textContent = clpFormatted;
+                if (usdEl) usdEl.textContent = usdFormatted ? '(' + usdFormatted + ')' : '';
+                return;
+            }
+
+            // Create overlay div
+            var overlay = document.createElement('div');
+            overlay.id = f.id;
+            overlay.style.cssText = 'margin-top:4px;font-size:16px;font-weight:700;color:#1a2332;line-height:1.4;';
+            overlay.innerHTML = '<span class="cdski-raw-clp" style="font-size:18px;">' + clpFormatted + '</span>' +
+                (usdFormatted ? ' <span class="cdski-raw-usd" style="font-size:14px;color:#f7941d;font-weight:600;">(' + usdFormatted + ')</span>' : '<span class="cdski-raw-usd" style="font-size:14px;color:#f7941d;font-weight:600;"></span>');
+
+            // Hide the raw input visually but keep it in the form for submission
+            input.style.cssText = 'position:absolute !important;opacity:0 !important;height:0 !important;overflow:hidden !important;pointer-events:none !important;';
+
+            // Also hide the "AGENDAR CLASE" button next to the raw input
+            var agendarBtn = container.querySelector('button[type="submit"]');
+            if (agendarBtn) {
+                agendarBtn.style.display = 'none';
+            }
+
+            // Insert overlay after the input
+            input.parentNode.insertBefore(overlay, input.nextSibling);
+        });
+    }
+
     /* ── update price displays when dolar arrives ──────────── */
 
     function updatePriceDisplays() {
@@ -238,6 +303,8 @@
             if (strikeEl) strikeEl.innerHTML = formatPriceBlock(storedData.precio);
             if (finalEl)  finalEl.innerHTML  = formatPriceBlock(storedData.precioDescuento);
         }
+        // Also update raw price field overlays
+        formatRawPriceFields();
     }
 
     /* ── update "Tomo conocimiento de" disclaimer text ────── */
@@ -494,11 +561,17 @@
         // Fix datepicker visibility globally
         fixDatepickerVisibility();
 
+        // Format raw price fields on page 1
+        formatRawPriceFields();
+
         // 1. Capture data on every radio change (keeps storedData fresh)
         $(document).on('change',
             '#form_' + FORM_KEY + ' input[name="item_meta[17]"], ' +
             '#form_' + FORM_KEY + ' input[name="item_meta[16]"]',
-            capturePageOneData
+            function() {
+                capturePageOneData();
+                setTimeout(formatRawPriceFields, 300);
+            }
         );
 
         // 2. Capture data right before "Continuar" fires the AJAX page swap
@@ -519,7 +592,7 @@
             }
         });
 
-        // 5. MutationObserver fallback for page-2 detection
+        // 5. MutationObserver fallback for page-2 detection and price field formatting
         if (form) {
             var observer = new MutationObserver(function() {
                 var finalBtn = form.querySelector('.frm_final_submit');
@@ -530,6 +603,8 @@
                         updateTomoConocimientoText();
                     }, 150);
                 }
+                // Re-format raw price fields whenever form DOM changes
+                formatRawPriceFields();
             });
             observer.observe(form, { childList: true, subtree: true });
         }
