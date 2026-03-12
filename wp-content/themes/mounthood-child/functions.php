@@ -1079,6 +1079,33 @@ function cdski_homepage_seo_content() {
         return;
     }
     ?>
+    <style>
+    /* Inline critical CSS for unified footer (bypasses LiteSpeed CSS cache) */
+    .cdski-unified-footer{background:#111!important;padding:60px 0 40px!important;color:#c0c8d0!important;font-size:15px!important;line-height:1.7!important}
+    .cdski-uf-grid{display:grid!important;grid-template-columns:1.4fr 1fr 1fr 1.2fr!important;gap:40px!important;align-items:start!important}
+    .cdski-uf-title{font-size:22px!important;font-weight:800!important;color:#fff!important;margin:0 0 14px!important;letter-spacing:.5px!important}
+    .cdski-uf-col-title{font-size:17px!important;font-weight:700!important;color:#c8a951!important;text-transform:uppercase!important;letter-spacing:1.5px!important;margin:0 0 18px!important;padding-bottom:10px!important;border-bottom:2px solid rgba(200,169,81,.3)!important}
+    .cdski-uf-motto{font-style:italic!important;color:#c8a951!important;font-size:14px!important;margin:10px 0 18px!important}
+    .cdski-uf-links ul{list-style:none!important;margin:0!important;padding:0!important}
+    .cdski-uf-links li{margin-bottom:10px!important}
+    .cdski-uf-links a{color:#c0c8d0!important;text-decoration:none!important;transition:color .2s,padding-left .2s!important;font-size:14px!important}
+    .cdski-uf-links a:hover{color:#c8a951!important;padding-left:6px!important}
+    .cdski-uf-contact ul{list-style:none!important;margin:0!important;padding:0!important}
+    .cdski-uf-contact li{margin-bottom:12px!important;display:flex!important;align-items:flex-start!important;gap:10px!important}
+    .cdski-uf-contact a{color:#c8a951!important;text-decoration:none!important}
+    .cdski-uf-btn{display:inline-block!important;padding:10px 22px!important;border-radius:6px!important;font-size:13px!important;font-weight:700!important;text-transform:uppercase!important;letter-spacing:1px!important;text-decoration:none!important;transition:all .25s!important;margin-right:10px!important;margin-bottom:8px!important}
+    .cdski-uf-btn-primary{background:#c8a951!important;color:#111!important}
+    .cdski-uf-btn-primary:hover{background:#d4b96a!important;transform:translateY(-2px)!important}
+    .cdski-uf-btn-outline{border:2px solid rgba(200,169,81,.5)!important;color:#c8a951!important;background:transparent!important}
+    .cdski-uf-btn-outline:hover{border-color:#c8a951!important;background:rgba(200,169,81,.1)!important}
+    .cdski-uf-seo{margin-top:30px!important;padding-top:20px!important;border-top:1px solid rgba(255,255,255,.08)!important;font-size:13px!important;color:#8a9aaa!important;text-align:center!important}
+    .cdski-uf-seo a{color:#b8942e!important;text-decoration:none!important}
+    .cdski-uf-social .share_wrap{display:flex!important;gap:12px!important;margin-top:14px!important}
+    .cdski-uf-social .share_wrap a{color:#c0c8d0!important;font-size:18px!important;transition:color .2s!important}
+    .cdski-uf-social .share_wrap a:hover{color:#c8a951!important}
+    @media(max-width:960px){.cdski-uf-grid{grid-template-columns:1fr 1fr!important;gap:30px!important}}
+    @media(max-width:600px){.cdski-uf-grid{grid-template-columns:1fr!important;gap:24px!important}.cdski-unified-footer{padding:40px 0 30px!important}}
+    </style>
     <footer class="cdski-unified-footer" aria-label="CDSKI Chile Information">
         <div class="content_wrap">
             <div class="cdski-uf-grid">
