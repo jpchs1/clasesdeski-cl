@@ -820,6 +820,23 @@
         // Enhance form visuals: invitation text, tooltips, styling
         enhanceFormVisuals();
 
+        // Pre-hide all number inputs inside the form via CSS so that when
+        // Formidable shows new price fields on radio change, the raw value
+        // is never visible (prevents flash of unformatted price).
+        if (!document.getElementById('cdski-price-prehide-css')) {
+            var prehideStyle = document.createElement('style');
+            prehideStyle.id = 'cdski-price-prehide-css';
+            prehideStyle.textContent =
+                '#form_' + FORM_KEY + ' input[type="number"] {' +
+                    'position: absolute !important;' +
+                    'opacity: 0 !important;' +
+                    'height: 0 !important;' +
+                    'overflow: hidden !important;' +
+                    'pointer-events: none !important;' +
+                '}';
+            document.head.appendChild(prehideStyle);
+        }
+
         // Format raw price fields on page 1 (runs on interval to catch
         // Formidable's async value population without MutationObserver conflicts)
         setInterval(formatRawPriceFields, 500);
@@ -830,6 +847,11 @@
             '#form_' + FORM_KEY + ' input[name="item_meta[17]"], ' +
             '#form_' + FORM_KEY + ' input[name="item_meta[16]"]',
             function() {
+                // Immediately format prices at 0ms to prevent flash of raw values.
+                // CSS pre-hides number inputs, but we need overlays ASAP.
+                formatRawPriceFields();
+                capturePageOneData();
+
                 // Formidable needs time to show/hide the correct price fields
                 // and populate their values. Use staggered timeouts.
                 var delays = [200, 500, 1000, 1500];
