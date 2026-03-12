@@ -1099,3 +1099,1098 @@ img {
         padding: 0 !important;
     }
 }
+
+
+/* ==========================================================================
+   CDSKI CONTENT PAGES - Custom page template styles
+   ========================================================================== */
+
+/* ------------------------------------------------------------------
+   Page Hero Sections
+   ------------------------------------------------------------------ */
+.cdski-page-hero {
+    background: linear-gradient(135deg, #1a2332 0%, #0f4c75 50%, #1a2332 100%);
+    padding: 80px 0 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.cdski-page-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/></svg>') repeat;
+    opacity: 0.5;
+}
+
+.cdski-page-hero .content_wrap {
+    position: relative;
+    z-index: 1;
+}
+
+.cdski-page-title {
+    color: #ffffff !important;
+    font-size: 2.8em !important;
+    font-weight: 800 !important;
+    margin: 0 0 16px !important;
+    letter-spacing: -0.5px;
+    line-height: 1.15 !important;
+}
+
+.cdski-page-subtitle {
+    color: #94a3b8;
+    font-size: 1.2em;
+    margin: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+/* ------------------------------------------------------------------
+   General Section Styles
+   ------------------------------------------------------------------ */
+.cdski-section {
+    padding: 60px 0;
+}
+
+.cdski-section:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.cdski-section h2 {
+    font-size: 2em !important;
+    color: #1a2332 !important;
+    text-align: center;
+    margin-bottom: 16px !important;
+    font-weight: 700 !important;
+}
+
+.cdski-section-subtitle {
+    text-align: center;
+    color: #64748b;
+    font-size: 1.1em;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cdski-content-block {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+    color: #334155;
+    font-size: 1.05em;
+}
+
+.cdski-content-block p {
+    margin-bottom: 16px;
+}
+
+.cdski-text-center {
+    text-align: center;
+}
+
+.cdski-lead-text {
+    font-size: 1.2em !important;
+    color: #1a2332;
+    font-weight: 500;
+    line-height: 1.7;
+}
+
+/* ------------------------------------------------------------------
+   Motto / Blockquote
+   ------------------------------------------------------------------ */
+.cdski-motto {
+    background: linear-gradient(135deg, #1a2332 0%, #0f4c75 100%);
+    border-radius: 16px;
+    padding: 32px 40px;
+    margin: 32px 0;
+    border: none;
+    text-align: center;
+}
+
+.cdski-motto p {
+    color: #f7941d !important;
+    font-size: 1.4em !important;
+    font-weight: 700 !important;
+    font-style: italic;
+    margin: 0 !important;
+    line-height: 1.5;
+}
+
+.cdski-motto-large p {
+    font-size: 1.8em !important;
+}
+
+/* ------------------------------------------------------------------
+   CTA Section
+   ------------------------------------------------------------------ */
+.cdski-cta-section {
+    background: linear-gradient(135deg, #f7941d 0%, #f15a22 100%) !important;
+    text-align: center;
+    padding: 60px 0;
+}
+
+.cdski-cta-section h2 {
+    color: #ffffff !important;
+}
+
+.cdski-cta-section p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.15em;
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cdski-cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cdski-btn {
+    display: inline-block;
+    padding: 14px 36px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+}
+
+.cdski-btn-primary {
+    background: #ffffff;
+    color: #f7941d !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.cdski-btn-primary:hover {
+    background: #1a2332;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+}
+
+.cdski-btn-secondary {
+    background: transparent;
+    color: #ffffff !important;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.cdski-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.cdski-btn-outline {
+    background: transparent;
+    color: #f7941d !important;
+    border: 2px solid #f7941d;
+    padding: 10px 28px;
+    font-size: 14px;
+}
+
+.cdski-btn-outline:hover {
+    background: #f7941d;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+}
+
+.cdski-btn-whatsapp {
+    background: #25d366;
+    color: #ffffff !important;
+}
+
+.cdski-btn-whatsapp:hover {
+    background: #1da851;
+    transform: translateY(-2px);
+}
+
+/* ------------------------------------------------------------------
+   Manifesto Grid
+   ------------------------------------------------------------------ */
+.cdski-manifesto-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 900px;
+    margin: 40px auto;
+}
+
+.cdski-manifesto-item {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cdski-manifesto-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.cdski-manifesto-icon {
+    font-size: 2.5em;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.cdski-manifesto-item p {
+    color: #334155;
+    font-size: 1.05em;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.cdski-manifesto-closing {
+    text-align: center;
+    font-size: 1.15em;
+    color: #1a2332;
+    font-weight: 600;
+    max-width: 700px;
+    margin: 32px auto 0;
+}
+
+/* ------------------------------------------------------------------
+   Values Grid
+   ------------------------------------------------------------------ */
+.cdski-values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1000px;
+    margin: 40px auto 0;
+}
+
+.cdski-value-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.cdski-value-card:hover {
+    transform: translateY(-4px);
+}
+
+.cdski-value-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #f7941d 0%, #f15a22 100%);
+}
+
+.cdski-value-number {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #f7941d 0%, #f15a22 100%);
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1em;
+    margin-bottom: 16px;
+}
+
+.cdski-value-card h3 {
+    color: #1a2332 !important;
+    font-size: 1.15em !important;
+    margin-bottom: 8px !important;
+    font-weight: 700 !important;
+}
+
+.cdski-value-card p {
+    color: #64748b;
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ------------------------------------------------------------------
+   Pillars Grid (Method page)
+   ------------------------------------------------------------------ */
+.cdski-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1000px;
+    margin: 40px auto 0;
+}
+
+.cdski-pillar-card {
+    background: linear-gradient(135deg, #1a2332 0%, #2d3e50 100%);
+    border-radius: 16px;
+    padding: 40px 32px;
+    text-align: center;
+    color: #ffffff;
+    transition: transform 0.3s ease;
+}
+
+.cdski-pillar-card:hover {
+    transform: translateY(-4px);
+}
+
+.cdski-pillar-icon {
+    font-size: 3em;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.cdski-pillar-card h3 {
+    color: #f7941d !important;
+    font-size: 1.3em !important;
+    margin-bottom: 12px !important;
+}
+
+.cdski-pillar-card p {
+    color: #94a3b8;
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ------------------------------------------------------------------
+   Learning Stages (Method page)
+   ------------------------------------------------------------------ */
+.cdski-stages-list {
+    max-width: 800px;
+    margin: 40px auto 0;
+}
+
+.cdski-stage-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 24px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.cdski-stage-item:last-child {
+    border-bottom: none;
+}
+
+.cdski-stage-number {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    background: linear-gradient(135deg, #f7941d 0%, #f15a22 100%);
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.2em;
+}
+
+.cdski-stage-content h3 {
+    color: #1a2332 !important;
+    font-size: 1.1em !important;
+    margin: 0 0 4px !important;
+}
+
+.cdski-stage-content p {
+    color: #64748b;
+    margin: 0;
+    font-size: 0.95em;
+}
+
+/* ------------------------------------------------------------------
+   Principles Grid (Method page)
+   ------------------------------------------------------------------ */
+.cdski-principles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1000px;
+    margin: 40px auto 0;
+}
+
+.cdski-principle-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease;
+}
+
+.cdski-principle-card:hover {
+    transform: translateY(-4px);
+}
+
+.cdski-principle-number {
+    font-size: 2.5em;
+    font-weight: 800;
+    color: #f7941d;
+    line-height: 1;
+    margin-bottom: 12px;
+}
+
+.cdski-principle-card h3 {
+    color: #1a2332 !important;
+    font-size: 1.15em !important;
+    margin-bottom: 8px !important;
+}
+
+.cdski-principle-card p {
+    color: #64748b;
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ------------------------------------------------------------------
+   Levels Grid (Niveles page)
+   ------------------------------------------------------------------ */
+.cdski-levels-grid {
+    max-width: 900px;
+    margin: 40px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cdski-level-card {
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease;
+}
+
+.cdski-level-card:hover {
+    transform: translateY(-2px);
+}
+
+.cdski-level-header {
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: linear-gradient(135deg, #1a2332 0%, #2d3e50 100%);
+}
+
+.cdski-level-badge {
+    background: linear-gradient(135deg, #f7941d 0%, #f15a22 100%);
+    color: #ffffff;
+    padding: 4px 16px;
+    border-radius: 50px;
+    font-size: 0.85em;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.cdski-level-header h3 {
+    color: #ffffff !important;
+    margin: 0 !important;
+    font-size: 1.15em !important;
+}
+
+.cdski-level-body {
+    padding: 20px 28px;
+}
+
+.cdski-level-body p {
+    color: #334155;
+    margin: 0 0 16px;
+    font-size: 0.95em;
+    line-height: 1.6;
+}
+
+.cdski-level-progress {
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.cdski-level-bar {
+    height: 100%;
+    background: linear-gradient(135deg, #f7941d 0%, #f15a22 100%);
+    border-radius: 4px;
+    transition: width 0.6s ease;
+}
+
+/* Level-specific accent colors */
+.cdski-level-7 .cdski-level-header {
+    background: linear-gradient(135deg, #f7941d 0%, #f15a22 100%);
+}
+
+.cdski-level-7 .cdski-level-badge {
+    background: #1a2332;
+}
+
+/* ------------------------------------------------------------------
+   Features / Difference Grid (Experience page)
+   ------------------------------------------------------------------ */
+.cdski-features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1000px;
+    margin: 40px auto 0;
+}
+
+.cdski-feature-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease;
+}
+
+.cdski-feature-card:hover {
+    transform: translateY(-4px);
+}
+
+.cdski-feature-icon {
+    font-size: 2.5em;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.cdski-feature-card h3 {
+    color: #1a2332 !important;
+    font-size: 1.1em !important;
+    margin-bottom: 8px !important;
+}
+
+.cdski-feature-card p {
+    color: #64748b;
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ------------------------------------------------------------------
+   Audience Grid (Experience page)
+   ------------------------------------------------------------------ */
+.cdski-audience-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1000px;
+    margin: 40px auto 0;
+}
+
+.cdski-audience-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease;
+}
+
+.cdski-audience-card:hover {
+    transform: translateY(-4px);
+}
+
+.cdski-audience-card h3 {
+    color: #1a2332 !important;
+    font-size: 1.05em !important;
+    margin-bottom: 8px !important;
+}
+
+.cdski-audience-card p {
+    color: #64748b;
+    font-size: 0.9em;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ------------------------------------------------------------------
+   Services Grid (Lessons page)
+   ------------------------------------------------------------------ */
+.cdski-services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 1000px;
+    margin: 40px auto 0;
+}
+
+.cdski-service-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 36px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.cdski-service-card:hover {
+    transform: translateY(-4px);
+}
+
+.cdski-service-icon {
+    font-size: 2.5em;
+    margin-bottom: 16px;
+}
+
+.cdski-service-card h3 {
+    color: #1a2332 !important;
+    font-size: 1.25em !important;
+    margin-bottom: 12px !important;
+}
+
+.cdski-service-card > p {
+    color: #64748b;
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.cdski-service-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    flex-grow: 1;
+}
+
+.cdski-service-features li {
+    padding: 6px 0 6px 24px;
+    position: relative;
+    color: #334155;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+.cdski-service-features li::before {
+    content: '\2713';
+    position: absolute;
+    left: 0;
+    color: #22c55e;
+    font-weight: 700;
+}
+
+/* ------------------------------------------------------------------
+   Included Items (Lessons page)
+   ------------------------------------------------------------------ */
+.cdski-included-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 900px;
+    margin: 40px auto 0;
+}
+
+.cdski-included-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.cdski-check {
+    color: #22c55e;
+    font-size: 1.3em;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.cdski-included-item span:last-child {
+    color: #334155;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+/* ------------------------------------------------------------------
+   Locations Grid (Lessons page)
+   ------------------------------------------------------------------ */
+.cdski-locations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 900px;
+    margin: 40px auto 0;
+}
+
+.cdski-location-card {
+    background: linear-gradient(135deg, #1a2332 0%, #2d3e50 100%);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    color: #ffffff;
+    transition: transform 0.3s ease;
+}
+
+.cdski-location-card:hover {
+    transform: translateY(-4px);
+}
+
+.cdski-location-card h3 {
+    color: #f7941d !important;
+    font-size: 1.3em !important;
+    margin-bottom: 8px !important;
+}
+
+.cdski-location-card p {
+    color: #94a3b8;
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ------------------------------------------------------------------
+   Skier Code Grid (Safety page)
+   ------------------------------------------------------------------ */
+.cdski-code-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1000px;
+    margin: 40px auto 0;
+}
+
+.cdski-code-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease;
+}
+
+.cdski-code-card:hover {
+    transform: translateY(-4px);
+}
+
+.cdski-code-icon {
+    font-size: 2.5em;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.cdski-code-card h3 {
+    color: #1a2332 !important;
+    font-size: 1.05em !important;
+    margin-bottom: 8px !important;
+}
+
+.cdski-code-card p {
+    color: #64748b;
+    font-size: 0.9em;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ------------------------------------------------------------------
+   Safety Tips Grid
+   ------------------------------------------------------------------ */
+.cdski-tips-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1000px;
+    margin: 40px auto 0;
+}
+
+.cdski-tip-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    border-left: 4px solid #f7941d;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.cdski-tip-card h3 {
+    color: #1a2332 !important;
+    font-size: 1em !important;
+    margin-bottom: 8px !important;
+}
+
+.cdski-tip-card p {
+    color: #64748b;
+    font-size: 0.9em;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ------------------------------------------------------------------
+   Homepage SEO Content Section
+   ------------------------------------------------------------------ */
+.cdski-seo-section {
+    background: #f8fafc;
+    padding: 48px 0;
+    border-top: 1px solid #e2e8f0;
+}
+
+.cdski-seo-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.cdski-seo-content h2 {
+    color: #1a2332;
+    font-size: 1.6em;
+    margin-bottom: 16px;
+    font-weight: 700;
+}
+
+.cdski-seo-content h3 {
+    color: #1a2332;
+    font-size: 1.2em;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.cdski-seo-content p {
+    color: #475569;
+    font-size: 0.95em;
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+
+.cdski-seo-links {
+    margin: 32px 0;
+    padding: 24px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.cdski-seo-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cdski-seo-links li {
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.95em;
+    color: #475569;
+}
+
+.cdski-seo-links li:last-child {
+    border-bottom: none;
+}
+
+.cdski-seo-links a {
+    color: #f7941d;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.cdski-seo-links a:hover {
+    color: #f15a22;
+    text-decoration: underline;
+}
+
+.cdski-seo-keywords-block {
+    margin-top: 24px;
+}
+
+.cdski-seo-keywords-block a {
+    color: #f7941d;
+    text-decoration: none;
+}
+
+.cdski-seo-keywords-block a:hover {
+    text-decoration: underline;
+}
+
+/* ------------------------------------------------------------------
+   Internal Navigation Footer
+   ------------------------------------------------------------------ */
+.cdski-internal-nav {
+    background: #1a2332;
+    padding: 40px 0;
+}
+
+.cdski-internal-nav h3 {
+    color: #ffffff;
+    text-align: center;
+    font-size: 1.2em;
+    margin-bottom: 24px;
+}
+
+.cdski-internal-nav-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+.cdski-nav-link {
+    display: inline-block;
+    padding: 10px 24px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #e2e8f0 !important;
+    border-radius: 50px;
+    text-decoration: none !important;
+    font-size: 0.9em;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.cdski-nav-link:hover {
+    background: #f7941d;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+}
+
+/* ------------------------------------------------------------------
+   RESPONSIVE: CDSKI Content Pages
+   ------------------------------------------------------------------ */
+@media (max-width: 1024px) {
+    .cdski-values-grid,
+    .cdski-pillars-grid,
+    .cdski-principles-grid,
+    .cdski-features-grid,
+    .cdski-audience-grid,
+    .cdski-code-grid,
+    .cdski-tips-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cdski-services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cdski-included-grid,
+    .cdski-locations-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .cdski-page-hero {
+        padding: 50px 0 40px;
+    }
+
+    .cdski-page-title {
+        font-size: 1.8em !important;
+    }
+
+    .cdski-page-subtitle {
+        font-size: 1em;
+    }
+
+    .cdski-section {
+        padding: 40px 0;
+    }
+
+    .cdski-section h2 {
+        font-size: 1.5em !important;
+    }
+
+    .cdski-manifesto-grid,
+    .cdski-values-grid,
+    .cdski-pillars-grid,
+    .cdski-principles-grid,
+    .cdski-features-grid,
+    .cdski-audience-grid,
+    .cdski-code-grid,
+    .cdski-tips-grid,
+    .cdski-services-grid,
+    .cdski-included-grid,
+    .cdski-locations-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cdski-motto {
+        padding: 24px;
+    }
+
+    .cdski-motto p {
+        font-size: 1.1em !important;
+    }
+
+    .cdski-motto-large p {
+        font-size: 1.3em !important;
+    }
+
+    .cdski-cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cdski-btn {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+    }
+
+    .cdski-stage-item {
+        gap: 16px;
+    }
+
+    .cdski-stage-number {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        font-size: 1em;
+    }
+
+    .cdski-level-header {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 16px 20px;
+    }
+
+    .cdski-level-body {
+        padding: 16px 20px;
+    }
+
+    .cdski-internal-nav-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cdski-nav-link {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+    }
+
+    .cdski-seo-section {
+        padding: 32px 0;
+    }
+
+    .cdski-seo-content h2 {
+        font-size: 1.3em;
+    }
+}
+
+@media (max-width: 480px) {
+    .cdski-page-title {
+        font-size: 1.5em !important;
+    }
+
+    .cdski-manifesto-item,
+    .cdski-value-card,
+    .cdski-pillar-card,
+    .cdski-principle-card,
+    .cdski-feature-card,
+    .cdski-service-card {
+        padding: 24px;
+    }
+}

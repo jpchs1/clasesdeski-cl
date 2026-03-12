@@ -930,3 +930,206 @@ function cdski_email_detail_row( $label, $value ) {
     </tr>
     </table>';
 }
+
+// =====================================================================
+// 29. ENHANCED STRUCTURED DATA: TouristActivity + SportsActivityLocation
+// =====================================================================
+add_action( 'wp_head', 'cdski_add_enhanced_structured_data', 6 );
+function cdski_add_enhanced_structured_data() {
+    // TouristActivity schema for experience pages
+    $tourist_activity = array(
+        '@context' => 'https://schema.org',
+        '@type' => 'TouristActivity',
+        'name' => 'Guided Ski & Snowboard Experience in Chile',
+        'description' => 'Experiencia guiada de ski y snowboard en los Andes chilenos. Clases personalizadas con instructores expertos en Valle Nevado, Colorado y La Parva.',
+        'url' => 'https://www.clasesdeski.cl/experiencia-cdski/',
+        'touristType' => array( 'Families', 'Adventure Travelers', 'Beginners', 'International Tourists' ),
+        'provider' => array(
+            '@type' => 'LocalBusiness',
+            'name' => 'CDSKI Chile',
+            'url' => 'https://www.clasesdeski.cl',
+            'telephone' => '+56940211459',
+            'email' => 'info@clasesdeski.cl'
+        ),
+        'location' => array(
+            '@type' => 'SportsActivityLocation',
+            'name' => 'Valle Nevado, Colorado & La Parva Ski Resorts',
+            'address' => array(
+                '@type' => 'PostalAddress',
+                'addressLocality' => 'Santiago',
+                'addressRegion' => 'Region Metropolitana',
+                'addressCountry' => 'CL'
+            )
+        ),
+        'offers' => array(
+            '@type' => 'AggregateOffer',
+            'priceCurrency' => 'CLP',
+            'availability' => 'https://schema.org/InStock',
+            'url' => 'https://www.clasesdeski.cl/clases/'
+        )
+    );
+    echo '<script type="application/ld+json">' . wp_json_encode( $tourist_activity, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
+
+    // SportsActivityLocation schema
+    $sports_location = array(
+        '@context' => 'https://schema.org',
+        '@type' => 'SportsActivityLocation',
+        'name' => 'CDSKI Chile - Ski & Snowboard School',
+        'description' => 'Escuela de ski y snowboard con experiencias guiadas en Valle Nevado, Colorado y La Parva, Chile.',
+        'url' => 'https://www.clasesdeski.cl',
+        'sport' => array( 'Skiing', 'Snowboarding' ),
+        'address' => array(
+            '@type' => 'PostalAddress',
+            'streetAddress' => 'Mall Sport, Las Condes',
+            'addressLocality' => 'Santiago',
+            'addressRegion' => 'Region Metropolitana',
+            'addressCountry' => 'CL'
+        ),
+        'geo' => array(
+            '@type' => 'GeoCoordinates',
+            'latitude' => '-33.4028',
+            'longitude' => '-70.5756'
+        ),
+        'telephone' => '+56940211459',
+        'email' => 'info@clasesdeski.cl',
+        'openingHoursSpecification' => array(
+            '@type' => 'OpeningHoursSpecification',
+            'dayOfWeek' => array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ),
+            'opens' => '08:00',
+            'closes' => '22:00'
+        )
+    );
+    echo '<script type="application/ld+json">' . wp_json_encode( $sports_location, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
+}
+
+// =====================================================================
+// 30. PAGE-SPECIFIC META DESCRIPTIONS FOR NEW CONTENT PAGES
+// =====================================================================
+add_action( 'wp_head', 'cdski_page_specific_meta', 2 );
+function cdski_page_specific_meta() {
+    if ( defined( 'WPSEO_VERSION' ) ) {
+        return; // Let Yoast handle it
+    }
+
+    $meta_map = array(
+        'about-cdski' => array(
+            'title' => 'Sobre CDSKI Chile | Filosofía, Valores y Experiencia de Ski y Snowboard',
+            'description' => 'Conoce CDSKI Chile: nuestra filosofía, valores y manifiesto. Escuela de ski y snowboard con experiencias guiadas en Valle Nevado, Colorado y La Parva.',
+            'keywords' => 'cdski chile, escuela ski chile, filosofia cdski, ski experience chile, snowboard chile'
+        ),
+        'nuestro-metodo' => array(
+            'title' => 'Nuestro Método de Enseñanza | CDSKI Chile - Ski y Snowboard',
+            'description' => 'Descubre la metodología de enseñanza CDSKI: diversión, seguridad y progreso técnico. Aprende ski y snowboard con nuestro método probado en Chile.',
+            'keywords' => 'metodo enseñanza ski, aprender ski chile, metodologia snowboard, ski lessons chile methodology'
+        ),
+        'niveles' => array(
+            'title' => '7 Niveles de Progreso en Ski y Snowboard | CDSKI Chile',
+            'description' => 'Conoce los 7 niveles de progreso CDSKI: desde primera vez en la nieve hasta esquiador independiente. Sistema claro de aprendizaje en ski y snowboard.',
+            'keywords' => 'niveles ski, progreso esquiador, aprender esquiar niveles, ski levels chile'
+        ),
+        'experiencia-cdski' => array(
+            'title' => 'La Experiencia CDSKI | Guía de Montaña y Ski en Chile',
+            'description' => 'Vive la experiencia CDSKI: más que clases de ski, una experiencia guiada en la montaña. Instructores expertos, diversión y seguridad en los Andes chilenos.',
+            'keywords' => 'ski experience chile, guided ski chile, mountain guide chile, experiencia ski chile, learn to ski chile'
+        ),
+        'clases-ski-snowboard' => array(
+            'title' => 'Clases de Ski y Snowboard en Chile | Privadas y Grupales | CDSKI',
+            'description' => 'Clases de ski y snowboard en Valle Nevado, Colorado y La Parva. Clases privadas, grupales y experiencias guiadas con instructores expertos. Reserva hoy.',
+            'keywords' => 'ski lessons chile, snowboard lessons chile, private ski lessons, ski lessons valle nevado, ski instructor chile'
+        ),
+        'seguridad-montana' => array(
+            'title' => 'Seguridad y Cultura de Montaña | Código del Esquiador CDSKI',
+            'description' => 'Aprende el código del esquiador CDSKI y los principios de seguridad en la montaña. Esquiar con control, respeto y responsabilidad en Chile.',
+            'keywords' => 'seguridad ski, codigo esquiador, mountain safety skiing, ski safety chile'
+        ),
+    );
+
+    $current_slug = '';
+    if ( is_page() ) {
+        $current_slug = get_post_field( 'post_name', get_the_ID() );
+    }
+
+    if ( ! empty( $current_slug ) && isset( $meta_map[ $current_slug ] ) ) {
+        $meta = $meta_map[ $current_slug ];
+        echo '<title>' . esc_html( $meta['title'] ) . '</title>' . "\n";
+        echo '<meta name="description" content="' . esc_attr( $meta['description'] ) . '">' . "\n";
+        echo '<meta name="keywords" content="' . esc_attr( $meta['keywords'] ) . '">' . "\n";
+    }
+}
+
+// =====================================================================
+// 31. ENHANCED HREFLANG TAGS (Spanish primary + English secondary)
+// =====================================================================
+remove_action( 'wp_head', 'cdski_add_hreflang_tags', 5 );
+add_action( 'wp_head', 'cdski_add_enhanced_hreflang_tags', 5 );
+function cdski_add_enhanced_hreflang_tags() {
+    $url = is_front_page() || is_home() ? home_url( '/' ) : get_permalink();
+    echo '<link rel="alternate" hreflang="es-CL" href="' . esc_url( $url ) . '">' . "\n";
+    echo '<link rel="alternate" hreflang="es" href="' . esc_url( $url ) . '">' . "\n";
+    echo '<link rel="alternate" hreflang="en" href="' . esc_url( $url ) . '">' . "\n";
+    echo '<link rel="alternate" hreflang="x-default" href="' . esc_url( $url ) . '">' . "\n";
+}
+
+// =====================================================================
+// 32. HOMEPAGE CONTENT INJECTION: SEO-rich intro + internal links
+// =====================================================================
+add_action( 'wp_footer', 'cdski_homepage_seo_content', 5 );
+function cdski_homepage_seo_content() {
+    if ( ! is_front_page() && ! is_home() ) {
+        return;
+    }
+    ?>
+    <section class="cdski-seo-section" aria-label="CDSKI Chile Information">
+        <div class="content_wrap">
+            <div class="cdski-seo-content">
+                <h2>CDSKI Chile: Experiencia de Guía &amp; Clases de Ski y Snowboard</h2>
+                <p>Aprende ski o snowboard en Chile de una forma diferente. En CDSKI Chile creemos que el aprendizaje en la nieve debe ser emocionante, entretenido y motivador. Por eso cada clase combina técnica, seguridad y diversión en la montaña.</p>
+                <p>Nuestro lema lo resume todo: <strong>&ldquo;Nos divertimos y entretenemos mientras aprendemos.&rdquo;</strong></p>
+
+                <div class="cdski-seo-links">
+                    <h3>Descubre Más Sobre CDSKI</h3>
+                    <ul>
+                        <li><a href="/about-cdski/">Sobre CDSKI Chile</a> &ndash; Nuestra filosofía, valores y manifiesto</li>
+                        <li><a href="/nuestro-metodo/">Nuestro Método</a> &ndash; Cómo enseñamos ski y snowboard</li>
+                        <li><a href="/niveles/">Niveles de Progreso</a> &ndash; Los 7 niveles del alumno CDSKI</li>
+                        <li><a href="/experiencia-cdski/">La Experiencia CDSKI</a> &ndash; Más que clases: experiencias guiadas</li>
+                        <li><a href="/clases-ski-snowboard/">Clases de Ski y Snowboard</a> &ndash; Clases privadas, grupales y días guiados</li>
+                        <li><a href="/seguridad-montana/">Seguridad y Cultura de Montaña</a> &ndash; Código del esquiador CDSKI</li>
+                    </ul>
+                </div>
+
+                <div class="cdski-seo-keywords-block">
+                    <h3>Clases y Experiencias de Ski en Chile</h3>
+                    <p>CDSKI ofrece <a href="/clases-ski-snowboard/">clases de ski en Chile</a>, <a href="/clases-ski-snowboard/">clases de snowboard en Chile</a>, <a href="/clases-ski-snowboard/">clases de ski en Valle Nevado</a>, y <a href="/experiencia-cdski/">experiencias guiadas de ski</a> en los principales centros de ski de la Región Metropolitana: Valle Nevado, Colorado y La Parva. Nuestros <a href="/about-cdski/">instructores expertos</a> ofrecen clases privadas de ski, clases privadas de snowboard y experiencias de guía de montaña personalizadas para familias, turistas, principiantes y esquiadores intermedios.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php
+}
+
+// =====================================================================
+// 33. INTERNAL LINKING: Navigation for new content pages
+// =====================================================================
+add_action( 'wp_footer', 'cdski_internal_nav_footer', 10 );
+function cdski_internal_nav_footer() {
+    // Only show on new content pages
+    if ( ! is_page( array( 'about-cdski', 'nuestro-metodo', 'niveles', 'experiencia-cdski', 'clases-ski-snowboard', 'seguridad-montana' ) ) ) {
+        return;
+    }
+    ?>
+    <nav class="cdski-internal-nav" aria-label="Páginas CDSKI">
+        <div class="content_wrap">
+            <h3>Explora CDSKI</h3>
+            <div class="cdski-internal-nav-grid">
+                <a href="/about-cdski/" class="cdski-nav-link">Sobre CDSKI</a>
+                <a href="/nuestro-metodo/" class="cdski-nav-link">Nuestro Método</a>
+                <a href="/niveles/" class="cdski-nav-link">Niveles de Progreso</a>
+                <a href="/experiencia-cdski/" class="cdski-nav-link">La Experiencia CDSKI</a>
+                <a href="/clases-ski-snowboard/" class="cdski-nav-link">Clases de Ski y Snowboard</a>
+                <a href="/seguridad-montana/" class="cdski-nav-link">Seguridad y Montaña</a>
+            </div>
+        </div>
+    </nav>
+    <?php
+}
