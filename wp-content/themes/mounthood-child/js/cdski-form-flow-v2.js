@@ -35,8 +35,8 @@
     var summaryInjected = false;
     var titleInjected   = false;
     var dolarObservado  = null;
-    var _formattingPrices = false;
-    var _formatPriceTimer = null;
+    // (_formattingPrices and _formatPriceTimer removed – no longer needed
+    //  with setInterval-based scheduling; JS is single-threaded)
 
     /* ── fetch dolar observado from mindicador.cl ──────────── */
 
@@ -233,11 +233,12 @@
     /* ── format the raw Precio / Precio con Descuento fields on page 1 ── */
 
     function formatRawPriceFields() {
-        if (_formattingPrices) return;
-        _formattingPrices = true;
+        try { _formatRawPriceFieldsInner(); } catch(e) { /* silently retry next interval */ }
+    }
 
+    function _formatRawPriceFieldsInner() {
         var form = document.getElementById('form_' + FORM_KEY);
-        if (!form) { _formattingPrices = false; return; }
+        if (!form) return;
 
         var fields = [
             { selector: 'input[name="item_meta[19]"]', id: 'cdski-precio-overlay' },
@@ -296,8 +297,6 @@
             // Insert overlay after the input
             input.parentNode.insertBefore(overlay, input.nextSibling);
         });
-
-        _formattingPrices = false;
     }
 
     /* ── update price displays when dolar arrives ──────────── */
