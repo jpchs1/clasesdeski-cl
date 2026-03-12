@@ -2202,3 +2202,182 @@ img {
 .vc_row.vc_hidden {
     display: none !important;
 }
+
+/* ------------------------------------------------------------------
+   VISUAL IMPROVEMENT: "Descubre CDSKI" section on home page
+   Enhanced cards with gradient accents, better shadows, and hover effects.
+   ------------------------------------------------------------------ */
+
+/* Section background & spacing */
+.cdski-hp-discover {
+    background: linear-gradient(180deg, #f0f4f8 0%, #ffffff 100%) !important;
+    padding: 80px 0 !important;
+}
+
+/* Header styling */
+.cdski-hp-discover-header {
+    margin-bottom: 50px !important;
+}
+
+.cdski-hp-label {
+    background: linear-gradient(135deg, #c8a951, #d4b96a) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    letter-spacing: 4px !important;
+}
+
+.cdski-hp-discover-header h2 {
+    font-size: 36px !important;
+    font-weight: 800 !important;
+    color: #1a2332 !important;
+    margin: 14px 0 !important;
+    line-height: 1.2 !important;
+}
+
+.cdski-hp-discover-header p {
+    font-size: 17px !important;
+    color: #5a6a7a !important;
+    max-width: 580px !important;
+    line-height: 1.7 !important;
+}
+
+/* Cards grid */
+.cdski-hp-cards-grid {
+    gap: 24px !important;
+    max-width: 1060px !important;
+}
+
+/* Individual cards */
+.cdski-hp-card {
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    padding: 32px 24px 28px !important;
+    border: 1px solid #e8ecf1 !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* Gold top accent bar */
+.cdski-hp-card::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 3px !important;
+    background: linear-gradient(90deg, #c8a951, #d4b96a, #c8a951) !important;
+    opacity: 0 !important;
+    transition: opacity 0.35s ease !important;
+}
+
+.cdski-hp-card:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.06) !important;
+    border-color: #c8a951 !important;
+}
+
+.cdski-hp-card:hover::before {
+    opacity: 1 !important;
+}
+
+/* Icon styling with circular background */
+.cdski-hp-card-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 56px !important;
+    height: 56px !important;
+    margin: 0 auto 18px !important;
+    background: linear-gradient(135deg, #fdf6e3, #f5ecd0) !important;
+    border-radius: 14px !important;
+    font-size: 26px !important;
+    color: #b8942e !important;
+    transition: all 0.35s ease !important;
+}
+
+.cdski-hp-card:hover .cdski-hp-card-icon {
+    background: linear-gradient(135deg, #c8a951, #d4b96a) !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    transform: scale(1.08) !important;
+}
+
+/* Card titles */
+.cdski-hp-card h3 {
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    color: #1a2332 !important;
+    margin: 0 0 8px !important;
+    transition: color 0.3s ease !important;
+}
+
+.cdski-hp-card:hover h3 {
+    color: #b8942e !important;
+}
+
+/* Card descriptions */
+.cdski-hp-card p {
+    font-size: 14px !important;
+    color: #6b7a8d !important;
+    line-height: 1.6 !important;
+    margin: 0 0 14px !important;
+}
+
+/* Arrow styling */
+.cdski-hp-card-arrow {
+    font-size: 20px !important;
+    color: #c8a951 !important;
+    font-weight: 700 !important;
+    transition: all 0.3s ease !important;
+    display: inline-block !important;
+}
+
+.cdski-hp-card:hover .cdski-hp-card-arrow {
+    transform: translateX(8px) !important;
+    color: #b8942e !important;
+}
+
+/* Responsive adjustments for visual improvements */
+@media (max-width: 1024px) {
+    .cdski-hp-discover {
+        padding: 60px 0 !important;
+    }
+    .cdski-hp-discover-header h2 {
+        font-size: 30px !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .cdski-hp-discover {
+        padding: 50px 0 !important;
+    }
+    .cdski-hp-discover-header h2 {
+        font-size: 26px !important;
+    }
+    .cdski-hp-discover-header {
+        margin-bottom: 36px !important;
+    }
+    .cdski-hp-card {
+        padding: 28px 20px 24px !important;
+    }
+    .cdski-hp-card-icon {
+        width: 48px !important;
+        height: 48px !important;
+        font-size: 22px !important;
+        border-radius: 12px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .cdski-hp-discover-header h2 {
+        font-size: 22px !important;
+    }
+    .cdski-hp-card {
+        padding: 24px 18px 20px !important;
+    }
+}
