@@ -469,9 +469,9 @@ function cdski_enqueue_form_flow_scripts() {
     // condition fails on some WordPress setups.
     wp_enqueue_script(
         'cdski-form-flow',
-        get_stylesheet_directory_uri() . '/js/cdski-form-flow-v9.js',
+        get_stylesheet_directory_uri() . '/js/cdski-form-flow-v10.js',
         array( 'jquery' ),
-        '9.0.0',
+        '10.0.0',
         true
     );
 }
