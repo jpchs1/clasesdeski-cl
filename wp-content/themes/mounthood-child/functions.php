@@ -618,8 +618,8 @@ function cdski_send_booking_emails( $entry_id, $form_id ) {
     // Field mappings (from form analysis)
     $personas     = isset( $metas[17] ) ? $metas[17] : '';
     $plan         = isset( $metas[16] ) ? $metas[16] : '';
-    $precio       = isset( $metas[19] ) ? $metas[19] : '';
-    $precio_desc  = isset( $metas[20] ) ? $metas[20] : '';
+    $precio       = isset( $metas[8] ) ? $metas[8] : '';
+    $precio_desc  = isset( $metas[18] ) ? $metas[18] : '';
 
     // Page 2 fields - contact / booking info (verified from live site)
     // 24=Fecha, 27=Tomo conocimiento, 32=Nombre, 33=Apellido,
