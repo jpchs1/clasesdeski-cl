@@ -5,6 +5,19 @@
  */
 
 // =====================================================================
+// 0. PREVENT LITESPEED PAGE CACHING (stale HTML breaks cotizador defaults)
+// =====================================================================
+add_action( 'send_headers', 'cdski_no_cache_headers' );
+function cdski_no_cache_headers() {
+    // Tell LiteSpeed server not to cache this page
+    header( 'X-LiteSpeed-Cache-Control: no-cache' );
+    // Standard no-cache headers as fallback
+    header( 'Cache-Control: no-cache, no-store, must-revalidate' );
+    header( 'Pragma: no-cache' );
+    header( 'Expires: 0' );
+}
+
+// =====================================================================
 // 1. ENQUEUE PARENT STYLES
 // =====================================================================
 add_action( 'wp_enqueue_scripts', 'my_theme_enqueue_styles' );
@@ -469,9 +482,9 @@ function cdski_enqueue_form_flow_scripts() {
     // condition fails on some WordPress setups.
     wp_enqueue_script(
         'cdski-form-flow',
-        get_stylesheet_directory_uri() . '/js/cdski-form-flow-v5.js',
+        get_stylesheet_directory_uri() . '/js/cdski-form-flow-v6.js',
         array( 'jquery' ),
-        '5.0.0',
+        '6.0.0',
         true
     );
 
