@@ -10,6 +10,10 @@
 // =====================================================================
 add_action( 'send_headers', 'cdski_no_cache_headers' );
 function cdski_no_cache_headers() {
+    // Only disable caching on pages that contain the cotizador form
+    if ( ! is_front_page() && ! is_home() ) {
+        return;
+    }
     // Tell LiteSpeed server not to cache this page
     header( 'X-LiteSpeed-Cache-Control: no-cache' );
     // Standard no-cache headers as fallback
@@ -1113,4 +1117,3 @@ function cdski_internal_nav_footer() {
     </nav>
     <?php
 }
-
