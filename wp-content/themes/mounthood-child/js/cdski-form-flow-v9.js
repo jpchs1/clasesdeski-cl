@@ -934,8 +934,12 @@
     function injectSummary() {
         if (summaryInjected) return;
 
-        var data = storedData;
-        if (!data) {
+        // Always try to get fresh data from the live form first.
+        // This prevents stale sessionStorage data (from a previous browsing
+        // session) from showing wrong prices in the Resumen box.
+        var freshData = capturePageOneData();
+        var data = (freshData && freshData.precio) ? freshData : storedData;
+        if (!data || !data.precio) {
             try {
                 var raw = sessionStorage.getItem('cdski_calc_data');
                 if (raw) data = JSON.parse(raw);
@@ -1001,6 +1005,12 @@
 
     function init() {
         var form = document.getElementById('form_' + FORM_KEY);
+
+        // Clear stale sessionStorage data from previous browsing sessions.
+        // This prevents the Resumen box from showing old prices on fresh load.
+        // Fresh data will be captured below via capturePageOneData().
+        try { sessionStorage.removeItem('cdski_calc_data'); } catch (e) {}
+        storedData = null;
 
         // Fetch dolar observado for USD conversion
         fetchDolarObservado();
@@ -1148,6 +1158,21 @@
 
         // Capture initial data on page load
         capturePageOneData();
+
+        // Delayed re-capture to catch Formidable's async price population.
+        // Prices may not be populated at DOM ready, so re-capture after delays
+        // and update the summary if it exists.
+        var initDelays = [300, 800, 1500];
+        initDelays.forEach(function(ms) {
+            setTimeout(function() {
+                capturePageOneData();
+                formatRawPriceFields();
+                var summary = document.getElementById('cdski-booking-summary');
+                if (summary && storedData) {
+                    summary.outerHTML = buildSummaryHTML(storedData);
+                }
+            }, ms);
+        });
 
         // If already on page 2 (e.g. page loaded with frm_page=2), handle immediately
         if (form && form.querySelector('input[name="item_meta[24]"]')) {
