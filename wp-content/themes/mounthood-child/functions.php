@@ -39,6 +39,26 @@ function cdski_hide_seo_menu_items() {
     #menu-item-6942 {
         display: none !important;
     }
+    /* Center the main navigation menu */
+    .top_panel_style_6 .top_panel_middle {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    .top_panel_style_6 .menu_main_wrap {
+        float: none !important;
+        flex: 1 !important;
+        display: flex !important;
+        justify-content: center !important;
+    }
+    .top_panel_style_6 .menu_main_wrap > nav {
+        display: inline-block !important;
+        text-align: center !important;
+    }
+    .top_panel_style_6 .menu_main_nav {
+        display: flex !important;
+        justify-content: center !important;
+    }
     </style>
     <?php
 }
@@ -1093,159 +1113,6 @@ function cdski_homepage_seo_content() {
 }
 
 // =====================================================================
-// 33. INTERNAL LINKING: Navigation for new content pages
-// =====================================================================
-add_action( 'wp_footer', 'cdski_internal_nav_footer', 10 );
-function cdski_internal_nav_footer() {
-    // Only show on new content pages
-    if ( ! is_page( array( 'about-cdski', 'nuestro-metodo', 'niveles', 'experiencia-cdski', 'clases-ski-snowboard', 'seguridad-montana' ) ) ) {
-        return;
-    }
-    ?>
-    <nav class="cdski-internal-nav" aria-label="Paginas CDSKI">
-        <div class="content_wrap">
-            <h3>Explora CDSKI</h3>
-            <div class="cdski-internal-nav-grid">
-                <a href="/about-cdski/" class="cdski-nav-link">Sobre CDSKI</a>
-                <a href="/nuestro-metodo/" class="cdski-nav-link">Nuestro Metodo</a>
-                <a href="/niveles/" class="cdski-nav-link">Niveles de Progreso</a>
-                <a href="/experiencia-cdski/" class="cdski-nav-link">La Experiencia CDSKI</a>
-                <a href="/clases-ski-snowboard/" class="cdski-nav-link">Clases de Ski y Snowboard</a>
-                <a href="/seguridad-montana/" class="cdski-nav-link">Seguridad y Montana</a>
-            </div>
-        </div>
-    </nav>
-    <?php
-}
-||||||| d6371eb6f
-
-// =====================================================================
-// 29. ENHANCED STRUCTURED DATA: TouristActivity + SportsActivityLocation
-// =====================================================================
-add_action( 'wp_head', 'cdski_add_enhanced_structured_data', 6 );
-function cdski_add_enhanced_structured_data() {
-    // TouristActivity schema for experience pages
-    $tourist_activity = array(
-        '@context' => 'https://schema.org',
-        '@type' => 'TouristActivity',
-        'name' => 'Guided Ski & Snowboard Experience in Chile',
-        'description' => 'Experiencia guiada de ski y snowboard en los Andes chilenos. Clases personalizadas con instructores expertos en Valle Nevado, Colorado y La Parva.',
-        'url' => 'https://www.clasesdeski.cl/experiencia-cdski/',
-        'touristType' => array( 'Families', 'Adventure Travelers', 'Beginners', 'International Tourists' ),
-        'provider' => array(
-            '@type' => 'LocalBusiness',
-            'name' => 'CDSKI Chile',
-            'url' => 'https://www.clasesdeski.cl',
-            'telephone' => '+56940211459',
-            'email' => 'info@clasesdeski.cl'
-        ),
-        'location' => array(
-            '@type' => 'SportsActivityLocation',
-            'name' => 'Valle Nevado, Colorado & La Parva Ski Resorts',
-            'address' => array(
-                '@type' => 'PostalAddress',
-                'addressLocality' => 'Santiago',
-                'addressRegion' => 'Region Metropolitana',
-                'addressCountry' => 'CL'
-            )
-        ),
-        'offers' => array(
-            '@type' => 'AggregateOffer',
-            'priceCurrency' => 'CLP',
-            'availability' => 'https://schema.org/InStock',
-            'url' => 'https://www.clasesdeski.cl/clases/'
-        )
-    );
-    echo '<script type="application/ld+json">' . wp_json_encode( $tourist_activity, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
-
-    // SportsActivityLocation schema
-    $sports_location = array(
-        '@context' => 'https://schema.org',
-        '@type' => 'SportsActivityLocation',
-        'name' => 'CDSKI Chile - Ski & Snowboard School',
-        'description' => 'Escuela de ski y snowboard con experiencias guiadas en Valle Nevado, Colorado y La Parva, Chile.',
-        'url' => 'https://www.clasesdeski.cl',
-        'sport' => array( 'Skiing', 'Snowboarding' ),
-        'address' => array(
-            '@type' => 'PostalAddress',
-            'streetAddress' => 'Mall Sport, Las Condes',
-            'addressLocality' => 'Santiago',
-            'addressRegion' => 'Region Metropolitana',
-            'addressCountry' => 'CL'
-        ),
-        'geo' => array(
-            '@type' => 'GeoCoordinates',
-            'latitude' => '-33.4028',
-            'longitude' => '-70.5756'
-        ),
-        'telephone' => '+56940211459',
-        'email' => 'info@clasesdeski.cl',
-        'openingHoursSpecification' => array(
-            '@type' => 'OpeningHoursSpecification',
-            'dayOfWeek' => array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ),
-            'opens' => '08:00',
-            'closes' => '22:00'
-        )
-    );
-    echo '<script type="application/ld+json">' . wp_json_encode( $sports_location, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
-}
-
-// =====================================================================
-// 30. PAGE-SPECIFIC META DESCRIPTIONS FOR NEW CONTENT PAGES
-// =====================================================================
-add_action( 'wp_head', 'cdski_page_specific_meta', 2 );
-function cdski_page_specific_meta() {
-    if ( defined( 'WPSEO_VERSION' ) ) {
-        return; // Let Yoast handle it
-    }
-
-    $meta_map = array(
-        'about-cdski' => array(
-            'title' => 'Sobre CDSKI Chile | Filosofía, Valores y Experiencia de Ski y Snowboard',
-            'description' => 'Conoce CDSKI Chile: nuestra filosofía, valores y manifiesto. Escuela de ski y snowboard con experiencias guiadas en Valle Nevado, Colorado y La Parva.',
-            'keywords' => 'cdski chile, escuela ski chile, filosofia cdski, ski experience chile, snowboard chile'
-        ),
-        'nuestro-metodo' => array(
-            'title' => 'Nuestro Método de Enseñanza | CDSKI Chile - Ski y Snowboard',
-            'description' => 'Descubre la metodología de enseñanza CDSKI: diversión, seguridad y progreso técnico. Aprende ski y snowboard con nuestro método probado en Chile.',
-            'keywords' => 'metodo enseñanza ski, aprender ski chile, metodologia snowboard, ski lessons chile methodology'
-        ),
-        'niveles' => array(
-            'title' => '7 Niveles de Progreso en Ski y Snowboard | CDSKI Chile',
-            'description' => 'Conoce los 7 niveles de progreso CDSKI: desde primera vez en la nieve hasta esquiador independiente. Sistema claro de aprendizaje en ski y snowboard.',
-            'keywords' => 'niveles ski, progreso esquiador, aprender esquiar niveles, ski levels chile'
-        ),
-        'experiencia-cdski' => array(
-            'title' => 'La Experiencia CDSKI | Guía de Montaña y Ski en Chile',
-            'description' => 'Vive la experiencia CDSKI: más que clases de ski, una experiencia guiada en la montaña. Instructores expertos, diversión y seguridad en los Andes chilenos.',
-            'keywords' => 'ski experience chile, guided ski chile, mountain guide chile, experiencia ski chile, learn to ski chile'
-        ),
-        'clases-ski-snowboard' => array(
-            'title' => 'Clases de Ski y Snowboard en Chile | Privadas y Grupales | CDSKI',
-            'description' => 'Clases de ski y snowboard en Valle Nevado, Colorado y La Parva. Clases privadas, grupales y experiencias guiadas con instructores expertos. Reserva hoy.',
-            'keywords' => 'ski lessons chile, snowboard lessons chile, private ski lessons, ski lessons valle nevado, ski instructor chile'
-        ),
-        'seguridad-montana' => array(
-            'title' => 'Seguridad y Cultura de Montaña | Código del Esquiador CDSKI',
-            'description' => 'Aprende el código del esquiador CDSKI y los principios de seguridad en la montaña. Esquiar con control, respeto y responsabilidad en Chile.',
-            'keywords' => 'seguridad ski, codigo esquiador, mountain safety skiing, ski safety chile'
-        ),
-    );
-
-    $current_slug = '';
-    if ( is_page() ) {
-        $current_slug = get_post_field( 'post_name', get_the_ID() );
-    }
-
-    if ( ! empty( $current_slug ) && isset( $meta_map[ $current_slug ] ) ) {
-        $meta = $meta_map[ $current_slug ];
-        echo '<title>' . esc_html( $meta['title'] ) . '</title>' . "\n";
-        echo '<meta name="description" content="' . esc_attr( $meta['description'] ) . '">' . "\n";
-        echo '<meta name="keywords" content="' . esc_attr( $meta['keywords'] ) . '">' . "\n";
-    }
-}
-
-// =====================================================================
 // 31. ENHANCED HREFLANG TAGS (Spanish primary + English secondary)
 // =====================================================================
 remove_action( 'wp_head', 'cdski_add_hreflang_tags', 5 );
@@ -1256,124 +1123,6 @@ function cdski_add_enhanced_hreflang_tags() {
     echo '<link rel="alternate" hreflang="es" href="' . esc_url( $url ) . '">' . "\n";
     echo '<link rel="alternate" hreflang="en" href="' . esc_url( $url ) . '">' . "\n";
     echo '<link rel="alternate" hreflang="x-default" href="' . esc_url( $url ) . '">' . "\n";
-}
-
-// =====================================================================
-// 32. HOMEPAGE UNIFIED FOOTER: Brand info, links, weather, contact
-// =====================================================================
-add_action( 'wp_footer', 'cdski_homepage_seo_content', 5 );
-function cdski_homepage_seo_content() {
-    if ( ! is_front_page() && ! is_home() ) {
-        return;
-    }
-    ?>
-    <style>
-    /* Inline critical CSS for unified footer (bypasses LiteSpeed CSS cache) */
-    .cdski-unified-footer{background:#111!important;padding:60px 0 40px!important;color:#c0c8d0!important;font-size:15px!important;line-height:1.7!important}
-    .cdski-uf-grid{display:grid!important;grid-template-columns:1.4fr 1fr 1fr 1.2fr!important;gap:40px!important;align-items:start!important}
-    .cdski-uf-title{font-size:22px!important;font-weight:800!important;color:#fff!important;margin:0 0 14px!important;letter-spacing:.5px!important}
-    .cdski-uf-col-title{font-size:17px!important;font-weight:700!important;color:#c8a951!important;text-transform:uppercase!important;letter-spacing:1.5px!important;margin:0 0 18px!important;padding-bottom:10px!important;border-bottom:2px solid rgba(200,169,81,.3)!important}
-    .cdski-uf-motto{font-style:italic!important;color:#c8a951!important;font-size:14px!important;margin:10px 0 18px!important}
-    .cdski-uf-links ul{list-style:none!important;margin:0!important;padding:0!important}
-    .cdski-uf-links li{margin-bottom:10px!important}
-    .cdski-uf-links a{color:#c0c8d0!important;text-decoration:none!important;transition:color .2s,padding-left .2s!important;font-size:14px!important}
-    .cdski-uf-links a:hover{color:#c8a951!important;padding-left:6px!important}
-    .cdski-uf-contact ul{list-style:none!important;margin:0!important;padding:0!important}
-    .cdski-uf-contact li{margin-bottom:12px!important;display:flex!important;align-items:flex-start!important;gap:10px!important}
-    .cdski-uf-contact a{color:#c8a951!important;text-decoration:none!important}
-    .cdski-uf-btn{display:inline-block!important;padding:10px 22px!important;border-radius:6px!important;font-size:13px!important;font-weight:700!important;text-transform:uppercase!important;letter-spacing:1px!important;text-decoration:none!important;transition:all .25s!important;margin-right:10px!important;margin-bottom:8px!important}
-    .cdski-uf-btn-primary{background:#c8a951!important;color:#111!important}
-    .cdski-uf-btn-primary:hover{background:#d4b96a!important;transform:translateY(-2px)!important}
-    .cdski-uf-btn-outline{border:2px solid rgba(200,169,81,.5)!important;color:#c8a951!important;background:transparent!important}
-    .cdski-uf-btn-outline:hover{border-color:#c8a951!important;background:rgba(200,169,81,.1)!important}
-    .cdski-uf-seo{margin-top:30px!important;padding-top:20px!important;border-top:1px solid rgba(255,255,255,.08)!important;font-size:13px!important;color:#8a9aaa!important;text-align:center!important}
-    .cdski-uf-seo a{color:#b8942e!important;text-decoration:none!important}
-    .cdski-uf-social .share_wrap{display:flex!important;gap:12px!important;margin-top:14px!important}
-    .cdski-uf-social .share_wrap a{color:#c0c8d0!important;font-size:18px!important;transition:color .2s!important}
-    .cdski-uf-social .share_wrap a:hover{color:#c8a951!important}
-    @media(max-width:960px){.cdski-uf-grid{grid-template-columns:1fr 1fr!important;gap:30px!important}}
-    @media(max-width:600px){.cdski-uf-grid{grid-template-columns:1fr!important;gap:24px!important}.cdski-unified-footer{padding:40px 0 30px!important}}
-    </style>
-    <footer class="cdski-unified-footer" aria-label="CDSKI Chile Information">
-        <div class="content_wrap">
-            <div class="cdski-uf-grid">
-
-                <!-- Column 1: Brand -->
-                <div class="cdski-uf-col cdski-uf-brand">
-                    <h3 class="cdski-uf-title">CDSKI Chile</h3>
-                    <p>Experiencia de Gu&iacute;a &amp; Clases de Ski y Snowboard en Valle Nevado, Colorado y La Parva.</p>
-                    <p class="cdski-uf-motto">&ldquo;Nos divertimos y entretenemos mientras aprendemos.&rdquo;</p>
-                    <div class="cdski-uf-buttons">
-                        <a href="/clases-ski-snowboard/" class="cdski-uf-btn cdski-uf-btn-primary">Ver Clases</a>
-                        <a href="/experiencia-cdski/" class="cdski-uf-btn cdski-uf-btn-outline">La Experiencia</a>
-                    </div>
-                    <div class="cdski-uf-social" id="cdski-uf-social-target"></div>
-                </div>
-
-                <!-- Column 2: Explore links -->
-                <div class="cdski-uf-col cdski-uf-links">
-                    <h4 class="cdski-uf-col-title">Explora CDSKI</h4>
-                    <ul>
-                        <li><a href="/about-cdski/">Sobre CDSKI Chile</a></li>
-                        <li><a href="/nuestro-metodo/">Nuestro M&eacute;todo</a></li>
-                        <li><a href="/niveles/">Niveles de Progreso</a></li>
-                        <li><a href="/experiencia-cdski/">La Experiencia CDSKI</a></li>
-                        <li><a href="/clases-ski-snowboard/">Clases de Ski y Snowboard</a></li>
-                        <li><a href="/seguridad-montana/">Seguridad y Monta&ntilde;a</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 3: Weather (moved from widget footer via JS) -->
-                <div class="cdski-uf-col cdski-uf-weather" id="cdski-uf-weather-target">
-                    <h4 class="cdski-uf-col-title">El Tiempo Hoy</h4>
-                    <!-- Weather widget content will be moved here via JS -->
-                </div>
-
-                <!-- Column 4: Contact -->
-                <div class="cdski-uf-col cdski-uf-contact">
-                    <h4 class="cdski-uf-col-title">Cont&aacute;ctanos</h4>
-                    <ul>
-                        <li><span class="cdski-uf-icon">&#x1F4CD;</span> Mallsport, Las Condes</li>
-                        <li><span class="cdski-uf-icon">&#x2709;</span> <a href="mailto:info@clasesdeski.cl">info@clasesdeski.cl</a></li>
-                        <li><span class="cdski-uf-icon">&#x1F552;</span> 8:00 am &ndash; 10:00 pm, Lunes a Domingo</li>
-                    </ul>
-                </div>
-
-            </div>
-
-            <!-- SEO keywords block (visually hidden but crawlable) -->
-            <div class="cdski-uf-seo">
-                <p>CDSKI ofrece <a href="/clases-ski-snowboard/">clases de ski en Chile</a>, <a href="/clases-ski-snowboard/">clases de snowboard en Chile</a>, <a href="/clases-ski-snowboard/">clases de ski en Valle Nevado</a>, y <a href="/experiencia-cdski/">experiencias guiadas de ski</a> en los principales centros de ski de la Regi&oacute;n Metropolitana.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Move weather widget content into unified footer
-        var weatherWidget = document.querySelector('#text-2 .textwidget');
-        var weatherTarget = document.getElementById('cdski-uf-weather-target');
-        if (weatherWidget && weatherTarget) {
-            var weatherContent = weatherWidget.cloneNode(true);
-            weatherTarget.appendChild(weatherContent);
-        }
-
-        // Move social icons into unified footer
-        var socialWidget = document.querySelector('#text-2 .widget_socials .share_wrap, #widget_socials .share_wrap');
-        var socialTarget = document.getElementById('cdski-uf-social-target');
-        if (socialWidget && socialTarget) {
-            var socialContent = socialWidget.cloneNode(true);
-            socialTarget.appendChild(socialContent);
-        }
-
-        // Hide the original widget footer on homepage (now merged into unified footer)
-        var widgetFooter = document.querySelector('.footer_wrap.widget_area');
-        if (widgetFooter) {
-            widgetFooter.style.display = 'none';
-        }
-    });
-    </script>
-    <?php
 }
 
 // =====================================================================
