@@ -618,8 +618,35 @@ function cdski_send_booking_emails( $entry_id, $form_id ) {
     // Field mappings (from form analysis)
     $personas     = isset( $metas[17] ) ? $metas[17] : '';
     $plan         = isset( $metas[16] ) ? $metas[16] : '';
-    $precio       = isset( $metas[8] ) ? $metas[8] : '';
-    $precio_desc  = isset( $metas[18] ) ? $metas[18] : '';
+
+    // The form has conditional price field pairs per persona count.
+    // Each pair only stores a value when the matching persona is selected.
+    // Precio / Precio con Descuento field IDs per persona:
+    //   Dos:    8/18,  86/87
+    //   Tres:   19/20, 88/89
+    //   Cuatro: 28/30, 90/91
+    //   Cinco:  31/29, 92/93
+    $price_pairs = array(
+        array( 8, 18 ),
+        array( 19, 20 ),
+        array( 28, 30 ),
+        array( 31, 29 ),
+        array( 86, 87 ),
+        array( 88, 89 ),
+        array( 90, 91 ),
+        array( 92, 93 ),
+    );
+    $precio      = '';
+    $precio_desc = '';
+    foreach ( $price_pairs as $pair ) {
+        $p  = isset( $metas[ $pair[0] ] ) ? trim( $metas[ $pair[0] ] ) : '';
+        $pd = isset( $metas[ $pair[1] ] ) ? trim( $metas[ $pair[1] ] ) : '';
+        if ( $p !== '' && floatval( str_replace( '.', '', $p ) ) > 0 ) {
+            $precio      = $p;
+            $precio_desc = $pd;
+            break;
+        }
+    }
 
     // Page 2 fields - contact / booking info (verified from live site)
     // 24=Fecha, 27=Tomo conocimiento, 32=Nombre, 33=Apellido,
