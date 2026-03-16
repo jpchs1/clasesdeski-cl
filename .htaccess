@@ -140,6 +140,53 @@ ServerSignature Off
 # --- Prevent directory browsing ---
 Options -Indexes
 
+# --- Block wp-trackback.php ---
+<Files wp-trackback.php>
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+  </IfModule>
+</Files>
+
+# --- Prevent PHP execution in uploads ---
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^experiencias/wp-content/uploads/.*\.php$ - [F,L]
+</IfModule>
+
+# --- Block author enumeration ---
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{QUERY_STRING} ^author=([0-9]+) [NC]
+  RewriteRule .* - [F,L]
+</IfModule>
+
+# --- HSTS (Strict Transport Security) ---
+<IfModule mod_headers.c>
+  Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# --- Block malicious bots ---
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_USER_AGENT} (ahrefs|semrush|mj12bot|dotbot|blexbot|rogerbot|megaindex|seopowersuite|baiduspider|yandexbot) [NC]
+  RewriteRule .* - [F,L]
+</IfModule>
+
+# --- Protect wp-config.php ---
+<Files wp-config.php>
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+  </IfModule>
+</Files>
+
 # --- Disable XML-RPC (security + performance) ---
 <Files xmlrpc.php>
   <IfModule mod_authz_core.c>
