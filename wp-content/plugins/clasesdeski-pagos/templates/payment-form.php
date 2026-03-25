@@ -106,8 +106,8 @@
                                 </svg>
                             </div>
                             <div class="cdski-gateway-info">
-                                <span class="cdski-gateway-name">PayPal</span>
-                                <span class="cdski-gateway-desc">Tarjeta internacional o cuenta PayPal (USD)</span>
+                                <span class="cdski-gateway-name">PayPal / Tarjeta Internacional</span>
+                                <span class="cdski-gateway-desc">Visa, Mastercard, Amex — sin cuenta PayPal (USD)</span>
                             </div>
                             <div class="cdski-gateway-cards">
                                 <svg width="32" height="20" viewBox="0 0 32 20"><rect width="32" height="20" rx="3" fill="#1A1F71"/><circle cx="12" cy="10" r="6" fill="#EB001B"/><circle cx="20" cy="10" r="6" fill="#F79E1B" opacity=".8"/></svg>

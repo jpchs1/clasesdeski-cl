@@ -3,42 +3,23 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class CDSKI_PayPal {
 
-    private static function client_id() {
-        return defined( 'CDSKI_PAYPAL_CLIENT_ID' ) ? CDSKI_PAYPAL_CLIENT_ID : '';
-    }
-
-    private static function secret() {
-        return defined( 'CDSKI_PAYPAL_SECRET' ) ? CDSKI_PAYPAL_SECRET : '';
+    private static function business_email() {
+        return 'contacto@imporlan.cl';
     }
 
     private static function is_sandbox() {
         return defined( 'CDSKI_PAYPAL_SANDBOX' ) && CDSKI_PAYPAL_SANDBOX;
     }
 
-    private static function api_base() {
+    private static function paypal_base() {
         return self::is_sandbox()
-            ? 'https://api-m.sandbox.paypal.com'
-            : 'https://api-m.paypal.com';
+            ? 'https://www.sandbox.paypal.com'
+            : 'https://www.paypal.com';
     }
 
-    private static function get_access_token() {
-        $response = wp_remote_post( self::api_base() . '/v1/oauth2/token', [
-            'headers' => [
-                'Authorization' => 'Basic ' . base64_encode( self::client_id() . ':' . self::secret() ),
-                'Content-Type'  => 'application/x-www-form-urlencoded',
-            ],
-            'body'    => 'grant_type=client_credentials',
-            'timeout' => 30,
-        ] );
-
-        if ( is_wp_error( $response ) ) {
-            return false;
-        }
-
-        $body = json_decode( wp_remote_retrieve_body( $response ), true );
-        return $body['access_token'] ?? false;
-    }
-
+    /**
+     * Convert CLP to USD.
+     */
     private static function clp_to_usd( $clp_amount ) {
         $rate = 950;
         $response = wp_remote_get( 'https://open.er-api.com/v6/latest/USD', [ 'timeout' => 5 ] );
@@ -52,73 +33,42 @@ class CDSKI_PayPal {
     }
 
     /**
-     * Create PayPal order with redirect (login required).
+     * Create PayPal payment link (xclick — supports guest checkout).
      */
     public static function create_order( $payment_id, $amount, $data ) {
-        $token = self::get_access_token();
-        if ( ! $token ) {
-            return false;
-        }
-
+        $usd_amount  = self::clp_to_usd( $amount );
+        $description = $data['concepto'] ?: 'Clase de Ski - Clasesdeski';
         $return_url  = home_url( "/cdski-callback/paypal/{$payment_id}/" );
         $cancel_url  = home_url( "/cdski-callback/paypal/{$payment_id}/?cancelled=1" );
-        $description = mb_substr( $data['concepto'] ?: 'Pago reserva clase - Clasesdeski', 0, 127 );
+        $notify_url  = home_url( "/cdski-webhook/paypal/" );
 
-        $order_data = [
-            'intent'         => 'CAPTURE',
-            'purchase_units' => [
-                [
-                    'reference_id' => (string) $payment_id,
-                    'description'  => $description,
-                    'amount'       => [
-                        'currency_code' => 'USD',
-                        'value'         => (string) self::clp_to_usd( $amount ),
-                    ],
-                ],
-            ],
-            'application_context' => [
-                'return_url'          => $return_url,
-                'cancel_url'          => $cancel_url,
-                'brand_name'          => 'Clasesdeski',
-                'user_action'         => 'PAY_NOW',
-                'shipping_preference' => 'NO_SHIPPING',
-                'landing_page'        => 'BILLING',
-            ],
-        ];
-
-        $response = wp_remote_post( self::api_base() . '/v2/checkout/orders', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $token,
-                'Content-Type'  => 'application/json',
-            ],
-            'body'    => wp_json_encode( $order_data ),
-            'timeout' => 30,
+        // Store the USD amount for reference
+        CDSKI_DB::update_payment( $payment_id, [
+            'transaction_id' => 'pending-' . $payment_id,
         ] );
 
-        if ( is_wp_error( $response ) ) {
-            return false;
-        }
+        $params = [
+            'cmd'            => '_xclick',
+            'business'       => self::business_email(),
+            'item_name'      => mb_substr( $description, 0, 127 ),
+            'item_number'    => 'CDSKI-' . $payment_id,
+            'amount'         => $usd_amount,
+            'currency_code'  => 'USD',
+            'no_shipping'    => '1',
+            'no_note'        => '1',
+            'return'         => $return_url,
+            'cancel_return'  => $cancel_url,
+            'notify_url'     => $notify_url,
+            'custom'         => (string) $payment_id,
+            'charset'        => 'utf-8',
+            'lc'             => 'ES',
+        ];
 
-        $body = json_decode( wp_remote_retrieve_body( $response ), true );
-
-        if ( ! empty( $body['id'] ) ) {
-            CDSKI_DB::update_payment( $payment_id, [
-                'transaction_id' => $body['id'],
-            ] );
-        }
-
-        // Find redirect link (approve or payer-action)
-        foreach ( ( $body['links'] ?? [] ) as $link ) {
-            if ( in_array( $link['rel'], [ 'approve', 'payer-action' ], true ) ) {
-                return $link['href'];
-            }
-        }
-
-        return false;
+        return self::paypal_base() . '/cgi-bin/webscr?' . http_build_query( $params );
     }
 
     /**
-     * Handle return from PayPal — capture the order.
+     * Handle return from PayPal (user redirect back).
      */
     public static function handle_callback( $payment_id ) {
         $payment = CDSKI_DB::get_payment( $payment_id );
@@ -136,58 +86,78 @@ class CDSKI_PayPal {
             exit;
         }
 
-        $paypal_token = sanitize_text_field( $_GET['token'] ?? '' );
-        if ( ! $paypal_token ) {
-            CDSKI_DB::update_payment( $payment_id, [ 'estado' => 'error' ] );
-            cdski_pagos_after_status_change( $payment_id, 'error' );
-            wp_redirect( add_query_arg( [
-                'cdski_status' => 'error',
-                'cdski_pid'    => $payment_id,
-            ], home_url( '/resultado-pago/' ) ) );
-            exit;
+        // PayPal return — mark as pending (IPN will confirm)
+        // If already approved by IPN, don't downgrade
+        if ( $payment->estado !== 'approved' ) {
+            CDSKI_DB::update_payment( $payment_id, [ 'estado' => 'pending' ] );
         }
 
-        $token = self::get_access_token();
-        if ( ! $token ) {
-            CDSKI_DB::update_payment( $payment_id, [ 'estado' => 'error' ] );
-            cdski_pagos_after_status_change( $payment_id, 'error' );
-            wp_redirect( add_query_arg( [
-                'cdski_status' => 'error',
-                'cdski_pid'    => $payment_id,
-            ], home_url( '/resultado-pago/' ) ) );
-            exit;
-        }
+        $status = $payment->estado === 'approved' ? 'approved' : 'pending';
 
-        $response = wp_remote_post( self::api_base() . "/v2/checkout/orders/{$paypal_token}/capture", [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $token,
-                'Content-Type'  => 'application/json',
-            ],
-            'body'    => '{}',
+        wp_redirect( add_query_arg( [
+            'cdski_status' => $status,
+            'cdski_pid'    => $payment_id,
+        ], home_url( '/resultado-pago/' ) ) );
+        exit;
+    }
+
+    /**
+     * Handle PayPal IPN (Instant Payment Notification).
+     */
+    public static function handle_ipn( $input ) {
+        // Verify with PayPal
+        $verify_url = self::paypal_base() . '/cgi-bin/webscr';
+        $verify_body = 'cmd=_notify-validate&' . $input;
+
+        $response = wp_remote_post( $verify_url, [
+            'body'    => $verify_body,
             'timeout' => 30,
         ] );
 
-        $body   = json_decode( wp_remote_retrieve_body( $response ), true );
-        $status = $body['status'] ?? '';
-
-        if ( $status === 'COMPLETED' ) {
-            $capture_id = $body['purchase_units'][0]['payments']['captures'][0]['id'] ?? $paypal_token;
-            CDSKI_DB::update_payment( $payment_id, [
-                'estado'         => 'approved',
-                'transaction_id' => $capture_id,
-            ] );
-            cdski_pagos_after_status_change( $payment_id, 'approved' );
-            $redirect_status = 'approved';
-        } else {
-            CDSKI_DB::update_payment( $payment_id, [ 'estado' => 'rejected' ] );
-            cdski_pagos_after_status_change( $payment_id, 'rejected' );
-            $redirect_status = 'rejected';
+        if ( is_wp_error( $response ) ) {
+            status_header( 500 );
+            exit;
         }
 
-        wp_redirect( add_query_arg( [
-            'cdski_status' => $redirect_status,
-            'cdski_pid'    => $payment_id,
-        ], home_url( '/resultado-pago/' ) ) );
+        $verify_result = wp_remote_retrieve_body( $response );
+        if ( $verify_result !== 'VERIFIED' ) {
+            error_log( 'CDSKI PayPal IPN: not verified' );
+            status_header( 200 );
+            exit;
+        }
+
+        // Parse IPN data
+        parse_str( $input, $ipn );
+
+        $payment_id    = intval( $ipn['custom'] ?? 0 );
+        $payment_status = strtolower( $ipn['payment_status'] ?? '' );
+        $txn_id        = $ipn['txn_id'] ?? '';
+
+        if ( ! $payment_id ) {
+            status_header( 200 );
+            exit;
+        }
+
+        $estado_map = [
+            'completed' => 'approved',
+            'pending'   => 'pending',
+            'failed'    => 'rejected',
+            'denied'    => 'rejected',
+            'refunded'  => 'refunded',
+            'reversed'  => 'refunded',
+        ];
+
+        $estado = $estado_map[ $payment_status ] ?? 'pending';
+
+        CDSKI_DB::update_payment( $payment_id, [
+            'estado'         => $estado,
+            'transaction_id' => $txn_id,
+        ] );
+
+        cdski_pagos_after_status_change( $payment_id, $estado );
+
+        status_header( 200 );
+        echo 'OK';
         exit;
     }
 }

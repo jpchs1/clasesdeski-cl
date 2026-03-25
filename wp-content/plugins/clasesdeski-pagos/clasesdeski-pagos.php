@@ -169,8 +169,13 @@ function cdski_pagos_handle_callbacks() {
         exit;
     }
 
-    if ( preg_match( '#^cdski-webhook/(mercadopago)#', $path, $m ) ) {
-        CDSKI_MercadoPago::handle_webhook_direct( file_get_contents( 'php://input' ) );
+    if ( preg_match( '#^cdski-webhook/(mercadopago|paypal)#', $path, $m ) ) {
+        $input = file_get_contents( 'php://input' );
+        if ( $m[1] === 'mercadopago' ) {
+            CDSKI_MercadoPago::handle_webhook_direct( $input );
+        } elseif ( $m[1] === 'paypal' ) {
+            CDSKI_PayPal::handle_ipn( $input );
+        }
         exit;
     }
 }
