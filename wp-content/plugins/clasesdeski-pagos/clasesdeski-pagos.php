@@ -61,7 +61,7 @@ function cdski_pagos_enqueue_assets() {
         if ( $pp_client_id ) {
             wp_enqueue_script(
                 'paypal-sdk',
-                'https://www.paypal.com/sdk/js?client-id=' . $pp_client_id . '&currency=USD&intent=capture&components=buttons&disable-funding=paylater,venmo&locale=es_CL',
+                'https://www.paypal.com/sdk/js?client-id=' . $pp_client_id . '&currency=USD&intent=capture&components=buttons&disable-funding=paylater,venmo&locale=en_US',
                 [],
                 null,
                 true
