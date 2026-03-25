@@ -1,0 +1,288 @@
+/* Clasesdeski Pagos — Frontend Styles */
+
+.cdski-pago-wrapper {
+    max-width: 640px;
+    margin: 40px auto;
+    padding: 0 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.cdski-pago-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    padding: 32px;
+}
+
+.cdski-pago-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.cdski-pago-header h2 {
+    font-size: 24px;
+    color: #1a1a2e;
+    margin: 0 0 8px;
+}
+
+.cdski-pago-header p {
+    color: #666;
+    font-size: 15px;
+    margin: 0;
+}
+
+/* Fields */
+.cdski-field {
+    margin-bottom: 18px;
+}
+
+.cdski-field label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.cdski-required {
+    color: #e74c3c;
+}
+
+.cdski-field input[type="text"],
+.cdski-field input[type="email"],
+.cdski-field input[type="tel"],
+.cdski-field input[type="number"],
+.cdski-field input[type="date"] {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border-color .2s;
+    box-sizing: border-box;
+}
+
+.cdski-field input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+}
+
+/* Amount prefix */
+.cdski-input-prefix {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.cdski-prefix {
+    position: absolute;
+    left: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #666;
+    pointer-events: none;
+}
+
+.cdski-input-prefix input {
+    padding-left: 30px !important;
+    font-size: 18px !important;
+    font-weight: 600;
+}
+
+/* Grid */
+.cdski-fields-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 16px;
+}
+
+@media (max-width: 560px) {
+    .cdski-fields-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Gateway selector */
+.cdski-gateways {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cdski-gateway-option {
+    cursor: pointer;
+    margin: 0;
+}
+
+.cdski-gateway-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cdski-gateway-card {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 18px;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    transition: all .2s;
+}
+
+.cdski-gateway-option input:checked + .cdski-gateway-card {
+    border-color: #2563eb;
+    background: #eff6ff;
+}
+
+.cdski-gateway-option:hover .cdski-gateway-card {
+    border-color: #93c5fd;
+}
+
+.cdski-gateway-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.cdski-gateway-desc {
+    font-size: 13px;
+    color: #666;
+    margin-top: 2px;
+}
+
+/* Submit */
+.cdski-submit-area {
+    margin-top: 24px;
+}
+
+.cdski-btn-pagar {
+    display: inline-block;
+    width: 100%;
+    padding: 14px;
+    background: #2563eb;
+    color: #fff !important;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background .2s;
+}
+
+.cdski-btn-pagar:hover {
+    background: #1d4ed8;
+}
+
+.cdski-btn-pagar:disabled {
+    background: #93c5fd;
+    cursor: not-allowed;
+}
+
+.cdski-btn-pagar.cdski-loading {
+    pointer-events: none;
+    opacity: .7;
+}
+
+/* Error */
+.cdski-error-msg {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    color: #dc2626;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Result page */
+.cdski-result {
+    text-align: center;
+    padding: 48px 32px;
+}
+
+.cdski-result h2 {
+    font-size: 22px;
+    margin: 16px 0 8px;
+}
+
+.cdski-result p {
+    color: #555;
+    font-size: 15px;
+}
+
+.cdski-result-icon::before {
+    font-size: 48px;
+    display: block;
+}
+
+.cdski-result--success .cdski-result-icon::before { content: "\2705"; }
+.cdski-result--success h2 { color: #16a34a; }
+
+.cdski-result--pending .cdski-result-icon::before { content: "\23F3"; }
+.cdski-result--pending h2 { color: #d97706; }
+
+.cdski-result--error .cdski-result-icon::before { content: "\274C"; }
+.cdski-result--error h2 { color: #dc2626; }
+
+.cdski-result--cancelled .cdski-result-icon::before { content: "\26A0"; }
+.cdski-result--cancelled h2 { color: #6b7280; }
+
+.cdski-result-details {
+    margin: 24px auto;
+    max-width: 360px;
+    text-align: left;
+}
+
+.cdski-result-details table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cdski-result-details td {
+    padding: 6px 8px;
+    font-size: 14px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.cdski-result-details code {
+    font-size: 12px;
+    background: #f3f4f6;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.cdski-result-actions {
+    margin-top: 28px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cdski-btn-secondary {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #f3f4f6;
+    color: #333 !important;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .2s;
+}
+
+.cdski-btn-secondary:hover {
+    background: #e5e7eb;
+}
+
+.cdski-result-actions .cdski-btn-pagar {
+    width: auto;
+    padding: 12px 24px;
+    font-size: 14px;
+}
