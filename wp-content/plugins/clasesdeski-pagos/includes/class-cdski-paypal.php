@@ -140,9 +140,9 @@ class CDSKI_PayPal {
             ] );
         }
 
-        // Find approval link
+        // Find approval/payer-action link
         foreach ( ( $body['links'] ?? [] ) as $link ) {
-            if ( $link['rel'] === 'approve' ) {
+            if ( in_array( $link['rel'], [ 'approve', 'payer-action' ], true ) ) {
                 return $link['href'];
             }
         }
