@@ -3,9 +3,7 @@
 <div class="cdski-pago-wrapper">
     <div class="cdski-pago-card">
         <div class="cdski-pago-header">
-            <div class="cdski-pago-logo">
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="20" fill="#1a1a2e"/><path d="M12 28l8-16 8 16" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24h12" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="20" cy="14" r="2" fill="#60a5fa"/></svg>
-            </div>
+            <img src="<?php echo esc_url( home_url( '/wp-content/uploads/2023/07/Logo1.png' ) ); ?>" alt="Clasesdeski" class="cdski-pago-logo-img" width="72" height="72">
             <h2>Abonar Clase</h2>
             <p>Ingresa los datos de tu reserva y realiza tu pago de forma segura.</p>
         </div>
