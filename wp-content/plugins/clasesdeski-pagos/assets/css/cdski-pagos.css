@@ -149,6 +149,13 @@
     font-weight: 700;
     background: #fff !important;
     border-color: rgba(255,255,255,.2) !important;
+    color: #1a1a2e !important;
+    -webkit-text-fill-color: #1a1a2e !important;
+}
+
+.cdski-input-prefix input::placeholder {
+    color: #9ca3af !important;
+    -webkit-text-fill-color: #9ca3af !important;
 }
 
 .cdski-input-prefix input:focus {

@@ -83,7 +83,6 @@ class CDSKI_PayPal {
 
         $description = mb_substr( $data['concepto'] ?: 'Pago reserva clase - Clasesdeski', 0, 127 );
 
-        // Try CLP first, fallback to USD if it fails
         $order_data = [
             'intent'         => 'CAPTURE',
             'purchase_units' => [
@@ -96,19 +95,14 @@ class CDSKI_PayPal {
                     ],
                 ],
             ],
-            'payment_source' => [
-                'paypal' => [
-                    'experience_context' => [
-                        'return_url'          => $return_url,
-                        'cancel_url'          => $cancel_url,
-                        'brand_name'          => 'Clasesdeski',
-                        'user_action'         => 'PAY_NOW',
-                        'locale'              => 'es-CL',
-                        'landing_page'        => 'GUEST_CHECKOUT',
-                        'shipping_preference' => 'NO_SHIPPING',
-                        'payment_method_preference' => 'UNRESTRICTED',
-                    ],
-                ],
+            'application_context' => [
+                'return_url'          => $return_url,
+                'cancel_url'          => $cancel_url,
+                'brand_name'          => 'Clasesdeski',
+                'user_action'         => 'PAY_NOW',
+                'locale'              => 'es-CL',
+                'landing_page'        => 'BILLING',
+                'shipping_preference' => 'NO_SHIPPING',
             ],
         ];
 
