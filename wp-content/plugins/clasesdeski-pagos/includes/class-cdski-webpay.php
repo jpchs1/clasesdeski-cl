@@ -22,7 +22,6 @@ class CDSKI_Webpay {
     }
 
     private static function headers() {
-        // Sandbox uses integration credentials
         if ( self::is_sandbox() ) {
             return [
                 'Tbk-Api-Key-Id'     => '597055555532',
@@ -60,6 +59,7 @@ class CDSKI_Webpay {
         ] );
 
         if ( is_wp_error( $response ) ) {
+            error_log( 'CDSKI Webpay create error: ' . $response->get_error_message() );
             return false;
         }
 
@@ -69,6 +69,7 @@ class CDSKI_Webpay {
         $url   = $result['url'] ?? '';
 
         if ( ! $token || ! $url ) {
+            error_log( 'CDSKI Webpay create failed: ' . wp_remote_retrieve_body( $response ) );
             return false;
         }
 
@@ -76,7 +77,7 @@ class CDSKI_Webpay {
             'transaction_id' => $token,
         ] );
 
-        // Webpay requires redirect via form POST with token_ws
+        // Webpay requires POST redirect with token_ws
         return $url . '?token_ws=' . $token;
     }
 
@@ -97,6 +98,7 @@ class CDSKI_Webpay {
 
         if ( $tbk_token || empty( $token_ws ) ) {
             CDSKI_DB::update_payment( $payment_id, [ 'estado' => 'cancelled' ] );
+            cdski_pagos_after_status_change( $payment_id, 'cancelled' );
             wp_redirect( add_query_arg( [
                 'cdski_status' => 'cancelled',
                 'cdski_pid'    => $payment_id,
@@ -104,7 +106,7 @@ class CDSKI_Webpay {
             exit;
         }
 
-        // Confirm transaction
+        // Confirm transaction with Transbank
         $response = wp_remote_request( self::api_base() . "/transactions/{$token_ws}", [
             'method'  => 'PUT',
             'headers' => self::headers(),
@@ -112,7 +114,9 @@ class CDSKI_Webpay {
         ] );
 
         if ( is_wp_error( $response ) ) {
+            error_log( 'CDSKI Webpay confirm error: ' . $response->get_error_message() );
             CDSKI_DB::update_payment( $payment_id, [ 'estado' => 'error' ] );
+            cdski_pagos_after_status_change( $payment_id, 'error' );
             wp_redirect( add_query_arg( [
                 'cdski_status' => 'error',
                 'cdski_pid'    => $payment_id,
@@ -123,18 +127,18 @@ class CDSKI_Webpay {
         $result = json_decode( wp_remote_retrieve_body( $response ), true );
 
         $response_code = $result['response_code'] ?? -1;
-        $status        = $result['status'] ?? '';
+        $tbk_status    = $result['status'] ?? '';
 
-        if ( $response_code === 0 && $status === 'AUTHORIZED' ) {
+        if ( $response_code === 0 && $tbk_status === 'AUTHORIZED' ) {
             CDSKI_DB::update_payment( $payment_id, [
                 'estado'         => 'approved',
                 'transaction_id' => $result['authorization_code'] ?? $token_ws,
             ] );
+            cdski_pagos_after_status_change( $payment_id, 'approved' );
             $redirect_status = 'approved';
         } else {
-            CDSKI_DB::update_payment( $payment_id, [
-                'estado' => 'rejected',
-            ] );
+            CDSKI_DB::update_payment( $payment_id, [ 'estado' => 'rejected' ] );
+            cdski_pagos_after_status_change( $payment_id, 'rejected' );
             $redirect_status = 'rejected';
         }
 

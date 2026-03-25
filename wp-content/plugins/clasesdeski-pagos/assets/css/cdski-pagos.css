@@ -1,47 +1,76 @@
-/* Clasesdeski Pagos — Frontend Styles */
+/* Clasesdeski Pagos — Frontend Styles v1.1 */
 
 .cdski-pago-wrapper {
     max-width: 640px;
     margin: 40px auto;
     padding: 0 16px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
 }
 
 .cdski-pago-card {
     background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,.08);
-    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,.08);
+    padding: 36px;
+    border: 1px solid rgba(0,0,0,.04);
 }
 
+/* Header */
 .cdski-pago-header {
     text-align: center;
-    margin-bottom: 28px;
+    margin-bottom: 32px;
+}
+
+.cdski-pago-logo {
+    margin-bottom: 12px;
 }
 
 .cdski-pago-header h2 {
-    font-size: 24px;
+    font-size: 26px;
     color: #1a1a2e;
     margin: 0 0 8px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
 }
 
 .cdski-pago-header p {
-    color: #666;
+    color: #6b7280;
     font-size: 15px;
     margin: 0;
 }
 
+/* Section titles */
+.cdski-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 24px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cdski-optional-badge {
+    font-size: 11px;
+    font-weight: 500;
+    color: #9ca3af;
+    background: #f3f4f6;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
 /* Fields */
 .cdski-field {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
 .cdski-field label {
     display: block;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
-    color: #333;
-    margin-bottom: 6px;
+    color: #374151;
+    margin-bottom: 5px;
 }
 
 .cdski-required {
@@ -54,21 +83,50 @@
 .cdski-field input[type="number"],
 .cdski-field input[type="date"] {
     width: 100%;
-    padding: 10px 14px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
+    padding: 11px 14px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 10px;
     font-size: 15px;
-    transition: border-color .2s;
+    transition: all .2s;
     box-sizing: border-box;
+    background: #fafafa;
+    color: #1a1a2e;
 }
 
 .cdski-field input:focus {
     outline: none;
     border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+    box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+    background: #fff;
 }
 
-/* Amount prefix */
+.cdski-field-hint {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 4px;
+    display: block;
+}
+
+/* Amount field */
+.cdski-field--amount {
+    background: linear-gradient(135deg, #1a1a2e 0%, #2d2b55 100%);
+    padding: 20px;
+    border-radius: 14px;
+    margin-bottom: 24px;
+}
+
+.cdski-field--amount label {
+    color: #e5e7eb;
+}
+
+.cdski-field--amount .cdski-required {
+    color: #fbbf24;
+}
+
+.cdski-field--amount .cdski-field-hint {
+    color: rgba(255,255,255,.5);
+}
+
 .cdski-input-prefix {
     position: relative;
     display: flex;
@@ -77,17 +135,24 @@
 
 .cdski-prefix {
     position: absolute;
-    left: 14px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #666;
+    left: 16px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #6b7280;
     pointer-events: none;
+    z-index: 1;
 }
 
 .cdski-input-prefix input {
-    padding-left: 30px !important;
-    font-size: 18px !important;
-    font-weight: 600;
+    padding-left: 34px !important;
+    font-size: 22px !important;
+    font-weight: 700;
+    background: #fff !important;
+    border-color: rgba(255,255,255,.2) !important;
+}
+
+.cdski-input-prefix input:focus {
+    border-color: #60a5fa !important;
 }
 
 /* Grid */
@@ -100,6 +165,9 @@
 @media (max-width: 560px) {
     .cdski-fields-grid {
         grid-template-columns: 1fr;
+    }
+    .cdski-pago-card {
+        padding: 24px 20px;
     }
 }
 
@@ -123,20 +191,35 @@
 
 .cdski-gateway-card {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 14px;
     padding: 14px 18px;
     border: 2px solid #e5e7eb;
-    border-radius: 10px;
+    border-radius: 12px;
     transition: all .2s;
+    background: #fafafa;
 }
 
 .cdski-gateway-option input:checked + .cdski-gateway-card {
     border-color: #2563eb;
     background: #eff6ff;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.1);
 }
 
 .cdski-gateway-option:hover .cdski-gateway-card {
     border-color: #93c5fd;
+    background: #f8faff;
+}
+
+.cdski-gateway-logo {
+    flex-shrink: 0;
+}
+
+.cdski-gateway-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
 }
 
 .cdski-gateway-name {
@@ -146,44 +229,83 @@
 }
 
 .cdski-gateway-desc {
-    font-size: 13px;
-    color: #666;
-    margin-top: 2px;
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 1px;
+}
+
+.cdski-gateway-cards {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
 }
 
 /* Submit */
 .cdski-submit-area {
-    margin-top: 24px;
+    margin-top: 28px;
 }
 
 .cdski-btn-pagar {
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     width: 100%;
-    padding: 14px;
-    background: #2563eb;
+    padding: 16px;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
     color: #fff !important;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 700;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
-    transition: background .2s;
+    transition: all .2s;
+    letter-spacing: 0.3px;
 }
 
 .cdski-btn-pagar:hover {
-    background: #1d4ed8;
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37,99,235,.3);
+}
+
+.cdski-btn-pagar:active {
+    transform: translateY(0);
 }
 
 .cdski-btn-pagar:disabled {
-    background: #93c5fd;
+    background: #cbd5e1;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 .cdski-btn-pagar.cdski-loading {
     pointer-events: none;
-    opacity: .7;
+    background: #93c5fd;
+}
+
+.cdski-spinner-icon {
+    vertical-align: middle;
+}
+
+.cdski-btn-spinner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Secure badge */
+.cdski-secure-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+    font-size: 12px;
+    color: #6b7280;
 }
 
 /* Error */
@@ -192,49 +314,67 @@
     padding: 12px 16px;
     background: #fef2f2;
     border: 1px solid #fecaca;
-    border-radius: 8px;
+    border-radius: 10px;
     color: #dc2626;
     font-size: 14px;
     text-align: center;
 }
 
-/* Result page */
+/* ============ Result page ============ */
 .cdski-result {
     text-align: center;
     padding: 48px 32px;
 }
 
 .cdski-result h2 {
-    font-size: 22px;
+    font-size: 24px;
     margin: 16px 0 8px;
+    font-weight: 800;
 }
 
 .cdski-result p {
     color: #555;
     font-size: 15px;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.cdski-result-icon::before {
-    font-size: 48px;
-    display: block;
+.cdski-result-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 8px;
+    font-size: 36px;
 }
 
-.cdski-result--success .cdski-result-icon::before { content: "\2705"; }
+.cdski-result--success .cdski-result-icon { background: #dcfce7; }
+.cdski-result--success .cdski-result-icon::before { content: "\2713"; color: #16a34a; }
 .cdski-result--success h2 { color: #16a34a; }
 
-.cdski-result--pending .cdski-result-icon::before { content: "\23F3"; }
+.cdski-result--pending .cdski-result-icon { background: #fef3c7; }
+.cdski-result--pending .cdski-result-icon::before { content: "\23F3"; color: #d97706; }
 .cdski-result--pending h2 { color: #d97706; }
 
-.cdski-result--error .cdski-result-icon::before { content: "\274C"; }
+.cdski-result--error .cdski-result-icon { background: #fee2e2; }
+.cdski-result--error .cdski-result-icon::before { content: "\2717"; color: #dc2626; }
 .cdski-result--error h2 { color: #dc2626; }
 
-.cdski-result--cancelled .cdski-result-icon::before { content: "\26A0"; }
+.cdski-result--cancelled .cdski-result-icon { background: #f3f4f6; }
+.cdski-result--cancelled .cdski-result-icon::before { content: "\26A0"; color: #6b7280; }
 .cdski-result--cancelled h2 { color: #6b7280; }
 
 .cdski-result-details {
-    margin: 24px auto;
-    max-width: 360px;
+    margin: 28px auto;
+    max-width: 400px;
     text-align: left;
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 4px 0;
+    border: 1px solid #e5e7eb;
 }
 
 .cdski-result-details table {
@@ -243,20 +383,25 @@
 }
 
 .cdski-result-details td {
-    padding: 6px 8px;
+    padding: 10px 16px;
     font-size: 14px;
     border-bottom: 1px solid #f0f0f0;
 }
 
+.cdski-result-details tr:last-child td {
+    border-bottom: none;
+}
+
 .cdski-result-details code {
     font-size: 12px;
-    background: #f3f4f6;
-    padding: 2px 6px;
+    background: #e5e7eb;
+    padding: 2px 8px;
     border-radius: 4px;
+    font-family: monospace;
 }
 
 .cdski-result-actions {
-    margin-top: 28px;
+    margin-top: 32px;
     display: flex;
     gap: 12px;
     justify-content: center;
@@ -265,16 +410,16 @@
 
 .cdski-btn-secondary {
     display: inline-block;
-    padding: 12px 24px;
+    padding: 13px 28px;
     background: #f3f4f6;
     color: #333 !important;
     font-size: 14px;
     font-weight: 600;
-    border: none;
+    border: 1.5px solid #e5e7eb;
     border-radius: 10px;
     cursor: pointer;
     text-decoration: none;
-    transition: background .2s;
+    transition: all .2s;
 }
 
 .cdski-btn-secondary:hover {
@@ -283,6 +428,7 @@
 
 .cdski-result-actions .cdski-btn-pagar {
     width: auto;
-    padding: 12px 24px;
+    padding: 13px 28px;
     font-size: 14px;
+    display: inline-flex;
 }
