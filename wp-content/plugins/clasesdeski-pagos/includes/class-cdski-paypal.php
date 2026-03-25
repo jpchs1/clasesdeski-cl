@@ -96,12 +96,19 @@ class CDSKI_PayPal {
                     ],
                 ],
             ],
-            'application_context' => [
-                'return_url'  => $return_url,
-                'cancel_url'  => $cancel_url,
-                'brand_name'  => 'Clasesdeski',
-                'user_action' => 'PAY_NOW',
-                'locale'      => 'es-CL',
+            'payment_source' => [
+                'paypal' => [
+                    'experience_context' => [
+                        'return_url'          => $return_url,
+                        'cancel_url'          => $cancel_url,
+                        'brand_name'          => 'Clasesdeski',
+                        'user_action'         => 'PAY_NOW',
+                        'locale'              => 'es-CL',
+                        'landing_page'        => 'GUEST_CHECKOUT',
+                        'shipping_preference' => 'NO_SHIPPING',
+                        'payment_method_preference' => 'UNRESTRICTED',
+                    ],
+                ],
             ],
         ];
 
