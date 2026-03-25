@@ -85,6 +85,21 @@ $table_prefix = 'wp35_';
  */
 define( 'WP_DEBUG', false );
 
+// ─── CLASESDESKI PAGOS — Gateways de pago ──────────────
+
+// PayPal (producción)
+define( 'CDSKI_PAYPAL_CLIENT_ID', 'AdgtnNA-dGFfexjeWDSe9NVFdZQ2yqK9bhpQBc0oEIJ_kqEPuqA1ITQMXWtSodrHmkmwFTN2GTBEyGQA' );
+define( 'CDSKI_PAYPAL_SECRET',    'EMj0fYFTdZI8QCOVbMBSA_VZyRKDM24WkhaY2cPVXYRB9xbPdYX01nozaVgdZboHkjW2zPsWGuo7F3YK' );
+define( 'CDSKI_PAYPAL_SANDBOX',   false );
+
+// Mercado Pago (producción Chile)
+define( 'CDSKI_MP_ACCESS_TOKEN', 'APP_USR-2953629058148039-011322-f9d6f73119fdafd65ebf41e7f42b3e86-1316920' );
+
+// Webpay Transbank (producción)
+define( 'CDSKI_WEBPAY_COMMERCE_CODE', '597034812373' );
+define( 'CDSKI_WEBPAY_API_KEY',       '464a2bf8092ad625b634ccf4bb506440' );
+define( 'CDSKI_WEBPAY_SANDBOX',       false );
+
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
