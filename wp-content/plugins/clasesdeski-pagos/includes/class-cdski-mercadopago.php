@@ -33,10 +33,11 @@ class CDSKI_MercadoPago {
                 'failure' => home_url( "/cdski-callback/mercadopago/{$payment_id}/" ),
                 'pending' => home_url( "/cdski-callback/mercadopago/{$payment_id}/" ),
             ],
-            'auto_return'        => 'approved',
-            'external_reference' => (string) $payment_id,
-            'notification_url'   => home_url( "/cdski-webhook/mercadopago/" ),
+            'auto_return'          => 'all',
+            'external_reference'   => (string) $payment_id,
+            'notification_url'     => home_url( "/cdski-webhook/mercadopago/" ),
             'statement_descriptor' => 'CLASESDESKI',
+            'binary_mode'          => true,
         ];
 
         // Only add payer if we have valid email

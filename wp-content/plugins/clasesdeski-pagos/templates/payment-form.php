@@ -108,8 +108,8 @@
                                 </svg>
                             </div>
                             <div class="cdski-gateway-info">
-                                <span class="cdski-gateway-name">Tarjeta Internacional</span>
-                                <span class="cdski-gateway-desc">Visa, Mastercard, Amex (USD vía PayPal)</span>
+                                <span class="cdski-gateway-name">PayPal</span>
+                                <span class="cdski-gateway-desc">Pago internacional con cuenta PayPal (USD)</span>
                             </div>
                             <div class="cdski-gateway-cards">
                                 <svg width="32" height="20" viewBox="0 0 32 20"><rect width="32" height="20" rx="3" fill="#1A1F71"/><circle cx="12" cy="10" r="6" fill="#EB001B"/><circle cx="20" cy="10" r="6" fill="#F79E1B" opacity=".8"/></svg>
@@ -119,9 +119,6 @@
                     </label>
                 </div>
             </div>
-
-            <!-- PayPal button (shown when PayPal is selected, replaces submit button) -->
-            <div id="cdski-paypal-btn-container" style="display:none;margin-top:28px;"></div>
 
             <!-- Submit -->
             <div class="cdski-submit-area">
