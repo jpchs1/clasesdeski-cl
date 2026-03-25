@@ -82,6 +82,7 @@ class CDSKI_PayPal {
                 'brand_name'          => 'Clasesdeski',
                 'user_action'         => 'PAY_NOW',
                 'shipping_preference' => 'NO_SHIPPING',
+                'landing_page'        => 'BILLING',
             ],
         ];
 
