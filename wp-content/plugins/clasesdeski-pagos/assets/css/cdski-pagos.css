@@ -109,22 +109,21 @@
 
 /* Amount field */
 .cdski-field--amount {
-    background: linear-gradient(135deg, #1a1a2e 0%, #2d2b55 100%);
+    background: #f0f4ff;
+    border: 2px solid #2563eb;
     padding: 20px;
     border-radius: 14px;
     margin-bottom: 24px;
 }
 
 .cdski-field--amount label {
-    color: #e5e7eb;
-}
-
-.cdski-field--amount .cdski-required {
-    color: #fbbf24;
+    color: #1e3a5f;
+    font-size: 14px;
+    font-weight: 700;
 }
 
 .cdski-field--amount .cdski-field-hint {
-    color: rgba(255,255,255,.5);
+    color: #6b7280;
 }
 
 .cdski-input-prefix {
@@ -138,28 +137,34 @@
     left: 16px;
     font-size: 20px;
     font-weight: 700;
-    color: #6b7280;
+    color: #1e3a5f;
     pointer-events: none;
     z-index: 1;
 }
 
-.cdski-input-prefix input {
+#cdski-amount,
+.cdski-input-prefix input[type="number"] {
     padding-left: 34px !important;
-    font-size: 22px !important;
-    font-weight: 700;
-    background: #fff !important;
-    border-color: rgba(255,255,255,.2) !important;
-    color: #1a1a2e !important;
-    -webkit-text-fill-color: #1a1a2e !important;
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    background: #ffffff !important;
+    border: 2px solid #cbd5e1 !important;
+    border-radius: 10px !important;
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+    opacity: 1 !important;
+    height: 56px !important;
 }
 
-.cdski-input-prefix input::placeholder {
-    color: #9ca3af !important;
-    -webkit-text-fill-color: #9ca3af !important;
+#cdski-amount::placeholder {
+    color: #94a3b8 !important;
+    -webkit-text-fill-color: #94a3b8 !important;
+    opacity: 1 !important;
 }
 
-.cdski-input-prefix input:focus {
-    border-color: #60a5fa !important;
+#cdski-amount:focus {
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15) !important;
 }
 
 /* Grid */
@@ -245,28 +250,6 @@
     display: flex;
     gap: 4px;
     flex-shrink: 0;
-}
-
-/* PayPal inline card fields */
-.cdski-paypal-card-fields {
-    margin-top: 20px;
-    padding: 20px;
-    background: #f8fafc;
-    border: 1.5px solid #e2e8f0;
-    border-radius: 12px;
-}
-
-.cdski-paypal-card-fields .cdski-section-title {
-    margin-top: 0;
-}
-
-.cdski-pp-field {
-    margin-bottom: 12px;
-    min-height: 45px;
-}
-
-.cdski-pp-field:last-child {
-    margin-bottom: 0;
 }
 
 /* Submit */

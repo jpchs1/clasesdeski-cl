@@ -120,16 +120,8 @@
                 </div>
             </div>
 
-            <!-- PayPal inline card fields (shown when PayPal is selected) -->
-            <div id="cdski-paypal-card-container" class="cdski-paypal-card-fields" style="display:none;">
-                <div class="cdski-section-title">Datos de la tarjeta</div>
-                <div id="card-number-field-container" class="cdski-pp-field"></div>
-                <div class="cdski-fields-grid">
-                    <div id="card-expiry-field-container" class="cdski-pp-field"></div>
-                    <div id="card-cvv-field-container" class="cdski-pp-field"></div>
-                </div>
-                <div id="card-name-field-container" class="cdski-pp-field"></div>
-            </div>
+            <!-- PayPal button (shown when PayPal is selected, replaces submit button) -->
+            <div id="cdski-paypal-btn-container" style="display:none;margin-top:28px;"></div>
 
             <!-- Submit -->
             <div class="cdski-submit-area">
