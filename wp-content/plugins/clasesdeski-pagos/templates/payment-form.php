@@ -108,15 +108,27 @@
                                 </svg>
                             </div>
                             <div class="cdski-gateway-info">
-                                <span class="cdski-gateway-name">PayPal</span>
-                                <span class="cdski-gateway-desc">Pago internacional (USD)</span>
+                                <span class="cdski-gateway-name">Tarjeta Internacional</span>
+                                <span class="cdski-gateway-desc">Visa, Mastercard, Amex (USD vía PayPal)</span>
                             </div>
                             <div class="cdski-gateway-cards">
-                                <svg width="32" height="20" viewBox="0 0 32 20"><rect width="32" height="20" rx="3" fill="#003087"/><text x="16" y="14" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="8" fill="#009CDE">PP</text></svg>
+                                <svg width="32" height="20" viewBox="0 0 32 20"><rect width="32" height="20" rx="3" fill="#1A1F71"/><circle cx="12" cy="10" r="6" fill="#EB001B"/><circle cx="20" cy="10" r="6" fill="#F79E1B" opacity=".8"/></svg>
+                                <svg width="32" height="20" viewBox="0 0 32 20"><rect width="32" height="20" rx="3" fill="#1A1F71"/><text x="16" y="14" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="9" fill="#fff">VISA</text></svg>
                             </div>
                         </div>
                     </label>
                 </div>
+            </div>
+
+            <!-- PayPal inline card fields (shown when PayPal is selected) -->
+            <div id="cdski-paypal-card-container" class="cdski-paypal-card-fields" style="display:none;">
+                <div class="cdski-section-title">Datos de la tarjeta</div>
+                <div id="card-number-field-container" class="cdski-pp-field"></div>
+                <div class="cdski-fields-grid">
+                    <div id="card-expiry-field-container" class="cdski-pp-field"></div>
+                    <div id="card-cvv-field-container" class="cdski-pp-field"></div>
+                </div>
+                <div id="card-name-field-container" class="cdski-pp-field"></div>
             </div>
 
             <!-- Submit -->

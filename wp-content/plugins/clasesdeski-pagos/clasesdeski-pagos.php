@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'CDSKI_PAGOS_VERSION', '1.1.0' );
+define( 'CDSKI_PAGOS_VERSION', '1.2.0' );
 define( 'CDSKI_PAGOS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'CDSKI_PAGOS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -56,16 +56,30 @@ function cdski_pagos_enqueue_assets() {
         CDSKI_PAGOS_VERSION
     );
     if ( $has_form ) {
+        // PayPal JS SDK for inline card fields
+        $pp_client_id = defined( 'CDSKI_PAYPAL_CLIENT_ID' ) ? CDSKI_PAYPAL_CLIENT_ID : '';
+        if ( $pp_client_id ) {
+            wp_enqueue_script(
+                'paypal-sdk',
+                'https://www.paypal.com/sdk/js?client-id=' . $pp_client_id . '&currency=USD&intent=capture&components=buttons,card-fields',
+                [],
+                null,
+                true
+            );
+        }
+
         wp_enqueue_script(
             'cdski-pagos',
             CDSKI_PAGOS_URL . 'assets/js/cdski-pagos.js',
-            [],
+            $pp_client_id ? [ 'paypal-sdk' ] : [],
             CDSKI_PAGOS_VERSION,
             true
         );
         wp_localize_script( 'cdski-pagos', 'cdskiPagos', [
-            'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-            'nonce'   => wp_create_nonce( 'cdski_pagos_nonce' ),
+            'ajaxUrl'      => admin_url( 'admin-ajax.php' ),
+            'nonce'        => wp_create_nonce( 'cdski_pagos_nonce' ),
+            'resultUrl'    => home_url( '/resultado-pago/' ),
+            'hasPaypalSdk' => ! empty( $pp_client_id ),
         ] );
     }
 }
@@ -124,13 +138,14 @@ function cdski_pagos_create_payment() {
         wp_send_json_error( [ 'message' => 'Error al registrar pago.' ] );
     }
 
-    $redirect_url = '';
-    $error_detail = '';
+    // PayPal uses JS SDK — just return payment_id, no server-side order creation here
+    if ( $gateway === 'paypal' ) {
+        wp_send_json_success( [ 'payment_id' => $payment_id ] );
+    }
 
+    // Webpay / Mercado Pago — create order and return redirect URL
+    $redirect_url = '';
     switch ( $gateway ) {
-        case 'paypal':
-            $redirect_url = CDSKI_PayPal::create_order( $payment_id, intval( $amount ), $data );
-            break;
         case 'mercadopago':
             $redirect_url = CDSKI_MercadoPago::create_preference( $payment_id, intval( $amount ), $data );
             break;
@@ -214,3 +229,75 @@ function cdski_pagos_after_status_change( $payment_id, $status ) {
         CDSKI_Emails::send_admin_notification( $payment, $status );
     }
 }
+
+/**
+ * AJAX: Create PayPal order for JS SDK (returns order ID, not redirect).
+ */
+function cdski_paypal_create_order() {
+    check_ajax_referer( 'cdski_pagos_nonce', 'nonce' );
+
+    $payment_id = intval( $_POST['payment_id'] ?? 0 );
+    $payment    = CDSKI_DB::get_payment( $payment_id );
+
+    if ( ! $payment ) {
+        wp_send_json_error( [ 'message' => 'Pago no encontrado.' ] );
+    }
+
+    $order_id = CDSKI_PayPal::create_order_for_js(
+        $payment_id,
+        intval( $payment->monto ),
+        $payment->concepto
+    );
+
+    if ( ! $order_id ) {
+        wp_send_json_error( [ 'message' => 'Error al crear orden PayPal.' ] );
+    }
+
+    wp_send_json_success( [ 'orderID' => $order_id ] );
+}
+add_action( 'wp_ajax_cdski_paypal_create_order', 'cdski_paypal_create_order' );
+add_action( 'wp_ajax_nopriv_cdski_paypal_create_order', 'cdski_paypal_create_order' );
+
+/**
+ * AJAX: Capture PayPal order after JS SDK approval.
+ */
+function cdski_paypal_capture_order() {
+    check_ajax_referer( 'cdski_pagos_nonce', 'nonce' );
+
+    $payment_id = intval( $_POST['payment_id'] ?? 0 );
+    $order_id   = sanitize_text_field( $_POST['orderID'] ?? '' );
+    $payment    = CDSKI_DB::get_payment( $payment_id );
+
+    if ( ! $payment || ! $order_id ) {
+        wp_send_json_error( [ 'message' => 'Datos inválidos.' ] );
+    }
+
+    $result = CDSKI_PayPal::capture_order( $order_id );
+
+    if ( $result['success'] ) {
+        CDSKI_DB::update_payment( $payment_id, [
+            'estado'         => 'approved',
+            'transaction_id' => $result['capture_id'],
+        ] );
+        cdski_pagos_after_status_change( $payment_id, 'approved' );
+        wp_send_json_success( [
+            'status'  => 'approved',
+            'redirect' => add_query_arg( [
+                'cdski_status' => 'approved',
+                'cdski_pid'    => $payment_id,
+            ], home_url( '/resultado-pago/' ) ),
+        ] );
+    } else {
+        CDSKI_DB::update_payment( $payment_id, [ 'estado' => 'rejected' ] );
+        cdski_pagos_after_status_change( $payment_id, 'rejected' );
+        wp_send_json_error( [
+            'message'  => 'Pago rechazado.',
+            'redirect' => add_query_arg( [
+                'cdski_status' => 'rejected',
+                'cdski_pid'    => $payment_id,
+            ], home_url( '/resultado-pago/' ) ),
+        ] );
+    }
+}
+add_action( 'wp_ajax_cdski_paypal_capture_order', 'cdski_paypal_capture_order' );
+add_action( 'wp_ajax_nopriv_cdski_paypal_capture_order', 'cdski_paypal_capture_order' );

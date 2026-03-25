@@ -247,6 +247,28 @@
     flex-shrink: 0;
 }
 
+/* PayPal inline card fields */
+.cdski-paypal-card-fields {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+.cdski-paypal-card-fields .cdski-section-title {
+    margin-top: 0;
+}
+
+.cdski-pp-field {
+    margin-bottom: 12px;
+    min-height: 45px;
+}
+
+.cdski-pp-field:last-child {
+    margin-bottom: 0;
+}
+
 /* Submit */
 .cdski-submit-area {
     margin-top: 28px;
