@@ -22,12 +22,13 @@ class CDSKI_Emails {
      * Send email notification to admin.
      */
     public static function send_admin_notification( $payment, $status ) {
-        $to      = get_option( 'admin_email' );
+        $to      = 'info@clasesdeski.cl';
         $subject = '[Clasesdeski] ' . self::get_subject( $status, $payment );
         $body    = self::build_admin_html( $payment, $status );
         $headers = [
             'Content-Type: text/html; charset=UTF-8',
             'From: Clasesdeski Pagos <no-reply@clasesdeski.cl>',
+            'Bcc: jpchs1@gmail.com',
         ];
 
         wp_mail( $to, $subject, $body, $headers );
@@ -148,7 +149,12 @@ class CDSKI_Emails {
 
     private static function build_admin_html( $payment, $status ) {
         $monto   = '$' . number_format( $payment->monto, 0, ',', '.' ) . ' CLP';
-        $gateway = ucfirst( $payment->gateway );
+        $gateway_labels = [
+            'webpay'      => 'Webpay Plus',
+            'mercadopago' => 'Mercado Pago',
+            'paypal'      => 'PayPal',
+        ];
+        $gateway = $gateway_labels[ $payment->gateway ] ?? ucfirst( $payment->gateway );
 
         $status_labels = [
             'approved'  => 'APROBADO',
@@ -157,32 +163,71 @@ class CDSKI_Emails {
             'cancelled' => 'CANCELADO',
             'error'     => 'ERROR',
         ];
+        $status_colors = [
+            'approved'  => '#16a34a',
+            'pending'   => '#d97706',
+            'rejected'  => '#dc2626',
+            'cancelled' => '#6b7280',
+            'error'     => '#dc2626',
+        ];
         $label = $status_labels[ $status ] ?? strtoupper( $status );
+        $color = $status_colors[ $status ] ?? '#6b7280';
 
-        $rows = '<tr><td style="padding:6px 10px;font-weight:600;">ID Pago</td><td style="padding:6px 10px;">#' . $payment->id . '</td></tr>';
-        $rows .= '<tr><td style="padding:6px 10px;font-weight:600;">Estado</td><td style="padding:6px 10px;font-weight:700;">' . $label . '</td></tr>';
-        $rows .= '<tr><td style="padding:6px 10px;font-weight:600;">Monto</td><td style="padding:6px 10px;">' . $monto . '</td></tr>';
-        $rows .= '<tr><td style="padding:6px 10px;font-weight:600;">Gateway</td><td style="padding:6px 10px;">' . $gateway . '</td></tr>';
-        if ( $payment->cliente ) {
-            $rows .= '<tr><td style="padding:6px 10px;font-weight:600;">Cliente</td><td style="padding:6px 10px;">' . esc_html( $payment->cliente ) . '</td></tr>';
-        }
-        if ( $payment->email ) {
-            $rows .= '<tr><td style="padding:6px 10px;font-weight:600;">Email</td><td style="padding:6px 10px;">' . esc_html( $payment->email ) . '</td></tr>';
-        }
-        if ( $payment->telefono ) {
-            $rows .= '<tr><td style="padding:6px 10px;font-weight:600;">Teléfono</td><td style="padding:6px 10px;">' . esc_html( $payment->telefono ) . '</td></tr>';
-        }
-        if ( $payment->reserva ) {
-            $rows .= '<tr><td style="padding:6px 10px;font-weight:600;">Reserva</td><td style="padding:6px 10px;">' . esc_html( $payment->reserva ) . '</td></tr>';
-        }
-        if ( $payment->transaction_id ) {
-            $rows .= '<tr><td style="padding:6px 10px;font-weight:600;">Transaction ID</td><td style="padding:6px 10px;font-family:monospace;">' . esc_html( $payment->transaction_id ) . '</td></tr>';
-        }
+        $fecha  = date_i18n( 'j M Y, H:i', strtotime( $payment->created_at ) );
 
-        return '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="font-family:sans-serif;padding:20px;">
-<h2>Nuevo pago ' . $label . '</h2>
-<table style="border-collapse:collapse;border:1px solid #ddd;">' . $rows . '</table>
-<p style="margin-top:16px;"><a href="' . admin_url( 'admin.php?page=cdski-pagos' ) . '">Ver todos los pagos</a></p>
+        // Build detail rows
+        $details = '';
+        $add_row = function( $lbl, $val ) use ( &$details ) {
+            if ( ! $val ) return;
+            $details .= '<tr><td style="padding:10px 16px;font-size:13px;color:#6b7280;border-bottom:1px solid #f0f0f0;">' . $lbl . '</td><td style="padding:10px 16px;font-size:13px;color:#1f2937;font-weight:600;border-bottom:1px solid #f0f0f0;text-align:right;">' . esc_html( $val ) . '</td></tr>';
+        };
+
+        $add_row( 'Cliente', $payment->cliente );
+        $add_row( 'Email', $payment->email );
+        $add_row( 'WhatsApp', $payment->telefono );
+        $add_row( 'Medio de pago', $gateway );
+        $add_row( 'N° Reserva', $payment->reserva );
+        $add_row( 'Concepto', $payment->concepto );
+        if ( $payment->fecha_clase ) {
+            $add_row( 'Fecha de clase', date_i18n( 'j M Y', strtotime( $payment->fecha_clase ) ) );
+        }
+        $add_row( 'ID Transaccion', $payment->transaction_id );
+
+        $admin_url = admin_url( 'admin.php?page=cdski-pagos' );
+
+        return '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#f3f4f6;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f3f4f6;padding:32px 16px;">
+<tr><td align="center">
+<table width="560" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+
+  <!-- Header bar -->
+  <tr><td style="background:' . $color . ';padding:20px 28px;">
+    <table width="100%" cellpadding="0" cellspacing="0"><tr>
+      <td style="color:#fff;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">NUEVO PAGO ' . $label . '</td>
+      <td style="color:#fff;font-size:22px;font-weight:800;text-align:right;letter-spacing:-0.3px;">' . $monto . '</td>
+    </tr></table>
+  </td></tr>
+
+  <!-- Body -->
+  <tr><td style="padding:28px;">
+    <p style="font-size:14px;color:#6b7280;margin:0 0 4px;">Pago #' . $payment->id . ' &middot; ' . $fecha . '</p>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;">
+      ' . $details . '
+    </table>
+
+    <p style="margin:24px 0 0;text-align:center;">
+      <a href="' . esc_url( $admin_url ) . '" style="display:inline-block;padding:12px 28px;background:#1e293b;color:#fff;text-decoration:none;border-radius:8px;font-size:14px;font-weight:600;">Ver todos los pagos</a>
+    </p>
+  </td></tr>
+
+  <!-- Footer -->
+  <tr><td style="background:#f9fafb;padding:14px 28px;text-align:center;border-top:1px solid #e5e7eb;">
+    <p style="margin:0;font-size:11px;color:#9ca3af;">Clasesdeski — Notificacion automatica de pagos</p>
+  </td></tr>
+
+</table>
+</td></tr></table>
 </body></html>';
     }
 }
