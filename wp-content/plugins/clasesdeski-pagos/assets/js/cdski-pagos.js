@@ -1,101 +1,86 @@
 /**
- * Clasesdeski Pagos — Frontend JS v1.3
- * All gateways use redirect flow.
+ * Clasesdeski Pagos — v2.1
  */
 (function () {
     'use strict';
 
-    var form      = document.getElementById('cdski-pago-form');
-    var submitBtn = document.getElementById('cdski-submit-btn');
-    var errorBox  = document.getElementById('cdski-pago-error');
+    var form       = document.getElementById('cdski-pago-form');
+    var submitBtn  = document.getElementById('cdski-submit-btn');
+    var errorBox   = document.getElementById('cdski-pago-error');
+    var summary    = document.getElementById('cdski-summary');
+    var summaryAmt = document.getElementById('cdski-summary-amount');
 
     if (!form || !submitBtn) return;
 
-    var amountInput   = form.querySelector('[name="amount"]');
+    var amountInput   = document.getElementById('cdski-amount');
     var gatewayInputs = form.querySelectorAll('[name="gateway"]');
 
-    function getSelectedGateway() {
-        for (var i = 0; i < gatewayInputs.length; i++) {
-            if (gatewayInputs[i].checked) return gatewayInputs[i].value;
-        }
+    function fmt(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+    function parse(s) { return parseInt((s || '').replace(/\./g, ''), 10) || 0; }
+
+    amountInput.addEventListener('input', function () {
+        var raw = this.value.replace(/\D/g, '');
+        if (raw.length > 0) this.value = fmt(parseInt(raw, 10));
+        refresh();
+    });
+
+    function gateway() {
+        for (var i = 0; i < gatewayInputs.length; i++) if (gatewayInputs[i].checked) return gatewayInputs[i].value;
         return '';
     }
 
-    function validateForm() {
-        var amount  = parseFloat(amountInput.value) || 0;
-        var gateway = getSelectedGateway();
-        submitBtn.disabled = !(amount >= 1000 && gateway);
+    for (var i = 0; i < gatewayInputs.length; i++) gatewayInputs[i].addEventListener('change', refresh);
+
+    function refresh() {
+        var amt = parse(amountInput.value);
+        var gw  = gateway();
+        submitBtn.disabled = !(amt >= 1000 && gw);
+
+        if (amt >= 1000 && summary) {
+            summary.style.display = 'flex';
+            summaryAmt.textContent = '$' + fmt(amt) + ' CLP';
+        } else if (summary) {
+            summary.style.display = 'none';
+        }
     }
 
-    amountInput.addEventListener('input', validateForm);
-    for (var i = 0; i < gatewayInputs.length; i++) {
-        gatewayInputs[i].addEventListener('change', validateForm);
-    }
-
-    function showError(msg) {
-        errorBox.textContent = msg;
-        errorBox.style.display = 'block';
-    }
-
-    function hideError() {
-        errorBox.style.display = 'none';
-    }
+    function showError(m) { errorBox.textContent = m; errorBox.style.display = 'block'; }
+    function hideError() { errorBox.style.display = 'none'; }
 
     form.addEventListener('submit', function (e) {
         e.preventDefault();
         hideError();
 
-        var amount = parseFloat(amountInput.value) || 0;
-        if (amount < 1000) {
-            showError('El monto mínimo es $1.000 CLP.');
-            return;
-        }
+        var amt = parse(amountInput.value);
+        if (amt < 1000) { showError('El monto minimo es $1.000 CLP.'); return; }
+        if (!gateway()) { showError('Selecciona un medio de pago.'); return; }
 
-        var gateway = getSelectedGateway();
-        if (!gateway) {
-            showError('Selecciona un medio de pago.');
-            return;
-        }
-
-        // Loading state
         submitBtn.disabled = true;
         submitBtn.classList.add('cdski-loading');
         submitBtn.querySelector('.cdski-btn-text').style.display = 'none';
         submitBtn.querySelector('.cdski-btn-spinner').style.display = 'inline-flex';
 
         var data = new FormData(form);
+        data.set('amount', amt);
         data.append('action', 'cdski_create_payment');
         data.append('nonce', cdskiPagos.nonce);
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', cdskiPagos.ajaxUrl, true);
         xhr.onload = function () {
-            var resp;
-            try { resp = JSON.parse(xhr.responseText); } catch (err) {
-                resetButton();
-                showError('Error de conexión. Intenta nuevamente.');
-                return;
-            }
-
-            if (resp.success && resp.data && resp.data.redirect) {
-                window.location.href = resp.data.redirect;
-            } else {
-                resetButton();
-                showError(resp.data && resp.data.message ? resp.data.message : 'Error al procesar el pago.');
-            }
+            var r; try { r = JSON.parse(xhr.responseText); } catch (e) { reset(); showError('Error de conexion.'); return; }
+            if (r.success && r.data && r.data.redirect) window.location.href = r.data.redirect;
+            else { reset(); showError(r.data && r.data.message ? r.data.message : 'Error al procesar el pago.'); }
         };
-        xhr.onerror = function () {
-            resetButton();
-            showError('Error de conexión. Verifica tu internet.');
-        };
+        xhr.onerror = function () { reset(); showError('Error de conexion.'); };
         xhr.send(data);
     });
 
-    function resetButton() {
+    function reset() {
         submitBtn.disabled = false;
         submitBtn.classList.remove('cdski-loading');
         submitBtn.querySelector('.cdski-btn-text').style.display = 'inline';
         submitBtn.querySelector('.cdski-btn-spinner').style.display = 'none';
-        validateForm();
+        refresh();
     }
 })();
