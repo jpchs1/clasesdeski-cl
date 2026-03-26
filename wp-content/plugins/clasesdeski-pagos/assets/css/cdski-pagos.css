@@ -1,145 +1,627 @@
-/* ═══════════════════════════════════════
-   Clasesdeski Pagos — Premium v2
-   ═══════════════════════════════════════ */
+/* Clasesdeski Pagos — Frontend Styles v1.1 */
 
-/* ── Base ── */
-.cdski-pay{max-width:560px;margin:48px auto;padding:0 16px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55;color:#1e293b}
+.cdski-pago-wrapper {
+    max-width: 640px;
+    margin: 40px auto;
+    padding: 0 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+}
 
-.cdski-pay__card{background:#fff;border-radius:18px;box-shadow:0 1px 3px rgba(0,0,0,.06),0 8px 28px rgba(0,0,0,.06);padding:40px 36px 36px;border:1px solid #f1f5f9}
+.cdski-pago-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,.08);
+    padding: 36px;
+    border: 1px solid rgba(0,0,0,.04);
+}
 
-@media(max-width:580px){.cdski-pay__card{padding:28px 22px 24px;border-radius:14px}}
+/* Header */
+.cdski-pago-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
 
-/* ── Header ── */
-.cdski-pay__header{text-align:center;margin-bottom:30px}
-.cdski-pay__header img{width:56px;height:56px;border-radius:12px;object-fit:contain;margin-bottom:14px}
-.cdski-pay__header h2{font-size:24px;font-weight:800;color:#0f172a;margin:0 0 4px;letter-spacing:-.4px}
-.cdski-pay__header p{font-size:14px;color:#64748b;margin:0}
+.cdski-pago-logo {
+    margin-bottom: 12px;
+}
 
-/* ── Fields ── */
-.cdski-pay__field{margin-bottom:18px}
-.cdski-pay__field label{display:block;font-size:13px;font-weight:600;color:#334155;margin-bottom:5px}
-.cdski-pay__opt{font-weight:400;color:#94a3b8;font-size:12px}
-.cdski-pay__req{color:#ef4444}
+.cdski-pago-logo-img {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    object-fit: contain;
+    margin-bottom: 8px;
+}
 
-.cdski-pay__field input[type="text"],
-.cdski-pay__field input[type="email"],
-.cdski-pay__field input[type="tel"],
-.cdski-pay__field input[type="date"]{
-    width:100%;padding:12px 14px;border:1.5px solid #e2e8f0;border-radius:10px;
-    font-size:15px;color:#0f172a;background:#f8fafc;box-sizing:border-box;
-    transition:border-color .2s,box-shadow .2s}
-.cdski-pay__field input::placeholder{color:#94a3b8}
-.cdski-pay__field input:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.1);background:#fff}
+.cdski-pago-header h2 {
+    font-size: 26px;
+    color: #1a1a2e;
+    margin: 0 0 8px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
 
-/* ── Row (2 cols) ── */
-.cdski-pay__row{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
-@media(max-width:480px){.cdski-pay__row{grid-template-columns:1fr}}
+.cdski-pago-header p {
+    color: #6b7280;
+    font-size: 15px;
+    margin: 0;
+}
 
-/* ── Divider ── */
-.cdski-pay__divider{border:none;border-top:1px solid #f1f5f9;margin:24px 0}
+/* Section titles */
+.cdski-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 24px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
-/* ── Amount ── */
-.cdski-pay__amount{display:flex;align-items:center;border:2px solid #e2e8f0;border-radius:10px;background:#f8fafc;overflow:hidden;transition:border-color .2s,box-shadow .2s}
-.cdski-pay__amount:focus-within{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.1);background:#fff}
-.cdski-pay__currency{padding:0 12px 0 14px;font-size:18px;font-weight:700;color:#475569;flex-shrink:0}
-#cdski-amount{flex:1;border:none!important;outline:none!important;box-shadow:none!important;background:transparent!important;font-size:22px!important;font-weight:700!important;padding:13px 0!important;color:#0f172a!important;-webkit-text-fill-color:#0f172a!important;min-width:0}
-#cdski-amount::placeholder{color:#94a3b8!important;-webkit-text-fill-color:#94a3b8!important;font-weight:500!important}
-.cdski-pay__clp{padding:0 14px 0 8px;font-size:13px;font-weight:600;color:#94a3b8;flex-shrink:0;letter-spacing:.5px}
-.cdski-pay__hint{display:block;font-size:12px;color:#94a3b8;margin-top:6px}
+.cdski-optional-badge {
+    font-size: 11px;
+    font-weight: 500;
+    color: #9ca3af;
+    background: #f3f4f6;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
 
-/* ── Gateways ── */
-.cdski-pay__gateways{display:flex;flex-direction:column;gap:8px}
-.cdski-pay__gw{display:block;cursor:pointer;margin:0}
-.cdski-pay__gw input{position:absolute;opacity:0;pointer-events:none}
+/* Fields */
+.cdski-field {
+    margin-bottom: 16px;
+}
 
-.cdski-pay__gw-box{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1.5px solid #e2e8f0;border-radius:10px;background:#fff;transition:all .2s}
-.cdski-pay__gw:hover .cdski-pay__gw-box{border-color:#cbd5e1}
-.cdski-pay__gw input:checked+.cdski-pay__gw-box{border-color:#1e3a5f;background:#f0f7ff;box-shadow:0 0 0 2px rgba(30,58,95,.08)}
+.cdski-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 5px;
+}
 
-/* radio dot */
-.cdski-pay__gw-dot{width:18px;height:18px;border-radius:50%;border:2px solid #cbd5e1;flex-shrink:0;position:relative;transition:border-color .2s}
-.cdski-pay__gw input:checked+.cdski-pay__gw-box .cdski-pay__gw-dot{border-color:#1e3a5f}
-.cdski-pay__gw input:checked+.cdski-pay__gw-box .cdski-pay__gw-dot::after{content:'';position:absolute;top:3px;left:3px;width:8px;height:8px;border-radius:50%;background:#1e3a5f}
+.cdski-required {
+    color: #e74c3c;
+}
 
-.cdski-pay__gw-text{flex:1;min-width:0}
-.cdski-pay__gw-text strong{display:block;font-size:14px;color:#0f172a}
-.cdski-pay__gw-text span{font-size:12px;color:#64748b}
+.cdski-field input[type="text"],
+.cdski-field input[type="email"],
+.cdski-field input[type="tel"],
+.cdski-field input[type="number"],
+.cdski-field input[type="date"] {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: all .2s;
+    box-sizing: border-box;
+    background: #fafafa;
+    color: #1a1a2e;
+}
 
-.cdski-pay__gw-brands{display:flex;gap:4px;flex-shrink:0}
+.cdski-field input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+    background: #fff;
+}
 
-/* brand chips */
-.cdski-brand{display:inline-flex;align-items:center;justify-content:center;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:800;font-style:normal;letter-spacing:.3px}
-.cdski-brand--visa{background:#1a1f71;color:#fff}
-.cdski-brand--mc{background:#f79e1b;color:#fff}
-.cdski-brand--rc{background:#e30613;color:#fff}
-.cdski-brand--mp{background:#00b1ea;color:#fff;padding:2px 7px}
-.cdski-brand--pp{background:#003087;color:#009cde;padding:2px 7px}
+.cdski-field-hint {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 4px;
+    display: block;
+}
 
-/* ── Summary ── */
-.cdski-pay__summary{margin:22px 0 0;padding:16px 18px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px}
-.cdski-pay__summary-row{display:flex;justify-content:space-between;align-items:center}
-.cdski-pay__summary-row span{font-size:13px;font-weight:600;color:#475569}
-.cdski-pay__summary-row strong{font-size:20px;font-weight:800;color:#0f172a;letter-spacing:-.3px}
-.cdski-pay__summary-sub{font-size:12px;color:#94a3b8;margin-top:4px}
+/* Amount field */
+.cdski-field--amount {
+    background: #f0f4ff;
+    border: 2px solid #2563eb;
+    padding: 20px;
+    border-radius: 14px;
+    margin-bottom: 24px;
+}
 
-/* ── Button ── */
-.cdski-pay__btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:22px;padding:16px;background:#1e293b;color:#fff!important;font-size:16px;font-weight:700;border:none;border-radius:10px;cursor:pointer;transition:background .2s,transform .15s;letter-spacing:.2px}
-.cdski-pay__btn:hover{background:#0f172a;transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.12)}
-.cdski-pay__btn:active{transform:translateY(0)}
-.cdski-pay__btn:disabled{background:#cbd5e1;cursor:not-allowed;transform:none;box-shadow:none}
-.cdski-pay__btn.cdski-loading{pointer-events:none;opacity:.7}
-.cdski-btn-spinner{display:flex;align-items:center;gap:8px}
+.cdski-field--amount label {
+    color: #1e3a5f;
+    font-size: 14px;
+    font-weight: 700;
+}
 
-/* ── Error ── */
-.cdski-pay__error{margin-top:14px;padding:12px 16px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;color:#dc2626;font-size:13px;text-align:center}
+.cdski-field--amount .cdski-field-hint {
+    color: #6b7280;
+}
 
-/* ── Trust ── */
-.cdski-pay__trust{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:20px;padding-top:18px;border-top:1px solid #f1f5f9}
-.cdski-pay__trust span{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#94a3b8;font-weight:500;white-space:nowrap}
+.cdski-input-prefix {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
 
+.cdski-prefix {
+    position: absolute;
+    left: 16px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e3a5f;
+    pointer-events: none;
+    z-index: 1;
+}
 
-/* ═══════════════════════════════════════
-   Result Page (unchanged from v1)
-   ═══════════════════════════════════════ */
-.cdski-pago-wrapper{max-width:640px;margin:40px auto;padding:0 16px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.5}
-.cdski-result-wrapper{max-width:520px}
-.cdski-result-card{background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.08);overflow:hidden;border:1px solid rgba(0,0,0,.04)}
-.cdski-result-topbar{display:flex;align-items:center;gap:16px;padding:24px 28px;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff}
-.cdski-result-topbar--pending{background:linear-gradient(135deg,#f59e0b,#d97706)}
-.cdski-result-topbar--error{background:linear-gradient(135deg,#ef4444,#dc2626)}
-.cdski-result-topbar--cancelled{background:linear-gradient(135deg,#6b7280,#4b5563)}
-.cdski-result-check{flex-shrink:0}
-.cdski-check-animate{stroke-dasharray:40;stroke-dashoffset:40;animation:cdski-check-in .5s .3s ease forwards}
-@keyframes cdski-check-in{to{stroke-dashoffset:0}}
-.cdski-result-topbar-text{display:flex;flex-direction:column;gap:2px}
-.cdski-result-badge-inline{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;opacity:.85}
-.cdski-result-topbar-amount{font-size:28px;font-weight:800;letter-spacing:-.5px;line-height:1.1}
-.cdski-result-topbar-amount small{font-size:14px;font-weight:500;opacity:.7}
-.cdski-result-topbar-sub{font-size:14px;opacity:.85}
-.cdski-result-body{padding:32px 28px;text-align:center}
-.cdski-result-body h2{font-size:22px;font-weight:800;color:#111827;margin:0 0 8px}
-.cdski-result-subtitle{font-size:14px;color:#6b7280;line-height:1.6;margin:0 0 24px}
-.cdski-receipt-card{text-align:left;background:#f9fafb;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;margin-bottom:20px}
-.cdski-receipt-head{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:#f3f4f6;border-bottom:1px solid #e5e7eb;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#6b7280}
-.cdski-receipt-date-sm{font-weight:500;text-transform:none;letter-spacing:0;color:#9ca3af;font-size:11px}
-.cdski-receipt-item{display:flex;justify-content:space-between;align-items:center;padding:11px 18px;border-bottom:1px solid #f0f0f0}
-.cdski-receipt-item:last-child{border-bottom:none}
-.cdski-receipt-k{font-size:13px;color:#9ca3af;font-weight:500}
-.cdski-receipt-v{font-size:13px;color:#1f2937;font-weight:600;text-align:right;max-width:60%;word-break:break-word}
-.cdski-receipt-v--accent{color:#2563eb;font-weight:700}
-.cdski-receipt-item--txn{background:#f3f4f6}
-.cdski-receipt-item--txn code{font-size:11px;background:#e5e7eb;padding:3px 8px;border-radius:4px;font-family:'SF Mono','Consolas',monospace;color:#374151}
-.cdski-receipt-total{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;margin-bottom:24px;font-size:14px;font-weight:600;color:#374151}
-.cdski-receipt-total-val{font-size:22px;font-weight:800;color:#15803d}
-.cdski-result-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.cdski-btn-pagar{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 32px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff!important;font-size:14px;font-weight:700;border:none;border-radius:10px;cursor:pointer;text-decoration:none;transition:all .2s}
-.cdski-btn-pagar:hover{background:linear-gradient(135deg,#1d4ed8,#1e40af)}
-.cdski-btn-secondary{display:inline-block;padding:14px 28px;background:#f3f4f6;color:#333!important;font-size:14px;font-weight:600;border:1.5px solid #e5e7eb;border-radius:10px;cursor:pointer;text-decoration:none;transition:all .2s}
-.cdski-btn-secondary:hover{background:#e5e7eb}
-.cdski-result-powered{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;padding-top:16px;border-top:1px solid #f3f4f6}
-.cdski-result-powered img{border-radius:6px}
-.cdski-result-powered span{font-size:12px;color:#9ca3af;font-weight:500}
-.cdski-result-footer{margin-top:20px;text-align:center}
-.cdski-result-footer a{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#9ca3af;text-decoration:none}
-.cdski-result-footer a:hover{color:#25d366}
-@media(max-width:560px){.cdski-result-topbar{padding:20px}.cdski-result-topbar-amount{font-size:24px}.cdski-result-body{padding:24px 20px}}
+#cdski-amount,
+.cdski-input-prefix input[type="number"] {
+    padding-left: 34px !important;
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    background: #ffffff !important;
+    border: 2px solid #cbd5e1 !important;
+    border-radius: 10px !important;
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+    opacity: 1 !important;
+    height: 56px !important;
+}
+
+#cdski-amount::placeholder {
+    color: #94a3b8 !important;
+    -webkit-text-fill-color: #94a3b8 !important;
+    opacity: 1 !important;
+}
+
+#cdski-amount:focus {
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15) !important;
+}
+
+/* Grid */
+.cdski-fields-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 16px;
+}
+
+@media (max-width: 560px) {
+    .cdski-fields-grid {
+        grid-template-columns: 1fr;
+    }
+    .cdski-pago-card {
+        padding: 24px 20px;
+    }
+}
+
+/* Gateway selector */
+.cdski-gateways {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cdski-gateway-option {
+    cursor: pointer;
+    margin: 0;
+}
+
+.cdski-gateway-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cdski-gateway-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    transition: all .2s;
+    background: #fafafa;
+}
+
+.cdski-gateway-option input:checked + .cdski-gateway-card {
+    border-color: #2563eb;
+    background: #eff6ff;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+}
+
+.cdski-gateway-option:hover .cdski-gateway-card {
+    border-color: #93c5fd;
+    background: #f8faff;
+}
+
+.cdski-gateway-logo {
+    flex-shrink: 0;
+}
+
+.cdski-gateway-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.cdski-gateway-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.cdski-gateway-desc {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 1px;
+}
+
+.cdski-gateway-cards {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+/* Submit */
+.cdski-submit-area {
+    margin-top: 28px;
+}
+
+.cdski-btn-pagar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: #fff !important;
+    font-size: 17px;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: all .2s;
+    letter-spacing: 0.3px;
+}
+
+.cdski-btn-pagar:hover {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37,99,235,.3);
+}
+
+.cdski-btn-pagar:active {
+    transform: translateY(0);
+}
+
+.cdski-btn-pagar:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.cdski-btn-pagar.cdski-loading {
+    pointer-events: none;
+    background: #93c5fd;
+}
+
+.cdski-spinner-icon {
+    vertical-align: middle;
+}
+
+.cdski-btn-spinner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Secure badge */
+.cdski-secure-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* Error */
+.cdski-error-msg {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    color: #dc2626;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* ============ Result page v2 ============ */
+.cdski-result-wrapper {
+    max-width: 520px;
+}
+
+.cdski-result-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 40px rgba(0,0,0,.08);
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,.04);
+}
+
+/* Top colored bar */
+.cdski-result-topbar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 28px;
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    color: #fff;
+}
+
+.cdski-result-topbar--pending {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.cdski-result-topbar--error {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.cdski-result-topbar--cancelled {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+}
+
+.cdski-result-check {
+    flex-shrink: 0;
+}
+
+.cdski-check-animate {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+    animation: cdski-check-in 0.5s 0.3s ease forwards;
+}
+
+@keyframes cdski-check-in {
+    to { stroke-dashoffset: 0; }
+}
+
+.cdski-result-topbar-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cdski-result-badge-inline {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    opacity: .85;
+}
+
+.cdski-result-topbar-amount {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+}
+
+.cdski-result-topbar-amount small {
+    font-size: 14px;
+    font-weight: 500;
+    opacity: .7;
+}
+
+.cdski-result-topbar-sub {
+    font-size: 14px;
+    opacity: .85;
+}
+
+/* Body */
+.cdski-result-body {
+    padding: 32px 28px;
+    text-align: center;
+}
+
+.cdski-result-body h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #111827;
+    margin: 0 0 8px;
+    letter-spacing: -0.3px;
+}
+
+.cdski-result-subtitle {
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.6;
+    margin: 0 0 24px;
+}
+
+/* Receipt card */
+.cdski-receipt-card {
+    text-align: left;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.cdski-receipt-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    background: #f3f4f6;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #6b7280;
+}
+
+.cdski-receipt-date-sm {
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+    color: #9ca3af;
+    font-size: 11px;
+}
+
+.cdski-receipt-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 18px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.cdski-receipt-item:last-child {
+    border-bottom: none;
+}
+
+.cdski-receipt-k {
+    font-size: 13px;
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.cdski-receipt-v {
+    font-size: 13px;
+    color: #1f2937;
+    font-weight: 600;
+    text-align: right;
+    max-width: 60%;
+    word-break: break-word;
+}
+
+.cdski-receipt-v--accent {
+    color: #2563eb;
+    font-weight: 700;
+}
+
+.cdski-receipt-item--txn {
+    background: #f3f4f6;
+}
+
+.cdski-receipt-item--txn code {
+    font-size: 11px;
+    background: #e5e7eb;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: 'SF Mono', 'Consolas', monospace;
+    color: #374151;
+}
+
+/* Total */
+.cdski-receipt-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 18px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.cdski-receipt-total-val {
+    font-size: 22px;
+    font-weight: 800;
+    color: #15803d;
+}
+
+/* Actions */
+.cdski-result-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cdski-btn-secondary {
+    display: inline-block;
+    padding: 13px 28px;
+    background: #f3f4f6;
+    color: #333 !important;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all .2s;
+}
+
+.cdski-btn-secondary:hover {
+    background: #e5e7eb;
+}
+
+.cdski-result-actions .cdski-btn-pagar {
+    width: auto;
+    padding: 13px 32px;
+    font-size: 14px;
+    display: inline-flex;
+}
+
+/* Powered by */
+.cdski-result-powered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.cdski-result-powered img {
+    border-radius: 6px;
+}
+
+.cdski-result-powered span {
+    font-size: 12px;
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+/* Footer */
+.cdski-result-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.cdski-result-footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #9ca3af;
+    text-decoration: none;
+    transition: color .2s;
+}
+
+.cdski-result-footer a:hover {
+    color: #25d366;
+}
+
+@media (max-width: 560px) {
+    .cdski-result-topbar {
+        padding: 20px;
+    }
+    .cdski-result-topbar-amount {
+        font-size: 24px;
+    }
+    .cdski-result-body {
+        padding: 24px 20px;
+    }
+}
