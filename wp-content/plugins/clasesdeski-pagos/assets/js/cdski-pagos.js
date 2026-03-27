@@ -16,9 +16,7 @@
     var gatewayInputs = form.querySelectorAll('[name="gateway"]');
     var ppContainer   = document.getElementById('paypal-button-container');
 
-    var API_BASE = (typeof cdskiPagos !== 'undefined' && cdskiPagos.siteUrl)
-        ? cdskiPagos.siteUrl + '/api'
-        : '/api';
+    var AJAX_URL = cdskiPagos.ajaxUrl;
 
     function fmt(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
     function parse(s) { return parseInt((s || '').replace(/\./g, ''), 10) || 0; }
@@ -138,7 +136,7 @@
             doRenderPayPalButtons();
             return;
         }
-        fetch(API_BASE + '/paypal.php?action=get_client_id').then(function(r) { return r.json(); }).then(function(cfg) {
+        fetch(AJAX_URL + '?action=cdski_paypal_get_client_id').then(function(r) { return r.json(); }).then(function(cfg) {
             if (!cfg.client_id) {
                 hidePayPalLoader();
                 showStatus('Error: no se pudo obtener la configuración de PayPal.', 'error');
@@ -181,7 +179,7 @@
                 if (!formData) return Promise.reject(new Error('Datos inválidos'));
                 var usdAmount = Math.max(1, Math.round(formData.amount / 950 * 100) / 100).toFixed(2);
                 var phone = (document.getElementById('cdski-telefono') || {}).value || '';
-                return fetch(API_BASE + '/paypal.php?action=create_order', {
+                return fetch(AJAX_URL + '?action=cdski_paypal_create_order', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -203,7 +201,7 @@
             },
             onApprove: function(data, actions) {
                 showStatus('Procesando pago...', 'info');
-                return fetch(API_BASE + '/paypal.php?action=capture_order', {
+                return fetch(AJAX_URL + '?action=cdski_paypal_capture_order', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ order_id: data.orderID })
