@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Clasesdeski Pagos
  * Description: Pago de monto libre para reservas de clases de ski/snowboard. Soporta PayPal, Mercado Pago y Webpay.
- * Version: 1.3.0
+ * Version: 1.4.0
  * Author: Clasesdeski
  * Text Domain: cdski-pagos
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'CDSKI_PAGOS_VERSION', '1.3.0' );
+define( 'CDSKI_PAGOS_VERSION', '1.4.0' );
 define( 'CDSKI_PAGOS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'CDSKI_PAGOS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -181,6 +181,160 @@ function cdski_pagos_handle_callbacks() {
     }
 }
 add_action( 'init', 'cdski_pagos_handle_callbacks', 1 );
+
+/**
+ * AJAX: PayPal Smart Buttons — get client ID.
+ */
+function cdski_paypal_get_client_id() {
+    $client_id   = defined( 'CDSKI_PAYPAL_CLIENT_ID' ) ? CDSKI_PAYPAL_CLIENT_ID : '';
+    $environment = ( defined( 'CDSKI_PAYPAL_SANDBOX' ) && CDSKI_PAYPAL_SANDBOX ) ? 'sandbox' : 'production';
+    wp_send_json( [ 'client_id' => $client_id, 'environment' => $environment ] );
+}
+add_action( 'wp_ajax_cdski_paypal_get_client_id', 'cdski_paypal_get_client_id' );
+add_action( 'wp_ajax_nopriv_cdski_paypal_get_client_id', 'cdski_paypal_get_client_id' );
+
+/**
+ * AJAX: PayPal Smart Buttons — create order via REST API v2.
+ */
+function cdski_paypal_create_order() {
+    $input = json_decode( file_get_contents( 'php://input' ), true );
+    if ( ! $input ) {
+        wp_send_json( [ 'success' => false, 'error' => 'JSON inválido.' ], 400 );
+    }
+
+    $amount      = floatval( $input['amount'] ?? 0 );
+    $currency    = strtoupper( $input['currency'] ?? 'USD' );
+    $description = mb_substr( $input['description'] ?? 'Pago Clasesdeski', 0, 127 );
+
+    if ( $amount < 1 ) {
+        wp_send_json( [ 'success' => false, 'error' => 'Monto inválido.' ], 400 );
+    }
+
+    $token = cdski_paypal_get_access_token();
+    if ( ! $token ) {
+        wp_send_json( [ 'success' => false, 'error' => 'No se pudo autenticar con PayPal.' ], 500 );
+    }
+
+    $api_base = ( defined( 'CDSKI_PAYPAL_SANDBOX' ) && CDSKI_PAYPAL_SANDBOX )
+        ? 'https://api-m.sandbox.paypal.com'
+        : 'https://api-m.paypal.com';
+
+    $order_payload = [
+        'intent'         => 'CAPTURE',
+        'purchase_units' => [
+            [
+                'amount'      => [
+                    'currency_code' => $currency,
+                    'value'         => number_format( $amount, 2, '.', '' ),
+                ],
+                'description' => $description,
+            ],
+        ],
+        'application_context' => [
+            'brand_name'          => 'Clasesdeski',
+            'shipping_preference' => 'NO_SHIPPING',
+            'user_action'         => 'PAY_NOW',
+        ],
+    ];
+
+    $response = wp_remote_post( $api_base . '/v2/checkout/orders', [
+        'headers' => [
+            'Content-Type'  => 'application/json',
+            'Authorization' => 'Bearer ' . $token,
+        ],
+        'body'    => wp_json_encode( $order_payload ),
+        'timeout' => 30,
+    ] );
+
+    if ( is_wp_error( $response ) ) {
+        wp_send_json( [ 'success' => false, 'error' => 'Error de conexión con PayPal.' ], 500 );
+    }
+
+    $body = json_decode( wp_remote_retrieve_body( $response ), true );
+    if ( ! empty( $body['id'] ) && in_array( $body['status'] ?? '', [ 'CREATED', 'APPROVED' ], true ) ) {
+        wp_send_json( [ 'success' => true, 'order_id' => $body['id'] ] );
+    } else {
+        $err = $body['message'] ?? 'Error al crear la orden en PayPal.';
+        wp_send_json( [ 'success' => false, 'error' => $err ], 500 );
+    }
+}
+add_action( 'wp_ajax_cdski_paypal_create_order', 'cdski_paypal_create_order' );
+add_action( 'wp_ajax_nopriv_cdski_paypal_create_order', 'cdski_paypal_create_order' );
+
+/**
+ * AJAX: PayPal Smart Buttons — capture order.
+ */
+function cdski_paypal_capture_order() {
+    $input    = json_decode( file_get_contents( 'php://input' ), true );
+    $order_id = sanitize_text_field( $input['order_id'] ?? '' );
+
+    if ( ! $order_id ) {
+        wp_send_json( [ 'success' => false, 'error' => 'order_id requerido.' ], 400 );
+    }
+
+    $token = cdski_paypal_get_access_token();
+    if ( ! $token ) {
+        wp_send_json( [ 'success' => false, 'error' => 'No se pudo autenticar con PayPal.' ], 500 );
+    }
+
+    $api_base = ( defined( 'CDSKI_PAYPAL_SANDBOX' ) && CDSKI_PAYPAL_SANDBOX )
+        ? 'https://api-m.sandbox.paypal.com'
+        : 'https://api-m.paypal.com';
+
+    $response = wp_remote_post( $api_base . '/v2/checkout/orders/' . $order_id . '/capture', [
+        'headers' => [
+            'Content-Type'  => 'application/json',
+            'Authorization' => 'Bearer ' . $token,
+        ],
+        'body'    => '{}',
+        'timeout' => 30,
+    ] );
+
+    if ( is_wp_error( $response ) ) {
+        wp_send_json( [ 'success' => false, 'error' => 'Error de conexión con PayPal.' ], 500 );
+    }
+
+    $body = json_decode( wp_remote_retrieve_body( $response ), true );
+    if ( ( $body['status'] ?? '' ) === 'COMPLETED' ) {
+        wp_send_json( [ 'success' => true ] );
+    } else {
+        $err = $body['message'] ?? 'Error al capturar el pago.';
+        wp_send_json( [ 'success' => false, 'error' => $err ], 500 );
+    }
+}
+add_action( 'wp_ajax_cdski_paypal_capture_order', 'cdski_paypal_capture_order' );
+add_action( 'wp_ajax_nopriv_cdski_paypal_capture_order', 'cdski_paypal_capture_order' );
+
+/**
+ * Helper: get PayPal OAuth 2.0 access token.
+ */
+function cdski_paypal_get_access_token() {
+    $client_id = defined( 'CDSKI_PAYPAL_CLIENT_ID' ) ? CDSKI_PAYPAL_CLIENT_ID : '';
+    $secret    = defined( 'CDSKI_PAYPAL_SECRET' ) ? CDSKI_PAYPAL_SECRET : '';
+    if ( ! $client_id || ! $secret ) {
+        return false;
+    }
+
+    $api_base = ( defined( 'CDSKI_PAYPAL_SANDBOX' ) && CDSKI_PAYPAL_SANDBOX )
+        ? 'https://api-m.sandbox.paypal.com'
+        : 'https://api-m.paypal.com';
+
+    $response = wp_remote_post( $api_base . '/v1/oauth2/token', [
+        'headers' => [
+            'Authorization' => 'Basic ' . base64_encode( $client_id . ':' . $secret ),
+            'Content-Type'  => 'application/x-www-form-urlencoded',
+        ],
+        'body'    => 'grant_type=client_credentials',
+        'timeout' => 15,
+    ] );
+
+    if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+        return false;
+    }
+
+    $data = json_decode( wp_remote_retrieve_body( $response ), true );
+    return $data['access_token'] ?? false;
+}
 
 /**
  * Send notification emails after payment status change.
