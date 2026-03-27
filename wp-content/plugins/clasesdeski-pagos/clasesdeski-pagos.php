@@ -66,6 +66,7 @@ function cdski_pagos_enqueue_assets() {
         wp_localize_script( 'cdski-pagos', 'cdskiPagos', [
             'ajaxUrl' => admin_url( 'admin-ajax.php' ),
             'nonce'   => wp_create_nonce( 'cdski_pagos_nonce' ),
+            'siteUrl' => home_url(),
         ] );
     }
 }
