@@ -139,12 +139,24 @@
             return;
         }
         fetch(API_BASE + '/paypal.php?action=get_client_id').then(function(r) { return r.json(); }).then(function(cfg) {
-            if (!cfg.client_id) return;
+            if (!cfg.client_id) {
+                hidePayPalLoader();
+                showStatus('Error: no se pudo obtener la configuración de PayPal.', 'error');
+                return;
+            }
             var sdkDomain = (cfg.environment === 'production') ? 'www.paypal.com' : 'www.sandbox.paypal.com';
             var script = document.createElement('script');
             script.src = 'https://' + sdkDomain + '/sdk/js?client-id=' + cfg.client_id + '&currency=USD&components=buttons&enable-funding=card';
             script.onload = function() { doRenderPayPalButtons(); };
+            script.onerror = function() {
+                hidePayPalLoader();
+                showStatus('Error al cargar PayPal SDK. Intente nuevamente.', 'error');
+            };
             document.head.appendChild(script);
+        }).catch(function(err) {
+            console.error('PayPal config fetch error:', err);
+            hidePayPalLoader();
+            showStatus('Error al conectar con PayPal. Verifique su conexión.', 'error');
         });
     }
 

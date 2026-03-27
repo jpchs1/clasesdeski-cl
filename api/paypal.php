@@ -7,11 +7,35 @@
  * POST ?action=capture_order  → { success }
  */
 
-// Bootstrap WordPress (provides constants from wp-config.php).
-define( 'SHORTINIT', true );
-require_once dirname( __DIR__ ) . '/wp-load.php';
+// Load wp-config.php directly to get the CDSKI_PAYPAL_* constants.
+// We define ABSPATH ourselves so wp-settings.php is NOT pulled in (fast, no WP bootstrap).
+define( 'ABSPATH', dirname( __DIR__ ) . '/' );
+// Prevent wp-config from loading wp-settings.php
+define( 'WPINC', 'wp-includes' );
+
+// Read wp-config.php but intercept the require_once of wp-settings.php
+ob_start();
+$wp_config = file_get_contents( ABSPATH . 'wp-config.php' );
+// Remove the line that loads wp-settings.php
+$wp_config = preg_replace(
+    '/require_once\s*\(?\s*ABSPATH\s*\.\s*[\'"]wp-settings\.php[\'"]\s*\)?\s*;/',
+    '// wp-settings.php loading skipped',
+    $wp_config
+);
+// Remove opening <?php tag
+$wp_config = preg_replace( '/^<\?php/', '', $wp_config );
+eval( $wp_config );
+ob_end_clean();
 
 header( 'Content-Type: application/json; charset=utf-8' );
+header( 'Access-Control-Allow-Origin: *' );
+header( 'Access-Control-Allow-Methods: GET, POST, OPTIONS' );
+header( 'Access-Control-Allow-Headers: Content-Type' );
+
+if ( $_SERVER['REQUEST_METHOD'] === 'OPTIONS' ) {
+    http_response_code( 204 );
+    exit;
+}
 
 // ── Helpers ─────────────────────────────────────────────
 
