@@ -687,3 +687,38 @@
         padding: 24px 20px;
     }
 }
+
+/* --- PayPal Smart Buttons Container --- */
+#paypal-button-container {
+    display: none;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    min-height: 55px;
+}
+
+/* --- PayPal Loading Spinner --- */
+.paypal-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 0;
+    gap: 12px;
+}
+
+.paypal-loading .paypal-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid #e0e0e0;
+    border-top-color: #0070ba;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.paypal-loading .paypal-loading-text {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
