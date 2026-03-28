@@ -23,16 +23,16 @@
             </div>
 
             <!-- Datos opcionales -->
-            <div class="cdski-section-title">Datos del cliente <span class="cdski-optional-badge">opcionales</span></div>
+            <div class="cdski-section-title">Datos del cliente</div>
             <div class="cdski-fields-grid">
                 <div class="cdski-field">
-                    <label for="cdski-nombre">Nombre</label>
-                    <input type="text" id="cdski-nombre" name="nombre" placeholder="Ej: Maria Gonzalez">
+                    <label for="cdski-nombre">Nombre <span class="cdski-required">*</span></label>
+                    <input type="text" id="cdski-nombre" name="nombre" placeholder="Ej: Maria Gonzalez" required>
                 </div>
 
                 <div class="cdski-field">
-                    <label for="cdski-email">Email</label>
-                    <input type="email" id="cdski-email" name="email" placeholder="ejemplo@correo.cl">
+                    <label for="cdski-email">Email <span class="cdski-required">*</span></label>
+                    <input type="email" id="cdski-email" name="email" placeholder="ejemplo@correo.cl" required>
                 </div>
 
                 <div class="cdski-field">

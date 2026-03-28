@@ -95,9 +95,12 @@
         var amt = parse(amountInput.value);
         if (amt < 1000) { showError('El monto mínimo es $1.000 CLP.'); return false; }
 
-        var nombre  = (document.getElementById('cdski-nombre') || {}).value || '';
-        var email   = (document.getElementById('cdski-email') || {}).value || '';
+        var nombre  = (document.getElementById('cdski-nombre') || {}).value.trim();
+        var email   = (document.getElementById('cdski-email') || {}).value.trim();
         var concepto = (document.getElementById('cdski-concepto') || {}).value || '';
+
+        if (!nombre) { showError('Ingresa tu nombre.'); return false; }
+        if (!email || email.indexOf('@') === -1) { showError('Ingresa un email válido.'); return false; }
 
         return {
             amount: amt,
