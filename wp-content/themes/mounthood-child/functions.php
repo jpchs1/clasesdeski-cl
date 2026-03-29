@@ -4,6 +4,65 @@
  * Includes performance, SEO, and speed optimizations
  */
 
+
+// =====================================================================
+// 0. PREVENT LITESPEED PAGE CACHING (stale HTML breaks cotizador defaults)
+// =====================================================================
+add_action( 'send_headers', 'cdski_no_cache_headers' );
+function cdski_no_cache_headers() {
+    // Only disable caching on pages that contain the cotizador form
+    if ( ! is_front_page() && ! is_home() ) {
+        return;
+    }
+    // Tell LiteSpeed server not to cache this page
+    header( 'X-LiteSpeed-Cache-Control: no-cache' );
+    // Standard no-cache headers as fallback
+    header( 'Cache-Control: no-cache, no-store, must-revalidate' );
+    header( 'Pragma: no-cache' );
+    header( 'Expires: 0' );
+}
+
+
+// =====================================================================
+// 0b. HIDE SEO CONTENT PAGES FROM MAIN NAVIGATION MENU
+// =====================================================================
+add_action( 'wp_head', 'cdski_hide_seo_menu_items' );
+function cdski_hide_seo_menu_items() {
+    ?>
+    <style id="cdski-hide-seo-menu-items">
+    /* Hide SEO content pages from main nav (they are in the unified footer links) */
+    #menu-item-6937,
+    #menu-item-6938,
+    #menu-item-6939,
+    #menu-item-6940,
+    #menu-item-6941,
+    #menu-item-6942 {
+        display: none !important;
+    }
+    /* Center the main navigation menu */
+    .top_panel_style_6 .top_panel_middle {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    .top_panel_style_6 .menu_main_wrap {
+        float: none !important;
+        flex: 1 !important;
+        display: flex !important;
+        justify-content: center !important;
+    }
+    .top_panel_style_6 .menu_main_wrap > nav {
+        display: inline-block !important;
+        text-align: center !important;
+    }
+    .top_panel_style_6 .menu_main_nav {
+        display: flex !important;
+        justify-content: center !important;
+    }
+    </style>
+    <?php
+}
+
 // =====================================================================
 // 1. ENQUEUE PARENT STYLES
 // =====================================================================
@@ -66,6 +125,10 @@ function cdski_disable_emojis_remove_dns_prefetch( $urls, $relation_type ) {
 add_filter( 'script_loader_src', 'cdski_remove_script_version', 15, 1 );
 add_filter( 'style_loader_src', 'cdski_remove_script_version', 15, 1 );
 function cdski_remove_script_version( $src ) {
+    // Keep version string on our form-flow JS so cache busts work
+    if ( $src && strpos( $src, 'cdski-form-flow' ) !== false ) {
+        return $src;
+    }
     if ( $src && strpos( $src, 'ver=' ) !== false ) {
         $parts = explode( '?ver', $src );
         return $parts[0];
@@ -469,17 +532,11 @@ function cdski_enqueue_form_flow_scripts() {
     // condition fails on some WordPress setups.
     wp_enqueue_script(
         'cdski-form-flow',
-        get_stylesheet_directory_uri() . '/js/cdski-form-flow-v5.js',
+        get_stylesheet_directory_uri() . '/js/cdski-form-flow-v9.js',
         array( 'jquery' ),
-        '5.0.0',
+        '9.2.1',
         true
     );
-
-    // Inline script to clear stale sessionStorage data from old JS versions
-    wp_add_inline_script('cdski-form-flow', '
-        try { sessionStorage.removeItem("cdski_calc_data"); } catch(e) {}
-        try { sessionStorage.removeItem("cdskiPageOneData"); } catch(e) {}
-    ', 'before');
 }
 
 // =====================================================================
@@ -791,8 +848,8 @@ function cdski_build_email_html( $data ) {
 
     $html = '<!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
+<head><meta charset="utf-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reserva CDSKI</title>
 </head>
@@ -962,4 +1019,161 @@ function cdski_email_detail_row( $label, $value ) {
         <td style="padding:6px 0;text-align:right;color:#e2e8f0;font-size:15px;font-weight:600;">' . $value . '</td>
     </tr>
     </table>';
+}
+
+// =====================================================================
+// 32. HOMEPAGE UNIFIED FOOTER: Brand info, links, weather, contact
+// =====================================================================
+add_action( 'wp_footer', 'cdski_homepage_seo_content', 5 );
+function cdski_homepage_seo_content() {
+    if ( ! is_front_page() && ! is_home() ) {
+        return;
+    }
+    ?>
+    <style>
+    /* Inline critical CSS for unified footer (bypasses LiteSpeed CSS cache) */
+    .cdski-unified-footer{background:#111!important;padding:60px 0 40px!important;color:#c0c8d0!important;font-size:15px!important;line-height:1.7!important}
+    .cdski-uf-grid{display:grid!important;grid-template-columns:1.4fr 1fr 1fr 1.2fr!important;gap:40px!important;align-items:start!important}
+    .cdski-uf-title{font-size:22px!important;font-weight:800!important;color:#fff!important;margin:0 0 14px!important;letter-spacing:.5px!important}
+    .cdski-uf-col-title{font-size:17px!important;font-weight:700!important;color:#c8a951!important;text-transform:uppercase!important;letter-spacing:1.5px!important;margin:0 0 18px!important;padding-bottom:10px!important;border-bottom:2px solid rgba(200,169,81,.3)!important}
+    .cdski-uf-motto{font-style:italic!important;color:#c8a951!important;font-size:14px!important;margin:10px 0 18px!important}
+    .cdski-uf-links ul{list-style:none!important;margin:0!important;padding:0!important}
+    .cdski-uf-links li{margin-bottom:10px!important}
+    .cdski-uf-links a{color:#c0c8d0!important;text-decoration:none!important;transition:color .2s,padding-left .2s!important;font-size:14px!important}
+    .cdski-uf-links a:hover{color:#c8a951!important;padding-left:6px!important}
+    .cdski-uf-contact ul{list-style:none!important;margin:0!important;padding:0!important}
+    .cdski-uf-contact li{margin-bottom:12px!important;display:flex!important;align-items:flex-start!important;gap:10px!important}
+    .cdski-uf-contact a{color:#c8a951!important;text-decoration:none!important}
+    .cdski-uf-btn{display:inline-block!important;padding:10px 22px!important;border-radius:6px!important;font-size:13px!important;font-weight:700!important;text-transform:uppercase!important;letter-spacing:1px!important;text-decoration:none!important;transition:all .25s!important;margin-right:10px!important;margin-bottom:8px!important}
+    .cdski-uf-btn-primary{background:#c8a951!important;color:#111!important}
+    .cdski-uf-btn-primary:hover{background:#d4b96a!important;transform:translateY(-2px)!important}
+    .cdski-uf-btn-outline{border:2px solid rgba(200,169,81,.5)!important;color:#c8a951!important;background:transparent!important}
+    .cdski-uf-btn-outline:hover{border-color:#c8a951!important;background:rgba(200,169,81,.1)!important}
+    .cdski-uf-seo{margin-top:30px!important;padding-top:20px!important;border-top:1px solid rgba(255,255,255,.08)!important;font-size:13px!important;color:#8a9aaa!important;text-align:center!important}
+    .cdski-uf-seo a{color:#b8942e!important;text-decoration:none!important}
+    .cdski-uf-social .share_wrap{display:flex!important;gap:12px!important;margin-top:14px!important}
+    .cdski-uf-social .share_wrap a{color:#c0c8d0!important;font-size:18px!important;transition:color .2s!important}
+    .cdski-uf-social .share_wrap a:hover{color:#c8a951!important}
+    @media(max-width:960px){.cdski-uf-grid{grid-template-columns:1fr 1fr!important;gap:30px!important}}
+    @media(max-width:600px){.cdski-uf-grid{grid-template-columns:1fr!important;gap:24px!important}.cdski-unified-footer{padding:40px 0 30px!important}}
+    </style>
+    <footer class="cdski-unified-footer" aria-label="CDSKI Chile Information">
+        <div class="content_wrap">
+            <div class="cdski-uf-grid">
+
+                <!-- Column 1: Brand -->
+                <div class="cdski-uf-col cdski-uf-brand">
+                    <h3 class="cdski-uf-title">CDSKI Chile</h3>
+                    <p>Experiencia de Gu&iacute;a &amp; Clases de Ski y Snowboard en Valle Nevado, Colorado y La Parva.</p>
+                    <p class="cdski-uf-motto">&ldquo;Nos divertimos y entretenemos mientras aprendemos.&rdquo;</p>
+                    <div class="cdski-uf-buttons">
+                        <a href="/clases-ski-snowboard/" class="cdski-uf-btn cdski-uf-btn-primary">Ver Clases</a>
+                        <a href="/experiencia-cdski/" class="cdski-uf-btn cdski-uf-btn-outline">La Experiencia</a>
+                    </div>
+                    <div class="cdski-uf-social" id="cdski-uf-social-target"></div>
+                </div>
+
+                <!-- Column 2: Explore links -->
+                <div class="cdski-uf-col cdski-uf-links">
+                    <h4 class="cdski-uf-col-title">Explora CDSKI</h4>
+                    <ul>
+                        <li><a href="/about-cdski/">Sobre CDSKI Chile</a></li>
+                        <li><a href="/nuestro-metodo/">Nuestro M&eacute;todo</a></li>
+                        <li><a href="/niveles/">Niveles de Progreso</a></li>
+                        <li><a href="/experiencia-cdski/">La Experiencia CDSKI</a></li>
+                        <li><a href="/clases-ski-snowboard/">Clases de Ski y Snowboard</a></li>
+                        <li><a href="/seguridad-montana/">Seguridad y Monta&ntilde;a</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Weather (moved from widget footer via JS) -->
+                <div class="cdski-uf-col cdski-uf-weather" id="cdski-uf-weather-target">
+                    <h4 class="cdski-uf-col-title">El Tiempo Hoy</h4>
+                    <!-- Weather widget content will be moved here via JS -->
+                </div>
+
+                <!-- Column 4: Contact -->
+                <div class="cdski-uf-col cdski-uf-contact">
+                    <h4 class="cdski-uf-col-title">Cont&aacute;ctanos</h4>
+                    <ul>
+                        <li><span class="cdski-uf-icon">&#x1F4CD;</span> Mallsport, Las Condes</li>
+                        <li><span class="cdski-uf-icon">&#x2709;</span> <a href="mailto:info@clasesdeski.cl">info@clasesdeski.cl</a></li>
+                        <li><span class="cdski-uf-icon">&#x1F552;</span> 8:00 am &ndash; 10:00 pm, Lunes a Domingo</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- SEO keywords block (visually hidden but crawlable) -->
+            <div class="cdski-uf-seo">
+                <p>CDSKI ofrece <a href="/clases-ski-snowboard/">clases de ski en Chile</a>, <a href="/clases-ski-snowboard/">clases de snowboard en Chile</a>, <a href="/clases-ski-snowboard/">clases de ski en Valle Nevado</a>, y <a href="/experiencia-cdski/">experiencias guiadas de ski</a> en los principales centros de ski de la Regi&oacute;n Metropolitana.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Move weather widget content into unified footer
+        var weatherWidget = document.querySelector('#text-2 .textwidget');
+        var weatherTarget = document.getElementById('cdski-uf-weather-target');
+        if (weatherWidget && weatherTarget) {
+            var weatherContent = weatherWidget.cloneNode(true);
+            weatherTarget.appendChild(weatherContent);
+        }
+
+        // Move social icons into unified footer
+        var socialWidget = document.querySelector('#text-2 .widget_socials .share_wrap, #widget_socials .share_wrap');
+        var socialTarget = document.getElementById('cdski-uf-social-target');
+        if (socialWidget && socialTarget) {
+            var socialContent = socialWidget.cloneNode(true);
+            socialTarget.appendChild(socialContent);
+        }
+
+        // Hide the original widget footer on homepage (now merged into unified footer)
+        var widgetFooter = document.querySelector('.footer_wrap.widget_area');
+        if (widgetFooter) {
+            widgetFooter.style.display = 'none';
+        }
+    });
+    </script>
+    <?php
+}
+
+// =====================================================================
+// 31. ENHANCED HREFLANG TAGS (Spanish primary + English secondary)
+// =====================================================================
+remove_action( 'wp_head', 'cdski_add_hreflang_tags', 5 );
+add_action( 'wp_head', 'cdski_add_enhanced_hreflang_tags', 5 );
+function cdski_add_enhanced_hreflang_tags() {
+    $url = is_front_page() || is_home() ? home_url( '/' ) : get_permalink();
+    echo '<link rel="alternate" hreflang="es-CL" href="' . esc_url( $url ) . '">' . "\n";
+    echo '<link rel="alternate" hreflang="es" href="' . esc_url( $url ) . '">' . "\n";
+    echo '<link rel="alternate" hreflang="en" href="' . esc_url( $url ) . '">' . "\n";
+    echo '<link rel="alternate" hreflang="x-default" href="' . esc_url( $url ) . '">' . "\n";
+}
+
+// =====================================================================
+// 33. INTERNAL LINKING: Navigation for new content pages
+// =====================================================================
+add_action( 'wp_footer', 'cdski_internal_nav_footer', 10 );
+function cdski_internal_nav_footer() {
+    // Only show on new content pages
+    if ( ! is_page( array( 'about-cdski', 'nuestro-metodo', 'niveles', 'experiencia-cdski', 'clases-ski-snowboard', 'seguridad-montana' ) ) ) {
+        return;
+    }
+    ?>
+    <nav class="cdski-internal-nav" aria-label="Páginas CDSKI">
+        <div class="content_wrap">
+            <h3>Explora CDSKI</h3>
+            <div class="cdski-internal-nav-grid">
+                <a href="/about-cdski/" class="cdski-nav-link">Sobre CDSKI</a>
+                <a href="/nuestro-metodo/" class="cdski-nav-link">Nuestro Método</a>
+                <a href="/niveles/" class="cdski-nav-link">Niveles de Progreso</a>
+                <a href="/experiencia-cdski/" class="cdski-nav-link">La Experiencia CDSKI</a>
+                <a href="/clases-ski-snowboard/" class="cdski-nav-link">Clases de Ski y Snowboard</a>
+                <a href="/seguridad-montana/" class="cdski-nav-link">Seguridad y Montaña</a>
+            </div>
+        </div>
+    </nav>
+    <?php
 }
