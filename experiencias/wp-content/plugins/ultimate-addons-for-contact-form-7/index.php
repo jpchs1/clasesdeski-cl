@@ -1,2 +1,0 @@
-<?php
-//How are you?
