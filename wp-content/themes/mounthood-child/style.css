@@ -1078,6 +1078,400 @@ img {
 
 
 /* ------------------------------------------------------------------
+   BOOKING SUMMARY CARD - Responsive
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+    #cdski-booking-summary {
+        border-radius: 12px;
+        margin: 0 0 20px 0;
+    }
+
+    .cdski-summary-header {
+        padding: 12px 16px;
+        font-size: 15px;
+        gap: 8px;
+    }
+
+    .cdski-summary-header svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .cdski-summary-body {
+        padding: 14px 16px 18px;
+    }
+
+    .cdski-summary-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        padding: 6px 0;
+    }
+
+    .cdski-summary-label {
+        font-size: 12px;
+    }
+
+    .cdski-summary-value {
+        font-size: 14px;
+    }
+
+    .cdski-price-final {
+        font-size: 18px !important;
+    }
+
+    .cdski-price-strike {
+        font-size: 13px !important;
+    }
+
+    .cdski-usd-price {
+        font-size: 11px !important;
+    }
+
+    .cdski-summary-total .cdski-usd-price {
+        font-size: 12px !important;
+    }
+
+    /* Cotizador title */
+    #cdski-cotizador-title h2 {
+        font-size: 22px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .cdski-summary-header {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    .cdski-summary-body {
+        padding: 12px;
+    }
+
+    .cdski-price-final {
+        font-size: 16px !important;
+    }
+
+    #cdski-cotizador-title h2 {
+        font-size: 18px !important;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   DATEPICKER / CALENDAR - Responsive
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+    .ui-datepicker {
+        width: calc(100vw - 20px) !important;
+        max-width: 320px;
+        left: 50% !important;
+        transform: translateX(-50%);
+        font-size: 13px !important;
+    }
+
+    .ui-datepicker td a,
+    .ui-datepicker td span {
+        padding: 8px !important;
+        min-width: 36px;
+        min-height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ui-datepicker .ui-datepicker-title select {
+        font-size: 13px !important;
+        padding: 6px 4px !important;
+    }
+
+    .ui-datepicker .ui-datepicker-prev,
+    .ui-datepicker .ui-datepicker-next {
+        width: 36px !important;
+        height: 36px !important;
+    }
+
+    .flatpickr-calendar {
+        width: calc(100vw - 20px) !important;
+        max-width: 320px;
+    }
+
+    .flatpickr-day {
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   DISCLAIMER NOTICE - Responsive
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+    .cdski-disclaimer-notice {
+        padding: 10px 12px !important;
+        font-size: 12px !important;
+        border-radius: 8px !important;
+    }
+
+    .cdski-disclaimer-notice p {
+        font-size: 13px !important;
+    }
+
+    .cdski-disclaimer-notice ul {
+        padding-left: 14px !important;
+    }
+
+    .cdski-disclaimer-notice li {
+        margin-bottom: 3px !important;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   TOUCH TARGETS - Minimum 44px for interactive elements on mobile
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+    /* Radio and checkbox labels */
+    .frm_forms .frm_radio label,
+    .frm_forms .frm_checkbox label {
+        min-height: 44px;
+        padding: 8px 4px;
+    }
+
+    /* All buttons minimum tap size */
+    button,
+    input[type="submit"],
+    input[type="button"],
+    .sc_button,
+    a.sc_button {
+        min-height: 44px;
+    }
+
+    /* Navigation links in mobile sidebar */
+    .header_mobile .side_wrap .menu_main_nav_area li a {
+        padding: 10px 15px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Footer links */
+    .footer_wrap a,
+    .copyright_wrap a {
+        padding: 4px 0;
+        display: inline-block;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   TESTIMONIAL CAROUSEL - Fix overflow on mobile
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+    /* Override Yellow Pencil fixed widths that cause overflow */
+    .sp-tpro-items .sp-testimonial-pro-item .sp-testimonial-pro {
+        width: auto !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .sp-testimonial-carousel-wrapper {
+        width: 100% !important;
+        min-width: 0 !important;
+        left: 0 !important;
+        overflow: hidden;
+    }
+
+    .sp-tpro-items .sp-testimonial-pro .tpro-client-testimonial,
+    .sp-tpro-items .sp-testimonial-pro h4,
+    .sp-tpro-items .sp-testimonial-pro .tpro-client-rating,
+    .sp-tpro-items .sp-testimonial-pro .tpro-testimonial-date {
+        margin-left: 0 !important;
+    }
+
+    .sp-tpro-items .sp-testimonial-pro .tpro-client-designation-company {
+        margin-left: 10px !important;
+        margin-right: 10px !important;
+    }
+
+    .content .post_item .wpb_wrapper .sp-testimonial-pro {
+        margin-left: 0 !important;
+    }
+
+    /* Fix page-specific testimonial carousel overflow */
+    #sp-testimonial-pro-wrapper-6775 .sp-testimonial-carousel-wrapper {
+        width: 100% !important;
+        min-width: 0 !important;
+        left: 0 !important;
+    }
+
+    .swiper-wrapper .sp-testimonial-pro-item .sp-testimonial-pro {
+        margin-right: 10px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .sp-tpro-items .sp-testimonial-pro .tpro-client-designation-company {
+        margin-left: 5px !important;
+        margin-right: 5px !important;
+        font-size: 12px;
+    }
+
+    .sp-tpro-items .sp-testimonial-pro .tpro-client-testimonial {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   PAGE-SPECIFIC: Yellow Pencil override fixes
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+    /* Fix page-6144 sections that use fixed pixel widths */
+    body.page-id-6144 .sc_section,
+    body.page-id-6144 .elementor-widget-container .sc_section {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Fix CTA button centering */
+    body.page-id-6144 .sc_button {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        display: block !important;
+        text-align: center;
+        max-width: 100%;
+    }
+
+    /* Review form rating stars - fix positioning */
+    body.page-id-6767 #testimonial_form .sp-tpro-form-field .sp-tpro-client-rating {
+        left: 0 !important;
+        margin-left: 0 !important;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Review form inputs full width */
+    body.page-id-6767 #testimonial_form .sp-tpro-form-field input[type="text"],
+    body.page-id-6767 #testimonial_form .sp-tpro-form-field textarea {
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   FORMIDABLE FORMS - Image radio options grid on mobile
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+    .frm_forms .frm_opt_container {
+        display: flex !important;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+    }
+
+    .frm_forms .frm_radio {
+        flex: 0 0 auto;
+    }
+
+    .frm_forms .frm_page_bar {
+        padding: 0 5px;
+    }
+
+    .frm_forms .frm_rootline_single {
+        font-size: 11px;
+    }
+
+    /* Form page navigation buttons */
+    .frm_forms .frm_submit .frm_prev_page,
+    .frm_forms .frm_submit .frm_next_page {
+        width: 100%;
+        margin-bottom: 8px;
+        min-height: 48px;
+        font-size: 15px;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   SAFE AREA INSETS - iPhone X+ notch/home indicator
+   ------------------------------------------------------------------ */
+@supports (padding: env(safe-area-inset-bottom)) {
+    .header_mobile .content_wrap {
+        padding-left: max(10px, env(safe-area-inset-left));
+        padding-right: max(10px, env(safe-area-inset-right));
+    }
+
+    .footer_wrap,
+    .copyright_wrap {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .wa-chat-box-content-send-btn-wrap,
+    .floating-wpp,
+    .wa__btn_popup {
+        bottom: calc(15px + env(safe-area-inset-bottom)) !important;
+    }
+
+    .scroll_to_top {
+        bottom: calc(70px + env(safe-area-inset-bottom)) !important;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   TABLET PORTRAIT (768px - 1024px) - Intermediate fixes
+   ------------------------------------------------------------------ */
+@media (min-width: 768px) and (max-width: 1024px) {
+    /* Two-column layout for services */
+    .sc_services .sc_services_columns .column-1_3 {
+        width: 48% !important;
+        margin-right: 4% !important;
+        margin-bottom: 20px;
+    }
+
+    .sc_services .sc_services_columns .column-1_3:nth-child(2n) {
+        margin-right: 0 !important;
+    }
+
+    /* Two-column for team */
+    .sc_team .columns_wrap > .column-1_3,
+    .sc_team .columns_wrap > .column-1_4 {
+        width: 48% !important;
+        margin-right: 4% !important;
+    }
+
+    .sc_team .columns_wrap > .column-1_3:nth-child(2n),
+    .sc_team .columns_wrap > .column-1_4:nth-child(2n) {
+        margin-right: 0 !important;
+    }
+
+    /* Booking summary card - slightly tighter */
+    .cdski-summary-header {
+        padding: 14px 20px;
+    }
+
+    .cdski-summary-body {
+        padding: 16px 20px 20px;
+    }
+
+    /* Price blocks two columns */
+    .sc_price_block_wrap .columns_wrap > .column-1_3 {
+        width: 48% !important;
+        margin-right: 4% !important;
+    }
+
+    .sc_price_block_wrap .columns_wrap > .column-1_3:nth-child(2n) {
+        margin-right: 0 !important;
+    }
+}
+
+
+/* ------------------------------------------------------------------
    PRINT STYLES
    ------------------------------------------------------------------ */
 @media print {

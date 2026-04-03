@@ -588,6 +588,24 @@ function cdski_booking_summary_styles() {
     #frm_field_62_container {
         display: none !important;
     }
+    /* Responsive: booking summary on mobile */
+    @media (max-width: 767px) {
+        .cdski-summary-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+        }
+        .cdski-summary-header {
+            padding: 12px 16px;
+            font-size: 15px;
+        }
+        .cdski-summary-body {
+            padding: 14px 16px;
+        }
+        .cdski-price-final {
+            font-size: 18px !important;
+        }
+    }
     </style>
     <?php
 }

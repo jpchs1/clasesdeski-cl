@@ -241,6 +241,7 @@
             'font-size:13px;' +
             'line-height:1.6;' +
             'color:#5a4a00;' +
+            'max-width:100%;box-sizing:border-box;' +
             '">' +
             '<p style="margin:0 0 8px;font-weight:700;color:#d4760a;font-size:14px;">Importante:</p>' +
             '<ul style="margin:0;padding-left:18px;">' +
@@ -384,6 +385,21 @@
             '}' +
             '#ui-datepicker-div {' +
                 'z-index: 99999 !important;' +
+            '}' +
+            '@media (max-width: 767px) {' +
+                '.ui-datepicker {' +
+                    'width: calc(100vw - 20px) !important;' +
+                    'max-width: 320px;' +
+                    'font-size: 13px !important;' +
+                '}' +
+                '.ui-datepicker td a, .ui-datepicker td span {' +
+                    'padding: 8px !important;' +
+                    'min-height: 36px;' +
+                '}' +
+                '.flatpickr-calendar {' +
+                    'width: calc(100vw - 20px) !important;' +
+                    'max-width: 320px;' +
+                '}' +
             '}';
 
         document.head.appendChild(css);
