@@ -1,0 +1,368 @@
+/* ==========================================================================
+   CDSKI - Responsive Design Fixes
+   Custom overrides for the Next.js/Tailwind static site
+   ========================================================================== */
+
+/* ------------------------------------------------------------------
+   GLOBAL: Prevent horizontal overflow
+   ------------------------------------------------------------------ */
+html, body {
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+}
+
+/* ------------------------------------------------------------------
+   FIX: Pricing sidebar - white text on white background
+   The summary card has text-white classes inside a bg-white container
+   ------------------------------------------------------------------ */
+.bg-white .text-white {
+    color: #1e293b !important; /* slate-800 */
+}
+
+/* Fix tag colors for contrast in light background */
+.bg-white .text-orange-300 {
+    color: #c2410c !important; /* orange-700 for better contrast */
+}
+
+.bg-white .text-blue-300 {
+    color: #1d4ed8 !important; /* blue-700 */
+}
+
+.bg-white .text-purple-300 {
+    color: #7e22ce !important; /* purple-700 */
+}
+
+/* Fix the "Total" price that shows white on white */
+.bg-white .text-white\/50 {
+    color: #64748b !important; /* slate-500 */
+}
+
+
+/* ------------------------------------------------------------------
+   MOBILE: Small phones (max-width: 480px)
+   ------------------------------------------------------------------ */
+@media (max-width: 480px) {
+
+    /* Section titles - reduce from 36px to more readable size */
+    .text-4xl {
+        font-size: 1.75rem !important; /* 28px */
+        line-height: 1.2 !important;
+    }
+
+    /* Hero subtitle */
+    .text-lg {
+        font-size: 1rem !important;
+    }
+
+    /* Calculator toggle buttons - more padding for small screens */
+    .rounded-xl.p-1 > button {
+        padding: 10px 8px !important;
+        font-size: 0.8rem !important;
+    }
+
+    /* Counter section - items slightly tighter */
+    .rounded-xl.px-5.py-3 {
+        padding: 10px 12px !important;
+    }
+
+    /* Footer grid - single column */
+    footer .grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   MOBILE: All phones (max-width: 767px)
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+
+    /* --- Header --- */
+    header .h-16 {
+        height: 56px;
+    }
+
+    /* --- Hero Section --- */
+    .min-h-screen {
+        min-height: calc(100vh - 56px);
+        min-height: calc(100dvh - 56px); /* dynamic viewport height */
+    }
+
+    /* --- Pricing Summary Card --- */
+    /* Remove sticky on mobile - it takes too much space */
+    .sticky.top-24 {
+        position: relative !important;
+        top: auto !important;
+    }
+
+    /* --- Counter/increment buttons - increase to 44px tap target --- */
+    .w-9.h-9 {
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    /* --- CLP/USD toggle - bigger tap target --- */
+    .rounded-lg.p-0\.5 button {
+        padding: 6px 12px !important;
+        min-height: 32px;
+    }
+
+    /* --- Action buttons - proper mobile sizing --- */
+    .py-3\.5.rounded-full {
+        padding-top: 14px !important;
+        padding-bottom: 14px !important;
+        font-size: 0.9375rem !important;
+    }
+
+    /* --- Gallery grid - reduce gap on mobile --- */
+    #gallery .grid {
+        gap: 6px !important;
+    }
+
+    /* --- Testimonial cards - ensure they fit --- */
+    #testimonials .grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    #testimonials .p-8 {
+        padding: 20px !important;
+    }
+
+    /* --- FAQ section - tighter padding --- */
+    #faq .p-6 {
+        padding: 16px !important;
+    }
+
+    /* --- Services cards --- */
+    #services .grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Service card image height */
+    #services .h-56 {
+        height: 180px !important;
+    }
+
+    /* --- WhatsApp floating button - position properly --- */
+    a[href*="wa.me"] {
+        /* Ensure it doesn't overlap content */
+    }
+
+    .fixed.bottom-6.right-6,
+    .fixed.bottom-4.right-4 {
+        bottom: 16px !important;
+        right: 16px !important;
+        z-index: 40;
+    }
+
+    /* --- Scroll-to-top button --- */
+    .fixed.bottom-6.left-6,
+    .fixed.bottom-4.left-4 {
+        bottom: 16px !important;
+        left: 16px !important;
+    }
+
+    /* --- Section padding reduction --- */
+    .py-24 {
+        padding-top: 48px !important;
+        padding-bottom: 48px !important;
+    }
+
+    /* --- Text overflow protection --- */
+    h1, h2, h3, h4, h5, h6, p, span, a {
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+
+    /* --- Images responsive --- */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   TABLET: Portrait (768px - 1023px)
+   ------------------------------------------------------------------ */
+@media (min-width: 768px) and (max-width: 1023px) {
+
+    /* Services - 2 column grid */
+    #services .grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* Testimonials - 2 columns */
+    #testimonials .grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* Pricing - stack calculator and summary */
+    #pricing .grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Summary card - not sticky on tablet either */
+    .sticky.top-24 {
+        position: relative !important;
+        top: auto !important;
+    }
+
+    /* Section titles - slightly smaller */
+    .text-4xl {
+        font-size: 2rem !important;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   LARGE DESKTOP: xl breakpoint (1280px+)
+   ------------------------------------------------------------------ */
+@media (min-width: 1280px) {
+
+    /* Wider container for large screens */
+    .max-w-7xl {
+        max-width: 1320px;
+    }
+
+    /* Gallery - 5 columns on large screens */
+    #gallery .grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 1536px) {
+
+    /* Extra wide screens */
+    .max-w-7xl {
+        max-width: 1440px;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   FIX: Safe area insets for iPhone X+ (notch, home indicator)
+   ------------------------------------------------------------------ */
+@supports (padding: env(safe-area-inset-bottom)) {
+
+    /* Header */
+    header > div {
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+    }
+
+    /* Footer */
+    footer {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* Fixed floating buttons */
+    .fixed.bottom-6.right-6,
+    .fixed.bottom-4.right-4 {
+        bottom: calc(16px + env(safe-area-inset-bottom)) !important;
+        right: calc(16px + env(safe-area-inset-right)) !important;
+    }
+
+    /* Content padding */
+    main > section {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   FIX: Pricing calculator button groups on narrow screens
+   ------------------------------------------------------------------ */
+@media (max-width: 374px) {
+
+    /* Stack toggle buttons vertically on very small screens */
+    .flex.bg-slate-100.rounded-xl.p-1 {
+        flex-direction: column;
+    }
+
+    .flex.bg-slate-100.rounded-xl.p-1 > button {
+        width: 100%;
+        padding: 10px !important;
+    }
+
+    /* Counter row - tighter */
+    .gap-3 {
+        gap: 6px;
+    }
+
+    /* Section titles even smaller */
+    .text-4xl {
+        font-size: 1.5rem !important;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   FIX: Landscape phones
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) and (orientation: landscape) {
+
+    /* Hero - don't force full viewport height in landscape */
+    .min-h-screen {
+        min-height: 70vh !important;
+    }
+
+    /* Testimonials - 2 columns in landscape */
+    #testimonials .grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* Services - 2 columns in landscape */
+    #services .grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* Gallery - 3 columns in landscape */
+    #gallery .grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   ACCESSIBILITY: Focus styles and reduced motion
+   ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Visible focus indicator for keyboard navigation */
+:focus-visible {
+    outline: 2px solid #f97316 !important; /* orange-500 */
+    outline-offset: 2px !important;
+}
+
+
+/* ------------------------------------------------------------------
+   PRINT STYLES
+   ------------------------------------------------------------------ */
+@media print {
+    header, footer,
+    .fixed,
+    a[href*="wa.me"] {
+        display: none !important;
+    }
+
+    body {
+        font-size: 12pt;
+        color: #000;
+        background: #fff;
+    }
+
+    .py-24 {
+        padding: 12px 0 !important;
+    }
+}
