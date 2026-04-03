@@ -1,0 +1,34 @@
+# Environment & secrets
+.env
+.env.*
+wp-config.php
+*.secret
+
+# Server config (may contain credentials)
+.htaccess
+.user.ini
+php.ini
+
+# Logs
+error_log
+*.log
+
+# Node
+node_modules/
+.next/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Cache
+.tmb/
+cache/
+
+# cPanel
+cgi-bin/
+.well-known/
