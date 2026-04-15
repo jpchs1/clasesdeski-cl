@@ -48,6 +48,9 @@
   <url><loc>https://clasesdeski.cl/#faq</loc><priority>0.8</priority></url>
   <url><loc>https://clasesdeski.cl/#gallery</loc><priority>0.7</priority></url>
   <url><loc>https://clasesdeski.cl/#testimonials</loc><priority>0.7</priority></url>
+  <url><loc>https://clasesdeski.cl/#tourevo</loc><priority>0.8</priority></url>
+  <url><loc>https://clasesdeski.cl/en/#tourevo</loc><priority>0.8</priority></url>
+  <url><loc>https://clasesdeski.cl/pt/#tourevo</loc><priority>0.8</priority></url>
 
   <!-- Blog content (preserved slugs from WordPress) -->
   <url><loc>https://clasesdeski.cl/#blog</loc><lastmod>2023-07-22</lastmod><priority>0.8</priority></url>
