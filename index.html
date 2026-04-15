@@ -8,8 +8,9 @@
     var jh=jsonld?jsonld.outerHTML:'';
     var iv=setInterval(function(){
       if(!document.getElementById('tourevo')){
-        var m=document.querySelector('main');
-        if(m){m.insertAdjacentHTML('beforeend',h);}
+        var b=document.getElementById('blog');
+        if(b){b.insertAdjacentHTML('beforebegin',h);}
+        else{var m=document.querySelector('main');if(m){m.insertAdjacentHTML('beforeend',h);}}
         if(jh&&!document.querySelector('script[type="application/ld+json"]')){
           document.head.insertAdjacentHTML('beforeend',jh);
         }
