@@ -168,6 +168,372 @@
     });
   }
 
+  /* =========================================================
+     Booking-extras form
+     Adds a small set of optional questions (dates, ski center,
+     children's ages, level, lodging) to the calculator card and
+     rewrites the WhatsApp pre-filled message so the answers
+     arrive together with the quote in the first message.
+     ========================================================= */
+  function setupBookingExtras() {
+    var lang = 'es';
+    var path = location.pathname || '';
+    if (path.indexOf('/en') === 0) lang = 'en';
+    else if (path.indexOf('/pt') === 0) lang = 'pt';
+    else lang = 'es';
+
+    var I18N = {
+      es: {
+        title: 'Detalles adicionales',
+        hint: 'Necesitamos estos datos para revisar disponibilidad. Todos los campos son obligatorios.',
+        required: 'Obligatorio',
+        errorMsg: 'Por favor completa todos los campos antes de enviar por WhatsApp.',
+        dates: 'Fechas exactas',
+        datesPh: 'Ej: 15 al 18 de julio 2026',
+        resort: 'Centro de ski',
+        resortOpts: ['Selecciona…', 'Valle Nevado', 'El Colorado', 'La Parva', 'Farellones', 'Aún no decidido', 'Otro'],
+        ages: 'Edades de los niños',
+        agesPh: 'Ej: 8 y 10 años',
+        level: 'Nivel de ski',
+        levelOpts: ['Selecciona…', 'Primera vez', 'Básico', 'Intermedio', 'Avanzado', 'Mixto'],
+        lodging: 'Alojamiento',
+        lodgingOpts: ['Selecciona…', 'Santiago', 'Centro de ski', 'Aún no decidido', 'Otro']
+      },
+      en: {
+        title: 'Additional details',
+        hint: 'We need these to check availability. All fields are required.',
+        required: 'Required',
+        errorMsg: 'Please complete all fields before sending via WhatsApp.',
+        dates: 'Exact dates',
+        datesPh: 'E.g. 15-18 July 2026',
+        resort: 'Ski resort',
+        resortOpts: ['Select…', 'Valle Nevado', 'El Colorado', 'La Parva', 'Farellones', 'Not decided yet', 'Other'],
+        ages: "Children's ages",
+        agesPh: 'E.g. 8 and 10 years old',
+        level: 'Ski level',
+        levelOpts: ['Select…', 'First time', 'Beginner', 'Intermediate', 'Advanced', 'Mixed'],
+        lodging: 'Lodging',
+        lodgingOpts: ['Select…', 'Santiago', 'Ski resort', 'Not decided yet', 'Other']
+      },
+      pt: {
+        title: 'Detalhes adicionais',
+        hint: 'Precisamos destes dados para verificar disponibilidade. Todos os campos são obrigatórios.',
+        required: 'Obrigatório',
+        errorMsg: 'Por favor preencha todos os campos antes de enviar por WhatsApp.',
+        dates: 'Datas exatas',
+        datesPh: 'Ex: 15 a 18 de julho 2026',
+        resort: 'Centro de esqui',
+        resortOpts: ['Selecione…', 'Valle Nevado', 'El Colorado', 'La Parva', 'Farellones', 'Ainda não decidido', 'Outro'],
+        ages: 'Idades das crianças',
+        agesPh: 'Ex: 8 e 10 anos',
+        level: 'Nível de esqui',
+        levelOpts: ['Selecione…', 'Primeira vez', 'Básico', 'Intermediário', 'Avançado', 'Misto'],
+        lodging: 'Hospedagem',
+        lodgingOpts: ['Selecione…', 'Santiago', 'Centro de esqui', 'Ainda não decidido', 'Outro']
+      }
+    };
+
+    // The WhatsApp message is always sent in Spanish (the recipient is in Chile).
+    var MSG = {
+      title: 'Hola! Quiero reservar clases con CDSKI',
+      planLabel: 'Detalles de la cotización',
+      extraLabel: 'Información adicional',
+      dates: 'Fechas',
+      resort: 'Centro de ski',
+      ages: 'Edades de los niños',
+      level: 'Nivel',
+      lodging: 'Alojamiento',
+      thanks: '¡Gracias! Quedo atento(a) para coordinar.'
+    };
+
+    var t = I18N[lang] || I18N.es;
+    var saved = { dates: '', resort: '', ages: '', level: '', lodging: '' };
+
+    function findCalcWhatsAppLink() {
+      var links = document.querySelectorAll('a[href*="wa.me/56940211459"]');
+      for (var i = 0; i < links.length; i++) {
+        var href = links[i].getAttribute('href') || '';
+        var decoded = '';
+        try { decoded = decodeURIComponent(href); } catch (e) { decoded = href; }
+        if (decoded.indexOf('Quiero reservar clases con CDSKI') !== -1) {
+          return links[i];
+        }
+      }
+      return null;
+    }
+
+    function decodeHrefText(link) {
+      var href = (link && link.getAttribute('href')) || '';
+      var qIdx = href.indexOf('?text=');
+      if (qIdx < 0) return '';
+      try { return decodeURIComponent(href.slice(qIdx + 6)); } catch (e) { return ''; }
+    }
+
+    function childrenCountFromText(text) {
+      var m = /(\d+)\s*ni[ñn]o/.exec(text || '');
+      return m ? parseInt(m[1], 10) : 0;
+    }
+
+    function buildOption(label, value, isPlaceholder) {
+      var opt = document.createElement('option');
+      opt.value = isPlaceholder ? '' : value;
+      opt.textContent = label;
+      if (isPlaceholder) {
+        opt.disabled = true;
+        opt.selected = true;
+      }
+      return opt;
+    }
+
+    function buildField(emoji, labelText, control, modifier, fieldName) {
+      var wrap = document.createElement('label');
+      wrap.className = 'cdski-extras-field' + (modifier ? ' ' + modifier : '');
+      if (fieldName) wrap.setAttribute('data-field', fieldName);
+      var span = document.createElement('span');
+      span.className = 'cdski-extras-label';
+      span.textContent = emoji + ' ' + labelText;
+      var star = document.createElement('span');
+      star.className = 'cdski-extras-required';
+      star.textContent = ' *';
+      star.setAttribute('aria-label', t.required);
+      span.appendChild(star);
+      wrap.appendChild(span);
+      wrap.appendChild(control);
+      return wrap;
+    }
+
+    function buildForm() {
+      var card = document.createElement('div');
+      card.className = 'cdski-extras';
+
+      var head = document.createElement('div');
+      head.className = 'cdski-extras-head';
+      var ttl = document.createElement('span');
+      ttl.className = 'cdski-extras-title';
+      ttl.textContent = '📝 ' + t.title;
+      var hnt = document.createElement('span');
+      hnt.className = 'cdski-extras-hint';
+      hnt.textContent = t.hint;
+      head.appendChild(ttl);
+      head.appendChild(hnt);
+      card.appendChild(head);
+
+      var grid = document.createElement('div');
+      grid.className = 'cdski-extras-grid';
+
+      var dInput = document.createElement('input');
+      dInput.type = 'text';
+      dInput.name = 'dates';
+      dInput.placeholder = t.datesPh;
+      dInput.autocomplete = 'off';
+      dInput.required = true;
+      dInput.value = saved.dates;
+      grid.appendChild(buildField('📅', t.dates, dInput, '', 'dates'));
+
+      var rSel = document.createElement('select');
+      rSel.name = 'resort';
+      rSel.required = true;
+      t.resortOpts.forEach(function (o, i) { rSel.appendChild(buildOption(o, o, i === 0)); });
+      if (saved.resort) rSel.value = saved.resort;
+      grid.appendChild(buildField('⛰️', t.resort, rSel, '', 'resort'));
+
+      var aInput = document.createElement('input');
+      aInput.type = 'text';
+      aInput.name = 'ages';
+      aInput.placeholder = t.agesPh;
+      aInput.autocomplete = 'off';
+      aInput.required = true;
+      aInput.value = saved.ages;
+      grid.appendChild(buildField('👶', t.ages, aInput, '', 'ages'));
+
+      var lSel = document.createElement('select');
+      lSel.name = 'level';
+      lSel.required = true;
+      t.levelOpts.forEach(function (o, i) { lSel.appendChild(buildOption(o, o, i === 0)); });
+      if (saved.level) lSel.value = saved.level;
+      grid.appendChild(buildField('⛷️', t.level, lSel, '', 'level'));
+
+      var loSel = document.createElement('select');
+      loSel.name = 'lodging';
+      loSel.required = true;
+      t.lodgingOpts.forEach(function (o, i) { loSel.appendChild(buildOption(o, o, i === 0)); });
+      if (saved.lodging) loSel.value = saved.lodging;
+      grid.appendChild(buildField('🏨', t.lodging, loSel, 'cdski-extras-full', 'lodging'));
+
+      card.appendChild(grid);
+
+      var err = document.createElement('div');
+      err.className = 'cdski-extras-error';
+      err.setAttribute('role', 'alert');
+      err.setAttribute('aria-live', 'polite');
+      err.textContent = t.errorMsg;
+      card.appendChild(err);
+
+      return card;
+    }
+
+    function applyChildrenVisibility(card, link) {
+      if (!card) return;
+      var ageWrap = card.querySelector('[data-field="ages"]');
+      if (!ageWrap) return;
+      var hasKids = childrenCountFromText(decodeHrefText(link)) > 0;
+      ageWrap.style.display = hasKids ? '' : 'none';
+      var input = ageWrap.querySelector('input');
+      if (input) input.required = hasKids;
+      if (!hasKids) ageWrap.classList.remove('cdski-extras-invalid');
+    }
+
+    function ensureFormFor(link) {
+      // Anchor: the buttons container that wraps the WhatsApp link.
+      var btnGroup = link.parentNode;
+      if (!btnGroup) return;
+      var host = btnGroup.parentNode;
+      if (!host) return;
+
+      var existing = host.querySelector(':scope > .cdski-extras');
+      if (existing) {
+        applyChildrenVisibility(existing, link);
+        return;
+      }
+
+      var card = buildForm();
+      host.insertBefore(card, btnGroup);
+
+      card.addEventListener('input', onFieldChange, true);
+      card.addEventListener('change', onFieldChange, true);
+
+      applyChildrenVisibility(card, link);
+    }
+
+    function onFieldChange(e) {
+      var el = e.target;
+      if (!el || !el.name) return;
+      if (Object.prototype.hasOwnProperty.call(saved, el.name)) {
+        saved[el.name] = (el.value || '').trim();
+      }
+      var wrap = el.closest('[data-field]');
+      if (wrap && saved[el.name]) {
+        wrap.classList.remove('cdski-extras-invalid');
+        var card = wrap.closest('.cdski-extras');
+        if (card && !card.querySelector('.cdski-extras-invalid')) {
+          card.classList.remove('cdski-extras-show-error');
+        }
+      }
+    }
+
+    function validate(card, link) {
+      if (!card) return false;
+      var fields = ['dates', 'resort', 'ages', 'level', 'lodging'];
+      var hasKids = childrenCountFromText(decodeHrefText(link)) > 0;
+      var allOk = true;
+      fields.forEach(function (name) {
+        if (name === 'ages' && !hasKids) return;
+        var wrap = card.querySelector('[data-field="' + name + '"]');
+        if (!wrap) return;
+        var input = wrap.querySelector('input,select');
+        var val = input ? (input.value || '').trim() : '';
+        if (!val) {
+          wrap.classList.add('cdski-extras-invalid');
+          allOk = false;
+        } else {
+          wrap.classList.remove('cdski-extras-invalid');
+        }
+      });
+      card.classList.toggle('cdski-extras-show-error', !allOk);
+      return allOk;
+    }
+
+    function buildMessage(originalText) {
+      var lines = (originalText || '').split('\n');
+      var bullets = [];
+      for (var i = 1; i < lines.length; i++) {
+        var ln = lines[i];
+        if (!ln) continue;
+        bullets.push(ln.replace(/^- /, '• '));
+      }
+
+      var out = [];
+      out.push('*' + MSG.title + '* 🎿❄️');
+      out.push('');
+      out.push('📋 *' + MSG.planLabel + ':*');
+      bullets.forEach(function (b) {
+        if (/Total estimado:/i.test(b)) {
+          // Bold the total amount line
+          out.push(b.replace(/^• (.*)$/, '• *$1*'));
+        } else {
+          out.push(b);
+        }
+      });
+
+      var extras = [];
+      if (saved.dates)   extras.push('📅 ' + MSG.dates + ': ' + saved.dates);
+      if (saved.resort)  extras.push('⛰️ ' + MSG.resort + ': ' + saved.resort);
+      if (saved.ages)    extras.push('👶 ' + MSG.ages + ': ' + saved.ages);
+      if (saved.level)   extras.push('⛷️ ' + MSG.level + ': ' + saved.level);
+      if (saved.lodging) extras.push('🏨 ' + MSG.lodging + ': ' + saved.lodging);
+
+      if (extras.length) {
+        out.push('');
+        out.push('📝 *' + MSG.extraLabel + ':*');
+        for (var j = 0; j < extras.length; j++) out.push(extras[j]);
+      }
+
+      out.push('');
+      out.push(MSG.thanks);
+      return out.join('\n');
+    }
+
+    function hookLink(link) {
+      if (link.dataset.cdskiExtrasHooked === '1') return;
+      link.dataset.cdskiExtrasHooked = '1';
+      link.addEventListener('click', function (e) {
+        var href = link.getAttribute('href') || '';
+        var qIdx = href.indexOf('?text=');
+        if (qIdx < 0) return;
+        var originalText = '';
+        try { originalText = decodeURIComponent(href.slice(qIdx + 6)); } catch (err) { return; }
+        if (originalText.indexOf('Quiero reservar clases con CDSKI') === -1) return;
+
+        var card = document.querySelector('.cdski-extras');
+        if (!validate(card, link)) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (card) {
+            var firstInvalid = card.querySelector('.cdski-extras-invalid input, .cdski-extras-invalid select');
+            if (firstInvalid) {
+              try { firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (_) {}
+              try { firstInvalid.focus({ preventScroll: true }); } catch (_) { firstInvalid.focus(); }
+            }
+          }
+          return;
+        }
+
+        e.preventDefault();
+        var newText = buildMessage(originalText);
+        var base = href.slice(0, qIdx + 6);
+        var newHref = base + encodeURIComponent(newText);
+        window.open(newHref, '_blank', 'noopener,noreferrer');
+      }, true);
+    }
+
+    function tick() {
+      var link = findCalcWhatsAppLink();
+      if (!link) return;
+      hookLink(link);
+      ensureFormFor(link);
+    }
+
+    // Poll a few seconds because React hydrates after first paint, and
+    // re-runs cheaply afterwards in case the calculator card re-renders.
+    var attempts = 0;
+    var iv = setInterval(function () {
+      tick();
+      attempts++;
+      if (attempts > 80) clearInterval(iv);
+    }, 250);
+    tick();
+  }
+
   ready(function () {
     document.documentElement.classList.add('cdski-reveal-ready');
     revealInlineHidden();
@@ -175,5 +541,6 @@
     setupMobileMenu();
     setupScrollToTop();
     setupSmoothAnchors();
+    setupBookingExtras();
   });
 })();
