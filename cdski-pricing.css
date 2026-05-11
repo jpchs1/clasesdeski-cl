@@ -1,0 +1,243 @@
+/* ════════════════════════════════════════════════════════════
+   ClasesdeSki "Calcula Tu Experiencia" (#pricing) — SUPER PRO v1.0
+   Pure CSS, no DOM mutation. Loads via:
+     <link rel="stylesheet" href="/cdski-pricing.css">
+   in <head> of every index.html.
+
+   This file ALSO fixes a critical contrast bug: the section's bottom
+   paragraphs use text-white/25 and text-white/50 on a LIGHT bg — those
+   classes were copy-pasted from a dark-themed section and made the
+   text nearly invisible. We force readable dark slate colors instead.
+   ════════════════════════════════════════════════════════════ */
+
+/* ─── 1) CRITICAL CONTRAST FIX (text-white/XX on light bg = invisible) ─── */
+/* "Sujeto a disponibilidad. Ropa de nieve y guantes..." */
+#pricing p.text-white\/25,
+#pricing p[class*="text-white/25"],
+#pricing .text-white\/25,
+#pricing [class*="text-white/25"] {
+	color: rgba(71, 85, 105, 0.85) !important;     /* slate-600 */
+	font-size: 12px !important;
+	line-height: 1.55 !important;
+}
+
+/* "El ticket de pista (lift ticket)..." */
+#pricing span.text-white\/50,
+#pricing .text-white\/50,
+#pricing [class*="text-white/50"] {
+	color: rgba(51, 65, 85, 0.92) !important;      /* slate-700 */
+}
+
+/* Container of the "ticket de pista" note */
+#pricing .bg-slate-50 {
+	background: rgba(241, 245, 249, 0.85) !important;  /* slate-100 */
+	border-color: rgba(186, 230, 253, 0.65) !important; /* sky-200-ish */
+}
+#pricing .bg-slate-50 svg.text-blue-400 {
+	color: #0284c7 !important;                      /* sky-600, stronger contrast */
+}
+
+/* ─── 2) SECTION BACKGROUND — refined gradient + subtle decorative glows ─── */
+#pricing {
+	padding-top: 7rem !important;
+	padding-bottom: 6rem !important;
+	background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 75%) !important;
+	position: relative;
+	overflow: hidden;
+}
+#pricing::before {
+	content: '';
+	position: absolute;
+	top: -120px;
+	right: -120px;
+	width: 540px;
+	height: 540px;
+	background: radial-gradient(circle, rgba(249, 115, 22, 0.08) 0%, transparent 65%);
+	pointer-events: none;
+	z-index: 0;
+}
+#pricing::after {
+	content: '';
+	position: absolute;
+	bottom: -100px;
+	left: -100px;
+	width: 460px;
+	height: 460px;
+	background: radial-gradient(circle, rgba(14, 165, 233, 0.10) 0%, transparent 60%);
+	pointer-events: none;
+	z-index: 0;
+}
+#pricing > div { position: relative; z-index: 1; }
+
+/* ─── 3) SECTION HEADING — bigger + accent bar ─── */
+#pricing h2 {
+	font-size: clamp(2.25rem, 4.5vw, 3.5rem) !important;
+	letter-spacing: -0.025em !important;
+	line-height: 1.05 !important;
+	color: #0f172a !important;
+	margin-bottom: 1.25rem !important;
+}
+#pricing > div > div:first-child {
+	position: relative;
+	padding-bottom: 26px;
+	margin-bottom: 3rem !important;
+}
+#pricing > div > div:first-child::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 64px;
+	height: 3px;
+	border-radius: 3px;
+	background: linear-gradient(90deg, #f97316, #fb923c);
+	box-shadow: 0 0 16px rgba(249, 115, 22, 0.55);
+}
+#pricing p.text-slate-500 {
+	color: #475569 !important;                      /* slate-600 — better contrast */
+	font-size: 1.075rem !important;
+	line-height: 1.65 !important;
+}
+
+/* ─── 4) FORM CARDS (the left column — config of the experience) ─── */
+/* The form lives in a column with options/toggles. Style its cards
+   with proper glass-on-light look + hover */
+#pricing .lg\:col-span-3 > div,
+#pricing .grid.lg\:grid-cols-5 > div:first-child > div,
+#pricing button[class*="rounded-xl"][class*="border"]:not([class*="bg-orange"]):not([class*="bg-white"]) {
+	transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Option buttons (Ski/Snowboard, Grupal/Privada, Half/Full day, etc.) */
+#pricing button[class*="rounded-xl"][class*="border-slate"],
+#pricing button[class*="rounded-2xl"][class*="border-slate"] {
+	border-color: rgba(226, 232, 240, 0.95) !important;
+	background: rgba(255, 255, 255, 0.85) !important;
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+}
+#pricing button[class*="rounded-xl"][class*="border-slate"]:hover,
+#pricing button[class*="rounded-2xl"][class*="border-slate"]:hover {
+	border-color: rgba(249, 115, 22, 0.40) !important;
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+/* Active state (orange) on selected options */
+#pricing button[class*="border-orange"],
+#pricing button[class*="bg-orange-50"],
+#pricing button[class*="bg-orange-500/10"] {
+	border-color: rgba(249, 115, 22, 0.55) !important;
+	background: linear-gradient(135deg, rgba(249, 115, 22, 0.08), rgba(251, 146, 60, 0.04)) !important;
+	box-shadow: 0 4px 14px rgba(249, 115, 22, 0.12);
+}
+
+/* ─── 5) EQUIPMENT TOGGLE ROW — the "Arriendo de equipo" card ─── */
+/* Wrapper card */
+#pricing :where(div, label):has(> :is(input[type="checkbox"], button[role="switch"])):has(.text-orange-500),
+#pricing > div :is(div, label):not(.bg-slate-50):where([class*="border-slate"]) {
+	transition: all 0.25s ease !important;
+}
+
+/* iOS-style toggle switch polish */
+#pricing button[role="switch"],
+#pricing [role="switch"] {
+	transition: background-color 0.25s ease, box-shadow 0.25s ease !important;
+	box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.10);
+}
+#pricing button[role="switch"][aria-checked="true"],
+#pricing [role="switch"][data-state="checked"],
+#pricing [role="switch"].bg-orange-500 {
+	box-shadow: 0 4px 12px rgba(249, 115, 22, 0.30),
+	            inset 0 1px 2px rgba(15, 23, 42, 0.10) !important;
+}
+
+/* ─── 6) RIGHT-SIDE STICKY PRICING CARD ─── */
+#pricing .lg\:col-span-2 > div.sticky,
+#pricing div.sticky.top-24 {
+	border-color: rgba(226, 232, 240, 0.95) !important;
+	box-shadow:
+		0 18px 40px rgba(15, 23, 42, 0.10),
+		0 6px 16px rgba(15, 23, 42, 0.06) !important;
+	transition: box-shadow 0.3s ease;
+}
+#pricing div.sticky.top-24:hover {
+	box-shadow:
+		0 24px 56px rgba(15, 23, 42, 0.14),
+		0 8px 20px rgba(15, 23, 42, 0.08) !important;
+}
+/* Pricing card header (orange tint band) */
+#pricing div.sticky .bg-orange-500\/10 {
+	background: linear-gradient(135deg, rgba(249, 115, 22, 0.10), rgba(251, 146, 60, 0.06)) !important;
+	border-bottom-color: rgba(249, 115, 22, 0.20) !important;
+}
+
+/* The final big price */
+#pricing div.sticky [class*="text-3xl"][class*="text-orange"],
+#pricing div.sticky [class*="text-4xl"][class*="text-orange"] {
+	background: linear-gradient(135deg, #ea580c, #fb923c);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	filter: drop-shadow(0 2px 6px rgba(249, 115, 22, 0.25));
+}
+
+/* ─── 7) "Reservar por WhatsApp" CTA inside the pricing card ─── */
+#pricing a[href*="wa.me"][class*="bg-green-600"] {
+	background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+	box-shadow: 0 8px 20px rgba(34, 197, 94, 0.30) !important;
+	transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+}
+#pricing a[href*="wa.me"][class*="bg-green-600"]:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 14px 28px rgba(34, 197, 94, 0.40) !important;
+}
+
+/* ─── 8) FORCE-SHOW cards with inline opacity:0 (Framer IO race fix) ─── */
+#pricing [style*="opacity:0"],
+#pricing [style*="opacity: 0"] {
+	opacity: 1 !important;
+	transform: none !important;
+}
+
+/* ─── 9) Better number inputs / steppers (adults, kids, days counts) ─── */
+#pricing input[type="number"],
+#pricing button[class*="rounded-full"][class*="bg-slate-100"],
+#pricing button[class*="rounded-full"][class*="bg-white"] {
+	transition: all 0.2s ease !important;
+}
+#pricing button[class*="rounded-full"][class*="bg-slate-100"]:hover,
+#pricing button[class*="rounded-full"][class*="bg-white"]:hover {
+	background: #fed7aa !important;                /* orange-200 */
+	color: #ea580c !important;
+	border-color: rgba(249, 115, 22, 0.40) !important;
+}
+
+/* ─── 10) Card labels ("Actividad", "Tipo de clase", etc.) ─── */
+#pricing label,
+#pricing h3.text-slate-800,
+#pricing h4.text-slate-800,
+#pricing [class*="text-slate-800"][class*="font-semibold"] {
+	color: #0f172a !important;
+	letter-spacing: -0.005em;
+}
+
+/* ─── 11) Mobile refinements ─── */
+@media (max-width: 768px) {
+	#pricing {
+		padding-top: 4.5rem !important;
+		padding-bottom: 4rem !important;
+	}
+	#pricing h2 { font-size: 2rem !important; }
+}
+
+/* ─── 12) Accessibility ─── */
+#pricing button:focus-visible,
+#pricing a:focus-visible {
+	outline: 2px solid rgba(249, 115, 22, 0.55);
+	outline-offset: 3px;
+	border-radius: 8px;
+}
+@media (prefers-reduced-motion: reduce) {
+	#pricing * { transition: none !important; }
+}
