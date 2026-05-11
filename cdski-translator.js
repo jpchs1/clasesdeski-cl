@@ -1,25 +1,23 @@
 /**
- * ClasesdeSki Translator (18 languages) — v1.2
+ * ClasesdeSki Translator (18 languages) — v1.3
  *
  * Self-contained drop-in. Wire via:
  *   <script src="/cdski-translator.js" defer></script>
  * before </body> on every index.html.
  *
+ * v1.3 — defer body mutations until AFTER React hydration completes.
+ *   Next.js App Router mounts directly on <body> (no wrapper div), so
+ *   any appendChild(body, ...) during hydration triggers React error
+ *   #418 (HTML mismatch). We now inject the <style> early (safe in
+ *   <head>) and wait for window.load + 250 ms before mounting the
+ *   dropdown, GT container, observers, and listeners.
+ *
  * v1.2 — dynamic positioning: pill measures the CTA on the fly and
- * sits just to its left so it never overlaps regardless of viewport
- * or button width. Re-runs on resize, scroll and ResizeObserver.
+ *   sits just to its left so it never overlaps regardless of viewport.
  *
- * v1.1 fixes the React/Next.js hydration race: instead of mutating
- * the existing ES/EN/PT pill row in the React-controlled nav (which
- * gets wiped on reconcile), we now:
- *   - hide the original pill row via a pure-CSS :has() rule, and
- *   - mount the new dropdown as a floating element on document.body,
- *     OUTSIDE React's tree.
- * A MutationObserver re-mounts the dropdown if anything removes it.
- *
- * Auto-detect is non-intrusive: it never auto-redirects between the
- * native /, /es/, /en/, /pt/ pages. It only sets the Google Translate
- * cookie + reload for the 15 non-native languages on first visit.
+ * v1.1 — :has() CSS hides the original ES/EN/PT pill row without
+ *   touching the DOM; dropdown mounts on body, outside React's tree.
+ *   MutationObserver re-mounts if anything removes it.
  *
  * Reference: jpchs1/deckeva PRs #71 + #72.
  */
@@ -28,13 +26,14 @@
 
 	if (window.__cdskiTranslatorLoaded) return;
 	window.__cdskiTranslatorLoaded = true;
-	window.__cdskiTranslatorVersion = '1.2.0';
+	window.__cdskiTranslatorVersion = '1.3.0';
 
 	var NATIVE_PATHS = { es: '/es/', en: '/en/', pt: '/pt/' };
 	var ES_COUNTRIES = ['AR','BO','CL','CO','CR','CU','DO','EC','ES','GT','HN','MX','NI','PA','PE','PR','PY','SV','UY','VE'];
 	var SUPPORTED_GT = ['en','pt','fr','de','it','nl','pl','sv','ru','zh','ja','ko','ar','hi','tr','el','he'];
-	var CTA_GAP = 14;          // px between CTA and pill
-	var MOBILE_BREAKPOINT = 1024; // matches Tailwind lg:
+	var CTA_GAP = 14;
+	var MOBILE_BREAKPOINT = 1024;
+	var POST_HYDRATION_DELAY_MS = 250;
 
 	function currentPathLang() {
 		var p = location.pathname || '/';
@@ -77,7 +76,6 @@
 	}
 
 	var STYLE = [
-		// Hide the original ES/EN/PT pill row without touching the DOM
 		'div:has(> a[href="/es/"]):has(> a[href="/en/"]):has(> a[href="/pt/"]){display:none !important}',
 		'div:has(> a[href="/es"]):has(> a[href="/en"]):has(> a[href="/pt"]){display:none !important}',
 
@@ -239,7 +237,6 @@
 		positionPill();
 	}
 
-	// ─── Dynamic positioning: anchor pill just left of the orange CTA ───
 	function findCTA() {
 		var header = document.querySelector('header.fixed') ||
 		             document.querySelector('header[class*="fixed"]') ||
@@ -254,7 +251,6 @@
 		var pill = document.getElementById('cdski-langDropdown');
 		if (!pill) return;
 
-		// Mobile: CTA is hidden, pill goes to top-right corner
 		if (window.innerWidth < MOBILE_BREAKPOINT) {
 			pill.style.setProperty('right', '14px', 'important');
 			pill.style.setProperty('top', '14px', 'important');
@@ -263,7 +259,6 @@
 
 		var cta = findCTA();
 		if (!cta) {
-			// Fallback: top-right corner with sensible offset until CTA is measurable
 			pill.style.setProperty('right', '24px', 'important');
 			pill.style.setProperty('top', '20px', 'important');
 			return;
@@ -294,7 +289,6 @@
 		window.addEventListener('resize', schedule);
 		window.addEventListener('scroll', schedule, { passive: true });
 
-		// ResizeObserver on the header to catch sticky-shrink animations
 		try {
 			if (window.ResizeObserver) {
 				var header = document.querySelector('header');
@@ -302,7 +296,6 @@
 			}
 		} catch (e) {}
 
-		// Post-hydration retries — the CTA may not exist or have width yet
 		positionPill();
 		setTimeout(positionPill, 100);
 		setTimeout(positionPill, 500);
@@ -393,8 +386,17 @@
 		location.reload();
 	}
 
-	function boot() {
-		injectStyle();
+	// ─── Early: inject the <style> tag right away ─────────────────────
+	// Safe in <head>: doesn't mutate <body> so React's hydration won't
+	// be affected. This ensures the original ES/EN/PT pill row is
+	// hidden from the very first paint (no flash).
+	injectStyle();
+
+	// ─── Late: defer all body mutations until React has hydrated ──────
+	// Waits for window.load (all resources, including async chunks)
+	// plus a small buffer so the React app finishes hydration. After
+	// that, mounting our dropdown to body is safe.
+	function bootLate() {
 		injectGTContainer();
 		ensureMounted();
 		attachGlobalListeners();
@@ -404,9 +406,11 @@
 		setTimeout(autoDetectLang, 50);
 	}
 
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', boot);
+	if (document.readyState === 'complete') {
+		setTimeout(bootLate, POST_HYDRATION_DELAY_MS);
 	} else {
-		boot();
+		window.addEventListener('load', function () {
+			setTimeout(bootLate, POST_HYDRATION_DELAY_MS);
+		}, { once: true });
 	}
 })();
