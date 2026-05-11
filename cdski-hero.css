@@ -1,39 +1,55 @@
 /* ════════════════════════════════════════════════════════════
-   ClasesdeSki Hero — UI Polish v2.1
-   v2.1: target the ACTUAL overlay class used by the live HTML
-   (bg-gradient-to-b from/via/to-[#0a1628]) and drastically reduce
-   its opacity so the sunny image shines through like the original.
+   ClasesdeSki Hero — UI Polish v2.2
+   v2.2: Improve text contrast on the bright sunny hero.
+   - Add a radial dark "spotlight" centered behind the text so
+     headlines/body don't disappear into the bright snow/sky.
+   - Layer multiple text-shadows (depth + outline + glow) for
+     maximum legibility without darkening the whole image.
+   - Strengthen the "Montaña" orange glow so it stays vivid
+     against the bright blue sky.
+   v2.1: Reduced the dark gradient overlay so the sunny image shines.
    ════════════════════════════════════════════════════════════ */
 
-/* ─── Old overlay (kept for backwards compat if Next.js rebuilds it) ─── */
+/* ─── Old overlay (legacy backwards compat) ─── */
 div.absolute.inset-0.bg-\[\#0a1628\]\/85.backdrop-blur-\[2px\] {
 	background-color: transparent !important;
-	background-image: linear-gradient(
-		180deg,
-		rgba(15, 23, 42, 0.08) 0%,
-		rgba(15, 23, 42, 0.18) 50%,
-		rgba(15, 23, 42, 0.40) 100%
-	) !important;
+	background-image:
+		radial-gradient(ellipse 900px 520px at 50% 50%, rgba(15, 23, 42, 0.35) 0%, transparent 65%),
+		linear-gradient(
+			180deg,
+			rgba(15, 23, 42, 0.05) 0%,
+			rgba(15, 23, 42, 0.15) 35%,
+			rgba(15, 23, 42, 0.32) 70%,
+			rgba(15, 23, 42, 0.48) 100%
+		) !important;
 	backdrop-filter: none !important;
 	-webkit-backdrop-filter: none !important;
 }
 
 /* ─── ACTUAL current overlay: bg-gradient-to-b from/via/to-[#0a1628] ─── */
-/* This is what the current Next.js build renders on the hero. Override
-   it with a much lighter gradient — almost no overlay at the top (so
-   the blue sky and sun shine), gentle midtone in the middle (so the
-   "Vive la Montaña" title is readable), and slightly stronger at the
-   bottom (so the CTAs don't disappear into snow). */
+/* Now combines a RADIAL DARK SPOTLIGHT centered on the text block
+   (gives the title a soft "stage" without darkening the edges) and
+   a gentle linear gradient (light at top, slightly darker at bottom). */
 section.relative.min-h-screen .absolute.inset-0.bg-gradient-to-b[class*="from-[#0a1628]"],
 section.relative.min-h-screen .absolute.inset-0[class*="bg-gradient"][class*="0a1628"],
 section.min-h-screen > .absolute.inset-0.bg-gradient-to-b {
-	background: linear-gradient(
-		180deg,
-		rgba(15, 23, 42, 0.05) 0%,   /* almost nothing — let sky/sun pop */
-		rgba(15, 23, 42, 0.15) 35%,
-		rgba(15, 23, 42, 0.32) 70%,
-		rgba(15, 23, 42, 0.48) 100%  /* a bit darker bottom for CTAs */
-	) !important;
+	background:
+		/* Radial spotlight — focuses dark mass behind the text only */
+		radial-gradient(
+			ellipse 900px 520px at 50% 50%,
+			rgba(15, 23, 42, 0.45) 0%,
+			rgba(15, 23, 42, 0.25) 35%,
+			rgba(15, 23, 42, 0.10) 60%,
+			transparent 75%
+		),
+		/* Subtle linear gradient on top */
+		linear-gradient(
+			180deg,
+			rgba(15, 23, 42, 0.05) 0%,
+			rgba(15, 23, 42, 0.12) 35%,
+			rgba(15, 23, 42, 0.28) 70%,
+			rgba(15, 23, 42, 0.45) 100%
+		) !important;
 }
 
 /* Defensive: also override if a single bg-[#0a1628]/XX class is used */
@@ -41,79 +57,113 @@ section.relative.min-h-screen .absolute.inset-0[class*="bg-[#0a1628]"]:not([clas
 	background-color: rgba(15, 23, 42, 0.18) !important;
 }
 
-/* ─── "Vive la Montaña" title: stronger text-shadow so it stays readable
-   even with the lighter overlay (depth-shadow + a subtle glow). ─── */
+/* ─── "Montaña" orange text: deep glow + dark stroke for blue-sky contrast ─── */
 section h1 .text-orange-400,
 section h2 .text-orange-400,
 section .text-orange-400 {
+	color: #fb923c !important;
 	text-shadow:
-		0 0 24px rgba(251, 146, 60, 0.65),
-		0 0 8px rgba(251, 146, 60, 0.85),
-		0 2px 14px rgba(15, 23, 42, 0.55);
+		/* Dark outline-style for contrast on bright blue sky */
+		-1px -1px 0 rgba(15, 23, 42, 0.70),
+		 1px -1px 0 rgba(15, 23, 42, 0.70),
+		-1px  1px 0 rgba(15, 23, 42, 0.70),
+		 1px  1px 0 rgba(15, 23, 42, 0.70),
+		/* Soft dark depth shadow */
+		 0 4px 18px rgba(15, 23, 42, 0.85),
+		/* Brand-orange glow */
+		 0 0 22px rgba(251, 146, 60, 0.55),
+		 0 0 8px rgba(251, 146, 60, 0.75);
 }
+
+/* ─── White headline "Vive la": multi-layer dark shadow + stroke ─── */
 section h1.text-white,
 section h2.text-white,
 section h1:not([class*="text-orange"]),
 section h2:not([class*="text-orange"]) {
+	color: #ffffff !important;
 	text-shadow:
-		0 2px 20px rgba(15, 23, 42, 0.75),
-		0 1px 4px rgba(15, 23, 42, 0.50);
-}
-section .text-white\/80,
-section .text-white\/70 {
-	text-shadow: 0 1px 10px rgba(15, 23, 42, 0.55);
+		/* Crisp dark outline */
+		-1px -1px 0 rgba(15, 23, 42, 0.55),
+		 1px -1px 0 rgba(15, 23, 42, 0.55),
+		-1px  1px 0 rgba(15, 23, 42, 0.55),
+		 1px  1px 0 rgba(15, 23, 42, 0.55),
+		/* Deeper drop shadow for depth */
+		 0 3px 18px rgba(15, 23, 42, 0.85),
+		 0 1px 4px rgba(15, 23, 42, 0.70);
 }
 
-/* ─── Primary CTA "Reserva Tu Clase": lift + orange glow on hover ─── */
+/* ─── Subtitle / description: medium dark shadow ─── */
+section .text-white\/80,
+section .text-white\/70,
+section .text-white\/90 {
+	text-shadow:
+		0 2px 12px rgba(15, 23, 42, 0.80),
+		0 1px 3px rgba(15, 23, 42, 0.65);
+}
+
+/* ─── Stats row (5.0 Google Reviews · 10+ years · 3 ski resorts) ─── */
+section :is(span, p)[class*="text-white"] {
+	text-shadow:
+		0 1px 8px rgba(15, 23, 42, 0.75),
+		0 1px 2px rgba(15, 23, 42, 0.55);
+}
+
+/* ─── Primary CTA "Reserva Tu Clase" ─── */
 section a[class*="bg-orange-500"]:not(header *),
 section button[class*="bg-orange-500"]:not(header *) {
 	transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
 	            box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
 	            background-color 0.2s ease !important;
-	box-shadow: 0 8px 24px rgba(249, 115, 22, 0.40),
-	            0 2px 6px rgba(249, 115, 22, 0.20);
+	box-shadow: 0 10px 28px rgba(249, 115, 22, 0.50),
+	            0 4px 10px rgba(15, 23, 42, 0.40);
 	will-change: transform;
 }
 section a[class*="bg-orange-500"]:not(header *):hover,
 section button[class*="bg-orange-500"]:not(header *):hover {
 	transform: translateY(-2px) scale(1.02);
-	box-shadow: 0 16px 36px rgba(249, 115, 22, 0.55),
-	            0 4px 12px rgba(249, 115, 22, 0.30);
+	box-shadow: 0 18px 38px rgba(249, 115, 22, 0.60),
+	            0 6px 14px rgba(15, 23, 42, 0.40);
 }
 
-/* ─── Secondary CTA "Ver Precios": glass refinement ─── */
+/* ─── Secondary CTA "Ver Precios": glass that POPS on bright bg ─── */
 section a[class*="border-white"][class*="rounded-full"]:not(header *),
 section button[class*="border-white"][class*="rounded-full"]:not(header *) {
-	background: rgba(255, 255, 255, 0.10) !important;
-	backdrop-filter: saturate(140%) blur(8px) !important;
-	-webkit-backdrop-filter: saturate(140%) blur(8px) !important;
-	border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
+	background: rgba(15, 23, 42, 0.32) !important;
+	color: #ffffff !important;
+	backdrop-filter: saturate(140%) blur(10px) !important;
+	-webkit-backdrop-filter: saturate(140%) blur(10px) !important;
+	border: 1.5px solid rgba(255, 255, 255, 0.55) !important;
+	box-shadow: 0 6px 18px rgba(15, 23, 42, 0.35);
 	transition: all 0.25s ease !important;
+	text-shadow: 0 1px 4px rgba(15, 23, 42, 0.60);
 }
 section a[class*="border-white"][class*="rounded-full"]:not(header *):hover,
 section button[class*="border-white"][class*="rounded-full"]:not(header *):hover {
-	background: rgba(255, 255, 255, 0.18) !important;
-	border-color: rgba(255, 255, 255, 0.55) !important;
+	background: rgba(15, 23, 42, 0.50) !important;
+	border-color: rgba(255, 255, 255, 0.80) !important;
 	transform: translateY(-2px);
 }
 
 /* ─── Location pill "Valle Nevado · El Colorado · La Parva" ─── */
 section :is(div, span)[class*="rounded-full"]:has(.text-orange-400) {
-	background: rgba(255, 255, 255, 0.10) !important;
-	backdrop-filter: saturate(140%) blur(8px) !important;
-	-webkit-backdrop-filter: saturate(140%) blur(8px) !important;
-	border: 1px solid rgba(249, 115, 22, 0.30) !important;
-	box-shadow: 0 4px 16px rgba(15, 23, 42, 0.25);
+	background: rgba(15, 23, 42, 0.35) !important;
+	backdrop-filter: saturate(140%) blur(10px) !important;
+	-webkit-backdrop-filter: saturate(140%) blur(10px) !important;
+	border: 1px solid rgba(249, 115, 22, 0.50) !important;
+	box-shadow: 0 4px 18px rgba(15, 23, 42, 0.40);
+}
+section :is(div, span)[class*="rounded-full"]:has(.text-orange-400) :where(span, p) {
+	text-shadow: 0 1px 4px rgba(15, 23, 42, 0.60);
 }
 
-/* ─── Down-arrow scroll indicator: slower pulse + drop-shadow ─── */
+/* ─── Down-arrow scroll indicator ─── */
 section svg[class*="animate-bounce"],
 section [class*="animate-bounce"] {
 	animation: cdski-scroll-hint 2.5s ease-in-out infinite !important;
-	filter: drop-shadow(0 2px 8px rgba(15, 23, 42, 0.5));
+	filter: drop-shadow(0 2px 10px rgba(15, 23, 42, 0.75));
 }
 @keyframes cdski-scroll-hint {
-	0%, 100% { transform: translateY(0);  opacity: 0.6; }
+	0%, 100% { transform: translateY(0);  opacity: 0.7; }
 	50%      { transform: translateY(8px); opacity: 1; }
 }
 
