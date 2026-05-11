@@ -1,24 +1,30 @@
 /**
- * ClasesdeSki Translator (18 languages)
+ * ClasesdeSki Translator (18 languages) — v1.1
  *
- * Self-contained drop-in. Adds it via:
+ * Self-contained drop-in. Wire via:
  *   <script src="/cdski-translator.js" defer></script>
  * before </body> on every index.html.
  *
- * Behavior mirrors deckeva.com/.cl (jpchs1/deckeva PRs #71 + #72):
- * - 18-language dropdown
- * - Native ES/EN/PT navigate to /es/, /en/, /pt/ (the site already ships those)
- * - Other 15 languages: Google Translate with bulletproof cookie + reload
- * - Auto-detect via navigator.languages + api.country.is
- * - Manual pick persists in localStorage and is never overridden
- * - Replaces the existing ES/EN/PT pill block in the nav if found;
- *   otherwise pins a floating pill top-right
+ * v1.1 fixes the React/Next.js hydration race: instead of mutating the
+ * existing ES/EN/PT pill row in the React-controlled nav (which gets
+ * wiped on reconcile), we now:
+ *   - hide the original pill row via a pure-CSS :has() rule, and
+ *   - mount the new dropdown as a floating top-right element on
+ *     document.body, OUTSIDE React's tree.
+ * A MutationObserver re-mounts the dropdown if anything removes it.
+ *
+ * Auto-detect is non-intrusive: it never auto-redirects between the
+ * native /, /es/, /en/, /pt/ pages. It only sets the Google Translate
+ * cookie + reload for the 15 non-native languages on first visit.
+ *
+ * Reference: jpchs1/deckeva PRs #71 + #72.
  */
 (function () {
 	'use strict';
 
 	if (window.__cdskiTranslatorLoaded) return;
 	window.__cdskiTranslatorLoaded = true;
+	window.__cdskiTranslatorVersion = '1.1.0';
 
 	var NATIVE_PATHS = { es: '/es/', en: '/en/', pt: '/pt/' };
 	var ES_COUNTRIES = ['AR','BO','CL','CO','CR','CU','DO','EC','ES','GT','HN','MX','NI','PA','PE','PR','PY','SV','UY','VE'];
@@ -34,7 +40,6 @@
 
 	function pageSourceLang() { return currentPathLang(); }
 
-	// Cookie helpers (bulletproof multi-domain cleanup)
 	function clearGoogleTranslateCookies() {
 		var host = location.hostname;
 		var bare = host.replace(/^www\./, '');
@@ -66,18 +71,19 @@
 	}
 
 	var STYLE = [
-		'#cdski-langDropdown{position:relative;display:inline-block;font-family:"DM Sans",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1}',
-		'#cdski-langDropdown.cdski-floating{position:fixed;top:14px;right:14px;z-index:999999}',
-		'#cdski-langDropdown .cdski-trigger{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.20);border-radius:100px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;color:#fff;letter-spacing:0;text-transform:none;transition:all 0.2s ease;line-height:1}',
-		'#cdski-langDropdown.cdski-floating .cdski-trigger{background:rgba(255,255,255,0.95);color:#0f172a;border-color:rgba(15,23,42,0.10);box-shadow:0 4px 14px rgba(15,23,42,0.10),0 1px 3px rgba(15,23,42,0.06);backdrop-filter:saturate(140%) blur(6px);-webkit-backdrop-filter:saturate(140%) blur(6px)}',
-		'#cdski-langDropdown .cdski-trigger:hover{background:rgba(255,255,255,0.18)}',
-		'#cdski-langDropdown.cdski-floating .cdski-trigger:hover{background:#fff}',
-		'#cdski-langDropdown .cdski-trigger[aria-expanded="true"]{background:rgba(249,115,22,0.20);border-color:rgba(249,115,22,0.40)}',
+		// Hide the original ES/EN/PT pill row (and any 2-of-3 variant) without touching the DOM
+		'div:has(> a[href="/es/"]):has(> a[href="/en/"]):has(> a[href="/pt/"]){display:none !important}',
+		'div:has(> a[href="/es"]):has(> a[href="/en"]):has(> a[href="/pt"]){display:none !important}',
+
+		'#cdski-langDropdown{position:fixed !important;top:14px;right:14px;z-index:2147483646;font-family:"DM Sans",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1}',
+		'#cdski-langDropdown .cdski-trigger{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;background:rgba(255,255,255,0.96);color:#0f172a;border:1px solid rgba(15,23,42,0.10);border-radius:100px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;box-shadow:0 4px 14px rgba(15,23,42,0.12),0 1px 3px rgba(15,23,42,0.06);backdrop-filter:saturate(140%) blur(6px);-webkit-backdrop-filter:saturate(140%) blur(6px);transition:all 0.2s ease;line-height:1}',
+		'#cdski-langDropdown .cdski-trigger:hover{background:#fff}',
+		'#cdski-langDropdown .cdski-trigger[aria-expanded="true"]{background:rgba(249,115,22,0.10);border-color:rgba(249,115,22,0.30)}',
 		'#cdski-langDropdown .cdski-flag{font-size:14px;line-height:1}',
 		'#cdski-langDropdown .cdski-label{line-height:1}',
 		'#cdski-langDropdown .cdski-trigger svg{transition:transform 0.2s ease;color:currentColor;opacity:0.8}',
 		'#cdski-langDropdown .cdski-trigger[aria-expanded="true"] svg{transform:rotate(180deg)}',
-		'#cdski-langDropdown .cdski-menu{position:absolute;top:calc(100% + 8px);right:0;background:#fff;border:1px solid rgba(15,23,42,0.10);border-radius:14px;padding:6px;box-shadow:0 12px 30px rgba(15,23,42,0.15),0 2px 8px rgba(15,23,42,0.08);list-style:none;margin:0;min-width:200px;max-height:420px;overflow-y:auto;display:none;z-index:1000000}',
+		'#cdski-langDropdown .cdski-menu{position:absolute;top:calc(100% + 8px);right:0;background:#fff;border:1px solid rgba(15,23,42,0.10);border-radius:14px;padding:6px;box-shadow:0 12px 30px rgba(15,23,42,0.15),0 2px 8px rgba(15,23,42,0.08);list-style:none;margin:0;min-width:200px;max-height:420px;overflow-y:auto;display:none;z-index:2147483647}',
 		'#cdski-langDropdown .cdski-menu.open{display:block;animation:cdskiIn 0.15s ease}',
 		'@keyframes cdskiIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}',
 		'#cdski-langDropdown .cdski-section{padding:8px 12px 4px;font:700 10px/1.2 inherit;letter-spacing:0.6px;color:#6b7280;text-transform:uppercase}',
@@ -96,7 +102,7 @@
 		'.goog-logo-link,.goog-te-gadget{color:transparent !important}',
 		'.goog-te-gadget > span > a{display:none !important}',
 		'.goog-te-gadget{font-size:0 !important}',
-		'@media (max-width:640px){#cdski-langDropdown.cdski-floating{top:10px;right:10px}#cdski-langDropdown .cdski-trigger{padding:6px 10px;font-size:11px}#cdski-langDropdown .cdski-label{display:none}#cdski-langDropdown .cdski-menu{min-width:180px;right:0;max-height:320px}}'
+		'@media (max-width:640px){#cdski-langDropdown{top:10px;right:10px}#cdski-langDropdown .cdski-trigger{padding:6px 10px;font-size:11px}#cdski-langDropdown .cdski-label{display:none}#cdski-langDropdown .cdski-menu{min-width:180px;right:0;max-height:320px}}'
 	].join('');
 
 	var LANGS = [
@@ -220,39 +226,22 @@
 		document.body.appendChild(d);
 	}
 
-	function findExistingPillRow() {
-		var es = document.querySelector('a[href="/es/"], a[href="/es"]');
-		if (!es) return null;
-		var parent = es.parentElement;
-		if (!parent) return null;
-		var en = parent.querySelector('a[href="/en/"], a[href="/en"]');
-		var pt = parent.querySelector('a[href="/pt/"], a[href="/pt"]');
-		if (en && pt) return parent;
-		return null;
+	function ensureMounted() {
+		if (document.getElementById('cdski-langDropdown')) return;
+		var dd = buildDropdown();
+		document.body.appendChild(dd);
 	}
 
-	function mountDropdown() {
-		injectStyle();
-		injectGTContainer();
-
-		var pillRow = findExistingPillRow();
-		var dd = buildDropdown();
-
-		if (pillRow) {
-			pillRow.innerHTML = '';
-			pillRow.style.background = 'transparent';
-			pillRow.style.padding = '0';
-			pillRow.appendChild(dd);
-		} else {
-			dd.classList.add('cdski-floating');
-			document.body.appendChild(dd);
-		}
-
+	function attachGlobalListeners() {
+		if (window.__cdskiListenersAttached) return;
+		window.__cdskiListenersAttached = true;
 		document.addEventListener('click', function (e) {
 			var node = document.getElementById('cdski-langDropdown');
 			if (node && !node.contains(e.target)) {
-				node.querySelector('.cdski-menu').classList.remove('open');
-				node.querySelector('.cdski-trigger').setAttribute('aria-expanded', 'false');
+				var menu = node.querySelector('.cdski-menu');
+				if (menu) menu.classList.remove('open');
+				var trig = node.querySelector('.cdski-trigger');
+				if (trig) trig.setAttribute('aria-expanded', 'false');
 			}
 		});
 		document.addEventListener('keydown', function (e) {
@@ -260,12 +249,29 @@
 				var m = document.querySelector('#cdski-langDropdown .cdski-menu.open');
 				if (m) {
 					m.classList.remove('open');
-					document.querySelector('#cdski-langDropdown .cdski-trigger').setAttribute('aria-expanded', 'false');
+					var trig = document.querySelector('#cdski-langDropdown .cdski-trigger');
+					if (trig) trig.setAttribute('aria-expanded', 'false');
 				}
 			}
 		});
+	}
 
-		loadGoogleTranslate();
+	function startMountWatcher() {
+		// Re-mount if anything (React, theme JS, etc.) removes our dropdown.
+		// Cheap: a single getElementById on each batch of mutations.
+		try {
+			var mo = new MutationObserver(function () {
+				ensureMounted();
+			});
+			mo.observe(document.body, { childList: true, subtree: false });
+		} catch (e) {}
+		// Safety net: re-check every second for the first 10s (covers cases
+		// where React hydration runs after our defer script).
+		var ticks = 0;
+		var t = setInterval(function () {
+			ensureMounted();
+			if (++ticks >= 10) clearInterval(t);
+		}, 1000);
 	}
 
 	function loadGoogleTranslate() {
@@ -307,44 +313,30 @@
 			if (!detected && lang !== 'es') detected = lang;
 		}
 
-		var currentLang = currentPathLang();
+		// Non-intrusive: never auto-redirect between the native pages
+		// (/, /es/, /en/, /pt/). Only set the GT cookie + reload for the
+		// 15 non-native languages on first visit.
+		if (!detected || detected === 'es' || detected === 'en' || detected === 'pt') return;
 
-		if (!detected || detected === 'es') {
-			try {
-				fetch('https://api.country.is', { cache: 'default' })
-					.then(function (r) { return r.ok ? r.json() : null; })
-					.then(function (d) {
-						if (!d || !d.country) return;
-						try { if (localStorage.getItem('cdski-lang-source') === 'user') return; } catch (e) {}
-						if (document.cookie.indexOf('googtrans=') !== -1) return;
-						if (ES_COUNTRIES.indexOf(d.country) !== -1) return;
-						if (currentLang === 'es' && location.pathname === '/') {
-							location.href = '/en/';
-						}
-					}).catch(function () {});
-			} catch (e) {}
-			return;
-		}
-
-		if (detected === 'en' && currentLang !== 'en') { location.href = '/en/'; return; }
-		if (detected === 'pt' && currentLang !== 'pt') { location.href = '/pt/'; return; }
 		var target = detected === 'zh' ? 'zh-CN' : detected;
-		if (SUPPORTED_GT.indexOf(detected) === -1) target = 'en';
-		if (target === 'en') { location.href = '/en/'; return; }
+		if (SUPPORTED_GT.indexOf(target.replace('-CN','')) === -1 && target !== 'zh-CN') return;
 		setGoogleTranslateCookie(target);
 		location.reload();
 	}
 
-	function ready(fn) {
-		if (document.readyState === 'loading') {
-			document.addEventListener('DOMContentLoaded', fn);
-		} else {
-			fn();
-		}
+	function boot() {
+		injectStyle();
+		injectGTContainer();
+		ensureMounted();
+		attachGlobalListeners();
+		startMountWatcher();
+		loadGoogleTranslate();
+		setTimeout(autoDetectLang, 50);
 	}
 
-	ready(function () {
-		mountDropdown();
-		setTimeout(autoDetectLang, 50);
-	});
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', boot);
+	} else {
+		boot();
+	}
 })();
