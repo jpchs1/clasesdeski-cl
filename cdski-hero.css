@@ -1,116 +1,49 @@
 /* ════════════════════════════════════════════════════════════
-   ClasesdeSki Hero — Sunny Day Transformation v1.0
-   Pure CSS. Brightens, warms and adds a sun flare to the hero
-   background image, plus polishes title / CTAs / location pill.
+   ClasesdeSki Hero — UI Polish v2.0
+   The hero image was swapped to a real sunny-day photo, so the
+   brightness/saturation filter and animated sun flare have been
+   removed (they would have over-processed the real image and
+   added a visibly duplicated light source).
+   What stays: lighter overlay, title glow, CTA polish, location
+   pill glass, down-arrow pulse.
    ════════════════════════════════════════════════════════════ */
 
-/* ─── Hero background: brighten + warm + saturate ─── */
-/* The hero uses bg-fixed (parallax) — that flag distinguishes it
-   from other parallax sections lower on the page. */
-div.absolute.bg-cover.bg-fixed[style*="skier-action.jpg"] {
-	filter: brightness(1.32) saturate(1.45) contrast(1.05) hue-rotate(-8deg) !important;
-	transition: filter 0.6s ease;
-}
-
-/* ─── Replace the heavy dark overlay with a warm golden-hour gradient ─── */
-/* Original was bg-[#0a1628]/85 + backdrop-blur-[2px] — that's why it read
-   as overcast night. We swap to a much lighter warm gradient. */
+/* ─── Lighter overlay so the sunny photo actually shows through ─── */
+/* Default was bg-[#0a1628]/85 (85% dark blue) — that was masking the
+   image's natural brightness. Reduce to ~40% with a subtle vertical
+   gradient so the title remains readable but the photo dominates. */
 div.absolute.inset-0.bg-\[\#0a1628\]\/85.backdrop-blur-\[2px\] {
 	background-color: transparent !important;
 	background-image: linear-gradient(
-		160deg,
-		rgba(254, 215, 170, 0.22) 0%,
-		rgba(252, 211, 77, 0.10) 22%,
-		rgba(15, 23, 42, 0.30) 65%,
-		rgba(15, 23, 42, 0.55) 100%
+		180deg,
+		rgba(15, 23, 42, 0.25) 0%,
+		rgba(15, 23, 42, 0.30) 45%,
+		rgba(15, 23, 42, 0.50) 100%
 	) !important;
 	backdrop-filter: none !important;
 	-webkit-backdrop-filter: none !important;
 }
 
-/* ─── Animated sun flare in the upper-right of the hero ─── */
-div.absolute.bg-cover.bg-fixed[style*="skier-action.jpg"]::after {
-	content: '';
-	position: absolute;
-	top: 6%;
-	right: 12%;
-	width: 520px;
-	height: 520px;
-	background: radial-gradient(
-		circle,
-		rgba(255, 230, 160, 0.55) 0%,
-		rgba(255, 220, 130, 0.30) 18%,
-		rgba(255, 215, 110, 0.12) 38%,
-		rgba(255, 200, 100, 0.04) 58%,
-		transparent 72%
-	);
-	border-radius: 50%;
-	pointer-events: none;
-	z-index: 1;
-	mix-blend-mode: screen;
-	filter: blur(8px);
-	animation: cdski-sun-pulse 9s ease-in-out infinite;
-}
-@keyframes cdski-sun-pulse {
-	0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.90; }
-	50%      { transform: scale(1.06) translate(-12px, 6px); opacity: 1; }
-}
-
-/* Secondary smaller, sharper sun core for crisp light source */
-div.absolute.bg-cover.bg-fixed[style*="skier-action.jpg"]::before {
-	content: '';
-	position: absolute;
-	top: 11%;
-	right: 18%;
-	width: 90px;
-	height: 90px;
-	background: radial-gradient(
-		circle,
-		rgba(255, 255, 240, 0.95) 0%,
-		rgba(255, 240, 200, 0.55) 25%,
-		rgba(255, 230, 170, 0.18) 55%,
-		transparent 75%
-	);
-	border-radius: 50%;
-	pointer-events: none;
-	z-index: 1;
-	filter: blur(3px);
-	mix-blend-mode: screen;
-	animation: cdski-sun-core 4s ease-in-out infinite;
-}
-@keyframes cdski-sun-core {
-	0%, 100% { opacity: 0.9; transform: scale(1); }
-	50%      { opacity: 1;   transform: scale(1.10); }
-}
-
-/* ─── "Vive la Montaña" title: stronger orange glow on "Montaña" ─── */
-section :where(h1, h2):has(.text-orange-400),
-section :where(h1, h2) span.text-orange-400 {
-	/* Match the page's existing brand orange */
-}
+/* ─── "Vive la Montana" title: orange glow on "Montana", depth on white ─── */
 section h1 .text-orange-400,
 section h2 .text-orange-400,
 section .text-orange-400 {
 	text-shadow:
-		0 0 24px rgba(251, 146, 60, 0.55),
+		0 0 22px rgba(251, 146, 60, 0.55),
 		0 0 6px rgba(251, 146, 60, 0.80);
 }
-
-/* White part of the title: subtle depth shadow so it pops on bright hero */
 section h1.text-white,
 section h2.text-white,
 section h1:not([class*="text-orange"]),
 section h2:not([class*="text-orange"]) {
-	text-shadow: 0 2px 24px rgba(15, 23, 42, 0.45);
+	text-shadow: 0 2px 22px rgba(15, 23, 42, 0.55);
 }
-
-/* ─── Subtitle / description on hero: a touch more contrast ─── */
 section .text-white\/80,
 section .text-white\/70 {
-	text-shadow: 0 1px 8px rgba(15, 23, 42, 0.35);
+	text-shadow: 0 1px 8px rgba(15, 23, 42, 0.40);
 }
 
-/* ─── Primary CTA "Reserva Tu Clase": lift + orange glow ─── */
+/* ─── Primary CTA "Reserva Tu Clase": lift + orange glow on hover ─── */
 section a[class*="bg-orange-500"]:not(header *),
 section button[class*="bg-orange-500"]:not(header *) {
 	transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
@@ -143,7 +76,7 @@ section button[class*="border-white"][class*="rounded-full"]:not(header *):hover
 	transform: translateY(-2px);
 }
 
-/* ─── "Valle Nevado · El Colorado · La Parva" location pill ─── */
+/* ─── Location pill "Valle Nevado . El Colorado . La Parva" ─── */
 section :is(div, span)[class*="rounded-full"]:has(.text-orange-400) {
 	background: rgba(255, 255, 255, 0.10) !important;
 	backdrop-filter: saturate(140%) blur(8px) !important;
@@ -152,53 +85,33 @@ section :is(div, span)[class*="rounded-full"]:has(.text-orange-400) {
 	box-shadow: 0 4px 16px rgba(15, 23, 42, 0.25);
 }
 
-/* ─── Down-arrow scroll indicator at the bottom of hero ─── */
+/* ─── Down-arrow scroll indicator: slower pulse + drop-shadow ─── */
 section svg[class*="animate-bounce"],
 section [class*="animate-bounce"] {
 	animation: cdski-scroll-hint 2.5s ease-in-out infinite !important;
 	filter: drop-shadow(0 2px 8px rgba(15, 23, 42, 0.5));
 }
 @keyframes cdski-scroll-hint {
-	0%, 100% { transform: translateY(0); opacity: 0.6; }
+	0%, 100% { transform: translateY(0);  opacity: 0.6; }
 	50%      { transform: translateY(8px); opacity: 1; }
 }
 
-/* ─── Stats row (5.0 Google Reviews · 10+ years · 3 ski resorts) ─── */
-section .flex .flex.items-center.gap-2:has(svg),
-section :where(div, span):has(> .text-orange-400 + *) {
-	/* Subtle treatment for the trust-signal row */
-}
-
-/* ─── Hero overall: ensure the parent has clear stacking context ─── */
-section:has(> div.absolute.bg-cover.bg-fixed[style*="skier-action.jpg"]) {
+/* ─── Hero parent gets clear stacking context ─── */
+section:has(> div.absolute.bg-cover.bg-fixed) {
 	position: relative !important;
 	isolation: isolate;
 }
 
-/* ─── Accessibility: reduced motion disables sun + scroll-hint ─── */
+/* ─── Accessibility: reduced motion disables animations ─── */
 @media (prefers-reduced-motion: reduce) {
-	div.absolute.bg-cover.bg-fixed[style*="skier-action.jpg"]::before,
-	div.absolute.bg-cover.bg-fixed[style*="skier-action.jpg"]::after {
-		animation: none !important;
-	}
 	section svg[class*="animate-bounce"],
 	section [class*="animate-bounce"] {
 		animation: none !important;
 	}
-}
-
-/* ─── Mobile: scale down the sun for smaller viewports ─── */
-@media (max-width: 768px) {
-	div.absolute.bg-cover.bg-fixed[style*="skier-action.jpg"]::after {
-		width: 320px;
-		height: 320px;
-		top: 4%;
-		right: 5%;
-	}
-	div.absolute.bg-cover.bg-fixed[style*="skier-action.jpg"]::before {
-		width: 60px;
-		height: 60px;
-		top: 8%;
-		right: 12%;
+	section a[class*="bg-orange-500"]:not(header *),
+	section button[class*="bg-orange-500"]:not(header *),
+	section a[class*="border-white"][class*="rounded-full"]:not(header *),
+	section button[class*="border-white"][class*="rounded-full"]:not(header *) {
+		transition: none !important;
 	}
 }
