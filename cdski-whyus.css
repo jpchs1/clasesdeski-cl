@@ -1,0 +1,225 @@
+/* ════════════════════════════════════════════════════════════
+   ClasesdeSki "¿Por Qué Elegir CDSKI?" — SUPER PRO Polish v1.0
+   Pure CSS, no DOM mutation. Loads via:
+     <link rel="stylesheet" href="/cdski-whyus.css">
+   in <head> of every index.html.
+   ════════════════════════════════════════════════════════════ */
+
+/* ─── Section background: lighter overlay + warm radial glow ─── */
+#why-us {
+	padding-top: 7rem !important;
+	padding-bottom: 6rem !important;
+}
+#why-us > .absolute.inset-0.bg-cover {
+	/* The sunny image with a subtle warm filter */
+	filter: brightness(1.02) saturate(1.08);
+}
+/* Replace the heavy 85% overlay with a refined dark + warm glow gradient */
+#why-us > .absolute.inset-0.bg-\[\#0a1628\]\/85.backdrop-blur-\[2px\],
+#why-us > .absolute.inset-0[class*="bg-[#0a1628]"] {
+	background-color: transparent !important;
+	background-image:
+		/* Warm orange glow top-left */
+		radial-gradient(ellipse 1000px 600px at 15% 0%, rgba(249, 115, 22, 0.18) 0%, transparent 55%),
+		/* Cool blue glow bottom-right */
+		radial-gradient(ellipse 800px 500px at 85% 100%, rgba(14, 165, 233, 0.12) 0%, transparent 55%),
+		/* Vertical dark base — much lighter than the original 85% */
+		linear-gradient(180deg,
+			rgba(10, 22, 40, 0.74) 0%,
+			rgba(10, 22, 40, 0.78) 50%,
+			rgba(10, 22, 40, 0.84) 100%
+		) !important;
+	backdrop-filter: blur(3px) saturate(120%) !important;
+	-webkit-backdrop-filter: blur(3px) saturate(120%) !important;
+}
+
+/* ─── Section heading: bigger, accent bar, glow ─── */
+#why-us h2 {
+	font-size: clamp(2.25rem, 4.5vw, 3.5rem) !important;
+	letter-spacing: -0.02em !important;
+	line-height: 1.05 !important;
+	margin-bottom: 1.25rem !important;
+	text-shadow:
+		0 2px 28px rgba(15, 23, 42, 0.65),
+		0 1px 4px rgba(15, 23, 42, 0.50);
+}
+#why-us > div > .text-center.mb-16 {
+	position: relative;
+	padding-bottom: 28px;
+}
+#why-us > div > .text-center.mb-16::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 64px;
+	height: 3px;
+	border-radius: 3px;
+	background: linear-gradient(90deg, #f97316, #fb923c);
+	box-shadow: 0 0 18px rgba(249, 115, 22, 0.65);
+}
+#why-us p.text-blue-200\/60 {
+	color: rgba(219, 234, 254, 0.82) !important;
+	font-size: 1.075rem !important;
+	line-height: 1.65 !important;
+	text-shadow: 0 1px 8px rgba(15, 23, 42, 0.45);
+}
+
+/* ─── Card container — glassmorphism with hover lift ─── */
+/* The cards in HTML are <div class=""><div class="flex gap-4">...</div></div>
+   — we style the empty-classed outer div and add padding/border to make
+   it feel like a real card. */
+#why-us .grid > div {
+	position: relative;
+	background: rgba(255, 255, 255, 0.04) !important;
+	border: 1px solid rgba(255, 255, 255, 0.08) !important;
+	border-radius: 18px !important;
+	padding: 26px 24px !important;
+	backdrop-filter: blur(10px) saturate(140%);
+	-webkit-backdrop-filter: blur(10px) saturate(140%);
+	transition:
+		transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+		background-color 0.35s ease,
+		border-color 0.35s ease,
+		box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+	will-change: transform, opacity;
+	overflow: hidden;
+}
+#why-us .grid > div::before {
+	/* Subtle gradient sweep on hover */
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, rgba(249, 115, 22, 0.06) 0%, transparent 60%);
+	opacity: 0;
+	transition: opacity 0.35s ease;
+	pointer-events: none;
+	border-radius: inherit;
+}
+#why-us .grid > div:hover {
+	transform: translateY(-6px);
+	background: rgba(255, 255, 255, 0.07) !important;
+	border-color: rgba(249, 115, 22, 0.40) !important;
+	box-shadow:
+		0 18px 40px rgba(0, 0, 0, 0.35),
+		0 4px 12px rgba(249, 115, 22, 0.15);
+}
+#why-us .grid > div:hover::before { opacity: 1; }
+
+/* ─── Force the visible state (the HTML has inline opacity:0 from Framer animation) ─── */
+/* On the deployed static export some cards stay invisible if the
+   IntersectionObserver doesn't fire reliably. Force-show with CSS. */
+#why-us .grid > div[style*="opacity:0"] {
+	opacity: 1 !important;
+	transform: none !important;
+}
+#why-us > div > .text-center.mb-16[style*="opacity:0"] {
+	opacity: 1 !important;
+	transform: none !important;
+}
+
+/* ─── Icon box: hover glow + scale ─── */
+#why-us .grid > div .shrink-0.w-14.h-14 {
+	background: linear-gradient(135deg, rgba(249, 115, 22, 0.18), rgba(251, 146, 60, 0.10)) !important;
+	border: 1px solid rgba(249, 115, 22, 0.35) !important;
+	transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+	            box-shadow 0.35s ease,
+	            border-color 0.35s ease !important;
+	box-shadow: 0 0 0 rgba(249, 115, 22, 0.0);
+}
+#why-us .grid > div:hover .shrink-0.w-14.h-14 {
+	transform: rotate(-6deg) scale(1.08);
+	border-color: rgba(249, 115, 22, 0.60) !important;
+	box-shadow:
+		0 0 0 4px rgba(249, 115, 22, 0.12),
+		0 10px 24px rgba(249, 115, 22, 0.25);
+}
+#why-us .grid > div .shrink-0.w-14.h-14 svg {
+	transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+#why-us .grid > div:hover .shrink-0.w-14.h-14 svg {
+	transform: scale(1.10);
+}
+
+/* ─── Card title: bolder, brighter, gradient orange on hover ─── */
+#why-us .grid > div h3 {
+	font-size: 1.125rem !important;
+	font-weight: 700 !important;
+	color: #ffffff !important;
+	margin-bottom: 0.625rem !important;
+	letter-spacing: -0.01em !important;
+	transition: color 0.25s ease;
+}
+#why-us .grid > div:hover h3 {
+	color: #fb923c !important;
+}
+
+/* ─── Card description: better contrast for readability ─── */
+#why-us .grid > div p.text-white\/50 {
+	color: rgba(255, 255, 255, 0.74) !important;
+	font-size: 0.9rem !important;
+	line-height: 1.65 !important;
+}
+
+/* ─── Numbered badge in top-right of each card (1, 2, 3 ...) ─── */
+#why-us .grid {
+	counter-reset: cdski-card 0;
+}
+#why-us .grid > div {
+	counter-increment: cdski-card;
+}
+#why-us .grid > div::after {
+	content: counter(cdski-card, decimal-leading-zero);
+	position: absolute;
+	top: 14px;
+	right: 16px;
+	font: 700 14px/1 'DM Sans', system-ui, sans-serif;
+	letter-spacing: 0.5px;
+	color: rgba(249, 115, 22, 0.35);
+	transition: color 0.35s ease, transform 0.35s ease;
+	pointer-events: none;
+}
+#why-us .grid > div:hover::after {
+	color: rgba(249, 115, 22, 0.85);
+	transform: scale(1.1);
+}
+
+/* ─── Grid spacing: slightly more air between cards ─── */
+#why-us .grid {
+	gap: 1.5rem !important;
+}
+@media (min-width: 1024px) {
+	#why-us .grid { gap: 2rem !important; }
+}
+
+/* ─── Mobile refinements ─── */
+@media (max-width: 768px) {
+	#why-us {
+		padding-top: 4.5rem !important;
+		padding-bottom: 4rem !important;
+	}
+	#why-us .grid > div {
+		padding: 22px 20px !important;
+	}
+	#why-us h2 { font-size: 2rem !important; }
+}
+
+/* ─── Accessibility ─── */
+#why-us .grid > div:focus-within {
+	outline: 2px solid rgba(249, 115, 22, 0.55);
+	outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+	#why-us .grid > div,
+	#why-us .grid > div .shrink-0.w-14.h-14,
+	#why-us .grid > div .shrink-0.w-14.h-14 svg,
+	#why-us .grid > div h3,
+	#why-us .grid > div::before,
+	#why-us .grid > div::after {
+		transition: none !important;
+	}
+	#why-us .grid > div:hover {
+		transform: none !important;
+	}
+}
