@@ -1,0 +1,238 @@
+/* ════════════════════════════════════════════════════════════
+   ClasesdeSki Footer — 100% PRO Polish v1.0
+   Pure CSS, no DOM mutation. Companion to /cdski-nav.css.
+   ════════════════════════════════════════════════════════════ */
+
+/* ─── Background: subtle vertical gradient + soft orange glow ─── */
+footer.bg-slate-900 {
+	background: linear-gradient(180deg, #0f172a 0%, #0a1124 100%) !important;
+	position: relative;
+	overflow: hidden;
+	border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+footer.bg-slate-900::before {
+	content: '';
+	position: absolute;
+	top: -120px;
+	left: -120px;
+	width: 460px;
+	height: 460px;
+	background: radial-gradient(circle, rgba(249, 115, 22, 0.10) 0%, transparent 65%);
+	pointer-events: none;
+	z-index: 0;
+}
+footer.bg-slate-900::after {
+	content: '';
+	position: absolute;
+	bottom: -80px;
+	right: -80px;
+	width: 320px;
+	height: 320px;
+	background: radial-gradient(circle, rgba(14, 165, 233, 0.06) 0%, transparent 65%);
+	pointer-events: none;
+	z-index: 0;
+}
+footer.bg-slate-900 > div { position: relative; z-index: 1; }
+
+/* ─── Hide decorative country flags row ─── */
+footer .flex.items-center.gap-2.mt-3.text-xl { display: none !important; }
+
+/* ─── Hide the duplicate language pills (translator handles this) ─── */
+footer a[href="/es/"][class*="rounded-lg"][class*="border"],
+footer a[href="/en/"][class*="rounded-lg"][class*="border"],
+footer a[href="/pt/"][class*="rounded-lg"][class*="border"] { display: none !important; }
+footer .mt-6:has(> .flex > a[href="/es/"][class*="rounded-lg"]) { display: none !important; }
+
+/* ─── Improve text contrast (WCAG AA) ─── */
+footer .text-white\/40 { color: rgba(255, 255, 255, 0.58) !important; }
+footer .text-white\/30 { color: rgba(255, 255, 255, 0.50) !important; }
+
+/* ─── Section headings: orange accent bar ─── */
+footer h4 {
+	position: relative;
+	padding-bottom: 16px !important;
+	margin-bottom: 18px !important;
+	letter-spacing: 0.3px;
+	font-size: 0.95rem !important;
+}
+footer h4::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 28px;
+	height: 2px;
+	background: linear-gradient(90deg, #f97316, #fb923c);
+	border-radius: 2px;
+	transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+footer h4:hover::after { width: 48px; }
+
+/* ─── Link hover: underline-from-left + color shift ─── */
+footer ul li a {
+	position: relative;
+	display: inline-block;
+	padding-bottom: 2px;
+	transition: color 0.2s ease;
+}
+footer ul li a::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 0;
+	height: 1.5px;
+	background: #fb923c;
+	border-radius: 1px;
+	transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+	pointer-events: none;
+}
+footer ul li a:hover::after,
+footer ul li a:focus-visible::after { width: 100%; }
+footer ul li a:hover { color: #fb923c !important; }
+
+/* ─── Contact list: SVG icons via mask (inherit currentColor) ─── */
+footer ul li a[href^="tel:"],
+footer ul li a[href^="mailto:"] {
+	display: inline-flex !important;
+	align-items: center;
+	gap: 8px;
+}
+footer ul li a[href^="tel:"]::before,
+footer ul li a[href^="mailto:"]::before {
+	content: '';
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	flex-shrink: 0;
+	background-color: currentColor;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-position: center;
+	mask-position: center;
+	-webkit-mask-size: contain;
+	mask-size: contain;
+	opacity: 0.75;
+}
+footer ul li a[href^="tel:"]::before {
+	-webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z'/></svg>");
+	        mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z'/></svg>");
+}
+footer ul li a[href^="mailto:"]::before {
+	-webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z'/><polyline points='22,6 12,13 2,6'/></svg>");
+	        mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z'/><polyline points='22,6 12,13 2,6'/></svg>");
+}
+
+/* Address: pin icon (the <li> with plain text, no <a> inside) */
+footer ul li:not(:has(a)) {
+	display: inline-flex !important;
+	align-items: center;
+	gap: 8px;
+}
+footer ul li:not(:has(a))::before {
+	content: '';
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	flex-shrink: 0;
+	background-color: currentColor;
+	opacity: 0.75;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-position: center;
+	mask-position: center;
+	-webkit-mask-size: contain;
+	mask-size: contain;
+	-webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'/><circle cx='12' cy='10' r='3'/></svg>");
+	        mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'/><circle cx='12' cy='10' r='3'/></svg>");
+}
+
+/* ─── Social icons: brand-color hover with glow ─── */
+footer a[aria-label="Facebook"],
+footer a[aria-label="Instagram"] {
+	transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+	will-change: transform;
+}
+footer a[aria-label="Facebook"]:hover {
+	transform: translateY(-3px) scale(1.06);
+	background: #1877f2 !important;
+	border-color: rgba(24, 119, 242, 0.50) !important;
+	color: #ffffff !important;
+	box-shadow: 0 10px 24px rgba(24, 119, 242, 0.35),
+	            0 2px 6px rgba(24, 119, 242, 0.20);
+}
+footer a[aria-label="Instagram"]:hover {
+	transform: translateY(-3px) scale(1.06);
+	background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%) !important;
+	border-color: rgba(220, 39, 67, 0.50) !important;
+	color: #ffffff !important;
+	box-shadow: 0 10px 24px rgba(220, 39, 67, 0.35),
+	            0 2px 6px rgba(220, 39, 67, 0.20);
+}
+
+/* ─── Brand logo: subtle hover ─── */
+footer img[alt="Clases de Ski"] {
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+footer img[alt="Clases de Ski"]:hover {
+	transform: rotate(-6deg) scale(1.04);
+}
+
+/* ─── Bottom bar: cleaner separator + Privacy/Terms styling ─── */
+footer .border-t.border-white\/5 {
+	border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+	padding-top: 2rem !important;
+	margin-top: 4rem !important;
+}
+footer .border-t.border-white\/5 span {
+	font-size: 0.8125rem;
+	letter-spacing: 0.2px;
+}
+
+/* ─── Spacing: more breathing room ─── */
+footer .py-16 {
+	padding-top: 5rem !important;
+	padding-bottom: 3rem !important;
+}
+footer .grid.gap-10 {
+	gap: 3rem !important;
+}
+
+/* ─── Description copy: better line height ─── */
+footer .lg\:col-span-1 p.text-white\/40 {
+	line-height: 1.7;
+	max-width: 280px;
+}
+
+/* ─── Heading: stronger weight ─── */
+footer h4.text-white {
+	font-weight: 600 !important;
+	color: #ffffff !important;
+}
+
+/* ─── Mobile: tighter spacing + center brand column ─── */
+@media (max-width: 768px) {
+	footer .py-16 {
+		padding-top: 3.5rem !important;
+		padding-bottom: 2.5rem !important;
+	}
+	footer .grid.gap-10 { gap: 2.5rem !important; }
+	footer h4 { font-size: 0.9rem !important; }
+	footer .border-t.border-white\/5 { margin-top: 2.5rem !important; }
+	footer .border-t.border-white\/5 .flex.gap-6 { gap: 1.25rem !important; }
+}
+
+/* ─── A11y ─── */
+footer a:focus-visible {
+	outline: 2px solid rgba(249, 115, 22, 0.50);
+	outline-offset: 4px;
+	border-radius: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+	footer *,
+	footer *::before,
+	footer *::after {
+		transition: none !important;
+		animation: none !important;
+	}
+}
