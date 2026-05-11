@@ -1,16 +1,20 @@
 /**
- * ClasesdeSki Translator (18 languages) — v1.1
+ * ClasesdeSki Translator (18 languages) — v1.2
  *
  * Self-contained drop-in. Wire via:
  *   <script src="/cdski-translator.js" defer></script>
  * before </body> on every index.html.
  *
- * v1.1 fixes the React/Next.js hydration race: instead of mutating the
- * existing ES/EN/PT pill row in the React-controlled nav (which gets
- * wiped on reconcile), we now:
+ * v1.2 — dynamic positioning: pill measures the CTA on the fly and
+ * sits just to its left so it never overlaps regardless of viewport
+ * or button width. Re-runs on resize, scroll and ResizeObserver.
+ *
+ * v1.1 fixes the React/Next.js hydration race: instead of mutating
+ * the existing ES/EN/PT pill row in the React-controlled nav (which
+ * gets wiped on reconcile), we now:
  *   - hide the original pill row via a pure-CSS :has() rule, and
- *   - mount the new dropdown as a floating top-right element on
- *     document.body, OUTSIDE React's tree.
+ *   - mount the new dropdown as a floating element on document.body,
+ *     OUTSIDE React's tree.
  * A MutationObserver re-mounts the dropdown if anything removes it.
  *
  * Auto-detect is non-intrusive: it never auto-redirects between the
@@ -24,11 +28,13 @@
 
 	if (window.__cdskiTranslatorLoaded) return;
 	window.__cdskiTranslatorLoaded = true;
-	window.__cdskiTranslatorVersion = '1.1.0';
+	window.__cdskiTranslatorVersion = '1.2.0';
 
 	var NATIVE_PATHS = { es: '/es/', en: '/en/', pt: '/pt/' };
 	var ES_COUNTRIES = ['AR','BO','CL','CO','CR','CU','DO','EC','ES','GT','HN','MX','NI','PA','PE','PR','PY','SV','UY','VE'];
 	var SUPPORTED_GT = ['en','pt','fr','de','it','nl','pl','sv','ru','zh','ja','ko','ar','hi','tr','el','he'];
+	var CTA_GAP = 14;          // px between CTA and pill
+	var MOBILE_BREAKPOINT = 1024; // matches Tailwind lg:
 
 	function currentPathLang() {
 		var p = location.pathname || '/';
@@ -71,7 +77,7 @@
 	}
 
 	var STYLE = [
-		// Hide the original ES/EN/PT pill row (and any 2-of-3 variant) without touching the DOM
+		// Hide the original ES/EN/PT pill row without touching the DOM
 		'div:has(> a[href="/es/"]):has(> a[href="/en/"]):has(> a[href="/pt/"]){display:none !important}',
 		'div:has(> a[href="/es"]):has(> a[href="/en"]):has(> a[href="/pt"]){display:none !important}',
 
@@ -102,7 +108,7 @@
 		'.goog-logo-link,.goog-te-gadget{color:transparent !important}',
 		'.goog-te-gadget > span > a{display:none !important}',
 		'.goog-te-gadget{font-size:0 !important}',
-		'@media (max-width:640px){#cdski-langDropdown{top:10px;right:10px}#cdski-langDropdown .cdski-trigger{padding:6px 10px;font-size:11px}#cdski-langDropdown .cdski-label{display:none}#cdski-langDropdown .cdski-menu{min-width:180px;right:0;max-height:320px}}'
+		'@media (max-width:640px){#cdski-langDropdown .cdski-trigger{padding:6px 10px;font-size:11px}#cdski-langDropdown .cdski-label{display:none}#cdski-langDropdown .cdski-menu{min-width:180px;right:0;max-height:320px}}'
 	].join('');
 
 	var LANGS = [
@@ -230,6 +236,78 @@
 		if (document.getElementById('cdski-langDropdown')) return;
 		var dd = buildDropdown();
 		document.body.appendChild(dd);
+		positionPill();
+	}
+
+	// ─── Dynamic positioning: anchor pill just left of the orange CTA ───
+	function findCTA() {
+		var header = document.querySelector('header.fixed') ||
+		             document.querySelector('header[class*="fixed"]') ||
+		             document.querySelector('header');
+		if (!header) return null;
+		var cta = header.querySelector('a[class*="bg-orange-500"], button[class*="bg-orange-500"]');
+		if (cta && cta.offsetWidth > 0 && cta.offsetHeight > 0) return cta;
+		return null;
+	}
+
+	function positionPill() {
+		var pill = document.getElementById('cdski-langDropdown');
+		if (!pill) return;
+
+		// Mobile: CTA is hidden, pill goes to top-right corner
+		if (window.innerWidth < MOBILE_BREAKPOINT) {
+			pill.style.setProperty('right', '14px', 'important');
+			pill.style.setProperty('top', '14px', 'important');
+			return;
+		}
+
+		var cta = findCTA();
+		if (!cta) {
+			// Fallback: top-right corner with sensible offset until CTA is measurable
+			pill.style.setProperty('right', '24px', 'important');
+			pill.style.setProperty('top', '20px', 'important');
+			return;
+		}
+
+		var rect = cta.getBoundingClientRect();
+		var pillH = pill.offsetHeight || 36;
+		var topOffset = rect.top + (rect.height - pillH) / 2;
+		var rightOffset = window.innerWidth - rect.left + CTA_GAP;
+
+		pill.style.setProperty('right', Math.max(14, rightOffset) + 'px', 'important');
+		pill.style.setProperty('top', Math.max(8, topOffset) + 'px', 'important');
+	}
+
+	function startPositionWatcher() {
+		if (window.__cdskiPositionWatcherStarted) return;
+		window.__cdskiPositionWatcherStarted = true;
+
+		var rafId = null;
+		function schedule() {
+			if (rafId !== null) return;
+			rafId = requestAnimationFrame(function () {
+				rafId = null;
+				positionPill();
+			});
+		}
+
+		window.addEventListener('resize', schedule);
+		window.addEventListener('scroll', schedule, { passive: true });
+
+		// ResizeObserver on the header to catch sticky-shrink animations
+		try {
+			if (window.ResizeObserver) {
+				var header = document.querySelector('header');
+				if (header) new ResizeObserver(schedule).observe(header);
+			}
+		} catch (e) {}
+
+		// Post-hydration retries — the CTA may not exist or have width yet
+		positionPill();
+		setTimeout(positionPill, 100);
+		setTimeout(positionPill, 500);
+		setTimeout(positionPill, 1500);
+		setTimeout(positionPill, 3000);
 	}
 
 	function attachGlobalListeners() {
@@ -257,16 +335,10 @@
 	}
 
 	function startMountWatcher() {
-		// Re-mount if anything (React, theme JS, etc.) removes our dropdown.
-		// Cheap: a single getElementById on each batch of mutations.
 		try {
-			var mo = new MutationObserver(function () {
-				ensureMounted();
-			});
+			var mo = new MutationObserver(function () { ensureMounted(); });
 			mo.observe(document.body, { childList: true, subtree: false });
 		} catch (e) {}
-		// Safety net: re-check every second for the first 10s (covers cases
-		// where React hydration runs after our defer script).
 		var ticks = 0;
 		var t = setInterval(function () {
 			ensureMounted();
@@ -313,9 +385,6 @@
 			if (!detected && lang !== 'es') detected = lang;
 		}
 
-		// Non-intrusive: never auto-redirect between the native pages
-		// (/, /es/, /en/, /pt/). Only set the GT cookie + reload for the
-		// 15 non-native languages on first visit.
 		if (!detected || detected === 'es' || detected === 'en' || detected === 'pt') return;
 
 		var target = detected === 'zh' ? 'zh-CN' : detected;
@@ -330,6 +399,7 @@
 		ensureMounted();
 		attachGlobalListeners();
 		startMountWatcher();
+		startPositionWatcher();
 		loadGoogleTranslate();
 		setTimeout(autoDetectLang, 50);
 	}
