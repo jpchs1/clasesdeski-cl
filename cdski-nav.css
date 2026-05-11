@@ -1,0 +1,166 @@
+/* ════════════════════════════════════════════════════════════
+   ClasesdeSki Main Nav — PRO Polish v1.0
+   Pure CSS, no DOM mutation. Companion to /cdski-translator.js.
+   ════════════════════════════════════════════════════════════ */
+
+/* ─── Hide the decorative CL/BR/US flag row (no links, just a title attr) ─── */
+div[title="Chile · Brasil · USA"] { display: none !important; }
+
+/* ─── Header: subtle backdrop blur + faint bottom border for separation ─── */
+header.fixed.top-0 {
+	backdrop-filter: saturate(140%) blur(10px);
+	-webkit-backdrop-filter: saturate(140%) blur(10px);
+	background-color: rgba(15, 23, 42, 0.20) !important;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+	transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* Stronger background when the user has scrolled past the hero.
+   Detected via :hover on the header — no JS needed; the existing Next.js
+   scroll-toggle classes (if any) win because they're more specific. */
+@supports (backdrop-filter: blur(1px)) {
+	header.fixed.top-0:hover {
+		background-color: rgba(15, 23, 42, 0.45) !important;
+		box-shadow: 0 6px 28px rgba(0, 0, 0, 0.18);
+	}
+}
+
+/* ─── Menu items: underline-from-center on hover ─── */
+header nav a[href^="#"] {
+	position: relative;
+	overflow: visible !important;
+}
+header nav a[href^="#"]::after {
+	content: '';
+	position: absolute;
+	left: 50%;
+	bottom: 4px;
+	width: 0;
+	height: 2px;
+	background: linear-gradient(90deg, #f97316, #fb923c);
+	border-radius: 2px;
+	transform: translateX(-50%);
+	transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+	pointer-events: none;
+}
+header nav a[href^="#"]:hover::after,
+header nav a[href^="#"]:focus-visible::after { width: 60%; }
+header nav a[href^="#"]:focus-visible {
+	outline: 2px solid rgba(249, 115, 22, 0.50);
+	outline-offset: 2px;
+}
+
+/* ─── CTA "Reservar Ahora": lift + orange glow on hover ─── */
+header a[class*="bg-orange-500"],
+header button[class*="bg-orange-500"] {
+	transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	            box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	            background-color 0.2s ease !important;
+	will-change: transform;
+}
+header a[class*="bg-orange-500"]:hover,
+header button[class*="bg-orange-500"]:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 12px 28px rgba(249, 115, 22, 0.45),
+	            0 2px 8px rgba(249, 115, 22, 0.25);
+}
+header a[class*="bg-orange-500"]:active,
+header button[class*="bg-orange-500"]:active {
+	transform: translateY(0);
+}
+
+/* ─── Logo: subtle hover on the wordmark ─── */
+header a[href="#"] img[alt*="CDSKI"],
+header a[href="#"] img[alt="CDSKI"] {
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+header a[href="#"]:hover img[alt*="CDSKI"],
+header a[href="#"]:hover img[alt="CDSKI"] {
+	transform: rotate(-6deg) scale(1.04);
+}
+
+/* ─── Translator pill: integrate into the nav row ─── */
+#cdski-langDropdown {
+	position: fixed !important;
+	top: 24px !important;
+	right: 220px !important;
+	z-index: 51 !important;
+}
+
+/* Glass-dark trigger to match the nav's bg-white/10 aesthetic */
+#cdski-langDropdown .cdski-trigger {
+	background: rgba(255, 255, 255, 0.10) !important;
+	color: rgba(255, 255, 255, 0.95) !important;
+	border: 1px solid rgba(255, 255, 255, 0.20) !important;
+	box-shadow: none !important;
+	backdrop-filter: saturate(140%) blur(8px) !important;
+	-webkit-backdrop-filter: saturate(140%) blur(8px) !important;
+	padding: 8px 14px !important;
+}
+#cdski-langDropdown .cdski-trigger:hover {
+	background: rgba(255, 255, 255, 0.18) !important;
+	border-color: rgba(255, 255, 255, 0.32) !important;
+}
+#cdski-langDropdown .cdski-trigger[aria-expanded="true"] {
+	background: rgba(249, 115, 22, 0.22) !important;
+	border-color: rgba(249, 115, 22, 0.50) !important;
+	color: #fff !important;
+}
+#cdski-langDropdown .cdski-trigger svg { color: rgba(255, 255, 255, 0.85) !important; }
+#cdski-langDropdown .cdski-flag { filter: saturate(110%); }
+
+/* Compact pill width tier: ~140px on desktop, hides label on narrow viewports */
+
+/* Viewport tiers:
+   - Wide (>1340px):   plenty of room, pill at right: 220px
+   - Mid (1024-1340):  tighter, pill at right: 200px
+   - Mobile (<1024px): Reservar Ahora is hidden, pill goes top-right corner */
+@media (min-width: 1024px) and (max-width: 1340px) {
+	#cdski-langDropdown { right: 200px !important; }
+}
+@media (max-width: 1023px) {
+	#cdski-langDropdown {
+		top: 14px !important;
+		right: 14px !important;
+	}
+}
+
+/* ─── Dropdown menu: refine spacing + lock to right edge of pill ─── */
+#cdski-langDropdown .cdski-menu {
+	min-width: 220px !important;
+	border-radius: 16px !important;
+	padding: 8px !important;
+	box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18),
+	            0 4px 12px rgba(15, 23, 42, 0.08) !important;
+}
+#cdski-langDropdown .cdski-menu li button {
+	padding: 9px 12px !important;
+	font-size: 13.5px !important;
+}
+#cdski-langDropdown .cdski-section {
+	padding: 10px 12px 4px !important;
+	font-size: 10px !important;
+	letter-spacing: 0.7px !important;
+}
+
+/* ─── Improve readability of the existing menu item hover bg ─── */
+header nav a[class*="hover:bg-white"]:hover {
+	background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ─── Mobile menu / hamburger: subtle blur on the overlay if present ─── */
+[class*="mobile-menu"][class*="open"],
+[class*="MobileMenu"][class*="open"],
+.cdski-mm.open {
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+}
+
+/* ─── Smooth scroll for anchor links (browser-wide is fine here) ─── */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+	html { scroll-behavior: auto; }
+	header nav a[href^="#"]::after { transition: none; }
+	header a[class*="bg-orange-500"],
+	header button[class*="bg-orange-500"] { transition: none !important; }
+}
