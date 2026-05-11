@@ -1,46 +1,67 @@
 /* ════════════════════════════════════════════════════════════
-   ClasesdeSki Hero — UI Polish v2.0
-   The hero image was swapped to a real sunny-day photo, so the
-   brightness/saturation filter and animated sun flare have been
-   removed (they would have over-processed the real image and
-   added a visibly duplicated light source).
-   What stays: lighter overlay, title glow, CTA polish, location
-   pill glass, down-arrow pulse.
+   ClasesdeSki Hero — UI Polish v2.1
+   v2.1: target the ACTUAL overlay class used by the live HTML
+   (bg-gradient-to-b from/via/to-[#0a1628]) and drastically reduce
+   its opacity so the sunny image shines through like the original.
    ════════════════════════════════════════════════════════════ */
 
-/* ─── Lighter overlay so the sunny photo actually shows through ─── */
-/* Default was bg-[#0a1628]/85 (85% dark blue) — that was masking the
-   image's natural brightness. Reduce to ~40% with a subtle vertical
-   gradient so the title remains readable but the photo dominates. */
+/* ─── Old overlay (kept for backwards compat if Next.js rebuilds it) ─── */
 div.absolute.inset-0.bg-\[\#0a1628\]\/85.backdrop-blur-\[2px\] {
 	background-color: transparent !important;
 	background-image: linear-gradient(
 		180deg,
-		rgba(15, 23, 42, 0.25) 0%,
-		rgba(15, 23, 42, 0.30) 45%,
-		rgba(15, 23, 42, 0.50) 100%
+		rgba(15, 23, 42, 0.08) 0%,
+		rgba(15, 23, 42, 0.18) 50%,
+		rgba(15, 23, 42, 0.40) 100%
 	) !important;
 	backdrop-filter: none !important;
 	-webkit-backdrop-filter: none !important;
 }
 
-/* ─── "Vive la Montana" title: orange glow on "Montana", depth on white ─── */
+/* ─── ACTUAL current overlay: bg-gradient-to-b from/via/to-[#0a1628] ─── */
+/* This is what the current Next.js build renders on the hero. Override
+   it with a much lighter gradient — almost no overlay at the top (so
+   the blue sky and sun shine), gentle midtone in the middle (so the
+   "Vive la Montaña" title is readable), and slightly stronger at the
+   bottom (so the CTAs don't disappear into snow). */
+section.relative.min-h-screen .absolute.inset-0.bg-gradient-to-b[class*="from-[#0a1628]"],
+section.relative.min-h-screen .absolute.inset-0[class*="bg-gradient"][class*="0a1628"],
+section.min-h-screen > .absolute.inset-0.bg-gradient-to-b {
+	background: linear-gradient(
+		180deg,
+		rgba(15, 23, 42, 0.05) 0%,   /* almost nothing — let sky/sun pop */
+		rgba(15, 23, 42, 0.15) 35%,
+		rgba(15, 23, 42, 0.32) 70%,
+		rgba(15, 23, 42, 0.48) 100%  /* a bit darker bottom for CTAs */
+	) !important;
+}
+
+/* Defensive: also override if a single bg-[#0a1628]/XX class is used */
+section.relative.min-h-screen .absolute.inset-0[class*="bg-[#0a1628]"]:not([class*="gradient"]) {
+	background-color: rgba(15, 23, 42, 0.18) !important;
+}
+
+/* ─── "Vive la Montaña" title: stronger text-shadow so it stays readable
+   even with the lighter overlay (depth-shadow + a subtle glow). ─── */
 section h1 .text-orange-400,
 section h2 .text-orange-400,
 section .text-orange-400 {
 	text-shadow:
-		0 0 22px rgba(251, 146, 60, 0.55),
-		0 0 6px rgba(251, 146, 60, 0.80);
+		0 0 24px rgba(251, 146, 60, 0.65),
+		0 0 8px rgba(251, 146, 60, 0.85),
+		0 2px 14px rgba(15, 23, 42, 0.55);
 }
 section h1.text-white,
 section h2.text-white,
 section h1:not([class*="text-orange"]),
 section h2:not([class*="text-orange"]) {
-	text-shadow: 0 2px 22px rgba(15, 23, 42, 0.55);
+	text-shadow:
+		0 2px 20px rgba(15, 23, 42, 0.75),
+		0 1px 4px rgba(15, 23, 42, 0.50);
 }
 section .text-white\/80,
 section .text-white\/70 {
-	text-shadow: 0 1px 8px rgba(15, 23, 42, 0.40);
+	text-shadow: 0 1px 10px rgba(15, 23, 42, 0.55);
 }
 
 /* ─── Primary CTA "Reserva Tu Clase": lift + orange glow on hover ─── */
@@ -76,12 +97,12 @@ section button[class*="border-white"][class*="rounded-full"]:not(header *):hover
 	transform: translateY(-2px);
 }
 
-/* ─── Location pill "Valle Nevado . El Colorado . La Parva" ─── */
+/* ─── Location pill "Valle Nevado · El Colorado · La Parva" ─── */
 section :is(div, span)[class*="rounded-full"]:has(.text-orange-400) {
 	background: rgba(255, 255, 255, 0.10) !important;
 	backdrop-filter: saturate(140%) blur(8px) !important;
 	-webkit-backdrop-filter: saturate(140%) blur(8px) !important;
-	border: 1px solid rgba(249, 115, 22, 0.25) !important;
+	border: 1px solid rgba(249, 115, 22, 0.30) !important;
 	box-shadow: 0 4px 16px rgba(15, 23, 42, 0.25);
 }
 
@@ -97,7 +118,7 @@ section [class*="animate-bounce"] {
 }
 
 /* ─── Hero parent gets clear stacking context ─── */
-section:has(> div.absolute.bg-cover.bg-fixed) {
+section:has(> div.absolute.bg-cover) {
 	position: relative !important;
 	isolation: isolate;
 }
