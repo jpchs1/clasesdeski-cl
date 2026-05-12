@@ -1,0 +1,46 @@
+/* ════════════════════════════════════════════════════════════
+   ClasesdeSki Gallery (#gallery) — image fit fix v1.0
+   Fixes: gallery cards have aspect-square or aspect-[4/3] but the
+   wide sunny images (1920x940) don't fill the card — only the top
+   half, leaving a white gap below. Force the img to fill its
+   container with object-fit: cover.
+   ════════════════════════════════════════════════════════════ */
+
+/* Force every gallery image to fill its containing aspect box */
+#gallery [class*="aspect-square"] img,
+#gallery [class*="aspect-["] img,
+#gallery .relative.overflow-hidden img,
+#gallery div[class*="rounded-2xl"] img {
+	position: absolute !important;
+	inset: 0 !important;
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover !important;
+	object-position: center !important;
+}
+
+/* Subtle hover zoom on each gallery image */
+#gallery .group:hover img {
+	transform: scale(1.06);
+	transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure the gradient label overlay (Ski Group Lessons, etc.) stays on top */
+#gallery .absolute.bottom-0,
+#gallery [class*="from-black"] {
+	z-index: 2;
+}
+
+/* Loading skeleton bg while image loads (prevents flash of white) */
+#gallery [class*="aspect-square"],
+#gallery [class*="aspect-["],
+#gallery .relative.overflow-hidden {
+	background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+}
+
+/* A11y */
+@media (prefers-reduced-motion: reduce) {
+	#gallery .group:hover img {
+		transform: none;
+	}
+}
