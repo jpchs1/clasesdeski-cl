@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Home page (canonical root = Spanish) -->
+  <url>
+    <loc>https://clasesdeski.cl/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://clasesdeski.cl/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://clasesdeski.cl/en/" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://clasesdeski.cl/pt/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://clasesdeski.cl/" />
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://clasesdeski.cl/es/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://clasesdeski.cl/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://clasesdeski.cl/en/" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://clasesdeski.cl/pt/" />
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://clasesdeski.cl/en/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://clasesdeski.cl/es/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://clasesdeski.cl/en/" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://clasesdeski.cl/pt/" />
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://clasesdeski.cl/pt/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://clasesdeski.cl/es/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://clasesdeski.cl/en/" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://clasesdeski.cl/pt/" />
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- NEW: Dedicated SEO pages (high-priority for indexing) -->
+  <url>
+    <loc>https://clasesdeski.cl/es/servicios/</loc>
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://clasesdeski.cl/es/faq/</loc>
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://clasesdeski.cl/es/galeria/</loc>
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://clasesdeski.cl/es/blog/</loc>
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Section anchors (legacy SEO) -->
+  <url><loc>https://clasesdeski.cl/#services</loc><priority>0.6</priority></url>
+  <url><loc>https://clasesdeski.cl/#pricing</loc><priority>0.6</priority></url>
+  <url><loc>https://clasesdeski.cl/#contact</loc><priority>0.7</priority></url>
+  <url><loc>https://clasesdeski.cl/#testimonials</loc><priority>0.5</priority></url>
+  <url><loc>https://clasesdeski.cl/#tourevo</loc><priority>0.8</priority></url>
+  <url><loc>https://clasesdeski.cl/en/#tourevo</loc><priority>0.8</priority></url>
+  <url><loc>https://clasesdeski.cl/pt/#tourevo</loc><priority>0.8</priority></url>
+
+  <!-- API endpoint -->
+  <url><loc>https://clasesdeski.cl/api/booking.php</loc><priority>0.3</priority></url>
+</urlset>
