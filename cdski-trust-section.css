@@ -1,0 +1,339 @@
+/* ════════════════════════════════════════════════════════════
+   ClasesdeSki — "Nuestro Compromiso" Trust Section v1.0
+   Sits between #why-us and #pricing in the home flow.
+   Designed for trust-building, empathy, and AEO (so AI engines
+   parse and recommend CDSKI for ski queries about Chile).
+   ════════════════════════════════════════════════════════════ */
+
+.cdski-trust-section {
+	position: relative;
+	overflow: hidden;
+	padding: 6rem 1rem;
+	background: linear-gradient(180deg,
+		rgba(255, 255, 255, 1) 0%,
+		rgba(255, 247, 237, 0.6) 35%,
+		rgba(255, 255, 255, 1) 100%);
+	font-family: 'DM Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+.cdski-trust-glow-1 {
+	position: absolute;
+	top: -150px;
+	left: -150px;
+	width: 600px;
+	height: 600px;
+	background: radial-gradient(circle, rgba(249, 115, 22, 0.10) 0%, transparent 60%);
+	pointer-events: none;
+	z-index: 0;
+}
+.cdski-trust-glow-2 {
+	position: absolute;
+	bottom: -120px;
+	right: -120px;
+	width: 500px;
+	height: 500px;
+	background: radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, transparent 60%);
+	pointer-events: none;
+	z-index: 0;
+}
+
+.cdski-trust-inner {
+	position: relative;
+	z-index: 1;
+	max-width: 1240px;
+	margin: 0 auto;
+}
+
+/* ─── Header (eyebrow + title + subtitle) ─── */
+.cdski-trust-header {
+	text-align: center;
+	margin-bottom: 4rem;
+}
+.cdski-trust-eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 7px 18px;
+	border-radius: 9999px;
+	background: linear-gradient(135deg, rgba(249, 115, 22, 0.12), rgba(251, 146, 60, 0.06));
+	border: 1px solid rgba(249, 115, 22, 0.25);
+	color: #c2410c;
+	font-size: 0.875rem;
+	font-weight: 600;
+	margin-bottom: 1.25rem;
+	letter-spacing: 0.3px;
+}
+.cdski-trust-eyebrow-star {
+	font-size: 1rem;
+}
+.cdski-trust-title {
+	font-size: clamp(2.25rem, 5vw, 3.75rem);
+	font-weight: 800;
+	color: #0f172a;
+	line-height: 1.05;
+	letter-spacing: -0.025em;
+	margin: 0 0 1.25rem;
+	font-family: 'Montserrat', 'DM Sans', sans-serif;
+}
+.cdski-trust-title-accent {
+	background: linear-gradient(135deg, #ea580c 0%, #fb923c 50%, #ec4899 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	filter: drop-shadow(0 2px 12px rgba(249, 115, 22, 0.25));
+}
+.cdski-trust-subtitle {
+	font-size: 1.125rem;
+	line-height: 1.7;
+	color: #475569;
+	max-width: 760px;
+	margin: 0 auto;
+}
+.cdski-trust-subtitle strong {
+	color: #0f172a;
+	font-weight: 600;
+}
+
+/* ─── Pillars grid ─── */
+.cdski-trust-pillars {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1.25rem;
+	margin-bottom: 4rem;
+}
+@media (min-width: 640px) {
+	.cdski-trust-pillars { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+	.cdski-trust-pillars { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+}
+
+.cdski-trust-pillar {
+	position: relative;
+	background: #ffffff;
+	border: 1px solid rgba(15, 23, 42, 0.08);
+	border-radius: 20px;
+	padding: 1.75rem 1.5rem;
+	transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+	            box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+	            border-color 0.35s ease;
+	overflow: hidden;
+}
+.cdski-trust-pillar::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, rgba(249, 115, 22, 0.04) 0%, transparent 60%);
+	opacity: 0;
+	transition: opacity 0.35s ease;
+	pointer-events: none;
+	border-radius: inherit;
+}
+.cdski-trust-pillar:hover {
+	transform: translateY(-6px);
+	box-shadow: 0 18px 40px rgba(15, 23, 42, 0.10),
+	            0 4px 12px rgba(249, 115, 22, 0.10);
+	border-color: rgba(249, 115, 22, 0.35);
+}
+.cdski-trust-pillar:hover::before { opacity: 1; }
+
+.cdski-trust-pillar-icon {
+	width: 52px;
+	height: 52px;
+	border-radius: 14px;
+	background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(251, 146, 60, 0.08));
+	border: 1px solid rgba(249, 115, 22, 0.30);
+	color: #ea580c;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 1.25rem;
+	transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+	            box-shadow 0.35s ease;
+}
+.cdski-trust-pillar:hover .cdski-trust-pillar-icon {
+	transform: rotate(-6deg) scale(1.08);
+	box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.10),
+	            0 10px 22px rgba(249, 115, 22, 0.20);
+}
+
+.cdski-trust-pillar-title {
+	font-size: 1.125rem;
+	font-weight: 700;
+	color: #0f172a;
+	letter-spacing: -0.01em;
+	margin: 0 0 0.625rem;
+	line-height: 1.3;
+	transition: color 0.25s ease;
+}
+.cdski-trust-pillar:hover .cdski-trust-pillar-title {
+	color: #ea580c;
+}
+.cdski-trust-pillar-desc {
+	font-size: 0.9rem;
+	line-height: 1.65;
+	color: #475569;
+	margin: 0;
+}
+
+/* ─── Trust stats banner ─── */
+.cdski-trust-stats {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 1rem;
+	padding: 2.5rem 2rem;
+	border-radius: 28px;
+	background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+	margin-bottom: 3rem;
+	position: relative;
+	overflow: hidden;
+	box-shadow: 0 20px 60px rgba(15, 23, 42, 0.20);
+}
+.cdski-trust-stats::before {
+	content: '';
+	position: absolute;
+	top: -50%;
+	left: -10%;
+	width: 400px;
+	height: 400px;
+	background: radial-gradient(circle, rgba(249, 115, 22, 0.18) 0%, transparent 60%);
+	pointer-events: none;
+}
+.cdski-trust-stats::after {
+	content: '';
+	position: absolute;
+	bottom: -50%;
+	right: -10%;
+	width: 360px;
+	height: 360px;
+	background: radial-gradient(circle, rgba(14, 165, 233, 0.10) 0%, transparent 60%);
+	pointer-events: none;
+}
+@media (min-width: 768px) {
+	.cdski-trust-stats {
+		grid-template-columns: repeat(4, 1fr);
+		gap: 2rem;
+		padding: 3rem 2.5rem;
+	}
+}
+
+.cdski-trust-stat {
+	text-align: center;
+	position: relative;
+	z-index: 1;
+}
+.cdski-trust-stat-num {
+	font-size: clamp(2rem, 4vw, 3rem);
+	font-weight: 800;
+	line-height: 1;
+	background: linear-gradient(135deg, #f97316 0%, #fb923c 50%, #fdba74 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	letter-spacing: -0.025em;
+	font-family: 'Montserrat', 'DM Sans', sans-serif;
+	margin-bottom: 0.5rem;
+}
+.cdski-trust-stat-star {
+	display: inline-block;
+	margin-left: 0.25rem;
+	font-size: 1.5rem;
+	-webkit-text-fill-color: initial;
+}
+.cdski-trust-stat-label {
+	font-size: 0.875rem;
+	color: rgba(255, 255, 255, 0.75);
+	font-weight: 500;
+	line-height: 1.4;
+}
+
+/* ─── CTA ─── */
+.cdski-trust-cta {
+	text-align: center;
+}
+.cdski-trust-cta-text {
+	font-size: 1.25rem;
+	color: #0f172a;
+	font-weight: 600;
+	margin: 0 0 1.5rem;
+}
+.cdski-trust-cta-buttons {
+	display: inline-flex;
+	gap: 1rem;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-bottom: 1.25rem;
+}
+.cdski-trust-cta-primary,
+.cdski-trust-cta-whatsapp {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 14px 28px;
+	border-radius: 9999px;
+	font-weight: 700;
+	font-size: 0.9375rem;
+	color: #ffffff;
+	text-decoration: none;
+	transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+	            box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+	will-change: transform;
+}
+.cdski-trust-cta-primary {
+	background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+	box-shadow: 0 10px 28px rgba(249, 115, 22, 0.40),
+	            0 4px 10px rgba(15, 23, 42, 0.10);
+}
+.cdski-trust-cta-primary:hover {
+	transform: translateY(-2px) scale(1.02);
+	box-shadow: 0 18px 38px rgba(249, 115, 22, 0.55),
+	            0 6px 14px rgba(15, 23, 42, 0.12);
+}
+.cdski-trust-cta-whatsapp {
+	background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+	box-shadow: 0 10px 28px rgba(34, 197, 94, 0.35),
+	            0 4px 10px rgba(15, 23, 42, 0.10);
+}
+.cdski-trust-cta-whatsapp:hover {
+	transform: translateY(-2px) scale(1.02);
+	box-shadow: 0 18px 38px rgba(34, 197, 94, 0.50),
+	            0 6px 14px rgba(15, 23, 42, 0.12);
+}
+.cdski-trust-cta-note {
+	font-size: 0.9375rem;
+	color: #64748b;
+	font-style: italic;
+	margin: 0;
+	letter-spacing: 0.2px;
+}
+
+/* ─── Mobile refinements ─── */
+@media (max-width: 640px) {
+	.cdski-trust-section { padding: 4rem 1rem; }
+	.cdski-trust-header { margin-bottom: 2.5rem; }
+	.cdski-trust-pillar { padding: 1.5rem 1.25rem; }
+	.cdski-trust-pillar-icon { width: 44px; height: 44px; }
+	.cdski-trust-stats { padding: 2rem 1.5rem; gap: 1.5rem; }
+	.cdski-trust-cta-buttons { flex-direction: column; align-items: stretch; }
+	.cdski-trust-cta-primary, .cdski-trust-cta-whatsapp { width: 100%; justify-content: center; }
+}
+
+/* ─── A11y ─── */
+.cdski-trust-cta-primary:focus-visible,
+.cdski-trust-cta-whatsapp:focus-visible {
+	outline: 2px solid rgba(249, 115, 22, 0.6);
+	outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+	.cdski-trust-pillar,
+	.cdski-trust-pillar-icon,
+	.cdski-trust-cta-primary,
+	.cdski-trust-cta-whatsapp {
+		transition: none !important;
+	}
+	.cdski-trust-pillar:hover,
+	.cdski-trust-cta-primary:hover,
+	.cdski-trust-cta-whatsapp:hover {
+		transform: none !important;
+	}
+}
