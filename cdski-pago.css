@@ -1,358 +1,413 @@
 /* ════════════════════════════════════════════════════════════
-   ClasesdeSki — Portal de Pago (v1.0)
+   ClasesdeSki — Portal de Pago v2.0  (Super PRO UI/UX)
    ════════════════════════════════════════════════════════════ */
 
 :root {
-  --cdski-orange: #f97316;
-  --cdski-orange-dark: #ea580c;
-  --cdski-orange-light: #fb923c;
-  --cdski-ink: #0f172a;
-  --cdski-muted: #475569;
-  --cdski-line: rgba(15, 23, 42, 0.10);
-  --cdski-bg: #fff7ed;
+  --c-orange:        #f97316;
+  --c-orange-dark:   #ea580c;
+  --c-orange-darker: #c2410c;
+  --c-orange-light:  #fb923c;
+  --c-orange-50:     #fff7ed;
+  --c-orange-100:    #ffedd5;
+  --c-ink:           #0f172a;
+  --c-ink-2:         #1e293b;
+  --c-muted:         #475569;
+  --c-muted-2:       #64748b;
+  --c-line:          rgba(15, 23, 42, 0.08);
+  --c-line-strong:   rgba(15, 23, 42, 0.14);
+  --c-bg:            #fafaf9;
+  --c-card:          #ffffff;
+  --c-success:       #10b981;
+  --c-error:         #ef4444;
+  --c-info:          #3b82f6;
+  --shadow-sm:       0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md:       0 4px 16px rgba(15, 23, 42, 0.06), 0 1px 4px rgba(15, 23, 42, 0.04);
+  --shadow-lg:       0 14px 40px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.04);
+  --shadow-orange:   0 10px 30px rgba(249, 115, 22, 0.30);
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 20px;
+  --r-xl: 28px;
 }
 
 * { box-sizing: border-box; }
+*:focus-visible { outline: 2px solid var(--c-orange); outline-offset: 2px; border-radius: 4px; }
 
-html, body {
+html { scroll-behavior: smooth; }
+
+.cdski-pago-body {
   margin: 0;
   font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
-  background: linear-gradient(180deg, var(--cdski-bg) 0%, #ffffff 60%);
-  color: var(--cdski-ink);
+  background: var(--c-bg);
+  color: var(--c-ink);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-a { color: var(--cdski-orange-dark); text-decoration: none; }
-a:hover { text-decoration: underline; }
+a { color: var(--c-orange-dark); text-decoration: none; transition: color 0.15s ease; }
+a:hover { color: var(--c-orange-darker); text-decoration: underline; }
 
 .cdski-pago-topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
   padding: 14px 24px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--cdski-line);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--c-line);
   position: sticky;
   top: 0;
   z-index: 100;
 }
-.cdski-pago-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 800;
-  color: var(--cdski-ink);
-  font-size: 1.1rem;
-  letter-spacing: -0.02em;
+.cdski-pago-brand { display: inline-flex; align-items: center; gap: 12px; color: var(--c-ink); text-decoration: none !important; }
+.cdski-pago-brand img { height: 34px; width: auto; }
+.cdski-pago-brand-name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.15rem; letter-spacing: -0.025em; }
+.cdski-pago-brand-tag {
+  font-size: 0.7rem; font-weight: 600; color: var(--c-muted);
+  padding: 3px 8px; background: var(--c-orange-50);
+  border: 1px solid var(--c-orange-100); border-radius: 9999px;
+  letter-spacing: 0.3px; text-transform: uppercase;
 }
-.cdski-pago-brand img { height: 32px; width: auto; }
+.cdski-pago-topbar-nav { display: inline-flex; align-items: center; gap: 8px; }
+.cdski-pago-topbar-link,
 .cdski-pago-back {
-  font-size: 0.875rem;
-  color: var(--cdski-muted);
-  font-weight: 600;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; font-size: 0.85rem; font-weight: 600;
+  border-radius: 9999px; color: var(--c-ink);
+  background: transparent; border: 1px solid var(--c-line);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  text-decoration: none !important;
 }
-
-.cdski-pago-main {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 36px 24px 48px;
+.cdski-pago-topbar-link { color: #25d366; }
+.cdski-pago-topbar-link:hover { background: rgba(37, 211, 102, 0.08); border-color: rgba(37, 211, 102, 0.30); }
+.cdski-pago-back:hover { background: var(--c-orange-50); border-color: var(--c-orange-100); color: var(--c-orange-dark); }
+@media (max-width: 600px) {
+  .cdski-pago-brand-tag { display: none; }
+  .cdski-pago-topbar-link span { display: none; }
 }
 
 .cdski-pago-hero {
-  text-align: center;
-  margin-bottom: 32px;
   position: relative;
+  padding: 56px 24px 80px;
+  background:
+    radial-gradient(1200px 400px at 30% -10%, rgba(249, 115, 22, 0.20), transparent 60%),
+    radial-gradient(800px 300px at 80% 10%, rgba(251, 146, 60, 0.15), transparent 60%),
+    linear-gradient(180deg, #1a1a2e 0%, #0f0f1e 60%, #1a1a2e 100%);
+  color: #ffffff;
+  overflow: hidden;
+  text-align: center;
 }
+.cdski-pago-hero-aurora {
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, transparent 0%, rgba(249, 115, 22, 0.30) 15%, rgba(251, 146, 60, 0.80) 35%, rgba(249, 115, 22, 1) 50%, rgba(251, 146, 60, 0.80) 65%, rgba(249, 115, 22, 0.30) 85%, transparent 100%);
+  box-shadow: 0 0 28px rgba(249, 115, 22, 0.70); z-index: 2;
+}
+.cdski-pago-hero-stars {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(2px 2px at 20% 20%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 55% 35%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 85% 25%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 35% 65%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(2px 2px at 75% 55%, rgba(255, 255, 255, 0.4), transparent);
+  pointer-events: none; opacity: 0.6;
+}
+.cdski-pago-hero-content { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; }
 .cdski-pago-eyebrow {
-  display: inline-block;
-  padding: 6px 16px;
-  border-radius: 9999px;
-  background: rgba(249, 115, 22, 0.10);
-  border: 1px solid rgba(249, 115, 22, 0.25);
-  color: var(--cdski-orange-dark);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  margin-bottom: 12px;
-  letter-spacing: 0.3px;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 16px; border-radius: 9999px;
+  background: rgba(249, 115, 22, 0.18); border: 1px solid rgba(249, 115, 22, 0.45);
+  color: #fdba74; font-size: 0.78rem; font-weight: 700;
+  margin-bottom: 18px; letter-spacing: 0.5px; text-transform: uppercase;
 }
-.cdski-pago-title {
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(2rem, 4.5vw, 2.75rem);
-  font-weight: 800;
-  margin: 0 0 12px;
-  letter-spacing: -0.025em;
-  line-height: 1.1;
+.cdski-pago-hero-title {
+  font-family: 'Montserrat', sans-serif; font-size: clamp(2.25rem, 5.5vw, 3.5rem);
+  font-weight: 900; margin: 0 0 14px; letter-spacing: -0.03em; line-height: 1.05;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.30);
+  background: linear-gradient(135deg, #ffffff 0%, #fed7aa 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-.cdski-pago-subtitle {
-  color: var(--cdski-muted);
-  font-size: 1.05rem;
-  max-width: 640px;
-  margin: 0 auto;
+.cdski-pago-hero-subtitle { color: rgba(255, 255, 255, 0.85); font-size: 1.1rem; max-width: 580px; margin: 0 auto 22px; line-height: 1.5; }
+.cdski-pago-hero-subtitle strong { color: #ffffff; font-weight: 700; }
+.cdski-pago-hero-badges { display: inline-flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.cdski-pago-hero-badge {
+  display: inline-block; padding: 5px 12px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;
+  background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.20);
+  color: #ffffff; border-radius: 6px; backdrop-filter: blur(4px);
 }
-.cdski-pago-subtitle strong { color: var(--cdski-ink); font-weight: 700; }
+.cdski-pago-hero-mountains { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 90px; display: block; pointer-events: none; }
 
-.cdski-pago-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-  margin-bottom: 32px;
+.cdski-pago-main { max-width: 1180px; margin: -32px auto 0; padding: 0 24px 48px; position: relative; z-index: 5; }
+
+.cdski-pago-stepper {
+  display: flex; align-items: center; justify-content: center; gap: 0;
+  margin-bottom: 32px; padding: 16px 12px;
+  background: var(--c-card); border-radius: var(--r-lg);
+  box-shadow: var(--shadow-md); border: 1px solid var(--c-line);
 }
-@media (min-width: 900px) {
-  .cdski-pago-grid {
-    grid-template-columns: 1.2fr 1fr;
-    gap: 32px;
-  }
+.cdski-step { display: inline-flex; align-items: center; gap: 10px; padding: 6px 12px; transition: opacity 0.3s ease; opacity: 0.5; }
+.cdski-step.is-active { opacity: 1; }
+.cdski-step.is-complete { opacity: 1; }
+.cdski-step-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(15, 23, 42, 0.08); color: var(--c-muted);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 0.95rem;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease; position: relative;
+}
+.cdski-step.is-active .cdski-step-num {
+  background: linear-gradient(135deg, var(--c-orange), var(--c-orange-dark));
+  color: #ffffff; box-shadow: 0 4px 14px rgba(249, 115, 22, 0.40); transform: scale(1.08);
+}
+.cdski-step.is-complete .cdski-step-num { background: linear-gradient(135deg, var(--c-success), #059669); color: #ffffff; }
+.cdski-step-check { display: none; }
+.cdski-step.is-complete .cdski-step-check { display: block; }
+.cdski-step.is-complete .cdski-step-numtext { display: none; }
+.cdski-step-label { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.875rem; color: var(--c-ink); letter-spacing: -0.01em; }
+.cdski-step-line { flex: 0 0 60px; height: 2px; background: rgba(15, 23, 42, 0.08); border-radius: 2px; transition: background 0.3s ease; }
+.cdski-step-line.is-complete { background: linear-gradient(90deg, var(--c-success), #059669); }
+@media (max-width: 640px) {
+  .cdski-step-label { display: none; }
+  .cdski-step-line { flex: 0 0 30px; }
+  .cdski-pago-stepper { padding: 12px; }
+}
+
+.cdski-pago-grid-main { display: grid; grid-template-columns: 1fr; gap: 22px; margin-bottom: 36px; }
+@media (min-width: 960px) {
+  .cdski-pago-grid-main { grid-template-columns: 1fr 360px; gap: 28px; align-items: start; }
 }
 
 .cdski-pago-card {
-  background: #ffffff;
-  border: 1px solid var(--cdski-line);
-  border-radius: 20px;
-  padding: 28px;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  background: var(--c-card); border: 1px solid var(--c-line);
+  border-radius: var(--r-xl); padding: 28px;
+  box-shadow: var(--shadow-md); transition: box-shadow 0.3s ease;
 }
-.cdski-pago-card-title {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin: 0 0 20px;
-  color: var(--cdski-ink);
-  letter-spacing: -0.01em;
+.cdski-pago-card:hover { box-shadow: var(--shadow-lg); }
+.cdski-pago-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; gap: 16px; }
+.cdski-pago-card-title { font-family: 'Montserrat', sans-serif; font-size: 1.25rem; font-weight: 800; margin: 0; color: var(--c-ink); letter-spacing: -0.015em; }
+.cdski-pago-card-tag {
+  font-size: 0.7rem; font-weight: 700; color: var(--c-orange-dark);
+  background: var(--c-orange-50); border: 1px solid var(--c-orange-100);
+  padding: 3px 10px; border-radius: 9999px; letter-spacing: 0.4px; text-transform: uppercase;
 }
 
-.cdski-pago-row {
-  margin-bottom: 16px;
+.cdski-pago-grid-form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 4px; }
+.cdski-pago-field { display: flex; flex-direction: column; }
+.cdski-pago-field-full { grid-column: 1 / -1; }
+@media (max-width: 640px) { .cdski-pago-grid-form { grid-template-columns: 1fr; } }
+
+.cdski-pago-field label {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.825rem; font-weight: 700; color: var(--c-ink);
+  margin-bottom: 7px; letter-spacing: -0.005em;
 }
-.cdski-pago-row label {
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--cdski-ink);
-  margin-bottom: 6px;
+.req { color: var(--c-orange); font-weight: 700; }
+.opt { font-size: 0.72rem; font-weight: 600; color: var(--c-muted-2); margin-left: 4px; }
+.cdski-pago-currency-tag {
+  font-size: 0.7rem; font-weight: 800; color: var(--c-orange-dark);
+  background: var(--c-orange-50); border: 1px solid var(--c-orange-100);
+  padding: 2px 8px; border-radius: 6px; letter-spacing: 0.5px;
 }
-.req { color: var(--cdski-orange); }
-.cdski-pago-currency-label {
-  font-size: 0.8rem;
-  color: var(--cdski-muted);
-  font-weight: 500;
-  margin-left: 4px;
+
+.cdski-pago-input-wrap { position: relative; display: flex; align-items: center; }
+.cdski-pago-input-icon { position: absolute; left: 12px; color: var(--c-muted-2); pointer-events: none; transition: color 0.2s ease; }
+.cdski-pago-input-wrap input,
+.cdski-pago-field textarea {
+  width: 100%; padding: 11px 14px 11px 40px;
+  border: 1.5px solid var(--c-line-strong); border-radius: var(--r-md);
+  font-size: 0.95rem; font-family: inherit; color: var(--c-ink); background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
-.cdski-pago-row input,
-.cdski-pago-row textarea {
-  width: 100%;
-  padding: 11px 14px;
-  border: 1.5px solid var(--cdski-line);
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-family: inherit;
-  color: var(--cdski-ink);
-  background: #ffffff;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+.cdski-pago-field textarea { padding: 11px 14px; resize: vertical; min-height: 62px; }
+.cdski-pago-input-wrap input:hover, .cdski-pago-field textarea:hover { border-color: rgba(249, 115, 22, 0.40); }
+.cdski-pago-input-wrap input:focus, .cdski-pago-field textarea:focus {
+  outline: none; border-color: var(--c-orange); background: var(--c-orange-50);
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12);
 }
-.cdski-pago-row input:focus,
-.cdski-pago-row textarea:focus {
-  outline: none;
-  border-color: var(--cdski-orange);
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+.cdski-pago-input-wrap:focus-within .cdski-pago-input-icon { color: var(--c-orange-dark); }
+
+.cdski-pago-field.has-error .cdski-pago-input-wrap input,
+.cdski-pago-field.has-error textarea { border-color: var(--c-error); background: #fef2f2; }
+.cdski-pago-field.has-error .cdski-pago-field-error { display: block; }
+.cdski-pago-field-error { display: none; margin-top: 6px; font-size: 0.75rem; font-weight: 600; color: var(--c-error); }
+.cdski-pago-field-hint { margin-top: 6px; font-size: 0.78rem; color: var(--c-muted); }
+
+.cdski-pago-input-wrap-amount .cdski-pago-input-prefix {
+  position: absolute; left: 14px; font-weight: 800; font-size: 1.05rem; color: var(--c-orange-dark); z-index: 1;
 }
-.cdski-pago-row textarea {
-  resize: vertical;
-  min-height: 60px;
-}
-.cdski-pago-help {
-  display: block;
-  margin-top: 6px;
-  color: var(--cdski-muted);
-  font-size: 0.8125rem;
-}
-.cdski-pago-help code {
-  background: rgba(15, 23, 42, 0.05);
-  padding: 1px 6px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-}
+.cdski-pago-input-wrap-amount input { padding-left: 38px; font-size: 1.1rem; font-weight: 700; }
+
 .cdski-pago-terms {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-top: 14px;
-  font-size: 0.875rem;
-  color: var(--cdski-muted);
-  line-height: 1.5;
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-top: 20px; padding: 14px 16px;
+  background: var(--c-orange-50); border: 1px solid var(--c-orange-100);
+  border-radius: var(--r-md); font-size: 0.85rem; color: var(--c-muted); line-height: 1.55;
 }
-.cdski-pago-terms input { margin-top: 3px; }
+.cdski-pago-terms input { margin-top: 3px; accent-color: var(--c-orange); width: 16px; height: 16px; }
 
-.cdski-pago-methods { display: flex; flex-direction: column; }
+.cdski-pago-summary-card { background: linear-gradient(180deg, #ffffff 0%, var(--c-orange-50) 100%); border: 1px solid var(--c-orange-100); }
+@media (min-width: 960px) { .cdski-pago-summary-card { position: sticky; top: 92px; } }
+.cdski-pago-summary-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.cdski-pago-summary-secure {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 0.7rem; font-weight: 700; color: var(--c-success);
+  background: rgba(16, 185, 129, 0.10); padding: 3px 8px; border-radius: 9999px;
+  letter-spacing: 0.4px; text-transform: uppercase;
+}
+.cdski-pago-summary-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 12px; }
+.cdski-pago-summary-label { font-size: 0.78rem; font-weight: 600; color: var(--c-muted); text-transform: uppercase; letter-spacing: 0.4px; flex-shrink: 0; }
+.cdski-pago-summary-value { font-size: 0.9rem; font-weight: 600; color: var(--c-ink); text-align: right; word-break: break-word; max-width: 60%; }
+.cdski-pago-summary-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--c-line-strong), transparent); margin: 14px 0; }
+.cdski-pago-summary-total { display: flex; justify-content: space-between; align-items: flex-end; padding: 4px 0; }
+.cdski-pago-summary-total .cdski-pago-summary-label { color: var(--c-ink); font-size: 0.85rem; font-weight: 800; }
+.cdski-pago-summary-amount { font-family: 'Montserrat', sans-serif; font-size: 1.85rem; font-weight: 900; color: var(--c-orange-dark); line-height: 1; letter-spacing: -0.025em; }
+.cdski-pago-summary-amount small { font-size: 0.7rem; font-weight: 700; color: var(--c-muted); margin-left: 4px; letter-spacing: 0.4px; }
+.cdski-pago-summary-conversion { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding: 8px 12px; background: rgba(255, 255, 255, 0.7); border-radius: var(--r-sm); border: 1px dashed var(--c-orange-100); }
+.cdski-pago-summary-conversion-label { font-size: 0.72rem; font-weight: 600; color: var(--c-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+.cdski-pago-summary-conversion-value { font-weight: 800; color: var(--c-ink); font-size: 0.9rem; }
+.cdski-pago-summary-trust { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+.cdski-pago-trust-row { display: flex; align-items: center; gap: 7px; font-size: 0.78rem; color: var(--c-muted); }
+.cdski-pago-trust-row svg { color: var(--c-success); flex-shrink: 0; }
+.cdski-pago-summary-help { margin-top: 14px; padding: 12px; background: rgba(255, 255, 255, 0.7); border-radius: var(--r-sm); font-size: 0.8rem; text-align: center; color: var(--c-muted); border: 1px solid var(--c-orange-100); }
+.cdski-pago-summary-help strong { display: block; color: var(--c-ink); margin-bottom: 2px; font-size: 0.82rem; }
+.cdski-pago-summary-help a { color: var(--c-orange-dark); font-weight: 700; }
 
-.cdski-pago-method {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: 100%;
-  padding: 14px 16px;
-  margin-bottom: 12px;
-  border: 1.5px solid var(--cdski-line);
-  border-radius: 14px;
-  background: #ffffff;
-  text-align: left;
+.cdski-pago-methods-section { margin-bottom: 36px; }
+.cdski-pago-section-head { text-align: center; margin-bottom: 24px; }
+.cdski-pago-section-title { font-family: 'Montserrat', sans-serif; font-size: clamp(1.5rem, 3vw, 1.875rem); font-weight: 800; margin: 0 0 8px; color: var(--c-ink); letter-spacing: -0.02em; }
+.cdski-pago-section-sub { color: var(--c-muted); font-size: 0.95rem; margin: 0; }
+
+.cdski-pago-methods-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+@media (min-width: 768px) { .cdski-pago-methods-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+
+.cdski-pago-method-card {
+  position: relative; display: flex; flex-direction: column; align-items: center;
+  text-align: center; width: 100%; padding: 24px 22px 22px;
+  background: var(--c-card); border: 2px solid var(--c-line); border-radius: var(--r-xl);
   cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-  font-family: inherit;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  font-family: inherit; overflow: hidden;
 }
-.cdski-pago-method:hover {
-  transform: translateY(-2px);
-  border-color: var(--cdski-orange-light);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+.cdski-pago-method-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 0%, rgba(249, 115, 22, 0.04) 100%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+.cdski-pago-method-card:hover { transform: translateY(-4px); border-color: rgba(249, 115, 22, 0.40); box-shadow: var(--shadow-lg); }
+.cdski-pago-method-card:hover::before { opacity: 1; }
+.cdski-pago-method-card.is-active {
+  transform: translateY(-4px); border-color: var(--c-orange);
+  box-shadow: 0 16px 40px rgba(249, 115, 22, 0.25), 0 4px 12px rgba(249, 115, 22, 0.12);
+  background: linear-gradient(180deg, #ffffff 0%, var(--c-orange-50) 100%);
 }
-.cdski-pago-method.is-active {
-  border-color: var(--cdski-orange);
-  background: linear-gradient(135deg, #ffffff, #fff7ed);
-  box-shadow: 0 8px 24px rgba(249, 115, 22, 0.20);
+.cdski-pago-method-card.is-active::before { opacity: 1; }
+.cdski-pago-method-featured { border-color: rgba(249, 115, 22, 0.50); background: linear-gradient(180deg, #ffffff 0%, rgba(255, 247, 237, 0.6) 100%); position: relative; }
+.cdski-pago-method-featured::after {
+  content: ''; position: absolute; top: -2px; right: -2px; bottom: -2px; left: -2px;
+  border-radius: var(--r-xl); background: linear-gradient(135deg, rgba(249, 115, 22, 0.30), transparent 50%);
+  z-index: -1; filter: blur(8px); opacity: 0.6;
 }
-.cdski-pago-method[data-highlight="true"] {
-  border-color: rgba(249, 115, 22, 0.40);
+.cdski-pago-method-badge {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--c-orange), var(--c-orange-dark));
+  color: #ffffff; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.5px;
+  padding: 4px 12px; border-radius: 9999px; text-transform: uppercase;
+  box-shadow: 0 4px 10px rgba(249, 115, 22, 0.40); white-space: nowrap; z-index: 1;
 }
-.cdski-pago-method-logo {
-  width: 64px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.cdski-pago-method-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.cdski-pago-method-body strong {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--cdski-ink);
-}
-.cdski-pago-method-body small {
-  font-size: 0.78rem;
-  color: var(--cdski-muted);
-}
-.cdski-pago-method-flag {
-  font-size: 0.85rem;
-  letter-spacing: 1px;
-  flex-shrink: 0;
-}
-.badge-intl {
-  display: inline-block;
-  font-size: 0.65rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--cdski-orange), var(--cdski-orange-light));
-  color: #ffffff;
-  padding: 1px 7px;
-  border-radius: 9999px;
-  vertical-align: middle;
-  margin-left: 4px;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-}
+.cdski-pago-method-featured { padding-top: 36px; }
 
-.cdski-pago-cta {
-  margin-top: 8px;
-  width: 100%;
-  padding: 14px 20px;
-  border: 0;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--cdski-orange), var(--cdski-orange-dark));
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 1rem;
-  font-family: inherit;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
-  box-shadow: 0 8px 24px rgba(249, 115, 22, 0.30);
-}
-.cdski-pago-cta:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(249, 115, 22, 0.40);
-}
-.cdski-pago-cta:disabled {
-  background: rgba(15, 23, 42, 0.20);
-  cursor: not-allowed;
-  box-shadow: none;
-}
-.cdski-pago-cta-link {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 10px 20px;
-  border-radius: 9999px;
-  background: var(--cdski-orange);
-  color: #ffffff !important;
-  font-weight: 700;
-  text-decoration: none !important;
-}
-.cdski-pago-cta-link:hover { background: var(--cdski-orange-dark); }
+.cdski-pago-method-flag { font-size: 1.4rem; letter-spacing: 3px; margin-bottom: 10px; height: 24px; display: flex; align-items: center; justify-content: center; }
+.cdski-pago-method-logo { height: 36px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; }
+.cdski-pago-method-title { font-family: 'Montserrat', sans-serif; font-size: 1.15rem; font-weight: 800; margin: 0 0 6px; color: var(--c-ink); letter-spacing: -0.015em; }
+.cdski-pago-method-desc { font-size: 0.82rem; color: var(--c-muted); margin: 0 0 14px; line-height: 1.45; min-height: 36px; }
+.cdski-pago-method-features { list-style: none; padding: 0; margin: 0 0 16px; text-align: left; width: 100%; }
+.cdski-pago-method-features li { display: flex; align-items: flex-start; gap: 6px; font-size: 0.78rem; color: var(--c-muted); margin-bottom: 5px; line-height: 1.4; }
+.cdski-pago-method-features li span { color: var(--c-success); font-weight: 800; font-size: 0.85rem; flex-shrink: 0; }
+.cdski-pago-method-foot { display: flex; justify-content: space-between; align-items: center; width: 100%; padding-top: 14px; border-top: 1px dashed var(--c-line-strong); }
+.cdski-pago-method-currency { font-weight: 800; font-size: 0.75rem; color: var(--c-orange-dark); background: var(--c-orange-50); padding: 3px 8px; border-radius: 6px; letter-spacing: 0.5px; }
+.cdski-pago-method-fee { font-size: 0.72rem; color: var(--c-muted-2); font-weight: 600; }
 
-#paypal-buttons-container {
-  margin-top: 8px;
-  min-height: 60px;
+.cdski-pago-cta-section { margin-bottom: 36px; text-align: center; }
+.cdski-pago-paypal-container { max-width: 460px; margin: 0 auto; min-height: 60px; }
+.cdski-pago-btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-width: 320px; max-width: 460px; width: 100%; padding: 16px 28px;
+  border: 0; border-radius: var(--r-md);
+  background: linear-gradient(135deg, var(--c-orange) 0%, var(--c-orange-dark) 100%);
+  color: #ffffff; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.05rem;
+  letter-spacing: -0.005em; cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease, opacity 0.2s ease;
+  box-shadow: var(--shadow-orange); text-decoration: none !important;
 }
-
-.cdski-pago-secure {
-  margin-top: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.8125rem;
-  color: var(--cdski-muted);
-  padding-top: 12px;
-  border-top: 1px dashed var(--cdski-line);
+.cdski-pago-btn-primary:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(249, 115, 22, 0.45); }
+.cdski-pago-btn-primary:active:not(:disabled) { transform: translateY(-1px); }
+.cdski-pago-btn-primary:disabled {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.20), rgba(15, 23, 42, 0.30));
+  cursor: not-allowed; box-shadow: none; opacity: 0.85;
 }
 
 .cdski-pago-status {
-  margin: 24px auto 0;
-  max-width: 720px;
-  padding: 18px 22px;
-  border-radius: 14px;
-  border-left: 4px solid var(--cdski-orange);
-  background: #fff7ed;
-  color: var(--cdski-ink);
-  font-size: 0.95rem;
-  line-height: 1.55;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+  margin: 0 auto 32px; max-width: 720px; padding: 20px 24px;
+  border-radius: var(--r-lg); border-left: 4px solid var(--c-orange);
+  background: #ffffff; color: var(--c-ink); font-size: 0.95rem; line-height: 1.55;
+  box-shadow: var(--shadow-md);
 }
-.cdski-pago-status h3 { margin: 0 0 8px; font-family: 'Montserrat', sans-serif; }
+.cdski-pago-status h3 { margin: 0 0 8px; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.2rem; letter-spacing: -0.015em; }
 .cdski-pago-status p { margin: 6px 0; }
-.cdski-pago-status-success {
-  background: #ecfdf5;
-  border-left-color: #10b981;
+.cdski-pago-status-success { background: #ecfdf5; border-left-color: var(--c-success); }
+.cdski-pago-status-success h3 { color: #065f46; }
+.cdski-pago-status-error { background: #fef2f2; border-left-color: var(--c-error); color: #991b1b; }
+.cdski-pago-status-info { background: #eff6ff; border-left-color: var(--c-info); }
+.cdski-pago-cta-link {
+  display: inline-block; margin-top: 12px; padding: 10px 22px;
+  border-radius: 9999px; background: var(--c-orange);
+  color: #ffffff !important; font-weight: 800; text-decoration: none !important;
+  font-size: 0.9rem; transition: background 0.2s ease, transform 0.2s ease;
 }
-.cdski-pago-status-error {
-  background: #fef2f2;
-  border-left-color: #ef4444;
-  color: #991b1b;
+.cdski-pago-cta-link:hover { background: var(--c-orange-dark); transform: translateY(-2px); }
+
+.cdski-pago-trust-strip {
+  display: grid; grid-template-columns: 1fr; gap: 16px;
+  margin: 24px 0; padding: 28px 24px;
+  background: linear-gradient(135deg, #ffffff 0%, var(--c-orange-50) 100%);
+  border: 1px solid var(--c-orange-100); border-radius: var(--r-xl);
+  box-shadow: var(--shadow-md);
 }
-.cdski-pago-status-info {
-  background: #eff6ff;
-  border-left-color: #3b82f6;
+@media (min-width: 720px) { .cdski-pago-trust-strip { grid-template-columns: repeat(4, 1fr); gap: 20px; } }
+.cdski-pago-trust-item { display: flex; align-items: flex-start; gap: 12px; }
+.cdski-pago-trust-icon {
+  flex-shrink: 0; width: 42px; height: 42px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--c-orange), var(--c-orange-light));
+  color: #ffffff; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 16px rgba(249, 115, 22, 0.30);
+}
+.cdski-pago-trust-item strong { display: block; font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: 800; color: var(--c-ink); letter-spacing: -0.01em; margin-bottom: 2px; }
+.cdski-pago-trust-item small { display: block; font-size: 0.78rem; color: var(--c-muted); line-height: 1.4; }
+
+.cdski-pago-footer { background: var(--c-ink); color: rgba(255, 255, 255, 0.85); padding: 36px 24px 24px; margin-top: 32px; }
+.cdski-pago-footer-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 24px; align-items: center; }
+@media (min-width: 720px) { .cdski-pago-footer-inner { grid-template-columns: 1.2fr 1fr 1.4fr; text-align: left; } }
+.cdski-pago-footer-brand { display: flex; align-items: center; gap: 14px; }
+.cdski-pago-footer-brand img { height: 38px; width: auto; filter: brightness(1.5); }
+.cdski-pago-footer-brand p { margin: 0; font-size: 0.85rem; color: rgba(255, 255, 255, 0.70); line-height: 1.45; }
+.cdski-pago-footer-contact { display: flex; flex-direction: column; gap: 6px; font-size: 0.9rem; }
+.cdski-pago-footer-contact a { color: #fed7aa; font-weight: 600; }
+.cdski-pago-footer-meta { text-align: right; }
+.cdski-pago-footer-meta p { margin: 4px 0; font-size: 0.8rem; color: rgba(255, 255, 255, 0.60); }
+.cdski-pago-footer-small { font-size: 0.72rem !important; opacity: 0.75; }
+@media (max-width: 720px) {
+  .cdski-pago-footer-inner { text-align: center; }
+  .cdski-pago-footer-brand { justify-content: center; }
+  .cdski-pago-footer-meta { text-align: center; }
 }
 
-.cdski-pago-footer {
-  margin: 48px auto 24px;
-  text-align: center;
-  font-size: 0.875rem;
-  color: var(--cdski-muted);
-  padding: 0 24px;
-}
-.cdski-pago-footer-small {
-  font-size: 0.75rem;
-  margin-top: 4px;
-  opacity: 0.75;
-}
+.cdski-pago-form-card[hidden],
+.cdski-pago-summary-card[hidden],
+.cdski-pago-methods-section[hidden],
+.cdski-pago-cta-section[hidden] { display: none !important; }
 
-@media (max-width: 640px) {
-  .cdski-pago-card { padding: 22px 18px; }
-  .cdski-pago-method { padding: 12px 14px; }
-  .cdski-pago-method-logo { width: 52px; }
-  .cdski-pago-title { font-size: 1.75rem; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  .cdski-pago-method-card:hover { transform: none; }
+  .cdski-pago-btn-primary:hover:not(:disabled) { transform: none; }
 }
