@@ -1,0 +1,369 @@
+/* ════════════════════════════════════════════════════════════
+   ClasesdeSki — "¿Cómo Reservar?" section polish v1.0
+   Polishes the 3-step booking flow + styles the injected
+   "Métodos de pago seguros" panel that highlights PayPal
+   as the international payment option.
+   ════════════════════════════════════════════════════════════ */
+
+/* ─── Section background: warmer gradient + glow accents ─── */
+section#how-to-book {
+	background: linear-gradient(180deg,
+		rgba(255, 247, 237, 1) 0%,
+		rgba(255, 237, 213, 0.4) 50%,
+		rgba(255, 255, 255, 1) 100%) !important;
+	position: relative;
+	overflow: hidden;
+}
+section#how-to-book::before {
+	content: '';
+	position: absolute;
+	top: -120px;
+	right: -120px;
+	width: 500px;
+	height: 500px;
+	background: radial-gradient(circle, rgba(249, 115, 22, 0.10) 0%, transparent 65%);
+	pointer-events: none;
+	z-index: 0;
+}
+section#how-to-book::after {
+	content: '';
+	position: absolute;
+	bottom: -100px;
+	left: -100px;
+	width: 420px;
+	height: 420px;
+	background: radial-gradient(circle, rgba(251, 146, 60, 0.08) 0%, transparent 60%);
+	pointer-events: none;
+	z-index: 0;
+}
+section#how-to-book > div { position: relative; z-index: 1; }
+
+/* ─── H2 + subtitle ─── */
+section#how-to-book h2 {
+	font-size: clamp(2.25rem, 4.5vw, 3.5rem) !important;
+	letter-spacing: -0.025em !important;
+	line-height: 1.05 !important;
+	margin-bottom: 1.25rem !important;
+	text-shadow: 0 2px 18px rgba(249, 115, 22, 0.15);
+}
+section#how-to-book > div > div:first-child {
+	position: relative;
+	padding-bottom: 26px;
+	margin-bottom: 3rem !important;
+}
+section#how-to-book > div > div:first-child::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 64px;
+	height: 3px;
+	border-radius: 3px;
+	background: linear-gradient(90deg, #f97316, #fb923c);
+	box-shadow: 0 0 14px rgba(249, 115, 22, 0.50);
+}
+section#how-to-book > div > div:first-child p {
+	color: #475569 !important;
+	font-size: 1.075rem !important;
+}
+
+/* ─── Connection line between steps: animated gradient ─── */
+section#how-to-book .grid > div.absolute {
+	height: 2px !important;
+	background: linear-gradient(90deg,
+		rgba(249, 115, 22, 0) 0%,
+		rgba(249, 115, 22, 0.55) 20%,
+		rgba(251, 146, 60, 0.75) 50%,
+		rgba(249, 115, 22, 0.55) 80%,
+		rgba(249, 115, 22, 0) 100%) !important;
+	box-shadow: 0 0 8px rgba(249, 115, 22, 0.30);
+}
+
+/* ─── Step cards: glass + hover lift ─── */
+section#how-to-book .grid > div.text-center {
+	background: rgba(255, 255, 255, 0.55);
+	border: 1px solid rgba(15, 23, 42, 0.06);
+	border-radius: 22px;
+	padding: 2rem 1.5rem 2.25rem !important;
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+	            box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+	            border-color 0.35s ease;
+}
+section#how-to-book .grid > div.text-center:hover {
+	transform: translateY(-6px);
+	background: #ffffff;
+	border-color: rgba(249, 115, 22, 0.35);
+	box-shadow: 0 18px 40px rgba(15, 23, 42, 0.10),
+	            0 4px 12px rgba(249, 115, 22, 0.15);
+}
+section#how-to-book .grid > div.text-center > div:first-child {
+	margin-bottom: 1.5rem !important;
+}
+
+/* ─── Step icon circles: bigger + gradient bg + hover rotate ─── */
+section#how-to-book .grid > div.text-center .relative.inline-flex {
+	width: 96px !important;
+	height: 96px !important;
+	background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(251, 146, 60, 0.08)) !important;
+	border: 1px solid rgba(249, 115, 22, 0.35) !important;
+	color: #ea580c !important;
+	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+	            box-shadow 0.4s ease;
+	box-shadow: 0 8px 24px rgba(249, 115, 22, 0.15);
+}
+section#how-to-book .grid > div.text-center:hover .relative.inline-flex {
+	transform: rotate(-6deg) scale(1.08);
+	box-shadow: 0 14px 32px rgba(249, 115, 22, 0.30),
+	            0 0 0 6px rgba(249, 115, 22, 0.08);
+}
+section#how-to-book .grid > div.text-center .relative.inline-flex svg {
+	width: 36px !important;
+	height: 36px !important;
+}
+
+/* ─── Step number badge: bigger + gradient ─── */
+section#how-to-book .grid > div.text-center .absolute.-top-2.-right-2 {
+	width: 36px !important;
+	height: 36px !important;
+	font-size: 0.95rem !important;
+	font-weight: 800 !important;
+	background: linear-gradient(135deg, #f97316, #ea580c) !important;
+	box-shadow: 0 6px 14px rgba(249, 115, 22, 0.45),
+	            0 0 0 3px rgba(255, 255, 255, 1);
+	font-family: 'Montserrat', system-ui, sans-serif !important;
+}
+
+/* ─── Step title + description ─── */
+section#how-to-book .grid > div.text-center h3 {
+	font-size: 1.25rem !important;
+	font-weight: 700 !important;
+	color: #0f172a !important;
+	letter-spacing: -0.01em !important;
+	margin-bottom: 0.875rem !important;
+	transition: color 0.25s ease;
+}
+section#how-to-book .grid > div.text-center:hover h3 {
+	color: #ea580c !important;
+}
+section#how-to-book .grid > div.text-center p {
+	color: #475569 !important;
+	font-size: 0.9rem !important;
+	line-height: 1.65 !important;
+}
+
+/* ─── Force-show cards if Framer IO race ─── */
+section#how-to-book [style*="opacity:0"] {
+	opacity: 1 !important;
+	transform: none !important;
+}
+
+/* ════════════════════════════════════════════════════════════
+   Payment methods panel (injected by JS below the 3 steps)
+   ════════════════════════════════════════════════════════════ */
+
+#cdski-payment-methods {
+	margin-top: 4rem;
+	background: linear-gradient(135deg, #ffffff 0%, #fff7ed 100%);
+	border: 1px solid rgba(249, 115, 22, 0.20);
+	border-radius: 24px;
+	padding: 2.5rem 2rem;
+	box-shadow: 0 12px 36px rgba(15, 23, 42, 0.06),
+	            0 4px 12px rgba(249, 115, 22, 0.06);
+	position: relative;
+	overflow: hidden;
+}
+#cdski-payment-methods::before {
+	content: '';
+	position: absolute;
+	top: -60px;
+	right: -60px;
+	width: 280px;
+	height: 280px;
+	background: radial-gradient(circle, rgba(249, 115, 22, 0.10) 0%, transparent 65%);
+	pointer-events: none;
+}
+
+.cdski-pay-header {
+	text-align: center;
+	margin-bottom: 2rem;
+	position: relative;
+	z-index: 1;
+}
+.cdski-pay-eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 16px;
+	border-radius: 9999px;
+	background: rgba(249, 115, 22, 0.10);
+	border: 1px solid rgba(249, 115, 22, 0.25);
+	color: #c2410c;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	margin-bottom: 1rem;
+	letter-spacing: 0.3px;
+}
+.cdski-pay-title {
+	font-size: clamp(1.5rem, 3vw, 1.875rem) !important;
+	font-weight: 800;
+	color: #0f172a;
+	margin: 0 0 0.5rem;
+	letter-spacing: -0.02em;
+}
+.cdski-pay-subtitle {
+	color: #475569;
+	font-size: 0.95rem;
+	max-width: 540px;
+	margin: 0 auto;
+	line-height: 1.55;
+}
+
+.cdski-pay-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1rem;
+	margin-bottom: 1.5rem;
+	position: relative;
+	z-index: 1;
+}
+@media (min-width: 768px) {
+	.cdski-pay-grid { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+}
+
+.cdski-pay-card {
+	background: #ffffff;
+	border: 1.5px solid rgba(15, 23, 42, 0.08);
+	border-radius: 16px;
+	padding: 1.5rem 1.25rem;
+	text-align: center;
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+	            box-shadow 0.3s ease,
+	            border-color 0.3s ease;
+	position: relative;
+}
+.cdski-pay-card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+}
+.cdski-pay-card-logo {
+	height: 36px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 0.875rem;
+}
+.cdski-pay-card-logo svg,
+.cdski-pay-card-logo img {
+	max-height: 32px;
+	max-width: 120px;
+}
+.cdski-pay-card-name {
+	font-size: 1rem;
+	font-weight: 700;
+	color: #0f172a;
+	letter-spacing: -0.01em;
+	margin: 0 0 0.375rem;
+}
+.cdski-pay-card-desc {
+	font-size: 0.8125rem;
+	color: #64748b;
+	line-height: 1.5;
+	margin: 0 0 0.625rem;
+}
+.cdski-pay-card-tag {
+	display: inline-block;
+	padding: 3px 10px;
+	border-radius: 9999px;
+	background: rgba(15, 23, 42, 0.05);
+	color: #475569;
+	font-size: 0.6875rem;
+	font-weight: 600;
+	letter-spacing: 0.4px;
+	text-transform: uppercase;
+}
+
+/* PayPal card highlighted */
+.cdski-pay-card[data-highlight="true"] {
+	border-color: rgba(249, 115, 22, 0.40);
+	background: linear-gradient(135deg, #ffffff 0%, rgba(255, 247, 237, 0.85) 100%);
+	box-shadow: 0 8px 20px rgba(249, 115, 22, 0.12);
+}
+.cdski-pay-card[data-highlight="true"]:hover {
+	border-color: rgba(249, 115, 22, 0.70);
+	box-shadow: 0 18px 36px rgba(249, 115, 22, 0.20);
+}
+.cdski-pay-card[data-highlight="true"] .cdski-pay-card-tag {
+	background: linear-gradient(135deg, #f97316, #fb923c);
+	color: #ffffff;
+	box-shadow: 0 4px 10px rgba(249, 115, 22, 0.30);
+}
+.cdski-pay-card-flag-row {
+	font-size: 1rem;
+	letter-spacing: 2px;
+	margin-bottom: 0.625rem;
+	height: 18px;
+}
+
+/* International callout */
+.cdski-pay-callout {
+	margin-top: 1.5rem;
+	padding: 1rem 1.25rem;
+	background: linear-gradient(135deg, rgba(249, 115, 22, 0.08), rgba(251, 146, 60, 0.04));
+	border-left: 3px solid #f97316;
+	border-radius: 10px;
+	color: #475569;
+	font-size: 0.875rem;
+	line-height: 1.6;
+	position: relative;
+	z-index: 1;
+}
+.cdski-pay-callout strong {
+	color: #c2410c;
+	font-weight: 700;
+}
+.cdski-pay-cards-row {
+	display: inline-flex;
+	gap: 0.5rem;
+	align-items: center;
+	flex-wrap: wrap;
+	margin-top: 0.625rem;
+}
+.cdski-pay-card-brand {
+	display: inline-flex;
+	align-items: center;
+	padding: 4px 10px;
+	background: #ffffff;
+	border: 1px solid rgba(15, 23, 42, 0.10);
+	border-radius: 6px;
+	font-size: 0.75rem;
+	font-weight: 700;
+	color: #0f172a;
+	letter-spacing: 0.5px;
+	box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04);
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+	#cdski-payment-methods {
+		padding: 2rem 1.25rem;
+		margin-top: 3rem;
+	}
+	.cdski-pay-card { padding: 1.25rem 1rem; }
+}
+
+/* A11y */
+@media (prefers-reduced-motion: reduce) {
+	section#how-to-book .grid > div.text-center,
+	section#how-to-book .grid > div.text-center .relative.inline-flex,
+	.cdski-pay-card {
+		transition: none !important;
+	}
+	section#how-to-book .grid > div.text-center:hover,
+	section#how-to-book .grid > div.text-center:hover .relative.inline-flex,
+	.cdski-pay-card:hover {
+		transform: none !important;
+	}
+}
