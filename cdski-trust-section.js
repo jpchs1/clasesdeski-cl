@@ -1,9 +1,15 @@
 /**
- * ClasesdeSki — Multilingual Trust Section v2.0
+ * ClasesdeSki — Multilingual Trust Section v2.2
  *
  * Detects page language from URL path (/, /es/, /en/, /pt/) and serves
- * translated copy + WhatsApp message + Schema.org FAQs accordingly.
+ * translated copy + WhatsApp message accordingly.
  *
+ * v2.2: removed FAQPage from injected @graph (the static HTML already has
+ *       an i18n'd FAQPage with 8 questions per language — our injection
+ *       caused duplicate FAQ blocks → "Unnamed item / 3 invalid" in
+ *       Google's Rich Results Test). LocalBusiness with enriched data
+ *       (areaServed, paymentAccepted, aggregateRating, offers) is still
+ *       injected for AEO.
  * v2.0: i18n support (es, en, pt-BR).
  * v1.0: initial empathetic trust section + Schema.org JSON-LD for AEO.
  */
@@ -38,15 +44,7 @@
 			ctaWhatsapp: 'Hablar por WhatsApp',
 			ctaNote: 'Cada esquiador es único. Cada experiencia, irrepetible.',
 			waMessage: 'Hola%20CDSKI%20Chile%21%20Vi%20su%20sitio%20web%20y%20me%20interesan%20las%20clases%20de%20ski%20y%20snowboard.%20%C2%BFMe%20pueden%20ayudar%3F',
-			schemaDesc: 'Escuela premium de ski y snowboard en los Andes chilenos. Clases personalizadas y experiencias guiadas en Valle Nevado, El Colorado y La Parva, Santiago de Chile. Instructores certificados bilingues, atencion 1-a-1, comunicacion impecable y acompanamiento integral antes, durante y despues de tu viaje.',
-			faqs: [
-				{ q: '¿Dónde están los mejores centros de ski cerca de Santiago, Chile?', a: 'A solo 1-2 horas de Santiago están tres centros de ski de clase mundial en los Andes chilenos: Valle Nevado (el más grande de Sudamérica), El Colorado (ideal para todos los niveles) y La Parva (pistas exclusivas y vistas espectaculares). CDSKI opera clases personalizadas en los tres.' },
-				{ q: '¿Qué incluye una clase de ski o snowboard con CDSKI?', a: 'Cada experiencia con CDSKI incluye instructor certificado bilingüe, ratios reducidos de 4-6 alumnos por instructor (o privado 1-a-1), planificación personalizada según tu nivel y objetivos, comunicación por WhatsApp antes/durante/después, y opción de paquetes all-inclusive con transporte desde Santiago, hospedaje cerca del centro de ski y arriendo de equipamiento.' },
-				{ q: '¿CDSKI da clases en inglés o portugués?', a: 'Sí. Nuestro equipo de instructores es bilingüe — clases disponibles en español, inglés y portugués. Atendemos turistas internacionales de todo el mundo que vienen a esquiar a Chile.' },
-				{ q: '¿Cuál es el mejor mes para esquiar en Chile?', a: 'La temporada de ski en los Andes chilenos va de junio a octubre. Julio y agosto suelen ser los meses con mejor nieve, mientras que junio y septiembre ofrecen menos público y precios más accesibles. CDSKI te ayuda a planificar la fecha ideal según tu disponibilidad y preferencias.' },
-				{ q: '¿Necesito experiencia previa para tomar clases con CDSKI?', a: 'No. CDSKI atiende desde principiantes absolutos hasta esquiadores avanzados que buscan perfeccionar técnica o explorar pistas más exigentes. Cada clase se adapta a tu nivel real y objetivos.' },
-				{ q: '¿Cómo reservo clases de ski con CDSKI?', a: 'Lo más rápido es por WhatsApp al +56 9 4021 1459. Te respondemos en menos de una hora para cotizar tu experiencia personalizada, confirmar disponibilidad y coordinar fechas. También puedes usar el calculador de precios en clasesdeski.cl/#pricing o escribir a info@clasesdeski.cl.' }
-			]
+			schemaDesc: 'Escuela premium de ski y snowboard en los Andes chilenos. Clases personalizadas y experiencias guiadas en Valle Nevado, El Colorado y La Parva, Santiago de Chile. Instructores certificados bilingues, atencion 1-a-1, comunicacion impecable y acompanamiento integral antes, durante y despues de tu viaje.'
 		},
 		en: {
 			eyebrow: 'Our commitment to you',
@@ -65,15 +63,7 @@
 			ctaWhatsapp: 'Chat on WhatsApp',
 			ctaNote: 'Every skier is unique. Every experience, unrepeatable.',
 			waMessage: 'Hi%20CDSKI%20Chile%21%20I%20saw%20your%20website%20and%20I%27m%20interested%20in%20ski%20and%20snowboard%20lessons.%20Can%20you%20help%20me%3F',
-			schemaDesc: 'Premium ski and snowboard school in the Chilean Andes. Personalized lessons and guided experiences in Valle Nevado, El Colorado and La Parva, Santiago, Chile. Certified bilingual instructors, 1-on-1 attention, impeccable communication and full support before, during and after your trip.',
-			faqs: [
-				{ q: 'Where are the best ski resorts near Santiago, Chile?', a: 'Just 1-2 hours from Santiago you will find three world-class ski resorts in the Chilean Andes: Valle Nevado (the largest in South America), El Colorado (perfect for all skill levels) and La Parva (exclusive runs and spectacular views). CDSKI runs personalized lessons at all three.' },
-				{ q: 'What does a ski or snowboard lesson with CDSKI include?', a: 'Every CDSKI experience includes a certified bilingual instructor, small ratios of 4-6 students per instructor (or fully private 1-on-1), personalized planning based on your level and goals, WhatsApp communication before/during/after, and the option of all-inclusive packages with transport from Santiago, lodging near the resort, and equipment rental.' },
-				{ q: 'Does CDSKI teach in English or Portuguese?', a: 'Yes. Our instructor team is bilingual — lessons available in Spanish, English and Portuguese. We host international travelers from around the world who come to ski in Chile.' },
-				{ q: 'What is the best month to ski in Chile?', a: 'The ski season in the Chilean Andes runs from June to October. July and August usually have the best snow conditions, while June and September offer fewer crowds and more accessible prices. CDSKI helps you plan the ideal date based on your availability and preferences.' },
-				{ q: 'Do I need previous experience to take CDSKI lessons?', a: 'No. CDSKI welcomes absolute beginners (never skied before) through advanced skiers looking to refine technique or explore more demanding terrain. Each lesson is adapted to your actual level and goals.' },
-				{ q: 'How do I book ski lessons with CDSKI?', a: 'The fastest way is via WhatsApp at +56 9 4021 1459. We reply in under one hour to quote your personalized experience, confirm availability and coordinate dates. You can also use the price calculator at clasesdeski.cl/en/#pricing or email info@clasesdeski.cl.' }
-			]
+			schemaDesc: 'Premium ski and snowboard school in the Chilean Andes. Personalized lessons and guided experiences in Valle Nevado, El Colorado and La Parva, Santiago, Chile. Certified bilingual instructors, 1-on-1 attention, impeccable communication and full support before, during and after your trip.'
 		},
 		pt: {
 			eyebrow: 'Nosso compromisso com você',
@@ -92,15 +82,7 @@
 			ctaWhatsapp: 'Falar no WhatsApp',
 			ctaNote: 'Cada esquiador é único. Cada experiência, irrepetível.',
 			waMessage: 'Ol%C3%A1%20CDSKI%20Chile%21%20Vi%20seu%20site%20e%20estou%20interessado%20nas%20aulas%20de%20ski%20e%20snowboard.%20Podem%20me%20ajudar%3F',
-			schemaDesc: 'Escola premium de ski e snowboard nos Andes chilenos. Aulas personalizadas e experiências guiadas em Valle Nevado, El Colorado e La Parva, Santiago, Chile. Instrutores certificados bilingues, atencao 1-a-1, comunicacao impecavel e acompanhamento integral antes, durante e depois da sua viagem.',
-			faqs: [
-				{ q: 'Onde estão as melhores estações de esqui perto de Santiago, Chile?', a: 'A apenas 1-2 horas de Santiago estão três estações de esqui de classe mundial nos Andes chilenos: Valle Nevado (a maior da América do Sul), El Colorado (ideal para todos os níveis) e La Parva (pistas exclusivas e vistas espetaculares). A CDSKI opera aulas personalizadas nas três.' },
-				{ q: 'O que inclui uma aula de ski ou snowboard com a CDSKI?', a: 'Cada experiência com a CDSKI inclui instrutor certificado bilíngue, turmas reduzidas de 4-6 alunos por instrutor (ou particular 1-a-1), planejamento personalizado conforme seu nível e objetivos, comunicação por WhatsApp antes/durante/depois, e opção de pacotes all-inclusive com transporte desde Santiago, hospedagem perto da estação e aluguel de equipamento.' },
-				{ q: 'A CDSKI dá aulas em inglês ou português?', a: 'Sim. Nossa equipe de instrutores é bilíngue — aulas disponíveis em espanhol, inglês e português. Atendemos turistas internacionais de todo o mundo que vêm esquiar no Chile.' },
-				{ q: 'Qual é o melhor mês para esquiar no Chile?', a: 'A temporada de esqui nos Andes chilenos vai de junho a outubro. Julho e agosto costumam ter as melhores condições de neve, enquanto junho e setembro oferecem menos público e preços mais acessíveis. A CDSKI ajuda você a planejar a data ideal conforme sua disponibilidade.' },
-				{ q: 'Preciso de experiência prévia para fazer aulas com a CDSKI?', a: 'Não. A CDSKI atende desde iniciantes absolutos (que nunca esquiaram) até esquiadores avançados que querem aperfeiçoar técnica ou explorar pistas mais exigentes. Cada aula é adaptada ao seu nível real e seus objetivos.' },
-				{ q: 'Como reservo aulas de ski com a CDSKI?', a: 'O jeito mais rápido é via WhatsApp pelo +56 9 4021 1459. Respondemos em menos de uma hora para cotizar sua experiência personalizada, confirmar disponibilidade e coordenar datas. Você também pode usar o calculador de preços em clasesdeski.cl/pt/#pricing ou escrever para info@clasesdeski.cl.' }
-			]
+			schemaDesc: 'Escola premium de ski e snowboard nos Andes chilenos. Aulas personalizadas e experiências guiadas em Valle Nevado, El Colorado e La Parva, Santiago, Chile. Instrutores certificados bilingues, atencao 1-a-1, comunicacao impecavel e acompanhamento integral antes, durante e depois da sua viagem.'
 		}
 	};
 
@@ -166,18 +148,6 @@
 					'https://www.facebook.com/clasesdeski',
 					'https://www.instagram.com/clasesdeski'
 				]
-			},
-			{
-				'@type': 'FAQPage',
-				'@id': 'https://clasesdeski.cl/#faq-' + LANG,
-				'inLanguage': LANG,
-				'mainEntity': T.faqs.map(function (f) {
-					return {
-						'@type': 'Question',
-						'name': f.q,
-						'acceptedAnswer': { '@type': 'Answer', 'text': f.a }
-					};
-				})
 			}
 		]
 	};
