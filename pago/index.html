@@ -311,7 +311,23 @@
   </section>
 
   <section class="cdski-pago-cta-section" aria-live="polite">
-    <div id="paypal-buttons-container" class="cdski-pago-paypal-container" hidden></div>
+    <div id="paypal-buttons-container" class="cdski-pago-paypal-container" hidden>
+      <div class="cdski-pago-paypal-section">
+        <div class="cdski-pago-paypal-label">
+          <span class="cdski-pago-paypal-label-icon">💳</span>
+          <span>Pagá con tu <strong>cuenta PayPal</strong></span>
+        </div>
+        <div id="paypal-btn-paypal"></div>
+      </div>
+      <div class="cdski-pago-paypal-divider"><span>o</span></div>
+      <div class="cdski-pago-paypal-section">
+        <div class="cdski-pago-paypal-label">
+          <span class="cdski-pago-paypal-label-icon">🌎</span>
+          <span>Pagá con <strong>tarjeta internacional</strong> — Visa · MasterCard · Amex · Discover</span>
+        </div>
+        <div id="paypal-btn-card"></div>
+      </div>
+    </div>
     <button type="button" id="cdski-pago-submit" class="cdski-pago-btn-primary" disabled>
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       <span class="cdski-pago-btn-text">Selecciona un método para continuar</span>
