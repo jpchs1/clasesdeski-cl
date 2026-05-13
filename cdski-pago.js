@@ -1,12 +1,12 @@
 /**
- * ClasesdeSki — Portal de Pago v2.0 (Super PRO UX)
+ * ClasesdeSki — Portal de Pago v2.1 (Super PRO UX + explicit PayPal/Card labels)
  *
- * Enhanced over v1.0:
- *  + Live order summary updates as user types (amount, description, name+email)
- *  + Live CLP↔USD conversion preview
- *  + Stepper progresses based on form validity / method selection
- *  + Inline field validation with error messages
- *  + Smooth UX: auto-scroll to method section after form complete
+ * v2.1: PayPal Smart Buttons split into 2 labeled funding sources
+ *       (PAYPAL gold button + CARD black button), each rendered with
+ *       its own explicit caption above it ("Pagá con cuenta PayPal" /
+ *       "Pagá con tarjeta internacional · Visa · MasterCard · Amex").
+ *       SDK URL uses enable-funding=card + locale=es_CL.
+ * v2.0: live summary, stepper, inline validation, URL prefill.
  *
  * Integrates 3 payment processors against clasesdeski.cl/api/*.php:
  *   - Webpay Plus       POST /api/webpay.php?action=create_transaction → redirect form
@@ -31,6 +31,8 @@
   var submitBtn     = $('cdski-pago-submit');
   var submitBtnText = submitBtn ? submitBtn.querySelector('.cdski-pago-btn-text') : null;
   var ppContainer   = $('paypal-buttons-container');
+  var ppBtnPayPal   = $('paypal-btn-paypal');
+  var ppBtnCard     = $('paypal-btn-card');
   var methodButtons = $$('.cdski-pago-method-card');
   var acceptTerms   = $('acceptTerms');
 
@@ -49,7 +51,7 @@
 
   var selectedMethod   = null;
   var selectedCurrency = 'CLP';
-  var paypalButtonsInstance = null;
+  var paypalInstances  = [];   // v2.1: now an array (paypal + card)
 
   function formatNumber(n, cur) {
     n = Number(n) || 0;
@@ -322,20 +324,91 @@
     return new Promise(function (resolve, reject) {
       if (window.paypal) return resolve();
       var s = document.createElement('script');
+      // v2.1: enable card funding source + Spanish locale + buttons component
       s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(clientId) +
-              '&currency=USD&intent=capture&disable-funding=credit';
+              '&currency=USD&intent=capture&commit=true' +
+              '&enable-funding=card&disable-funding=paylater,credit' +
+              '&components=buttons&locale=es_CL';
       s.onload  = function () { resolve(); };
       s.onerror = function () { reject(new Error('No se pudo cargar el SDK de PayPal.')); };
       document.head.appendChild(s);
     });
   }
 
+  // Shared callbacks for both PayPal and Card funding sources
+  function paypalCallbacks() {
+    return {
+      onClick: function (data, actions) {
+        if (!validateAllFields()) {
+          setStatus('⚠ Completa todos los campos antes de pagar.', 'error');
+          return actions.reject();
+        }
+        return actions.resolve();
+      },
+
+      createOrder: function () {
+        var amt = parseAmount(amountInput.value);
+        var usdAmount = (selectedCurrency === 'USD') ? amt : clpToUsd(amt);
+
+        return fetch('/api/paypal.php?action=create_order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount:       usdAmount,
+            currency:     'USD',
+            description:  $('description').value.trim(),
+            booking_code: $('bookingCode').value.trim(),
+          })
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (!data.success || !data.order_id) {
+            throw new Error(data.error || 'No se pudo crear la orden PayPal.');
+          }
+          return data.order_id;
+        });
+      },
+
+      onApprove: function (data) {
+        setStatus('Confirmando pago con PayPal…', 'info');
+        return fetch('/api/paypal.php?action=capture_order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ order_id: data.orderID })
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (res.success) {
+            showSuccess('paypal', res);
+          } else {
+            throw new Error(res.error || 'No se pudo capturar el pago.');
+          }
+        });
+      },
+
+      onError: function (err) {
+        console.error('PayPal error:', err);
+        setStatus('❌ Error con PayPal. Intentá de nuevo o usá otro método.', 'error');
+      },
+
+      onCancel: function () {
+        setStatus('Pago cancelado.', 'info');
+      }
+    };
+  }
+
   function mountPayPalButtons() {
-    if (paypalButtonsInstance) {
-      paypalButtonsInstance.close();
-      paypalButtonsInstance = null;
+    // Close any previous instances
+    if (paypalInstances.length) {
+      paypalInstances.forEach(function (inst) { try { inst.close(); } catch (e) {} });
+      paypalInstances = [];
     }
-    ppContainer.innerHTML = '<div style="text-align:center;color:#475569;font-size:.85rem;padding:14px;">Cargando PayPal…</div>';
+    if (ppBtnPayPal) ppBtnPayPal.innerHTML = '';
+    if (ppBtnCard)   ppBtnCard.innerHTML   = '';
+
+    var loadingHtml = '<div style="text-align:center;color:#475569;font-size:.85rem;padding:10px;">Cargando…</div>';
+    if (ppBtnPayPal) ppBtnPayPal.innerHTML = loadingHtml;
+    if (ppBtnCard)   ppBtnCard.innerHTML   = loadingHtml;
 
     fetch('/api/paypal.php?action=get_client_id')
       .then(function (r) { return r.json(); })
@@ -344,73 +417,54 @@
         return loadPayPalSdk(data.client_id);
       })
       .then(function () {
-        ppContainer.innerHTML = '';
-        paypalButtonsInstance = window.paypal.Buttons({
-          style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay', height: 48 },
+        if (!window.paypal || !window.paypal.Buttons) {
+          throw new Error('SDK de PayPal no disponible.');
+        }
+        if (ppBtnPayPal) ppBtnPayPal.innerHTML = '';
+        if (ppBtnCard)   ppBtnCard.innerHTML   = '';
 
-          onClick: function (data, actions) {
-            if (!validateAllFields()) {
-              setStatus('⚠ Completa todos los campos antes de pagar.', 'error');
-              return actions.reject();
-            }
-            return actions.resolve();
-          },
+        var cbs = paypalCallbacks();
+        var FUNDING = window.paypal.FUNDING || {};
 
-          createOrder: function () {
-            var amt = parseAmount(amountInput.value);
-            var usdAmount = (selectedCurrency === 'USD') ? amt : clpToUsd(amt);
-
-            return fetch('/api/paypal.php?action=create_order', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                amount:       usdAmount,
-                currency:     'USD',
-                description:  $('description').value.trim(),
-                booking_code: $('bookingCode').value.trim(),
-              })
-            })
-            .then(function (r) { return r.json(); })
-            .then(function (data) {
-              if (!data.success || !data.order_id) {
-                throw new Error(data.error || 'No se pudo crear la orden PayPal.');
-              }
-              return data.order_id;
+        // ── PayPal button (gold, with "PayPal" label) ──
+        if (FUNDING.PAYPAL && window.paypal.isFundingEligible(FUNDING.PAYPAL) && ppBtnPayPal) {
+          var paypalBtn = window.paypal.Buttons(Object.assign({}, cbs, {
+            fundingSource: FUNDING.PAYPAL,
+            style: { layout: 'horizontal', color: 'gold', shape: 'rect', label: 'paypal', tagline: false, height: 48 }
+          }));
+          if (paypalBtn.isEligible()) {
+            paypalBtn.render('#paypal-btn-paypal').catch(function (e) {
+              console.error('PayPal button render error:', e);
+              ppBtnPayPal.innerHTML = '<small style="color:#ef4444">No disponible.</small>';
             });
-          },
-
-          onApprove: function (data) {
-            setStatus('Confirmando pago con PayPal…', 'info');
-            return fetch('/api/paypal.php?action=capture_order', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ order_id: data.orderID })
-            })
-            .then(function (r) { return r.json(); })
-            .then(function (res) {
-              if (res.success) {
-                showSuccess('paypal', res);
-              } else {
-                throw new Error(res.error || 'No se pudo capturar el pago.');
-              }
-            });
-          },
-
-          onError: function (err) {
-            console.error('PayPal error:', err);
-            setStatus('❌ Error con PayPal. Intentá de nuevo o usá otro método.', 'error');
-          },
-
-          onCancel: function () {
-            setStatus('Pago cancelado.', 'info');
+            paypalInstances.push(paypalBtn);
           }
-        });
+        }
 
-        paypalButtonsInstance.render('#paypal-buttons-container').catch(function (e) {
-          setStatus('❌ No se pudieron renderizar los botones de PayPal: ' + e.message, 'error');
-        });
+        // ── Card button (black, with explicit Card label) ──
+        if (FUNDING.CARD && window.paypal.isFundingEligible(FUNDING.CARD) && ppBtnCard) {
+          var cardBtn = window.paypal.Buttons(Object.assign({}, cbs, {
+            fundingSource: FUNDING.CARD,
+            style: { layout: 'horizontal', color: 'black', shape: 'rect', label: 'pay', height: 48 }
+          }));
+          if (cardBtn.isEligible()) {
+            cardBtn.render('#paypal-btn-card').catch(function (e) {
+              console.error('Card button render error:', e);
+              ppBtnCard.innerHTML = '<small style="color:#ef4444">No disponible.</small>';
+            });
+            paypalInstances.push(cardBtn);
+          } else {
+            ppBtnCard.innerHTML = '<small style="color:#64748b">Tarjeta no disponible en tu región. Usá PayPal arriba.</small>';
+          }
+        }
+
+        if (paypalInstances.length === 0) {
+          setStatus('❌ No hay métodos PayPal disponibles. Intentá con Webpay o MercadoPago.', 'error');
+        }
       })
       .catch(function (e) {
+        if (ppBtnPayPal) ppBtnPayPal.innerHTML = '';
+        if (ppBtnCard)   ppBtnCard.innerHTML   = '';
         setStatus('❌ ' + e.message, 'error');
       });
   }
