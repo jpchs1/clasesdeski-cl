@@ -2,6 +2,8 @@
 # ClasesdeSki — fix Rich Results JSON-LD across all index.html files.
 # Replaces LocalBusiness / Course / BreadcrumbList with enriched + i18n'd
 # versions. Preserves the FAQPage block (already well-localized).
+# If no @graph exists (e.g. root /index.html), injects a fresh block
+# with a hardcoded Spanish FAQPage (since root canonical is es).
 # Usage: perl fix_jsonld.pl <root>
 # Example: perl fix_jsonld.pl ~/clasesdeski.cl
 use strict;
@@ -184,6 +186,34 @@ sub build_breadcrumb {
     };
 }
 
+sub default_faq {
+    my $lang = shift;
+    # Spanish canonical FAQs (used when no FAQPage exists in the page yet,
+    # e.g. the root /index.html). Only ES because the root canonical is es.
+    return undef unless $lang eq 'es';
+    return {
+        '@type' => 'FAQPage',
+        'mainEntity' => [
+            { '@type' => 'Question', 'name' => '¿Necesito experiencia previa para tomar clases?',
+              'acceptedAnswer' => { '@type' => 'Answer', 'text' => '¡No! Tenemos clases para todos los niveles, desde principiante absoluto hasta avanzado. Nuestros instructores adaptan la enseñanza a tu nivel.' } },
+            { '@type' => 'Question', 'name' => '¿Qué incluyen los paquetes all-inclusive?',
+              'acceptedAnswer' => { '@type' => 'Answer', 'text' => 'Los paquetes all-inclusive incluyen ticket de acceso al centro de ski, equipo completo (ski o snowboard, botas y bastones), y clase con instructor experto de 2 horas de duración.' } },
+            { '@type' => 'Question', 'name' => '¿En qué centros de ski operan?',
+              'acceptedAnswer' => { '@type' => 'Answer', 'text' => 'Operamos en los tres principales centros de ski de Santiago: Valle Nevado (el más grande de Sudamérica), El Colorado y La Parva, todos a menos de 50 km de Santiago.' } },
+            { '@type' => 'Question', 'name' => '¿Cuál es la temporada de ski en Chile?',
+              'acceptedAnswer' => { '@type' => 'Answer', 'text' => 'La temporada de ski en Chile va de junio a octubre. La temporada alta incluye fines de semana, festivos y vacaciones de invierno (generalmente última semana de junio y primera de julio).' } },
+            { '@type' => 'Question', 'name' => '¿Ofrecen clases en inglés y portugués?',
+              'acceptedAnswer' => { '@type' => 'Answer', 'text' => '¡Sí! Nuestros instructores hablan español, inglés y portugués. Nos especializamos en recibir turistas internacionales de toda América, Europa y Asia.' } },
+            { '@type' => 'Question', 'name' => '¿Cómo puedo pagar?',
+              'acceptedAnswer' => { '@type' => 'Answer', 'text' => 'Aceptamos Webpay Plus (tarjetas de débito/crédito chilenas e internacionales), Mercado Pago, PayPal y transferencia bancaria. El pago es 100% seguro con confirmación inmediata.' } },
+            { '@type' => 'Question', 'name' => '¿A partir de qué edad pueden tomar clases los niños?',
+              'acceptedAnswer' => { '@type' => 'Answer', 'text' => 'Los niños pueden comenzar a esquiar desde los 7 años. Tenemos instructores especializados en enseñanza infantil con metodología lúdica y segura.' } },
+            { '@type' => 'Question', 'name' => '¿Qué debo llevar a mi clase de ski?',
+              'acceptedAnswer' => { '@type' => 'Answer', 'text' => 'Recomendamos ropa térmica en capas, guantes impermeables, gorro, protector solar y gafas de sol o antiparras. El equipo de ski/snowboard está incluido en nuestros paquetes.' } },
+        ],
+    };
+}
+
 sub process_file {
     my ($rel, $lang) = @_;
     my $path = "$ROOT/$rel";
@@ -199,27 +229,39 @@ sub process_file {
     my $page_url = "https://clasesdeski.cl/" . ($rel eq "index.html" ? "" : $rel);
     $page_url =~ s{index\.html$}{};
 
+    # JSON serializer reused below
+    my $json = JSON::PP->new->utf8(0)->canonical(0)->allow_nonref(1)
+                       ->convert_blessed(0)->ascii(0);
+
     # Find the FIRST <script type="application/ld+json"> ... </script> with @graph
-    if ($html !~ m{(<script[^>]+type="application/ld\+json"[^>]*>)(\{"\@context":"https://schema\.org","\@graph":\[.*?\]\})(</script>)}s) {
-        print "  ✗ NO MATCH $rel\n";
+    my $had_graph = $html =~ m{(<script[^>]+type="application/ld\+json"[^>]*>)(\{"\@context":"https://schema\.org","\@graph":\[.*?\]\})(</script>)}s;
+
+    my $faq;
+    my ($open, $jsonl, $close);
+    if ($had_graph) {
+        $open  = $1;
+        $jsonl = $2;
+        $close = $3;
+        my $data = eval { decode_json(encode_utf8($jsonl)) };
+        if (!$data) {
+            print "  ✗ JSON PARSE FAIL $rel: $@\n";
+            return;
+        }
+        my @graph = @{ $data->{'@graph'} };
+        ($faq) = grep { ($_->{'@type'} // '') eq 'FAQPage' } @graph;
+    } else {
+        # No @graph block found — root index.html or stripped page.
+        # Use default FAQ for the language (currently only es).
+        $faq = default_faq($lang);
+    }
+
+    # Idempotency: skip if our injected block is already there (image=og-image.jpg)
+    if (!$had_graph && $html =~ m{<script type="application/ld\+json">\{"\@context":"https://schema\.org","\@graph":\[.*?clasesdeski\.cl/og-image\.jpg.*?\]\}</script>}s) {
+        print "  ⊙ $rel  lang=$lang  already injected, skipping\n";
         return;
     }
-    my $open  = $1;
-    my $jsonl = $2;
-    my $close = $3;
 
-    # Parse the JSON
-    my $data = eval { decode_json(encode_utf8($jsonl)) };
-    if (!$data) {
-        print "  ✗ JSON PARSE FAIL $rel: $@\n";
-        return;
-    }
-
-    # Extract FAQPage from the graph (keep) and discard the rest
-    my @graph = @{ $data->{'@graph'} };
-    my ($faq) = grep { ($_->{'@type'} // '') eq 'FAQPage' } @graph;
-
-    # Build new graph with enriched/i18n'd entries + preserved FAQPage
+    # Build new graph with enriched/i18n'd entries + preserved (or default) FAQPage
     my @new_graph = (
         build_localbusiness($lang, $page_url),
         build_course($lang),
@@ -232,15 +274,21 @@ sub process_file {
         '@graph'   => \@new_graph,
     };
 
-    # Serialize compact, UTF-8, no escaping of slashes / unicode
-    my $json = JSON::PP->new->utf8(0)->canonical(0)->allow_nonref(1)
-                       ->convert_blessed(0)->ascii(0);
     my $new_jsonl = $json->encode($new_data);
+    my $new_script = '<script type="application/ld+json">' . $new_jsonl . '</script>';
 
-    # Replace in HTML (replace the FIRST occurrence)
-    my $old_block = quotemeta($open . $jsonl . $close);
-    my $new_block = $open . $new_jsonl . $close;
-    $html =~ s/$old_block/$new_block/;
+    my $old_size = 0;
+    if ($had_graph) {
+        my $old_block = quotemeta($open . $jsonl . $close);
+        $html =~ s/$old_block/$new_script/;
+        $old_size = length(Encode::encode_utf8($jsonl));
+    } else {
+        # Inject before </head> (root has no @graph yet)
+        if ($html !~ s{</head>}{$new_script</head>}i) {
+            print "  ✗ NO </head> to inject before in $rel\n";
+            return;
+        }
+    }
 
     # Backup + write
     my $bak = "$path.bak-$$";
@@ -249,10 +297,10 @@ sub process_file {
     print $out $html;
     close($out);
 
-    my $new_size = length(Encode::encode_utf8($jsonl));
-    my $new_size2 = length(Encode::encode_utf8($new_jsonl));
+    my $new_size = length(Encode::encode_utf8($new_jsonl));
     my $faq_count = $faq ? scalar(@{ $faq->{mainEntity} // [] }) : 0;
-    print "  ✓ $rel  lang=$lang  jsonld: ${new_size}b → ${new_size2}b  (FAQ kept: $faq_count Qs)\n";
+    my $action = $had_graph ? "replaced" : "injected";
+    print "  ✓ $rel  lang=$lang  $action: ${old_size}b → ${new_size}b  (FAQ: $faq_count Qs)\n";
     print "    backup: $bak\n";
 }
 
