@@ -1,0 +1,358 @@
+/* ════════════════════════════════════════════════════════════
+   ClasesdeSki — Portal de Pago (v1.0)
+   ════════════════════════════════════════════════════════════ */
+
+:root {
+  --cdski-orange: #f97316;
+  --cdski-orange-dark: #ea580c;
+  --cdski-orange-light: #fb923c;
+  --cdski-ink: #0f172a;
+  --cdski-muted: #475569;
+  --cdski-line: rgba(15, 23, 42, 0.10);
+  --cdski-bg: #fff7ed;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(180deg, var(--cdski-bg) 0%, #ffffff 60%);
+  color: var(--cdski-ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--cdski-orange-dark); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.cdski-pago-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--cdski-line);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.cdski-pago-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  color: var(--cdski-ink);
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+}
+.cdski-pago-brand img { height: 32px; width: auto; }
+.cdski-pago-back {
+  font-size: 0.875rem;
+  color: var(--cdski-muted);
+  font-weight: 600;
+}
+
+.cdski-pago-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 24px 48px;
+}
+
+.cdski-pago-hero {
+  text-align: center;
+  margin-bottom: 32px;
+  position: relative;
+}
+.cdski-pago-eyebrow {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  background: rgba(249, 115, 22, 0.10);
+  border: 1px solid rgba(249, 115, 22, 0.25);
+  color: var(--cdski-orange-dark);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  letter-spacing: 0.3px;
+}
+.cdski-pago-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(2rem, 4.5vw, 2.75rem);
+  font-weight: 800;
+  margin: 0 0 12px;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+.cdski-pago-subtitle {
+  color: var(--cdski-muted);
+  font-size: 1.05rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.cdski-pago-subtitle strong { color: var(--cdski-ink); font-weight: 700; }
+
+.cdski-pago-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+@media (min-width: 900px) {
+  .cdski-pago-grid {
+    grid-template-columns: 1.2fr 1fr;
+    gap: 32px;
+  }
+}
+
+.cdski-pago-card {
+  background: #ffffff;
+  border: 1px solid var(--cdski-line);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+.cdski-pago-card-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 20px;
+  color: var(--cdski-ink);
+  letter-spacing: -0.01em;
+}
+
+.cdski-pago-row {
+  margin-bottom: 16px;
+}
+.cdski-pago-row label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--cdski-ink);
+  margin-bottom: 6px;
+}
+.req { color: var(--cdski-orange); }
+.cdski-pago-currency-label {
+  font-size: 0.8rem;
+  color: var(--cdski-muted);
+  font-weight: 500;
+  margin-left: 4px;
+}
+.cdski-pago-row input,
+.cdski-pago-row textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--cdski-line);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--cdski-ink);
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.cdski-pago-row input:focus,
+.cdski-pago-row textarea:focus {
+  outline: none;
+  border-color: var(--cdski-orange);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+.cdski-pago-row textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+.cdski-pago-help {
+  display: block;
+  margin-top: 6px;
+  color: var(--cdski-muted);
+  font-size: 0.8125rem;
+}
+.cdski-pago-help code {
+  background: rgba(15, 23, 42, 0.05);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+.cdski-pago-terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 0.875rem;
+  color: var(--cdski-muted);
+  line-height: 1.5;
+}
+.cdski-pago-terms input { margin-top: 3px; }
+
+.cdski-pago-methods { display: flex; flex-direction: column; }
+
+.cdski-pago-method {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border: 1.5px solid var(--cdski-line);
+  border-radius: 14px;
+  background: #ffffff;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+}
+.cdski-pago-method:hover {
+  transform: translateY(-2px);
+  border-color: var(--cdski-orange-light);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+.cdski-pago-method.is-active {
+  border-color: var(--cdski-orange);
+  background: linear-gradient(135deg, #ffffff, #fff7ed);
+  box-shadow: 0 8px 24px rgba(249, 115, 22, 0.20);
+}
+.cdski-pago-method[data-highlight="true"] {
+  border-color: rgba(249, 115, 22, 0.40);
+}
+.cdski-pago-method-logo {
+  width: 64px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cdski-pago-method-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.cdski-pago-method-body strong {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--cdski-ink);
+}
+.cdski-pago-method-body small {
+  font-size: 0.78rem;
+  color: var(--cdski-muted);
+}
+.cdski-pago-method-flag {
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+.badge-intl {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--cdski-orange), var(--cdski-orange-light));
+  color: #ffffff;
+  padding: 1px 7px;
+  border-radius: 9999px;
+  vertical-align: middle;
+  margin-left: 4px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.cdski-pago-cta {
+  margin-top: 8px;
+  width: 100%;
+  padding: 14px 20px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--cdski-orange), var(--cdski-orange-dark));
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 8px 24px rgba(249, 115, 22, 0.30);
+}
+.cdski-pago-cta:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(249, 115, 22, 0.40);
+}
+.cdski-pago-cta:disabled {
+  background: rgba(15, 23, 42, 0.20);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.cdski-pago-cta-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  background: var(--cdski-orange);
+  color: #ffffff !important;
+  font-weight: 700;
+  text-decoration: none !important;
+}
+.cdski-pago-cta-link:hover { background: var(--cdski-orange-dark); }
+
+#paypal-buttons-container {
+  margin-top: 8px;
+  min-height: 60px;
+}
+
+.cdski-pago-secure {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--cdski-muted);
+  padding-top: 12px;
+  border-top: 1px dashed var(--cdski-line);
+}
+
+.cdski-pago-status {
+  margin: 24px auto 0;
+  max-width: 720px;
+  padding: 18px 22px;
+  border-radius: 14px;
+  border-left: 4px solid var(--cdski-orange);
+  background: #fff7ed;
+  color: var(--cdski-ink);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+}
+.cdski-pago-status h3 { margin: 0 0 8px; font-family: 'Montserrat', sans-serif; }
+.cdski-pago-status p { margin: 6px 0; }
+.cdski-pago-status-success {
+  background: #ecfdf5;
+  border-left-color: #10b981;
+}
+.cdski-pago-status-error {
+  background: #fef2f2;
+  border-left-color: #ef4444;
+  color: #991b1b;
+}
+.cdski-pago-status-info {
+  background: #eff6ff;
+  border-left-color: #3b82f6;
+}
+
+.cdski-pago-footer {
+  margin: 48px auto 24px;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--cdski-muted);
+  padding: 0 24px;
+}
+.cdski-pago-footer-small {
+  font-size: 0.75rem;
+  margin-top: 4px;
+  opacity: 0.75;
+}
+
+@media (max-width: 640px) {
+  .cdski-pago-card { padding: 22px 18px; }
+  .cdski-pago-method { padding: 12px 14px; }
+  .cdski-pago-method-logo { width: 52px; }
+  .cdski-pago-title { font-size: 1.75rem; }
+}
