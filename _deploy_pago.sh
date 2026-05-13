@@ -1,10 +1,13 @@
 #!/bin/bash
-# ClasesdeSki — Deploy del Portal de Pago (/pago/)
+# ClasesdeSki — Deploy del Portal de Pago (/pago/)  v1.1
 # Lo que hace:
 #   1. Borra los 3 PHP rotos (versiones tourevo con deps que no existen)
 #   2. Copia config.php de tourevo (credenciales)
-#   3. Descarga los 3 PHP limpios + página /pago/ + JS + CSS desde el repo
-#   4. Verifica que los 3 endpoints respondan 200 con JSON válido
+#   3. Auto-agrega las constantes WEBPAY a config.php si faltan
+#      (los PHP de tourevo tienen las creds hardcodeadas dentro de webpay.php;
+#       nosotros las centralizamos en config.php)
+#   4. Descarga los 3 PHP limpios + página /pago/ + JS + CSS desde el repo
+#   5. Verifica que los 3 endpoints respondan 200 con JSON válido
 # Idempotente: se puede re-correr sin problema.
 
 set -e
@@ -40,6 +43,27 @@ else
 fi
 
 echo ""
+echo "→ 2b. Verificando constantes WEBPAY en config.php..."
+# Tourevo's config.php no tiene las constantes Webpay (están hardcodeadas
+# dentro de su webpay.php). Nuestro webpay.php limpio solo lee de config.php,
+# así que las agregamos aquí si faltan.
+if ! grep -q "WEBPAY_COMMERCE_CODE" api/config.php; then
+  cat >> api/config.php << 'WEBPAY_EOF'
+
+// ============================================
+// WEBPAY (Transbank) PRODUCTION CREDENTIALS
+// (agregadas automáticamente por _deploy_pago.sh)
+// ============================================
+define('WEBPAY_COMMERCE_CODE',  '597034812373');
+define('WEBPAY_API_KEY_SECRET', '464a2bf8092ad625b634ccf4bb506440');
+define('WEBPAY_API_URL',        'https://webpay3g.transbank.cl');
+WEBPAY_EOF
+  echo "  ✓ Constantes WEBPAY agregadas a config.php"
+else
+  echo "  ⊙ Constantes WEBPAY ya presentes"
+fi
+
+echo ""
 echo "→ 3. Descargando 3 PHP limpios desde repo..."
 curl -fsS -o api/paypal.php      "$GH/api/paypal.php"
 curl -fsS -o api/mercadopago.php "$GH/api/mercadopago.php"
@@ -67,6 +91,7 @@ grep -oE '/cdski-pago\.(css|js)\?v=[0-9]+' pago/index.html | sort -u
 
 echo ""
 echo "→ 7. Purgando caches LiteSpeed..."
+rm -rf ~/lscache 2>/dev/null || true
 find . -name ".lsphp_cache" -o -name "lscache" 2>/dev/null | xargs -r rm -rf
 
 echo ""
@@ -85,8 +110,15 @@ curl -fsS "https://clasesdeski.cl/api/mercadopago.php?action=get_public_key" | h
 echo ""
 
 echo ""
-echo "Webpay — (sin action, espera available_actions):"
-curl -fsS "https://clasesdeski.cl/api/webpay.php" | head -c 300
+echo "Webpay — environment check (sin action, espera 400 + available_actions):"
+curl -sS "https://clasesdeski.cl/api/webpay.php" | head -c 300
+echo ""
+
+echo ""
+echo "Webpay — TEST REAL de create_transaction (\$100 CLP, debería devolver token):"
+curl -sS -X POST -H "Content-Type: application/json" \
+  -d '{"amount":100,"description":"Deploy test","booking_code":"TEST"}' \
+  "https://clasesdeski.cl/api/webpay.php?action=create_transaction" | head -c 400
 echo ""
 
 echo ""
