@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════
-   ClasesdeSki — Portal de Pago v2.0  (Super PRO UI/UX)
+   ClasesdeSki — Portal de Pago v2.1  (Super PRO UI/UX + PayPal/Card labels)
    ════════════════════════════════════════════════════════════ */
 
 :root {
@@ -328,7 +328,66 @@ a:hover { color: var(--c-orange-darker); text-decoration: underline; }
 .cdski-pago-method-fee { font-size: 0.72rem; color: var(--c-muted-2); font-weight: 600; }
 
 .cdski-pago-cta-section { margin-bottom: 36px; text-align: center; }
-.cdski-pago-paypal-container { max-width: 460px; margin: 0 auto; min-height: 60px; }
+.cdski-pago-paypal-container {
+  max-width: 460px;
+  margin: 0 auto 16px;
+  padding: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--c-orange-50) 100%);
+  border: 1px solid var(--c-orange-100);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-md);
+}
+
+/* v2.1: PayPal Smart Buttons split into 2 labeled sections */
+.cdski-pago-paypal-section { margin-bottom: 6px; }
+.cdski-pago-paypal-section:last-child { margin-bottom: 0; }
+.cdski-pago-paypal-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  background: #ffffff;
+  border: 1px solid var(--c-orange-100);
+  border-radius: var(--r-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--c-ink);
+  text-align: center;
+  line-height: 1.35;
+}
+.cdski-pago-paypal-label strong { color: var(--c-orange-dark); font-weight: 800; }
+.cdski-pago-paypal-label-icon {
+  font-size: 1.05rem;
+  flex-shrink: 0;
+}
+.cdski-pago-paypal-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 12px 0;
+  color: var(--c-muted-2);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.cdski-pago-paypal-divider::before,
+.cdski-pago-paypal-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--c-line-strong);
+}
+.cdski-pago-paypal-divider span {
+  padding: 2px 8px;
+  background: var(--c-orange-50);
+  border-radius: 9999px;
+  border: 1px solid var(--c-orange-100);
+}
+
 .cdski-pago-btn-primary {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   min-width: 320px; max-width: 460px; width: 100%; padding: 16px 28px;
