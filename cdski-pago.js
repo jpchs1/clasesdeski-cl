@@ -1,17 +1,12 @@
 /**
- * ClasesdeSki — Portal de Pago v2.1 (Super PRO UX + explicit PayPal/Card labels)
+ * ClasesdeSki — Portal de Pago v2.1.2
  *
- * v2.1: PayPal Smart Buttons split into 2 labeled funding sources
- *       (PAYPAL gold button + CARD black button), each rendered with
- *       its own explicit caption above it ("Pagá con cuenta PayPal" /
- *       "Pagá con tarjeta internacional · Visa · MasterCard · Amex").
- *       SDK URL uses enable-funding=card + locale=es_CL.
- * v2.0: live summary, stepper, inline validation, URL prefill.
- *
- * Integrates 3 payment processors against clasesdeski.cl/api/*.php:
- *   - Webpay Plus       POST /api/webpay.php?action=create_transaction → redirect form
- *   - MercadoPago       POST /api/mercadopago.php?action=create_preference → redirect to init_point
- *   - PayPal Smart Btns GET  /api/paypal.php?action=get_client_id + create_order/capture_order
+ * v2.1.2: Fix "window.paypal.isFundingEligible is not a function" —
+ *         removed the invalid pre-check; .isEligible() on the Buttons
+ *         instance is the correct API.
+ * v2.1.1: amount US$ prefix overlap fix (CSS only).
+ * v2.1:   PayPal Smart Buttons split into 2 labeled funding sources.
+ * v2.0:   live summary, stepper, inline validation, URL prefill.
  */
 (function () {
   'use strict';
@@ -51,7 +46,7 @@
 
   var selectedMethod   = null;
   var selectedCurrency = 'CLP';
-  var paypalInstances  = [];   // v2.1: now an array (paypal + card)
+  var paypalInstances  = [];
 
   function formatNumber(n, cur) {
     n = Number(n) || 0;
@@ -324,7 +319,6 @@
     return new Promise(function (resolve, reject) {
       if (window.paypal) return resolve();
       var s = document.createElement('script');
-      // v2.1: enable card funding source + Spanish locale + buttons component
       s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(clientId) +
               '&currency=USD&intent=capture&commit=true' +
               '&enable-funding=card&disable-funding=paylater,credit' +
@@ -335,7 +329,6 @@
     });
   }
 
-  // Shared callbacks for both PayPal and Card funding sources
   function paypalCallbacks() {
     return {
       onClick: function (data, actions) {
@@ -398,7 +391,6 @@
   }
 
   function mountPayPalButtons() {
-    // Close any previous instances
     if (paypalInstances.length) {
       paypalInstances.forEach(function (inst) { try { inst.close(); } catch (e) {} });
       paypalInstances = [];
@@ -426,35 +418,49 @@
         var cbs = paypalCallbacks();
         var FUNDING = window.paypal.FUNDING || {};
 
-        // ── PayPal button (gold, with "PayPal" label) ──
-        if (FUNDING.PAYPAL && window.paypal.isFundingEligible(FUNDING.PAYPAL) && ppBtnPayPal) {
-          var paypalBtn = window.paypal.Buttons(Object.assign({}, cbs, {
-            fundingSource: FUNDING.PAYPAL,
-            style: { layout: 'horizontal', color: 'gold', shape: 'rect', label: 'paypal', tagline: false, height: 48 }
-          }));
-          if (paypalBtn.isEligible()) {
-            paypalBtn.render('#paypal-btn-paypal').catch(function (e) {
-              console.error('PayPal button render error:', e);
-              ppBtnPayPal.innerHTML = '<small style="color:#ef4444">No disponible.</small>';
-            });
-            paypalInstances.push(paypalBtn);
+        // ── PayPal button (gold) ──
+        // v2.1.2 fix: window.paypal.isFundingEligible is NOT a function.
+        // The correct API is btnInstance.isEligible() after construction.
+        if (FUNDING.PAYPAL && ppBtnPayPal) {
+          try {
+            var paypalBtn = window.paypal.Buttons(Object.assign({}, cbs, {
+              fundingSource: FUNDING.PAYPAL,
+              style: { layout: 'horizontal', color: 'gold', shape: 'rect', label: 'paypal', tagline: false, height: 48 }
+            }));
+            if (paypalBtn.isEligible && paypalBtn.isEligible()) {
+              paypalBtn.render('#paypal-btn-paypal').catch(function (e) {
+                console.error('PayPal button render error:', e);
+                ppBtnPayPal.innerHTML = '<small style="color:#ef4444">No se pudo cargar.</small>';
+              });
+              paypalInstances.push(paypalBtn);
+            } else {
+              ppBtnPayPal.innerHTML = '<small style="color:#64748b">PayPal no disponible en tu región.</small>';
+            }
+          } catch (e) {
+            console.error('PayPal Buttons construction error:', e);
+            ppBtnPayPal.innerHTML = '<small style="color:#ef4444">Error: ' + e.message + '</small>';
           }
         }
 
-        // ── Card button (black, with explicit Card label) ──
-        if (FUNDING.CARD && window.paypal.isFundingEligible(FUNDING.CARD) && ppBtnCard) {
-          var cardBtn = window.paypal.Buttons(Object.assign({}, cbs, {
-            fundingSource: FUNDING.CARD,
-            style: { layout: 'horizontal', color: 'black', shape: 'rect', label: 'pay', height: 48 }
-          }));
-          if (cardBtn.isEligible()) {
-            cardBtn.render('#paypal-btn-card').catch(function (e) {
-              console.error('Card button render error:', e);
-              ppBtnCard.innerHTML = '<small style="color:#ef4444">No disponible.</small>';
-            });
-            paypalInstances.push(cardBtn);
-          } else {
-            ppBtnCard.innerHTML = '<small style="color:#64748b">Tarjeta no disponible en tu región. Usá PayPal arriba.</small>';
+        // ── Card button (black) ──
+        if (FUNDING.CARD && ppBtnCard) {
+          try {
+            var cardBtn = window.paypal.Buttons(Object.assign({}, cbs, {
+              fundingSource: FUNDING.CARD,
+              style: { layout: 'horizontal', color: 'black', shape: 'rect', label: 'pay', height: 48 }
+            }));
+            if (cardBtn.isEligible && cardBtn.isEligible()) {
+              cardBtn.render('#paypal-btn-card').catch(function (e) {
+                console.error('Card button render error:', e);
+                ppBtnCard.innerHTML = '<small style="color:#ef4444">No se pudo cargar.</small>';
+              });
+              paypalInstances.push(cardBtn);
+            } else {
+              ppBtnCard.innerHTML = '<small style="color:#64748b">Tarjeta no disponible en tu región. Usá PayPal arriba.</small>';
+            }
+          } catch (e) {
+            console.error('Card Buttons construction error:', e);
+            ppBtnCard.innerHTML = '<small style="color:#ef4444">Error: ' + e.message + '</small>';
           }
         }
 
