@@ -1,11 +1,22 @@
 #!/usr/bin/perl
-# ClasesdeSki — fix Rich Results JSON-LD across all index.html files.
-# Replaces LocalBusiness / Course / BreadcrumbList with enriched + i18n'd
-# versions. Preserves the FAQPage block (already well-localized).
-# If no @graph exists (e.g. root /index.html), injects a fresh block
-# with a hardcoded Spanish FAQPage (since root canonical is es).
-# Usage: perl fix_jsonld.pl <root>
-# Example: perl fix_jsonld.pl ~/clasesdeski.cl
+# ClasesdeSki — fix Rich Results JSON-LD across all index.html files (v1.2)
+#
+# Iterates every <script type="application/ld+json"> tag in each page and
+# parses it to determine whether it contains an @graph (regardless of
+# field order). Replaces the @graph block in place; if none exists,
+# injects a fresh one before </head>. Idempotent across re-runs because
+# both regex matching and output serialization tolerate any field order.
+#
+# v1.2: robust detection — iterate all JSON-LD scripts and parse each
+#       to find one with @graph. Avoids the v1.1 bug where Perl hash key
+#       randomization made the new output not match the previous run's
+#       output regex (which assumed @context first). Also forces
+#       canonical (alphabetical) JSON output so future runs are stable.
+# v1.1: inject @graph when missing (root /index.html case).
+# v1.0: replace existing @graph; preserve FAQPage from baked-in HTML.
+#
+# Usage: perl _fix_jsonld.pl <root>
+# Example: perl _fix_jsonld.pl ~/clasesdeski.cl
 use strict;
 use warnings;
 use utf8;
@@ -18,7 +29,7 @@ my $ROOT = $ARGV[0] || die "Usage: $0 <root>\n";
 $ROOT =~ s{/$}{};
 
 my @FILES = (
-    [ "index.html",            "es" ],   # root home → Spanish
+    [ "index.html",            "es" ],
     [ "es/index.html",         "es" ],
     [ "en/index.html",         "en" ],
     [ "pt/index.html",         "pt" ],
@@ -59,7 +70,7 @@ my %I18N = (
 );
 
 sub build_localbusiness {
-    my ($lang, $page_url) = @_;
+    my ($lang) = @_;
     my $t = $I18N{$lang};
     return {
         '@type'              => [ "LocalBusiness", "SportsActivityLocation" ],
@@ -188,8 +199,8 @@ sub build_breadcrumb {
 
 sub default_faq {
     my $lang = shift;
-    # Spanish canonical FAQs (used when no FAQPage exists in the page yet,
-    # e.g. the root /index.html). Only ES because the root canonical is es.
+    # Canonical Spanish FAQs used when no FAQPage is found on the page
+    # (root /index.html). Only ES because root canonical is hreflang=es.
     return undef unless $lang eq 'es';
     return {
         '@type' => 'FAQPage',
@@ -214,6 +225,22 @@ sub default_faq {
     };
 }
 
+# Find the JSON-LD script in $html that contains an @graph. Returns
+# (full_tag_match, json_text, parsed_data) — or empty list if none.
+sub find_graph_script {
+    my $html = shift;
+    my $json_pp = JSON::PP->new;
+    while ($html =~ m{(<script[^>]*type="application/ld\+json"[^>]*>(.*?)</script>)}sg) {
+        my $full = $1;
+        my $body = $2;
+        next unless $body =~ /"\@graph"/;
+        my $data = eval { $json_pp->decode(encode_utf8($body)) };
+        next unless $data && ref($data) eq 'HASH' && $data->{'@graph'};
+        return ($full, $body, $data);
+    }
+    return ();
+}
+
 sub process_file {
     my ($rel, $lang) = @_;
     my $path = "$ROOT/$rel";
@@ -229,41 +256,24 @@ sub process_file {
     my $page_url = "https://clasesdeski.cl/" . ($rel eq "index.html" ? "" : $rel);
     $page_url =~ s{index\.html$}{};
 
-    # JSON serializer reused below
-    my $json = JSON::PP->new->utf8(0)->canonical(0)->allow_nonref(1)
-                       ->convert_blessed(0)->ascii(0);
-
-    # Find the FIRST <script type="application/ld+json"> ... </script> with @graph
-    my $had_graph = $html =~ m{(<script[^>]+type="application/ld\+json"[^>]*>)(\{"\@context":"https://schema\.org","\@graph":\[.*?\]\})(</script>)}s;
+    # Output serializer — canonical (alphabetical) keys for stable, idempotent output
+    my $json_out = JSON::PP->new->utf8(0)->canonical(1)->allow_nonref(1)->ascii(0);
 
     my $faq;
-    my ($open, $jsonl, $close);
+    my ($full_script, $jsonl, $data) = find_graph_script($html);
+    my $had_graph = defined $full_script;
+
     if ($had_graph) {
-        $open  = $1;
-        $jsonl = $2;
-        $close = $3;
-        my $data = eval { decode_json(encode_utf8($jsonl)) };
-        if (!$data) {
-            print "  ✗ JSON PARSE FAIL $rel: $@\n";
-            return;
-        }
+        # Pull FAQPage from existing graph (preserved verbatim)
         my @graph = @{ $data->{'@graph'} };
         ($faq) = grep { ($_->{'@type'} // '') eq 'FAQPage' } @graph;
     } else {
-        # No @graph block found — root index.html or stripped page.
-        # Use default FAQ for the language (currently only es).
         $faq = default_faq($lang);
     }
 
-    # Idempotency: skip if our injected block is already there (image=og-image.jpg)
-    if (!$had_graph && $html =~ m{<script type="application/ld\+json">\{"\@context":"https://schema\.org","\@graph":\[.*?clasesdeski\.cl/og-image\.jpg.*?\]\}</script>}s) {
-        print "  ⊙ $rel  lang=$lang  already injected, skipping\n";
-        return;
-    }
-
-    # Build new graph with enriched/i18n'd entries + preserved (or default) FAQPage
+    # Build new graph
     my @new_graph = (
-        build_localbusiness($lang, $page_url),
+        build_localbusiness($lang),
         build_course($lang),
         ($faq ? ($faq) : ()),
         build_breadcrumb($lang, $page_url),
@@ -273,24 +283,27 @@ sub process_file {
         '@context' => "https://schema.org",
         '@graph'   => \@new_graph,
     };
-
-    my $new_jsonl = $json->encode($new_data);
+    my $new_jsonl = $json_out->encode($new_data);
     my $new_script = '<script type="application/ld+json">' . $new_jsonl . '</script>';
+
+    # Skip if the page already has the exact same canonical output
+    if ($had_graph && $jsonl eq $new_jsonl) {
+        print "  ⊙ $rel  lang=$lang  unchanged (canonical match)\n";
+        return;
+    }
 
     my $old_size = 0;
     if ($had_graph) {
-        my $old_block = quotemeta($open . $jsonl . $close);
-        $html =~ s/$old_block/$new_script/;
+        my $old_quoted = quotemeta($full_script);
+        $html =~ s/$old_quoted/$new_script/;
         $old_size = length(Encode::encode_utf8($jsonl));
     } else {
-        # Inject before </head> (root has no @graph yet)
         if ($html !~ s{</head>}{$new_script</head>}i) {
             print "  ✗ NO </head> to inject before in $rel\n";
             return;
         }
     }
 
-    # Backup + write
     my $bak = "$path.bak-$$";
     rename($path, $bak) or die "Cannot backup $path: $!";
     open(my $out, '>:encoding(UTF-8)', $path) or die "Cannot write $path: $!";
