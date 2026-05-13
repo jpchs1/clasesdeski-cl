@@ -4,152 +4,378 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Portal de Pago — CDSKI Clases de Ski Chile</title>
-<meta name="description" content="Paga tu reserva de clases de ski y snowboard CDSKI de forma segura: Webpay, MercadoPago o PayPal. Pago 100% protegido." />
+<meta name="description" content="Paga tu reserva de clases de ski y snowboard CDSKI de forma segura: Webpay, MercadoPago o PayPal. Pago 100% protegido, SSL 256-bit." />
 <meta name="robots" content="noindex,nofollow" />
+<meta name="theme-color" content="#f97316" />
 <link rel="canonical" href="https://clasesdeski.cl/pago/" />
 <link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;500;600&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600;700&display=swap" />
 <link rel="stylesheet" href="/cdski-pago.css" />
 </head>
-<body>
+<body class="cdski-pago-body">
 
 <header class="cdski-pago-topbar">
   <a href="/" class="cdski-pago-brand" aria-label="CDSKI · Inicio">
-    <img src="/images/logo-cdski.png" alt="CDSKI" />
+    <img src="/images/logo-cdski.png" alt="" />
     <span class="cdski-pago-brand-name">CDSKI</span>
+    <span class="cdski-pago-brand-tag">Clases de Ski Chile</span>
   </a>
-  <a href="/" class="cdski-pago-back">← Volver al sitio</a>
+  <nav class="cdski-pago-topbar-nav">
+    <a href="https://wa.me/56940211459?text=Hola%20CDSKI%21" target="_blank" rel="noopener" class="cdski-pago-topbar-link">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652a12.05 12.05 0 005.71 1.448h.005c6.585 0 11.946-5.336 11.949-11.896 0-3.176-1.24-6.165-3.495-8.411z"/></svg>
+      WhatsApp
+    </a>
+    <a href="/" class="cdski-pago-back">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Volver
+    </a>
+  </nav>
 </header>
+
+<section class="cdski-pago-hero">
+  <div class="cdski-pago-hero-aurora"></div>
+  <div class="cdski-pago-hero-stars" aria-hidden="true"></div>
+
+  <div class="cdski-pago-hero-content">
+    <span class="cdski-pago-eyebrow">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Pago 100% seguro · SSL 256-bit
+    </span>
+    <h1 class="cdski-pago-hero-title">Portal de Pago CDSKI</h1>
+    <p class="cdski-pago-hero-subtitle">
+      Paga tu reserva de clases de ski o snowboard en segundos.
+      <strong>Webpay</strong> · <strong>MercadoPago</strong> · <strong>PayPal</strong>.
+    </p>
+    <div class="cdski-pago-hero-badges">
+      <span class="cdski-pago-hero-badge">Visa</span>
+      <span class="cdski-pago-hero-badge">MasterCard</span>
+      <span class="cdski-pago-hero-badge">Amex</span>
+      <span class="cdski-pago-hero-badge">RedCompra</span>
+      <span class="cdski-pago-hero-badge">PayPal</span>
+    </div>
+  </div>
+
+  <svg class="cdski-pago-hero-mountains" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,200 L0,140 L120,80 L220,120 L340,40 L480,110 L600,60 L720,130 L860,70 L1000,120 L1140,50 L1280,100 L1440,80 L1440,200 Z" fill="rgba(255,255,255,0.10)"/>
+    <path d="M0,200 L0,170 L100,130 L240,160 L380,100 L520,150 L660,110 L800,160 L940,120 L1080,150 L1220,100 L1360,140 L1440,120 L1440,200 Z" fill="rgba(255,255,255,0.18)"/>
+    <path d="M0,200 L0,185 L180,170 L360,180 L540,165 L720,180 L900,170 L1080,180 L1260,170 L1440,180 L1440,200 Z" fill="rgba(255,255,255,0.30)"/>
+  </svg>
+</section>
 
 <main class="cdski-pago-main">
 
-  <section class="cdski-pago-hero">
-    <span class="cdski-pago-eyebrow">🔒 Pago 100% seguro</span>
-    <h1 class="cdski-pago-title">Portal de pago</h1>
-    <p class="cdski-pago-subtitle">
-      Completa tu pago con el método que prefieras.
-      <strong>Webpay</strong> y <strong>MercadoPago</strong> para Chile;
-      <strong>PayPal</strong> para pagos internacionales.
-    </p>
-  </section>
+  <nav class="cdski-pago-stepper" aria-label="Pasos del pago">
+    <div class="cdski-step is-active" data-step="1">
+      <span class="cdski-step-num">
+        <svg class="cdski-step-check" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M5 12l5 5L20 7"/></svg>
+        <span class="cdski-step-numtext">1</span>
+      </span>
+      <span class="cdski-step-label">Tus datos</span>
+    </div>
+    <div class="cdski-step-line" data-line="1-2"></div>
+    <div class="cdski-step" data-step="2">
+      <span class="cdski-step-num">
+        <svg class="cdski-step-check" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M5 12l5 5L20 7"/></svg>
+        <span class="cdski-step-numtext">2</span>
+      </span>
+      <span class="cdski-step-label">Método</span>
+    </div>
+    <div class="cdski-step-line" data-line="2-3"></div>
+    <div class="cdski-step" data-step="3">
+      <span class="cdski-step-num">
+        <svg class="cdski-step-check" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M5 12l5 5L20 7"/></svg>
+        <span class="cdski-step-numtext">3</span>
+      </span>
+      <span class="cdski-step-label">Confirmar</span>
+    </div>
+  </nav>
 
-  <section class="cdski-pago-grid">
+  <section class="cdski-pago-grid-main">
 
-    <form id="cdski-pago-form" class="cdski-pago-card" autocomplete="on" novalidate>
-      <h2 class="cdski-pago-card-title">Datos del pagador</h2>
+    <form id="cdski-pago-form" class="cdski-pago-card cdski-pago-form-card" autocomplete="on" novalidate>
+      <header class="cdski-pago-card-head">
+        <h2 class="cdski-pago-card-title">Tus datos</h2>
+        <span class="cdski-pago-card-tag">Paso 1 de 3</span>
+      </header>
 
-      <div class="cdski-pago-row">
-        <label for="payerName">Nombre completo <span class="req">*</span></label>
-        <input type="text" id="payerName" name="nombre" required autocomplete="name" />
-      </div>
+      <div class="cdski-pago-grid-form">
 
-      <div class="cdski-pago-row">
-        <label for="payerEmail">Email <span class="req">*</span></label>
-        <input type="email" id="payerEmail" name="email" required autocomplete="email" />
-      </div>
+        <div class="cdski-pago-field cdski-pago-field-full">
+          <label for="payerName">Nombre completo <span class="req">*</span></label>
+          <div class="cdski-pago-input-wrap">
+            <svg class="cdski-pago-input-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input type="text" id="payerName" name="nombre" required autocomplete="name" placeholder="Juan Pérez" />
+          </div>
+          <small class="cdski-pago-field-error" data-error-for="payerName"></small>
+        </div>
 
-      <div class="cdski-pago-row">
-        <label for="payerPhone">Teléfono (opcional)</label>
-        <input type="tel" id="payerPhone" name="telefono" autocomplete="tel" placeholder="+56 9 ..." />
-      </div>
+        <div class="cdski-pago-field">
+          <label for="payerEmail">Email <span class="req">*</span></label>
+          <div class="cdski-pago-input-wrap">
+            <svg class="cdski-pago-input-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+            <input type="email" id="payerEmail" name="email" required autocomplete="email" placeholder="tu@email.com" />
+          </div>
+          <small class="cdski-pago-field-error" data-error-for="payerEmail"></small>
+        </div>
 
-      <div class="cdski-pago-row">
-        <label for="bookingCode">Código de reserva (opcional)</label>
-        <input type="text" id="bookingCode" name="reserva" placeholder="CDSKI-2026-..." />
-      </div>
+        <div class="cdski-pago-field">
+          <label for="payerPhone">Teléfono</label>
+          <div class="cdski-pago-input-wrap">
+            <svg class="cdski-pago-input-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <input type="tel" id="payerPhone" name="telefono" autocomplete="tel" placeholder="+56 9 ..." />
+          </div>
+        </div>
 
-      <div class="cdski-pago-row">
-        <label for="amount">
-          Monto <span class="req">*</span>
-          <span class="cdski-pago-currency-label" id="amountCurrencyLabel">(CLP)</span>
-        </label>
-        <input type="text" id="amount" name="monto" inputmode="numeric" required placeholder="Ej: 60.000" />
-        <small class="cdski-pago-help">
-          <span data-clp>CLP — para Webpay y MercadoPago</span>
-          <span data-usd hidden>USD — para PayPal (tasa CLP→USD <code id="usdRateLabel">≈ 950</code>)</span>
-        </small>
-      </div>
+        <div class="cdski-pago-field cdski-pago-field-full">
+          <label for="bookingCode">Código de reserva <span class="opt">(opcional)</span></label>
+          <div class="cdski-pago-input-wrap">
+            <svg class="cdski-pago-input-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <input type="text" id="bookingCode" name="reserva" placeholder="CDSKI-2026-..." />
+          </div>
+        </div>
 
-      <div class="cdski-pago-row">
-        <label for="description">Concepto <span class="req">*</span></label>
-        <textarea id="description" name="concepto" rows="2" required
-          placeholder="Ej: Clase ski grupal Valle Nevado — 2 personas, 28 jun"></textarea>
+        <div class="cdski-pago-field cdski-pago-field-full">
+          <label for="description">Concepto del pago <span class="req">*</span></label>
+          <textarea id="description" name="concepto" rows="2" required
+            placeholder="Ej: Clase ski grupal Valle Nevado — 2 personas, 28 jun 2026"></textarea>
+          <small class="cdski-pago-field-error" data-error-for="description"></small>
+        </div>
+
+        <div class="cdski-pago-field cdski-pago-field-full">
+          <label for="amount">
+            Monto <span class="req">*</span>
+            <span class="cdski-pago-currency-tag" id="amountCurrencyLabel">CLP</span>
+          </label>
+          <div class="cdski-pago-input-wrap cdski-pago-input-wrap-amount">
+            <span class="cdski-pago-input-prefix" id="amountPrefix">$</span>
+            <input type="text" id="amount" name="monto" inputmode="numeric" required placeholder="60.000" />
+          </div>
+          <small class="cdski-pago-field-hint">
+            <span data-clp>💡 CLP — para pagos con Webpay y MercadoPago</span>
+            <span data-usd hidden>🌎 USD — para pagos internacionales con PayPal</span>
+          </small>
+          <small class="cdski-pago-field-error" data-error-for="amount"></small>
+        </div>
+
       </div>
 
       <label class="cdski-pago-terms">
         <input type="checkbox" id="acceptTerms" required />
         <span>
           Acepto los <a href="/es/faq/" target="_blank" rel="noopener">términos y condiciones</a>
-          y la política de pago de CDSKI.
+          y entiendo que el pago es definitivo (sujeto a la política de cancelación de CDSKI).
         </span>
       </label>
     </form>
 
-    <aside class="cdski-pago-card cdski-pago-methods">
-      <h2 class="cdski-pago-card-title">Elige tu método de pago</h2>
-
-      <button type="button" class="cdski-pago-method" data-method="webpay" data-currency="CLP">
-        <span class="cdski-pago-method-logo">
-          <svg viewBox="0 0 120 32" width="120" height="32"><text x="0" y="22" font-family="Arial" font-size="18" font-weight="700" fill="#e8002a">Webpay</text><text x="68" y="22" font-family="Arial" font-size="13" font-weight="700" fill="#003876">Plus</text></svg>
+    <aside class="cdski-pago-card cdski-pago-summary-card" aria-label="Resumen del pago">
+      <header class="cdski-pago-summary-head">
+        <h2 class="cdski-pago-card-title">Resumen</h2>
+        <span class="cdski-pago-summary-secure">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Cifrado
         </span>
-        <span class="cdski-pago-method-body">
-          <strong>Webpay Plus</strong>
-          <small>Tarjetas chilenas (Visa/Master/RedCompra) · CLP</small>
-        </span>
-        <span class="cdski-pago-method-flag">🇨🇱</span>
-      </button>
+      </header>
 
-      <button type="button" class="cdski-pago-method" data-method="mercadopago" data-currency="CLP">
-        <span class="cdski-pago-method-logo">
-          <svg viewBox="0 0 130 32" width="130" height="32"><ellipse cx="20" cy="16" rx="18" ry="9" fill="#00b1ea"/><text x="6" y="20" font-family="Arial" font-size="11" font-weight="700" fill="#ffffff">MP</text><text x="44" y="14" font-family="Arial" font-size="11" font-weight="700" fill="#00b1ea">Mercado</text><text x="44" y="27" font-family="Arial" font-size="11" font-weight="700" fill="#0058a3">Pago</text></svg>
-        </span>
-        <span class="cdski-pago-method-body">
-          <strong>Mercado Pago</strong>
-          <small>LATAM · Tarjetas + cuenta MP · CLP</small>
-        </span>
-        <span class="cdski-pago-method-flag">🇨🇱🇦🇷🇧🇷🇲🇽</span>
-      </button>
+      <div class="cdski-pago-summary-row">
+        <span class="cdski-pago-summary-label">Concepto</span>
+        <span class="cdski-pago-summary-value" id="summaryDescription">—</span>
+      </div>
 
-      <button type="button" class="cdski-pago-method" data-method="paypal" data-currency="USD" data-highlight="true">
-        <span class="cdski-pago-method-logo">
-          <svg viewBox="0 0 120 32" width="120" height="32"><text x="0" y="22" font-family="Arial" font-size="20" font-weight="700" fill="#003087" font-style="italic">Pay</text><text x="40" y="22" font-family="Arial" font-size="20" font-weight="700" fill="#009cde" font-style="italic">Pal</text></svg>
+      <div class="cdski-pago-summary-row">
+        <span class="cdski-pago-summary-label">Cliente</span>
+        <span class="cdski-pago-summary-value" id="summaryClient">—</span>
+      </div>
+
+      <div class="cdski-pago-summary-divider"></div>
+
+      <div class="cdski-pago-summary-total">
+        <span class="cdski-pago-summary-label">Total a pagar</span>
+        <span class="cdski-pago-summary-amount">
+          <span id="summaryAmount">$0</span>
+          <small id="summaryCurrency">CLP</small>
         </span>
-        <span class="cdski-pago-method-body">
-          <strong>PayPal <span class="badge-intl">Internacional</span></strong>
-          <small>Visa / Master / Amex / Discover · USD</small>
-        </span>
-        <span class="cdski-pago-method-flag">🌎</span>
-      </button>
+      </div>
 
-      <div id="paypal-buttons-container" hidden></div>
+      <div class="cdski-pago-summary-conversion" id="summaryConversion" hidden>
+        <span class="cdski-pago-summary-conversion-label">≈ Equivalente:</span>
+        <span class="cdski-pago-summary-conversion-value" id="summaryConversionValue">—</span>
+      </div>
 
-      <button type="button" id="cdski-pago-submit" class="cdski-pago-cta" disabled>
-        Selecciona un método y completa el formulario
-      </button>
+      <div class="cdski-pago-summary-divider"></div>
 
-      <div class="cdski-pago-secure">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Pago 100% seguro · datos cifrados · sin almacenamiento de tarjetas
+      <div class="cdski-pago-summary-trust">
+        <div class="cdski-pago-trust-row">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          SSL 256-bit · datos cifrados
+        </div>
+        <div class="cdski-pago-trust-row">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          No almacenamos tu tarjeta
+        </div>
+        <div class="cdski-pago-trust-row">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Procesadores PCI DSS Level 1
+        </div>
+      </div>
+
+      <div class="cdski-pago-summary-help">
+        <strong>¿Necesitás ayuda?</strong>
+        <a href="https://wa.me/56940211459?text=Hola%20CDSKI%2C%20tengo%20dudas%20con%20el%20pago" target="_blank" rel="noopener">
+          WhatsApp +56 9 4021 1459
+        </a>
       </div>
     </aside>
 
   </section>
 
+  <section class="cdski-pago-methods-section" aria-label="Métodos de pago">
+    <header class="cdski-pago-section-head">
+      <h2 class="cdski-pago-section-title">Elegí tu método de pago</h2>
+      <p class="cdski-pago-section-sub">
+        Procesadores certificados · No almacenamos datos de tu tarjeta
+      </p>
+    </header>
+
+    <div class="cdski-pago-methods-grid">
+
+      <button type="button" class="cdski-pago-method-card" data-method="webpay" data-currency="CLP">
+        <span class="cdski-pago-method-flag">🇨🇱</span>
+        <div class="cdski-pago-method-logo">
+          <svg viewBox="0 0 120 32" width="120" height="32" aria-hidden="true">
+            <text x="0" y="22" font-family="Arial" font-size="18" font-weight="700" fill="#e8002a">Webpay</text>
+            <text x="68" y="22" font-family="Arial" font-size="13" font-weight="700" fill="#003876">Plus</text>
+          </svg>
+        </div>
+        <h3 class="cdski-pago-method-title">Webpay Plus</h3>
+        <p class="cdski-pago-method-desc">Tarjetas chilenas de crédito y débito · RedCompra incluido.</p>
+        <ul class="cdski-pago-method-features">
+          <li><span>✓</span> Pago instantáneo</li>
+          <li><span>✓</span> Visa · Master · RedCompra</li>
+          <li><span>✓</span> Hasta 12 cuotas (según banco)</li>
+        </ul>
+        <div class="cdski-pago-method-foot">
+          <span class="cdski-pago-method-currency">CLP</span>
+          <span class="cdski-pago-method-fee">Sin comisión</span>
+        </div>
+      </button>
+
+      <button type="button" class="cdski-pago-method-card" data-method="mercadopago" data-currency="CLP">
+        <span class="cdski-pago-method-flag">🇨🇱🇦🇷🇧🇷🇲🇽</span>
+        <div class="cdski-pago-method-logo">
+          <svg viewBox="0 0 130 32" width="130" height="32" aria-hidden="true">
+            <ellipse cx="20" cy="16" rx="18" ry="9" fill="#00b1ea"/>
+            <text x="6" y="20" font-family="Arial" font-size="11" font-weight="700" fill="#ffffff">MP</text>
+            <text x="44" y="14" font-family="Arial" font-size="11" font-weight="700" fill="#00b1ea">Mercado</text>
+            <text x="44" y="27" font-family="Arial" font-size="11" font-weight="700" fill="#0058a3">Pago</text>
+          </svg>
+        </div>
+        <h3 class="cdski-pago-method-title">Mercado Pago</h3>
+        <p class="cdski-pago-method-desc">Tarjetas y cuenta MP · LATAM · Confianza regional.</p>
+        <ul class="cdski-pago-method-features">
+          <li><span>✓</span> Cuenta Mercado Pago o tarjeta</li>
+          <li><span>✓</span> Chile · Argentina · Brasil · México</li>
+          <li><span>✓</span> Confirmación inmediata</li>
+        </ul>
+        <div class="cdski-pago-method-foot">
+          <span class="cdski-pago-method-currency">CLP</span>
+          <span class="cdski-pago-method-fee">Sin comisión</span>
+        </div>
+      </button>
+
+      <button type="button" class="cdski-pago-method-card cdski-pago-method-featured" data-method="paypal" data-currency="USD" data-highlight="true">
+        <span class="cdski-pago-method-badge">⭐ Recomendado · Internacional</span>
+        <span class="cdski-pago-method-flag">🌎</span>
+        <div class="cdski-pago-method-logo">
+          <svg viewBox="0 0 120 32" width="120" height="32" aria-hidden="true">
+            <text x="0" y="22" font-family="Arial" font-size="20" font-weight="700" fill="#003087" font-style="italic">Pay</text>
+            <text x="40" y="22" font-family="Arial" font-size="20" font-weight="700" fill="#009cde" font-style="italic">Pal</text>
+          </svg>
+        </div>
+        <h3 class="cdski-pago-method-title">PayPal</h3>
+        <p class="cdski-pago-method-desc">Tarjetas internacionales o cuenta PayPal · Pagás en USD.</p>
+        <ul class="cdski-pago-method-features">
+          <li><span>✓</span> Visa · MasterCard · Amex · Discover</li>
+          <li><span>✓</span> Conversión automática a USD</li>
+          <li><span>✓</span> Protección al comprador PayPal</li>
+        </ul>
+        <div class="cdski-pago-method-foot">
+          <span class="cdski-pago-method-currency">USD</span>
+          <span class="cdski-pago-method-fee">≈ tasa CLP→USD</span>
+        </div>
+      </button>
+
+    </div>
+  </section>
+
+  <section class="cdski-pago-cta-section" aria-live="polite">
+    <div id="paypal-buttons-container" class="cdski-pago-paypal-container" hidden></div>
+    <button type="button" id="cdski-pago-submit" class="cdski-pago-btn-primary" disabled>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span class="cdski-pago-btn-text">Selecciona un método para continuar</span>
+    </button>
+  </section>
+
   <div id="cdski-pago-status" class="cdski-pago-status" hidden></div>
+
+  <section class="cdski-pago-trust-strip">
+    <div class="cdski-pago-trust-item">
+      <div class="cdski-pago-trust-icon">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div>
+        <strong>Pago 100% seguro</strong>
+        <small>SSL 256-bit · datos cifrados end-to-end</small>
+      </div>
+    </div>
+    <div class="cdski-pago-trust-item">
+      <div class="cdski-pago-trust-icon">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <div>
+        <strong>Procesadores certificados</strong>
+        <small>Transbank · MercadoPago · PayPal PCI DSS</small>
+      </div>
+    </div>
+    <div class="cdski-pago-trust-item">
+      <div class="cdski-pago-trust-icon">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <div>
+        <strong>5.0 ⭐ Google Reviews</strong>
+        <small>+500 esquiadores acompañados en los Andes</small>
+      </div>
+    </div>
+    <div class="cdski-pago-trust-item">
+      <div class="cdski-pago-trust-icon">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652a12.05 12.05 0 005.71 1.448h.005c6.585 0 11.946-5.336 11.949-11.896 0-3.176-1.24-6.165-3.495-8.411z"/></svg>
+      </div>
+      <div>
+        <strong>Soporte por WhatsApp</strong>
+        <small>Respuesta en menos de 1 hora</small>
+      </div>
+    </div>
+  </section>
 
 </main>
 
 <footer class="cdski-pago-footer">
-  <p>
-    © <span id="cdski-pago-year"></span> CDSKI — Clases de Ski Chile ·
-    <a href="mailto:info@clasesdeski.cl">info@clasesdeski.cl</a> ·
-    <a href="https://wa.me/56940211459?text=Hola%20CDSKI%20Chile%21" target="_blank" rel="noopener">+56 9 4021 1459</a>
-  </p>
-  <p class="cdski-pago-footer-small">
-    Procesadores: Transbank · MercadoPago · PayPal · No almacenamos datos de tarjeta.
-  </p>
+  <div class="cdski-pago-footer-inner">
+    <div class="cdski-pago-footer-brand">
+      <img src="/images/logo-cdski.png" alt="CDSKI" />
+      <p>CDSKI · Clases de ski y snowboard en Chile<br/>Valle Nevado · El Colorado · La Parva</p>
+    </div>
+    <div class="cdski-pago-footer-contact">
+      <a href="mailto:info@clasesdeski.cl">info@clasesdeski.cl</a>
+      <a href="https://wa.me/56940211459?text=Hola%20CDSKI%21" target="_blank" rel="noopener">+56 9 4021 1459</a>
+    </div>
+    <div class="cdski-pago-footer-meta">
+      <p>© <span id="cdski-pago-year"></span> CDSKI. Procesadores: Transbank · MercadoPago · PayPal.</p>
+      <p class="cdski-pago-footer-small">Pagos protegidos con SSL 256-bit. No almacenamos datos de tarjeta.</p>
+    </div>
+  </div>
 </footer>
 
 <script>document.getElementById('cdski-pago-year').textContent = new Date().getFullYear();</script>
