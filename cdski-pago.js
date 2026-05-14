@@ -1,9 +1,8 @@
 /**
- * ClasesdeSki — Portal de Pago v2.1.2
+ * ClasesdeSki — Portal de Pago v2.1.3
  *
- * v2.1.2: Fix "window.paypal.isFundingEligible is not a function" —
- *         removed the invalid pre-check; .isEligible() on the Buttons
- *         instance is the correct API.
+ * v2.1.3: USD_RATE default 950 → 870 (tipo de cambio CLP/USD actualizado).
+ * v2.1.2: Fix "window.paypal.isFundingEligible is not a function".
  * v2.1.1: amount US$ prefix overlap fix (CSS only).
  * v2.1:   PayPal Smart Buttons split into 2 labeled funding sources.
  * v2.0:   live summary, stepper, inline validation, URL prefill.
@@ -11,7 +10,7 @@
 (function () {
   'use strict';
 
-  var USD_RATE = Number(window.CDSKI_USD_RATE || 950);
+  var USD_RATE = Number(window.CDSKI_USD_RATE || 870);
 
   var $ = function (id) { return document.getElementById(id); };
   var $$ = function (sel) { return document.querySelectorAll(sel); };
@@ -418,9 +417,6 @@
         var cbs = paypalCallbacks();
         var FUNDING = window.paypal.FUNDING || {};
 
-        // ── PayPal button (gold) ──
-        // v2.1.2 fix: window.paypal.isFundingEligible is NOT a function.
-        // The correct API is btnInstance.isEligible() after construction.
         if (FUNDING.PAYPAL && ppBtnPayPal) {
           try {
             var paypalBtn = window.paypal.Buttons(Object.assign({}, cbs, {
@@ -442,7 +438,6 @@
           }
         }
 
-        // ── Card button (black) ──
         if (FUNDING.CARD && ppBtnCard) {
           try {
             var cardBtn = window.paypal.Buttons(Object.assign({}, cbs, {
