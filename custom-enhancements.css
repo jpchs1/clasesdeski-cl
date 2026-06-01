@@ -264,7 +264,7 @@ a[href="#contact"].bg-orange-500:hover {
 
 /* ---- Print ---- */
 @media print {
-  header, .cdski-to-top, .cdski-mobile-menu { display: none !important; }
+  header, .cdski-to-top, .cdski-mobile-menu, .cdski-wa-fab { display: none !important; }
   body { color: #000; background: #fff; }
 }
 
@@ -393,4 +393,96 @@ a[href="#contact"].bg-orange-500:hover {
 }
 @media (max-width: 480px) {
   .cdski-extras-grid { grid-template-columns: 1fr; }
+}
+
+/* ---- Smooth section transitions (fixed-header offset) ---- */
+section[id] { scroll-margin-top: 88px; }
+
+/* ---- Lazy-image fade-in ---- */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+img[loading="lazy"].loaded, img[loading="lazy"][complete] {
+  opacity: 1;
+}
+
+/* ---- Gallery: mobile spacing ---- */
+@media (max-width: 640px) {
+  #gallery .grid { gap: 0.5rem !important; }
+  #gallery img { border-radius: 0.75rem !important; }
+}
+
+/* ---- FAQ: cleaner accordion ---- */
+#faq details summary {
+  cursor: pointer;
+  list-style: none;
+}
+#faq details summary::-webkit-details-marker { display: none; }
+
+/* ---- WhatsApp button pulse on mobile ---- */
+@media (max-width: 768px) {
+  a[href*="wa.me"] {
+    animation: cdski-pulse 2.5s ease-in-out infinite;
+  }
+}
+@keyframes cdski-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
+}
+
+/* ---- Testimonials: tighter mobile card spacing ---- */
+@media (max-width: 640px) {
+  #testimonials .swiper-slide,
+  #testimonials > div > div > div { padding: 0 0.25rem !important; }
+}
+
+/* ---- Calculator card: mobile readability ---- */
+@media (max-width: 480px) {
+  #pricing .text-3xl { font-size: 1.5rem !important; }
+  #pricing .text-2xl { font-size: 1.25rem !important; }
+}
+
+/* ---- How-to-book steps: mobile stacking ---- */
+@media (max-width: 640px) {
+  #how-to-book .grid { gap: 1.5rem !important; }
+}
+
+/* ---- WhatsApp floating action button ---- */
+.cdski-wa-fab {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 45;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: #25d366;
+  color: #fff;
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(16px) scale(0.85);
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.2s ease;
+  text-decoration: none;
+}
+.cdski-wa-fab.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.cdski-wa-fab:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px) scale(1.08);
+}
+.cdski-wa-fab:active {
+  transform: translateY(0) scale(0.95);
+}
+@supports (padding: env(safe-area-inset-bottom)) {
+  .cdski-wa-fab { bottom: calc(1rem + env(safe-area-inset-bottom)) !important; }
 }
