@@ -13,7 +13,7 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://clasesdeski.cl/</loc>
+    <loc>https://clasesdeski.cl/es/</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://clasesdeski.cl/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://clasesdeski.cl/en/" />
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://clasesdeski.cl/pt/" />
@@ -23,7 +23,7 @@
   </url>
   <url>
     <loc>https://clasesdeski.cl/en/</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://clasesdeski.cl/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://clasesdeski.cl/es/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://clasesdeski.cl/en/" />
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://clasesdeski.cl/pt/" />
     <lastmod>2026-04-02</lastmod>
@@ -32,7 +32,7 @@
   </url>
   <url>
     <loc>https://clasesdeski.cl/pt/</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://clasesdeski.cl/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://clasesdeski.cl/es/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://clasesdeski.cl/en/" />
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://clasesdeski.cl/pt/" />
     <lastmod>2026-04-02</lastmod>
