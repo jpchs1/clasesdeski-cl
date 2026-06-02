@@ -1,0 +1,32 @@
+# CDSKI - Clases de Ski y Snowboard en Chile
+
+## About
+CDSKI is a ski and snowboard school in Santiago, Chile. We offer group and private lessons at Valle Nevado, El Colorado, and La Parva ski resorts.
+
+## Services
+- Group ski lessons (max 6 people per group)
+- Private ski lessons (1-on-1 instruction)
+- Private snowboard lessons
+- Heliski experiences
+- Guided snow experiences
+- Corporate and school group events
+
+## Pricing (2026 Season)
+- Half Day (3 hrs): From CLP $121,500 per person (group of 2+)
+- Full Day (5 hrs): From CLP $154,200 per person (group)
+- Private lesson (1 person): Half Day CLP $241,500 / Full Day CLP $275,000
+- Equipment rental: CLP $65,000 per person
+
+## Ski Resorts
+- Valle Nevado (2,860m altitude)
+- El Colorado
+- La Parva (2,750m altitude)
+- Farellones
+
+## Contact
+- WhatsApp: +56 9 4021 1459
+- Website: https://clasesdeski.cl
+- Languages: Spanish, English, Portuguese
+
+## Location
+Santiago, Chile (ski resorts are ~60km from downtown Santiago)
