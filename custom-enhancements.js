@@ -607,6 +607,41 @@
     onScroll();
   }
 
+  function setupWelcomeBanner() {
+    // Insert welcome banner after hero section
+    var hero = document.querySelector('section:first-of-type') || document.querySelector('[id="hero"]');
+    if (!hero) return;
+
+    var banner = document.createElement('div');
+    banner.className = 'cdski-welcome-banner';
+    banner.innerHTML = '<div style="max-width:72rem;margin:0 auto;padding:0 1.5rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px">'
+      + '<span style="display:flex;align-items:center;gap:8px;font-size:22px">'
+      + '\u{1F1E8}\u{1F1F1} \u{1F1E7}\u{1F1F7} \u{1F1F5}\u{1F1EA} \u{1F1E6}\u{1F1F7} \u{1F1FA}\u{1F1F8}</span>'
+      + '<span style="font-size:14px;font-weight:600;color:#e2e8f0;text-align:center">'
+      + '¡Bienvenidos hermanos latinoamericanos! Recibimos con los brazos abiertos a amigos de todo el continente'
+      + '</span>'
+      + '<span style="font-size:13px;color:#94a3b8">La nieve nos une ❄️</span>'
+      + '</div>';
+
+    hero.parentNode.insertBefore(banner, hero.nextSibling);
+
+    // Also add flags badge in why-us section
+    var whyUs = document.getElementById('why-us');
+    if (whyUs) {
+      var heading = whyUs.querySelector('h2');
+      if (heading) {
+        var flagStrip = document.createElement('div');
+        flagStrip.className = 'cdski-flags-strip';
+        flagStrip.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;font-size:18px;margin-right:8px">'
+          + '\u{1F1E8}\u{1F1F1} \u{1F1E7}\u{1F1F7} \u{1F1F5}\u{1F1EA} \u{1F1E6}\u{1F1F7} \u{1F1FA}\u{1F1F8}</span>'
+          + '<span style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#fb923c">'
+          + 'Instructores para toda Latinoamérica</span>';
+        var parent = heading.parentNode;
+        if (parent) parent.insertBefore(flagStrip, heading.nextSibling);
+      }
+    }
+  }
+
   ready(function () {
     document.documentElement.classList.add('cdski-reveal-ready');
     revealInlineHidden();
@@ -618,5 +653,6 @@
     setupLazyImages();
     setupWhatsAppFab();
     setupFooter();
+    setupWelcomeBanner();
   });
 })();
