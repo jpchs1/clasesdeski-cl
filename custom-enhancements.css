@@ -490,11 +490,22 @@ img[loading="lazy"].loaded {
 
 /* ---- Welcome Banner ---- */
 .cdski-welcome-banner {
-  background: linear-gradient(90deg, rgba(249,115,22,0.12), rgba(14,165,233,0.08), rgba(249,115,22,0.12));
-  border-top: 1px solid rgba(249,115,22,0.2);
-  border-bottom: 1px solid rgba(249,115,22,0.2);
-  padding: 14px 0;
+  background: linear-gradient(135deg, #0b1626 0%, #112036 50%, #0b1626 100%);
+  border-top: 2px solid rgba(249,115,22,0.45);
+  border-bottom: 1px solid rgba(249,115,22,0.25);
+  padding: 22px 0;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cdski-welcome-banner:before {
+  content: "";
+  position: absolute;
+  top: -60px; left: 50%;
+  width: 480px; height: 200px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(249,115,22,0.16), transparent 70%);
+  pointer-events: none;
 }
 
 .cdski-flags-strip {
