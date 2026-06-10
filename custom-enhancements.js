@@ -547,6 +547,36 @@
     });
   }
 
+  function setupFooter() {
+    var footer = document.querySelector('footer');
+    if (!footer) return;
+    var cols = footer.querySelectorAll('.grid > div');
+    Array.prototype.forEach.call(cols, function(col, i) {
+      col.style.opacity = '0';
+      col.style.transform = 'translateY(20px)';
+      col.style.transition = 'opacity 0.6s cubic-bezier(0.16,1,0.3,1) ' + (i * 0.12) + 's, transform 0.6s cubic-bezier(0.16,1,0.3,1) ' + (i * 0.12) + 's';
+    });
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            Array.prototype.forEach.call(cols, function(col) {
+              col.style.opacity = '1';
+              col.style.transform = 'translateY(0)';
+            });
+            obs.disconnect();
+          }
+        });
+      }, { threshold: 0.15 });
+      obs.observe(footer);
+    } else {
+      Array.prototype.forEach.call(cols, function(col) {
+        col.style.opacity = '1';
+        col.style.transform = 'translateY(0)';
+      });
+    }
+  }
+
   function setupWhatsAppFab() {
     var waLink = document.querySelector('a[href*="wa.me/56940211459"]');
     if (!waLink) return;
@@ -580,5 +610,6 @@
     setupBookingExtras();
     setupLazyImages();
     setupWhatsAppFab();
+    setupFooter();
   });
 })();
