@@ -610,26 +610,70 @@
     onScroll();
   }
 
+  function cdskiFlag(code, label, w) {
+    w = w || 26;
+    var h = Math.round(w * 2 / 3);
+    return '<img src="/images/flags/' + code + '.svg" alt="' + label + '" width="' + w + '" height="' + h + '" class="cdski-flag-img" loading="lazy"/>';
+  }
+
   function setupWelcomeBanner() {
-    var FLAGS = '\u{1F1E8}\u{1F1F1} \u{1F1E7}\u{1F1F7} \u{1F1F5}\u{1F1EA} \u{1F1E6}\u{1F1F7} \u{1F1FA}\u{1F1F8}';
+    var path = location.pathname;
+    var lang = path.indexOf('/en') === 0 ? 'en' : path.indexOf('/pt') === 0 ? 'pt' : 'es';
+    var T = {
+      es: {
+        kicker: 'Comunidad latinoamericana',
+        title: '¡Bienvenidos, hermanos <em>latinoamericanos</em>!',
+        sub: 'Recibimos con los brazos abiertos a nuestros amigos de Brasil, Perú, Argentina y todo el continente. Clases en tu idioma, pagos sin fronteras y el mejor trato de los Andes.',
+        tag: 'La nieve nos une ❄'
+      },
+      pt: {
+        kicker: 'Comunidade latino-americana',
+        title: 'Bem-vindos, irmãos <em>latino-americanos</em>!',
+        sub: 'Recebemos de braços abertos nossos amigos do Brasil, Peru, Argentina e de todo o continente. Aulas no seu idioma, pagamentos sem fronteiras e o melhor atendimento dos Andes.',
+        tag: 'A neve nos une ❄'
+      },
+      en: {
+        kicker: 'Latin American community',
+        title: 'Welcome, our <em>Latin American</em> friends!',
+        sub: 'We welcome with open arms our friends from Brazil, Peru, Argentina and the whole continent. Lessons in your language, borderless payments and the warmest service in the Andes.',
+        tag: 'Snow unites us ❄'
+      }
+    }[lang];
+
+    var COUNTRIES = [
+      ['cl', 'Chile'], ['br', 'Brasil'], ['pe', 'Perú'],
+      ['ar', 'Argentina'], ['uy', 'Uruguay'], ['us', 'USA']
+    ];
+
+    function chipsHtml() {
+      var html = '';
+      COUNTRIES.forEach(function (c, i) {
+        html += '<span class="cdski-wb-chip" style="animation-delay:' + (0.15 + i * 0.08) + 's">'
+          + cdskiFlag(c[0], c[1], 28)
+          + '<span>' + c[1] + '</span></span>';
+      });
+      return html;
+    }
 
     function insertBanner() {
       if (document.querySelector('.cdski-welcome-banner')) return true;
-      // Anchor on the services section: banner goes right before it
       var services = document.getElementById('services');
       if (!services || !services.parentNode) return false;
 
       var banner = document.createElement('div');
       banner.className = 'cdski-welcome-banner';
-      banner.innerHTML = '<div style="max-width:72rem;margin:0 auto;padding:0 1.5rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px">'
-        + '<span style="display:flex;align-items:center;gap:8px;font-size:26px;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.3))">'
-        + FLAGS + '</span>'
-        + '<span style="font-size:15px;font-weight:700;color:#fff;text-align:center;font-family:\'Montserrat\',sans-serif">'
-        + '¡Bienvenidos hermanos latinoamericanos!'
-        + '</span>'
-        + '<span style="font-size:13.5px;color:#cbd5e1;text-align:center">'
-        + 'Recibimos con los brazos abiertos a nuestros amigos de Brasil, Perú, Argentina y todo el continente — la nieve nos une ❄️'
-        + '</span>'
+      banner.innerHTML =
+        '<div class="cdski-wb-card">'
+        + '<div class="cdski-wb-shine" aria-hidden="true"></div>'
+        + '<div class="cdski-wb-text">'
+        +   '<span class="cdski-wb-kicker"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>' + T.kicker + '</span>'
+        +   '<h3>' + T.title + '</h3>'
+        +   '<p>' + T.sub + '</p>'
+        + '</div>'
+        + '<div class="cdski-wb-side">'
+        +   '<div class="cdski-wb-chips">' + chipsHtml() + '</div>'
+        +   '<span class="cdski-wb-tag">' + T.tag + '</span>'
+        + '</div>'
         + '</div>';
       services.parentNode.insertBefore(banner, services);
       return true;
@@ -644,20 +688,24 @@
 
       var flagStrip = document.createElement('div');
       flagStrip.className = 'cdski-flags-strip';
-      flagStrip.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;font-size:18px;margin-right:8px">'
-        + FLAGS + '</span>'
-        + '<span style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#fb923c">'
-        + 'Instructores para toda Latinoamérica</span>';
+      var imgs = '';
+      COUNTRIES.forEach(function (c) { imgs += cdskiFlag(c[0], c[1], 22); });
+      flagStrip.innerHTML = '<span class="cdski-fs-flags">' + imgs + '</span>'
+        + '<span class="cdski-fs-label">'
+        + (lang === 'pt' ? 'Instrutores para toda a América Latina'
+           : lang === 'en' ? 'Instructors for all of Latin America'
+           : 'Instructores para toda Latinoamérica')
+        + '</span>';
       heading.parentNode.insertBefore(flagStrip, heading.nextSibling);
       return true;
     }
 
     // React hydration re-renders the tree and discards injected nodes, so we
-    // re-insert for a few seconds until both survive a full second untouched.
+    // re-insert for a few seconds until both survive.
     var attempts = 0;
     var iv = setInterval(function () {
-      var a = insertBanner();
-      var b = insertFlagStrip();
+      insertBanner();
+      insertFlagStrip();
       attempts++;
       if (attempts > 20) clearInterval(iv);
     }, 500);
