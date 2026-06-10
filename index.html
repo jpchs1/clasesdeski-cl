@@ -512,11 +512,22 @@ img[loading="lazy"].loaded {
 
 /* ---- Welcome Banner ---- */
 .cdski-welcome-banner {
-  background: linear-gradient(90deg, rgba(249,115,22,0.12), rgba(14,165,233,0.08), rgba(249,115,22,0.12));
-  border-top: 1px solid rgba(249,115,22,0.2);
-  border-bottom: 1px solid rgba(249,115,22,0.2);
-  padding: 14px 0;
+  background: linear-gradient(135deg, #0b1626 0%, #112036 50%, #0b1626 100%);
+  border-top: 2px solid rgba(249,115,22,0.45);
+  border-bottom: 1px solid rgba(249,115,22,0.25);
+  padding: 22px 0;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cdski-welcome-banner:before {
+  content: "";
+  position: absolute;
+  top: -60px; left: 50%;
+  width: 480px; height: 200px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(249,115,22,0.16), transparent 70%);
+  pointer-events: none;
 }
 
 .cdski-flags-strip {
@@ -1250,38 +1261,58 @@ img[loading="lazy"].loaded {
   }
 
   function setupWelcomeBanner() {
-    // Insert welcome banner after hero section
-    var hero = document.querySelector('section:first-of-type') || document.querySelector('[id="hero"]');
-    if (!hero) return;
+    var FLAGS = '\u{1F1E8}\u{1F1F1} \u{1F1E7}\u{1F1F7} \u{1F1F5}\u{1F1EA} \u{1F1E6}\u{1F1F7} \u{1F1FA}\u{1F1F8}';
 
-    var banner = document.createElement('div');
-    banner.className = 'cdski-welcome-banner';
-    banner.innerHTML = '<div style="max-width:72rem;margin:0 auto;padding:0 1.5rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px">'
-      + '<span style="display:flex;align-items:center;gap:8px;font-size:22px">'
-      + '\u{1F1E8}\u{1F1F1} \u{1F1E7}\u{1F1F7} \u{1F1F5}\u{1F1EA} \u{1F1E6}\u{1F1F7} \u{1F1FA}\u{1F1F8}</span>'
-      + '<span style="font-size:14px;font-weight:600;color:#e2e8f0;text-align:center">'
-      + '¡Bienvenidos hermanos latinoamericanos! Recibimos con los brazos abiertos a amigos de todo el continente'
-      + '</span>'
-      + '<span style="font-size:13px;color:#94a3b8">La nieve nos une ❄️</span>'
-      + '</div>';
+    function insertBanner() {
+      if (document.querySelector('.cdski-welcome-banner')) return true;
+      // Anchor on the services section: banner goes right before it
+      var services = document.getElementById('services');
+      if (!services || !services.parentNode) return false;
 
-    hero.parentNode.insertBefore(banner, hero.nextSibling);
-
-    // Also add flags badge in why-us section
-    var whyUs = document.getElementById('why-us');
-    if (whyUs) {
-      var heading = whyUs.querySelector('h2');
-      if (heading) {
-        var flagStrip = document.createElement('div');
-        flagStrip.className = 'cdski-flags-strip';
-        flagStrip.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;font-size:18px;margin-right:8px">'
-          + '\u{1F1E8}\u{1F1F1} \u{1F1E7}\u{1F1F7} \u{1F1F5}\u{1F1EA} \u{1F1E6}\u{1F1F7} \u{1F1FA}\u{1F1F8}</span>'
-          + '<span style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#fb923c">'
-          + 'Instructores para toda Latinoamérica</span>';
-        var parent = heading.parentNode;
-        if (parent) parent.insertBefore(flagStrip, heading.nextSibling);
-      }
+      var banner = document.createElement('div');
+      banner.className = 'cdski-welcome-banner';
+      banner.innerHTML = '<div style="max-width:72rem;margin:0 auto;padding:0 1.5rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px">'
+        + '<span style="display:flex;align-items:center;gap:8px;font-size:26px;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.3))">'
+        + FLAGS + '</span>'
+        + '<span style="font-size:15px;font-weight:700;color:#fff;text-align:center;font-family:\'Montserrat\',sans-serif">'
+        + '¡Bienvenidos hermanos latinoamericanos!'
+        + '</span>'
+        + '<span style="font-size:13.5px;color:#cbd5e1;text-align:center">'
+        + 'Recibimos con los brazos abiertos a nuestros amigos de Brasil, Perú, Argentina y todo el continente — la nieve nos une ❄️'
+        + '</span>'
+        + '</div>';
+      services.parentNode.insertBefore(banner, services);
+      return true;
     }
+
+    function insertFlagStrip() {
+      if (document.querySelector('.cdski-flags-strip')) return true;
+      var whyUs = document.getElementById('why-us');
+      if (!whyUs) return false;
+      var heading = whyUs.querySelector('h2');
+      if (!heading || !heading.parentNode) return false;
+
+      var flagStrip = document.createElement('div');
+      flagStrip.className = 'cdski-flags-strip';
+      flagStrip.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;font-size:18px;margin-right:8px">'
+        + FLAGS + '</span>'
+        + '<span style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#fb923c">'
+        + 'Instructores para toda Latinoamérica</span>';
+      heading.parentNode.insertBefore(flagStrip, heading.nextSibling);
+      return true;
+    }
+
+    // React hydration re-renders the tree and discards injected nodes, so we
+    // re-insert for a few seconds until both survive a full second untouched.
+    var attempts = 0;
+    var iv = setInterval(function () {
+      var a = insertBanner();
+      var b = insertFlagStrip();
+      attempts++;
+      if (attempts > 20) clearInterval(iv);
+    }, 500);
+    insertBanner();
+    insertFlagStrip();
   }
 
   ready(function () {
