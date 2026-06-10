@@ -40,6 +40,44 @@
     <priority>1.0</priority>
   </url>
 
+  <!-- Service landing pages -->
+  <url>
+    <loc>https://clasesdeski.cl/clases-grupales-ski/</loc>
+    <lastmod>2026-06-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://clasesdeski.cl/clases-privadas-snowboard/</loc>
+    <lastmod>2026-06-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://clasesdeski.cl/experiencia-guiada-nieve/</loc>
+    <lastmod>2026-06-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://clasesdeski.cl/clases-ski-snowboard-ninos/</loc>
+    <lastmod>2026-06-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://clasesdeski.cl/heliski-chile/</loc>
+    <lastmod>2026-06-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://clasesdeski.cl/experiencias-corporativas/</loc>
+    <lastmod>2026-06-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
   <!-- Sections (anchor links for SEO crawlers) -->
   <url><loc>https://clasesdeski.cl/#services</loc><priority>0.9</priority></url>
   <url><loc>https://clasesdeski.cl/#pricing</loc><priority>0.9</priority></url>
