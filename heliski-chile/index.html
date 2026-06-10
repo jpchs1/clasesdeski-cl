@@ -148,6 +148,29 @@ h2 .hash{color:rgba(249,115,22,.55);margin-right:8px}
 .rel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .rel .rov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,12,24,.15),rgba(6,12,24,.85))}
 .rel span{position:absolute;left:16px;right:16px;bottom:14px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:15px;color:#fff}
+/* modalities */
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-top:30px}
+.mod-card{position:relative;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:28px 26px;transition:all .3s}
+.mod-card:hover{transform:translateY(-3px)}
+.mod-best{background:linear-gradient(180deg,rgba(249,115,22,.1),rgba(249,115,22,.02));border-color:rgba(249,115,22,.4);box-shadow:0 10px 34px rgba(249,115,22,.12)}
+.mod-tag{position:absolute;top:-13px;left:22px;background:linear-gradient(135deg,#f97316,#fb923c);color:#fff;font-size:11.5px;font-weight:700;padding:5px 14px;border-radius:9999px;box-shadow:0 6px 16px rgba(249,115,22,.4)}
+.mod-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.mod-ic{font-size:26px}
+.mod-head h3{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:800;color:#fff}
+.mod-time{margin-left:auto;font-size:12px;font-weight:700;color:#fb923c;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.3);padding:5px 12px;border-radius:9999px;white-space:nowrap}
+.mod-for{font-size:14px;color:#b8c4d6;margin-bottom:16px}
+.mod-for strong{color:#fff}
+.mod-list{list-style:none}
+.mod-list li{font-size:13.5px;color:#94a3b8;padding:8px 0 8px 28px;position:relative;border-bottom:1px dashed rgba(255,255,255,.06)}
+.mod-list li.ok:before{content:"✔";position:absolute;left:2px;color:#22c55e;font-size:13px}
+.mod-list li.warn:before{content:"⚠";position:absolute;left:0;color:#f59e0b;font-size:14px}
+.mod-list li.warn{color:#d3b98a}
+.mod-callout{display:flex;gap:18px;margin-top:22px;background:linear-gradient(135deg,rgba(14,165,233,.08),rgba(249,115,22,.08));border:1px solid rgba(249,115,22,.3);border-left:4px solid #f97316;border-radius:16px;padding:24px 26px}
+.mod-callout-ic{font-size:28px;flex-shrink:0}
+.mod-callout h4{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;color:#fff;margin-bottom:8px}
+.mod-callout p{font-size:14.5px;color:#b8c4d6}
+.mod-callout strong{color:#fb923c}
+@media(max-width:640px){.mod-callout{flex-direction:column;gap:10px}}
 /* latam section */
 .latam-wrap{background:linear-gradient(135deg,rgba(249,115,22,.08),rgba(14,165,233,.05));border:1px solid rgba(249,115,22,.25);border-radius:24px;padding:38px 30px}
 .latam-hero{text-align:center;margin-bottom:28px}
@@ -165,6 +188,11 @@ h2 .hash{color:rgba(249,115,22,.55);margin-right:8px}
 /* trust strip */
 .trust{display:flex;flex-wrap:wrap;justify-content:center;gap:26px;padding:26px 0;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);font-size:13px;color:#94a3b8;font-weight:600}
 .trust b{color:#fb923c;font-weight:800}
+/* svg flag imgs (emoji flags don't render on Windows) */
+.fimg{display:inline-block;width:20px;height:13px;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,.4);outline:1px solid rgba(255,255,255,.15);vertical-align:-2px;margin:0 2px}
+.latam-flags .fimg{width:34px;height:23px;border-radius:4px;margin:0 4px}
+.trust .fimg{width:22px;height:15px}
+.tcard .where .fimg{width:16px;height:11px}
 /* footer */
 .ft{background:#04080f;border-top:1px solid rgba(255,255,255,.06);padding:34px 0 90px;font-size:13px;color:#64748b}
 .ft-in{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px}
@@ -231,7 +259,7 @@ h2 .hash{color:rgba(249,115,22,.55);margin-right:8px}
   <span><b>+500</b> alumnos felices</span>
   <span><b>+10 años</b> de experiencia</span>
   <span><b>100%</b> amabilidad y trato</span>
-  <span>🇨🇱 🇧🇷 🇵🇪 🇦🇷 🇺🇸 toda Latinoamérica</span>
+  <span><img src="/images/flags/cl.svg" alt="Chile" class="fimg" loading="lazy"/> <img src="/images/flags/br.svg" alt="Brasil" class="fimg" loading="lazy"/> <img src="/images/flags/pe.svg" alt="Perú" class="fimg" loading="lazy"/> <img src="/images/flags/ar.svg" alt="Argentina" class="fimg" loading="lazy"/> <img src="/images/flags/us.svg" alt="USA" class="fimg" loading="lazy"/> toda Latinoamérica</span>
 </div>
 
 <article>
@@ -261,6 +289,7 @@ h2 .hash{color:rgba(249,115,22,.55);margin-right:8px}
 <tr><td>Condición física</td><td>Buena condición aeróbica</td><td>Los descensos largos en nieve profunda son físicamente exigentes; se recomienda preparación previa.</td></tr></tbody>
   </table></div>
 </section>
+
 
 <section class="wrap" id="reserva">
   <h2><span class="hash">#</span>Reserva en 3 simples pasos</h2>
@@ -318,9 +347,9 @@ h2 .hash{color:rgba(249,115,22,.55);margin-right:8px}
 <section class="wrap" id="opiniones">
   <h2><span class="hash">#</span>Lo que dicen nuestros alumnos</h2>
   <div class="tgrid">
-  <div class="tcard"><div class="stars">★★★★★</div><p>“Llevo 25 años esquiando y el heliski con CDSKI fue por lejos el mejor día de montaña de mi vida. Powder hasta la cintura y cero huellas. Organización impecable y seguridad total.”</p><div class="who">Nicolás B.</div><div class="where">Santiago, Chile 🇨🇱</div></div>
-<div class="tcard"><div class="stars">★★★★★</div><p>“Realizei o sonho do heliski nos Andes! Briefing completo, guia excepcional e neve virgem inacreditável. Voltarei na próxima temporada com certeza.”</p><div class="who">Gustavo M.</div><div class="where">São Paulo, Brasil 🇧🇷</div></div>
-<div class="tcard"><div class="stars">★★★★★</div><p>“World-class heliski terrain less than 2 hours from Santiago. The guides were extremely professional and the snow was incredible. Highly recommended operation.”</p><div class="who">James K.</div><div class="where">Denver, USA 🇺🇸</div></div>
+  <div class="tcard"><div class="stars">★★★★★</div><p>“Llevo 25 años esquiando y el heliski con CDSKI fue por lejos el mejor día de montaña de mi vida. Powder hasta la cintura y cero huellas. Organización impecable y seguridad total.”</p><div class="who">Nicolás B.</div><div class="where">Santiago, Chile <img src="/images/flags/cl.svg" alt="Chile" class="fimg" loading="lazy"/></div></div>
+<div class="tcard"><div class="stars">★★★★★</div><p>“Realizei o sonho do heliski nos Andes! Briefing completo, guia excepcional e neve virgem inacreditável. Voltarei na próxima temporada com certeza.”</p><div class="who">Gustavo M.</div><div class="where">São Paulo, Brasil <img src="/images/flags/br.svg" alt="Brasil" class="fimg" loading="lazy"/></div></div>
+<div class="tcard"><div class="stars">★★★★★</div><p>“World-class heliski terrain less than 2 hours from Santiago. The guides were extremely professional and the snow was incredible. Highly recommended operation.”</p><div class="who">James K.</div><div class="where">Denver, USA <img src="/images/flags/us.svg" alt="USA" class="fimg" loading="lazy"/></div></div>
   </div>
 </section>
 
@@ -328,14 +357,14 @@ h2 .hash{color:rgba(249,115,22,.55);margin-right:8px}
   <div class="latam-wrap">
   
 <div class="latam-hero">
-  <div class="latam-flags">🇧🇷 🇵🇪 🇦🇷 🇺🇾 🇨🇴 🇲🇽</div>
+  <div class="latam-flags"><img src="/images/flags/br.svg" alt="Brasil" class="fimg" loading="lazy"/> <img src="/images/flags/pe.svg" alt="Perú" class="fimg" loading="lazy"/> <img src="/images/flags/ar.svg" alt="Argentina" class="fimg" loading="lazy"/> <img src="/images/flags/uy.svg" alt="Uruguay" class="fimg" loading="lazy"/> <img src="/images/flags/co.svg" alt="Colombia" class="fimg" loading="lazy"/> <img src="/images/flags/mx.svg" alt="México" class="fimg" loading="lazy"/></div>
   <h3>Hermanos latinoamericanos: aquí están en casa</h3>
   <p>La mayoría de nuestros alumnos viene de <strong>Brasil, Perú y Argentina</strong>, y por eso todo nuestro servicio está pensado para ustedes: desde el primer mensaje hasta la última bajada.</p>
 </div>
 <div class="latam-grid">
-  <div class="latam-card"><div class="lc-flag">🇧🇷</div><h4>Para nuestros amigos de Brasil</h4>
+  <div class="latam-card"><div class="lc-flag"><img src="/images/flags/br.svg" alt="Brasil" class="fimg" loading="lazy"/></div><h4>Para nuestros amigos de Brasil</h4>
     <p>Atendimento <strong>100% em português</strong>: aulas, WhatsApp e reservas. Aceitamos cartões internacionais, PayPal e pagamento em USD. Muitos instrutores já trabalharam com centenas de famílias brasileiras — vocês são nossa casa!</p></div>
-  <div class="latam-card"><div class="lc-flag">🇵🇪🇦🇷</div><h4>Para Perú, Argentina y vecinos</h4>
+  <div class="latam-card"><div class="lc-flag"><img src="/images/flags/pe.svg" alt="Perú" class="fimg" loading="lazy"/><img src="/images/flags/ar.svg" alt="Argentina" class="fimg" loading="lazy"/></div><h4>Para Perú, Argentina y vecinos</h4>
     <p>Santiago está a un vuelo corto de Lima y Buenos Aires. Te ayudamos a armar tu día de nieve completo: transporte desde tu hotel, equipo, clases y los mejores datos locales. <strong>Trato cercano, como debe ser entre vecinos.</strong></p></div>
   <div class="latam-card"><div class="lc-flag">💳</div><h4>Pagos sin fronteras</h4>
     <p>Paga en <strong>USD o CLP</strong> con tarjetas internacionales, Webpay, Mercado Pago, PayPal o transferencia. Pago seguro PCI-DSS y confirmación inmediata de tu reserva, estés donde estés.</p></div>
