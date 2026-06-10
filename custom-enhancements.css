@@ -488,3 +488,28 @@ img[loading="lazy"].loaded, img[loading="lazy"][complete] {
 @supports (padding: env(safe-area-inset-bottom)) {
   .cdski-wa-fab { bottom: calc(1rem + env(safe-area-inset-bottom)) !important; }
 }
+
+/* ---- Welcome Banner ---- */
+.cdski-welcome-banner {
+  background: linear-gradient(90deg, rgba(249,115,22,0.12), rgba(14,165,233,0.08), rgba(249,115,22,0.12));
+  border-top: 1px solid rgba(249,115,22,0.2);
+  border-bottom: 1px solid rgba(249,115,22,0.2);
+  padding: 14px 0;
+  text-align: center;
+}
+
+.cdski-flags-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+  margin-bottom: 4px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: rgba(249,115,22,0.08);
+  border: 1px solid rgba(249,115,22,0.18);
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
