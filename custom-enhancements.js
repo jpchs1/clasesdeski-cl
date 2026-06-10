@@ -622,19 +622,19 @@
     var T = {
       es: {
         kicker: 'Comunidad latinoamericana',
-        title: '¡Bienvenidos, hermanos <em>latinoamericanos</em>!',
+        title: '¡Bienvenidos todos nuestros <em>Vecinos</em>!',
         sub: 'Recibimos con los brazos abiertos a nuestros amigos de Brasil, Perú, Argentina y todo el continente. Clases en tu idioma, pagos sin fronteras y el mejor trato de los Andes.',
         tag: 'La nieve nos une ❄'
       },
       pt: {
         kicker: 'Comunidade latino-americana',
-        title: 'Bem-vindos, irmãos <em>latino-americanos</em>!',
+        title: 'Bem-vindos, todos os nossos <em>Vizinhos</em>!',
         sub: 'Recebemos de braços abertos nossos amigos do Brasil, Peru, Argentina e de todo o continente. Aulas no seu idioma, pagamentos sem fronteiras e o melhor atendimento dos Andes.',
         tag: 'A neve nos une ❄'
       },
       en: {
         kicker: 'Latin American community',
-        title: 'Welcome, our <em>Latin American</em> friends!',
+        title: 'Welcome, all our <em>Neighbors</em>!',
         sub: 'We welcome with open arms our friends from Brazil, Peru, Argentina and the whole continent. Lessons in your language, borderless payments and the warmest service in the Andes.',
         tag: 'Snow unites us ❄'
       }
