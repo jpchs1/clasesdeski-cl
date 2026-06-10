@@ -6,6 +6,11 @@
 /* ---- Core reset & safety ---- */
 html, body { overflow-x: hidden; max-width: 100%; }
 html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+
+/* ---- Default 80% zoom on desktop (site designed dense; mobile keeps 100%) ---- */
+@media (min-width: 1024px) {
+  body { zoom: 0.8; }
+}
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
