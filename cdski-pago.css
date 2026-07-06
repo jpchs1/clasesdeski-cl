@@ -487,3 +487,92 @@ a:hover { color: var(--c-orange-darker); text-decoration: underline; }
   .cdski-pago-method-card:hover { transform: none; }
   .cdski-pago-btn-primary:hover:not(:disabled) { transform: none; }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Loader con logo CDSKI (overlay + skeleton inline PayPal)
+   ══════════════════════════════════════════════════════════════════════════ */
+@keyframes cdski-spin    { to { transform: rotate(360deg); } }
+@keyframes cdski-pulse   { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.88); opacity: 0.8; } }
+@keyframes cdski-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cdski-pop-in  { from { opacity: 0; transform: translateY(10px) scale(0.96); } to { opacity: 1; transform: none; } }
+@keyframes cdski-dots    { 0%, 20% { content: ''; } 40% { content: '.'; } 60% { content: '..'; } 80%, 100% { content: '...'; } }
+@keyframes cdski-shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+
+.cdski-pago-loader {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: cdski-fade-in 0.2s ease;
+}
+.cdski-pago-loader[hidden] { display: none; }
+
+.cdski-pago-loader-card {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  width: 100%; max-width: 340px;
+  padding: 34px 30px 28px;
+  background: var(--c-card);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  animation: cdski-pop-in 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cdski-pago-loader-orbit {
+  position: relative;
+  width: 92px; height: 92px;
+  margin-bottom: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.cdski-pago-loader-orbit-sm { width: 58px; height: 58px; margin-bottom: 0; }
+
+.cdski-pago-loader-ring {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 3px solid var(--c-orange-100);
+  border-top-color: var(--c-orange);
+  animation: cdski-spin 0.85s linear infinite;
+}
+.cdski-pago-loader-orbit-sm .cdski-pago-loader-ring { border-width: 2.5px; }
+
+.cdski-pago-loader-logo {
+  width: 52px; height: 52px;
+  object-fit: contain;
+  animation: cdski-pulse 1.6s ease-in-out infinite;
+}
+.cdski-pago-loader-orbit-sm .cdski-pago-loader-logo { width: 32px; height: 32px; }
+
+.cdski-pago-loader-title {
+  margin-top: 4px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800; font-size: 1.02rem;
+  letter-spacing: -0.01em; color: var(--c-ink);
+}
+.cdski-pago-loader-title::after { content: ''; animation: cdski-dots 1.4s steps(1) infinite; }
+.cdski-pago-loader-sub { color: var(--c-muted-2); font-size: 0.82rem; }
+
+/* Skeleton inline dentro del área de botones PayPal */
+.cdski-pago-skel {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 18px 12px; text-align: center;
+}
+.cdski-pago-skel-caption { display: flex; flex-direction: column; gap: 3px; }
+.cdski-pago-skel-msg {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700; font-size: 0.9rem; color: var(--c-ink-2);
+}
+.cdski-pago-skel-msg::after { content: ''; animation: cdski-dots 1.4s steps(1) infinite; }
+.cdski-pago-skel-caption small { color: var(--c-muted-2); font-size: 0.76rem; }
+.cdski-pago-skel-rows {
+  width: 100%; max-width: 240px; margin-top: 4px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.cdski-pago-skel-rows span {
+  height: 12px; border-radius: 6px;
+  background: linear-gradient(90deg, var(--c-line) 25%, rgba(15, 23, 42, 0.04) 37%, var(--c-line) 63%);
+  background-size: 400% 100%;
+  animation: cdski-shimmer 1.4s ease infinite;
+}
+.cdski-pago-skel-rows span:last-child { width: 72%; align-self: center; }

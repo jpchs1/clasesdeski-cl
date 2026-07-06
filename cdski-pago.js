@@ -1,6 +1,9 @@
 /**
- * ClasesdeSki — Portal de Pago v2.2.0
+ * ClasesdeSki — Portal de Pago v2.3.0
  *
+ * v2.3.0: Loader con logo CDSKI (overlay animado) al conectar con Webpay/
+ *         MercadoPago, al abrir el formulario de tarjeta y al confirmar PayPal;
+ *         skeleton animado con logo mientras carga el SDK de PayPal.
  * v2.2.0: Detección de cliente extranjero por prefijo telefónico.
  *         - isChileanPhone(): teléfono chileno solo si (4+ dígitos y empieza con "56");
  *           teléfono vacío/corto se trata como local.
@@ -88,6 +91,89 @@
     statusEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
   function clearStatus() { if (statusEl) { statusEl.hidden = true; statusEl.innerHTML = ''; } }
+
+  // ── Loader con logo CDSKI ───────────────────────────────────────────────────
+  // Overlay a pantalla completa con el logo de CDSKI girando. Se usa al conectar
+  // con Webpay/MercadoPago, al abrir el formulario de tarjeta y al confirmar PayPal.
+  var LOGO_SRC = '/images/logo-cdski.png';
+  var loaderEl = null, loaderMsgTimer = null, loaderSafetyTimer = null;
+
+  function buildLoader() {
+    if (loaderEl) return loaderEl;
+    loaderEl = document.createElement('div');
+    loaderEl.className = 'cdski-pago-loader';
+    loaderEl.setAttribute('role', 'status');
+    loaderEl.setAttribute('aria-live', 'polite');
+    loaderEl.hidden = true;
+    loaderEl.innerHTML =
+      '<div class="cdski-pago-loader-card">' +
+        '<div class="cdski-pago-loader-orbit">' +
+          '<span class="cdski-pago-loader-ring"></span>' +
+          '<img class="cdski-pago-loader-logo" src="' + LOGO_SRC + '" alt="CDSKI" />' +
+        '</div>' +
+        '<strong class="cdski-pago-loader-title">Procesando</strong>' +
+        '<small class="cdski-pago-loader-sub">Conexión cifrada · no cierres esta página</small>' +
+      '</div>';
+    document.body.appendChild(loaderEl);
+    return loaderEl;
+  }
+
+  function showLoader(messages, sub) {
+    buildLoader();
+    var titleEl = loaderEl.querySelector('.cdski-pago-loader-title');
+    var subEl   = loaderEl.querySelector('.cdski-pago-loader-sub');
+    var msgs = Array.isArray(messages) ? messages : [messages || 'Procesando'];
+    var i = 0;
+    if (titleEl) titleEl.textContent = msgs[0];
+    if (subEl && sub) subEl.textContent = sub;
+    loaderEl.hidden = false;
+    document.body.classList.add('cdski-pago-loading');
+    if (loaderMsgTimer) clearInterval(loaderMsgTimer);
+    if (msgs.length > 1) {
+      loaderMsgTimer = setInterval(function () {
+        i = (i + 1) % msgs.length;
+        if (titleEl) titleEl.textContent = msgs[i];
+      }, 2200);
+    }
+    // Seguridad: nunca dejar el overlay pegado si algo se cuelga (los flujos que
+    // redirigen navegan antes de este plazo).
+    if (loaderSafetyTimer) clearTimeout(loaderSafetyTimer);
+    loaderSafetyTimer = setTimeout(hideLoader, 25000);
+  }
+
+  function hideLoader() {
+    if (loaderMsgTimer) { clearInterval(loaderMsgTimer); loaderMsgTimer = null; }
+    if (loaderSafetyTimer) { clearTimeout(loaderSafetyTimer); loaderSafetyTimer = null; }
+    if (loaderEl) loaderEl.hidden = true;
+    document.body.classList.remove('cdski-pago-loading');
+  }
+
+  // Skeleton inline (dentro del área de botones PayPal) mientras carga el SDK.
+  var skelTimer = null;
+  function paypalSkelHtml(msg) {
+    return '<div class="cdski-pago-skel">' +
+        '<div class="cdski-pago-loader-orbit cdski-pago-loader-orbit-sm">' +
+          '<span class="cdski-pago-loader-ring"></span>' +
+          '<img class="cdski-pago-loader-logo" src="' + LOGO_SRC + '" alt="" />' +
+        '</div>' +
+        '<div class="cdski-pago-skel-caption">' +
+          '<span class="cdski-pago-skel-msg">' + (msg || 'Conectando con PayPal') + '</span>' +
+          '<small>Conexión cifrada · no cierres esta página</small>' +
+        '</div>' +
+        '<div class="cdski-pago-skel-rows"><span></span><span></span></div>' +
+      '</div>';
+  }
+  function startSkelRotation() {
+    var msgs = ['Conectando con PayPal', 'Verificando pago seguro', 'Preparando botones', 'Un momento más'];
+    var i = 0;
+    stopSkelRotation();
+    skelTimer = setInterval(function () {
+      i = (i + 1) % msgs.length;
+      var el = ppBtnPayPal && ppBtnPayPal.querySelector('.cdski-pago-skel-msg');
+      if (el) el.textContent = msgs[i];
+    }, 2200);
+  }
+  function stopSkelRotation() { if (skelTimer) { clearInterval(skelTimer); skelTimer = null; } }
 
   function showFieldError(fieldId, msg) {
     var input = document.getElementById(fieldId);
@@ -325,6 +411,8 @@
 
     setStatus('Generando transacción Webpay…', 'info');
     submitBtn.disabled = true;
+    showLoader(['Conectando con Webpay', 'Generando transacción segura', 'Te estamos redirigiendo'],
+      'Transbank · conexión cifrada');
 
     fetch('/api/webpay.php?action=create_transaction', {
       method: 'POST',
@@ -354,6 +442,7 @@
       f.submit();
     })
     .catch(function (e) {
+      hideLoader();
       updateStepper();
       setStatus('❌ ' + (e.message || 'Error con Webpay.'), 'error');
     });
@@ -367,6 +456,8 @@
 
     setStatus('Generando preferencia MercadoPago…', 'info');
     submitBtn.disabled = true;
+    showLoader(['Conectando con MercadoPago', 'Generando preferencia segura', 'Te estamos redirigiendo'],
+      'MercadoPago · conexión cifrada');
 
     fetch('/api/mercadopago.php?action=create_preference', {
       method: 'POST',
@@ -388,6 +479,7 @@
       location.href = data.init_point;
     })
     .catch(function (e) {
+      hideLoader();
       updateStepper();
       setStatus('❌ ' + (e.message || 'Error con MercadoPago.'), 'error');
     });
@@ -413,6 +505,12 @@
         if (!validateAllFields()) {
           setStatus('⚠ Completa todos los campos antes de pagar.', 'error');
           return actions.reject();
+        }
+        // Al pagar con tarjeta: loader breve mientras PayPal abre el formulario seguro.
+        if (data && data.fundingSource === 'card') {
+          showLoader(['Abriendo formulario seguro de tarjeta', 'Cifrado de extremo a extremo'],
+            'No cierres esta página');
+          setTimeout(hideLoader, 2600);
         }
         return actions.resolve();
       },
@@ -443,6 +541,7 @@
 
       onApprove: function (data) {
         setStatus('Confirmando pago con PayPal…', 'info');
+        showLoader(['Confirmando tu pago', 'Verificando con PayPal'], 'Casi listo · no cierres esta página');
         return fetch('/api/paypal.php?action=capture_order', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -459,11 +558,13 @@
       },
 
       onError: function (err) {
+        hideLoader();
         console.error('PayPal error:', err);
         setStatus('❌ Error con PayPal. Intentá de nuevo o usá otro método.', 'error');
       },
 
       onCancel: function () {
+        hideLoader();
         setStatus('Pago cancelado.', 'info');
       }
     };
@@ -477,9 +578,9 @@
     if (ppBtnPayPal) ppBtnPayPal.innerHTML = '';
     if (ppBtnCard)   ppBtnCard.innerHTML   = '';
 
-    var loadingHtml = '<div style="text-align:center;color:#475569;font-size:.85rem;padding:10px;">Cargando…</div>';
-    if (ppBtnPayPal) ppBtnPayPal.innerHTML = loadingHtml;
-    if (ppBtnCard)   ppBtnCard.innerHTML   = loadingHtml;
+    if (ppBtnPayPal) ppBtnPayPal.innerHTML = paypalSkelHtml('Conectando con PayPal');
+    if (ppBtnCard)   ppBtnCard.innerHTML   = paypalSkelHtml('Preparando pago con tarjeta');
+    startSkelRotation();
 
     fetch('/api/paypal.php?action=get_client_id')
       .then(function (r) { return r.json(); })
@@ -491,6 +592,7 @@
         if (!window.paypal || !window.paypal.Buttons) {
           throw new Error('SDK de PayPal no disponible.');
         }
+        stopSkelRotation();
         if (ppBtnPayPal) ppBtnPayPal.innerHTML = '';
         if (ppBtnCard)   ppBtnCard.innerHTML   = '';
 
@@ -544,6 +646,7 @@
         }
       })
       .catch(function (e) {
+        stopSkelRotation();
         if (ppBtnPayPal) ppBtnPayPal.innerHTML = '';
         if (ppBtnCard)   ppBtnCard.innerHTML   = '';
         setStatus('❌ ' + e.message, 'error');
@@ -551,6 +654,7 @@
   }
 
   function showSuccess(method, info) {
+    hideLoader();
     var amount = info.amount || parseAmount(amountInput.value);
     var cur    = info.currency || selectedCurrency;
     var refs = {
@@ -624,6 +728,7 @@
       var token = params.get('token_ws');
       if (!token) return;
       setStatus('Confirmando pago Webpay…', 'info');
+      showLoader(['Confirmando tu pago', 'Verificando con Transbank'], 'Casi listo · no cierres esta página');
       fetch('/api/webpay.php?action=commit_transaction', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -634,10 +739,12 @@
         if (res.success && res.status === 'AUTHORIZED') {
           showSuccess('webpay', res);
         } else {
+          hideLoader();
           setStatus('❌ Pago Webpay rechazado o cancelado. ' + (res.error || ''), 'error');
         }
       })
       .catch(function (e) {
+        hideLoader();
         setStatus('❌ Error confirmando pago Webpay: ' + e.message, 'error');
       });
     }
