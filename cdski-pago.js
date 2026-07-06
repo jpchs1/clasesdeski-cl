@@ -1,6 +1,11 @@
 /**
- * ClasesdeSki — Portal de Pago v2.3.0
+ * ClasesdeSki — Portal de Pago v2.4.0
  *
+ * v2.4.0: Regla de métodos por país:
+ *         · Chile → Webpay + MercadoPago (CLP), sin PayPal.
+ *         · Cualquier otro país → solo PayPal (USD).
+ *         Decide por prefijo telefónico (56 = Chile); si el teléfono está
+ *         vacío/corto usa el país de facturación (?pais=). Reversible.
  * v2.3.0: Loader con logo CDSKI (overlay animado) al conectar con Webpay/
  *         MercadoPago, al abrir el formulario de tarjeta y al confirmar PayPal;
  *         skeleton animado con logo mientras carga el SDK de PayPal.
@@ -299,17 +304,41 @@
     return digits.indexOf('56') === 0;
   }
 
-  // Muestra/oculta los métodos nacionales según el teléfono. Reversible.
+  // ¿El país de facturación (prefill ?pais=) indica un país distinto de Chile?
+  function countryIsForeign() {
+    var c = String(payerCountry || '').trim().toLowerCase();
+    if (!c) return false;
+    return !(c === 'cl' || c === 'chl' || c === 'chile' || c === '56');
+  }
+
+  // Regla de negocio:
+  //   · Chile (o teléfono local/ambiguo sin país extranjero) → Webpay + MercadoPago (CLP), sin PayPal.
+  //   · Cualquier otro país → solo PayPal (USD).
+  // El teléfono manda cuando tiene 4+ dígitos; si está vacío/corto, decide el país (?pais=).
+  function isForeignCustomer() {
+    var digits = phoneInput ? String(phoneInput.value || '').replace(/\D/g, '') : '';
+    if (digits.length >= 4) return digits.indexOf('56') !== 0;   // extranjero si NO empieza con 56
+    return countryIsForeign();
+  }
+
+  // Filtra los métodos según el cliente. Reversible (no destructivo).
   function applyPhoneFilter() {
-    if (!phoneInput) return;
-    var chilean = isChileanPhone(phoneInput.value);
+    var foreign = isForeignCustomer();
     methodButtons.forEach(function (b) {
-      if (b.dataset.method === 'paypal') return;   // PayPal (internacional) siempre visible
-      b.style.display = chilean ? '' : 'none';
+      var m = b.dataset.method;
+      if (m === 'paypal') {
+        b.style.display = foreign ? '' : 'none';   // PayPal solo para clientes extranjeros
+      } else {
+        b.style.display = foreign ? 'none' : '';    // Webpay/MercadoPago (y otros nacionales) solo Chile
+      }
     });
-    // Si el método seleccionado quedó oculto, forzar PayPal.
-    if (!chilean && selectedMethod && selectedMethod !== 'paypal') {
-      selectMethod('paypal');
+    // Ajustar el método seleccionado a lo que quedó visible.
+    if (foreign) {
+      // PayPal es la única opción para extranjeros → seleccionarlo (también en USD).
+      if (selectedMethod !== 'paypal') selectMethod('paypal');
+    } else {
+      // Chile tiene 2 opciones (Webpay/MercadoPago): solo salir de PayPal si estaba elegido.
+      if (selectedMethod === 'paypal') selectMethod('webpay');
     }
   }
 
