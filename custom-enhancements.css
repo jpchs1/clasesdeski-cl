@@ -668,3 +668,71 @@ img[loading="lazy"].loaded {
   color: #fb923c;
   white-space: nowrap;
 }
+
+/* ---- Mission / focus band (injected before #why-us) ---- */
+.cdski-mission {
+  max-width: 1120px;
+  margin: 2.5rem auto -1rem;
+  padding: 0 1rem;
+}
+.cdski-mission-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 24px;
+  padding: 2.75rem clamp(1.25rem, 4vw, 3.5rem);
+  text-align: center;
+  box-shadow: 0 24px 60px -28px rgba(2, 6, 23, 0.65);
+}
+.cdski-mission-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 130% at 50% 0%, rgba(249, 115, 22, 0.16), transparent 62%);
+  pointer-events: none;
+}
+.cdski-mission-kicker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 1.1rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fb923c;
+}
+.cdski-mission-body {
+  position: relative;
+  max-width: 46rem;
+  margin: 0 auto;
+  color: #e2e8f0;
+  font-size: clamp(1rem, 2.4vw, 1.22rem);
+  line-height: 1.72;
+}
+.cdski-mission-tag {
+  position: relative;
+  max-width: 40rem;
+  margin: 1.5rem auto 0;
+  color: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.05rem, 2.8vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+.cdski-mission-tag::before {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 3px;
+  margin: 0 auto 1.15rem;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #f97316, #fb923c);
+}
+@media (max-width: 640px) {
+  .cdski-mission { margin-top: 1.5rem; }
+  .cdski-mission-card { padding: 1.85rem 1.25rem; border-radius: 20px; }
+}
