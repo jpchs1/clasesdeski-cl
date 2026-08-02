@@ -535,6 +535,59 @@
     tick();
   }
 
+  function setupMissionSection() {
+    var path = location.pathname;
+    var lang = path.indexOf('/en') === 0 ? 'en' : path.indexOf('/pt') === 0 ? 'pt' : 'es';
+    var T = {
+      es: {
+        kicker: 'Nuestro foco',
+        body: 'Nuestro principal foco y objetivo es transformar la primera experiencia en la nieve en un recuerdo inolvidable, combinando aprendizaje, seguridad y diversión. Más que enseñar a esquiar, buscamos que cada alumno gane confianza, disfrute la montaña y descubra una nueva pasión.',
+        tag: 'Aprende con seguridad, avanza con confianza y vive la montaña al máximo.'
+      },
+      pt: {
+        kicker: 'Nosso foco',
+        body: 'Nosso principal foco é transformar a primeira experiência na neve em uma lembrança inesquecível, combinando aprendizado, segurança e diversão. Mais do que ensinar a esquiar, queremos que cada aluno ganhe confiança, aproveite a montanha e descubra uma nova paixão.',
+        tag: 'Aprenda com segurança, avance com confiança e viva a montanha ao máximo.'
+      },
+      en: {
+        kicker: 'Our focus',
+        body: 'Our main focus is to turn your first time on the snow into an unforgettable memory, blending learning, safety and fun. More than teaching you to ski, we want every student to gain confidence, enjoy the mountain and discover a new passion.',
+        tag: 'Learn safely, progress with confidence and live the mountain to the fullest.'
+      }
+    }[lang];
+
+    function insert() {
+      if (document.querySelector('.cdski-mission')) return true;
+      var whyUs = document.getElementById('why-us');
+      if (!whyUs || !whyUs.parentNode) return false;
+
+      var sec = document.createElement('section');
+      sec.className = 'cdski-mission';
+      sec.setAttribute('aria-label', T.kicker);
+      sec.innerHTML =
+        '<div class="cdski-mission-card">'
+        + '<span class="cdski-mission-kicker">'
+        +   '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>'
+        +   T.kicker
+        + '</span>'
+        + '<p class="cdski-mission-body">' + T.body + '</p>'
+        + '<p class="cdski-mission-tag">' + T.tag + '</p>'
+        + '</div>';
+      whyUs.parentNode.insertBefore(sec, whyUs);
+      return true;
+    }
+
+    // React hydration re-renders the tree and discards injected nodes, so we
+    // re-insert for a few seconds until it survives.
+    var attempts = 0;
+    var iv = setInterval(function () {
+      insert();
+      attempts++;
+      if (attempts > 20) clearInterval(iv);
+    }, 500);
+    insert();
+  }
+
   function setupLazyImages() {
     var imgs = document.querySelectorAll('img[loading="lazy"]');
     Array.prototype.forEach.call(imgs, function(img) {
@@ -725,5 +778,6 @@
     setupWhatsAppFab();
     setupFooter();
     setupWelcomeBanner();
+    setupMissionSection();
   });
 })();
