@@ -736,3 +736,491 @@ img[loading="lazy"].loaded {
   .cdski-mission { margin-top: 1.5rem; }
   .cdski-mission-card { padding: 1.85rem 1.25rem; border-radius: 20px; }
 }
+
+/* =========================================================
+   CDSKI — Experiencia guiada de aprendizaje + "vida" (motion)
+   Sección inyectada tras #services, realce del claim del hero
+   y micro-animaciones ambientales. No modifica textos existentes.
+   ========================================================= */
+
+/* ---- Realce del claim existente (mismo texto, sólo destacado) ---- */
+.cdski-mark {
+  position: relative;
+  color: #ffffff;
+  font-weight: 600;
+  background: none;
+  padding: 0 .06em;
+  text-shadow: 0 1px 14px rgba(249, 115, 22, 0.35);
+}
+.cdski-mark::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #f97316, #fbbf24);
+  transform-origin: left center;
+  animation: cdskiUnderlineIn 1.1s cubic-bezier(.16,1,.3,1) .5s both;
+}
+@keyframes cdskiUnderlineIn {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+.cdski-mark-soft {
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: inset 0 -2px 0 rgba(251, 146, 60, 0.85);
+}
+
+/* ---- Píldora "experiencia guiada" en el hero ---- */
+.cdski-hero-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  margin: 0 auto .95rem;
+  padding: .55rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(251, 146, 60, 0.55);
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.32), rgba(10, 22, 40, 0.5));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffe9d5;
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  overflow: hidden;
+  animation: cdskiPillIn 1s cubic-bezier(.16,1,.3,1) .35s both;
+}
+.cdski-hero-pill svg { color: #fdba74; flex: 0 0 auto; }
+.cdski-hero-pill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent);
+  animation: cdskiShine 4.5s ease-in-out 1.6s infinite;
+}
+@keyframes cdskiPillIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes cdskiShine {
+  0%   { left: -60%; }
+  55%  { left: 130%; }
+  100% { left: 130%; }
+}
+.cdski-hero-pill-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+/* ---- Sección: experiencia guiada de aprendizaje ---- */
+.cdski-guided {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(3.5rem, 7vw, 6rem) 1rem;
+  background:
+    radial-gradient(90% 60% at 12% 0%, rgba(249, 115, 22, 0.10), transparent 60%),
+    radial-gradient(80% 60% at 100% 100%, rgba(56, 189, 248, 0.14), transparent 62%),
+    linear-gradient(180deg, #ffffff 0%, #f1f7ff 45%, #ffffff 100%);
+}
+.cdski-guided::before,
+.cdski-guided::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+}
+.cdski-guided::before {
+  width: 22rem; height: 22rem;
+  top: -8rem; right: -6rem;
+  background: rgba(249, 115, 22, 0.16);
+  animation: cdskiFloatBlob 16s ease-in-out infinite;
+}
+.cdski-guided::after {
+  width: 18rem; height: 18rem;
+  bottom: -7rem; left: -5rem;
+  background: rgba(56, 189, 248, 0.18);
+  animation: cdskiFloatBlob 20s ease-in-out reverse infinite;
+}
+@keyframes cdskiFloatBlob {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(-24px, 26px, 0) scale(1.08); }
+}
+.cdski-guided-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+.cdski-guided-head { text-align: center; }
+.cdski-guided-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .4rem 1rem;
+  margin-bottom: 1.1rem;
+  border-radius: 999px;
+  background: #ffedd5;
+  color: #c2410c;
+  font-size: .74rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.cdski-guided-kicker svg { color: #f97316; }
+.cdski-guided-dot {
+  width: .5rem; height: .5rem;
+  border-radius: 50%;
+  background: #f97316;
+  animation: cdskiPulseDot 2.2s ease-in-out infinite;
+}
+@keyframes cdskiPulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.45); opacity: .55; }
+}
+.cdski-guided-title {
+  margin: 0 auto .9rem;
+  max-width: 24ch;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.7rem, 4.2vw, 2.9rem);
+  font-weight: 800;
+  line-height: 1.18;
+  color: #1e293b;
+  text-wrap: balance;
+}
+.cdski-guided-title em {
+  font-style: normal;
+  background: linear-gradient(90deg, #f97316, #fb923c 55%, #fbbf24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Mensaje destacado para quienes van por primera vez */
+.cdski-guided-lead {
+  position: relative;
+  max-width: 54rem;
+  margin: 1.6rem auto 0;
+  padding: 1.35rem clamp(1.1rem, 3vw, 2rem) 1.35rem clamp(1.5rem, 3.5vw, 2.4rem);
+  border-radius: 20px;
+  border: 1px solid rgba(249, 115, 22, 0.22);
+  background: linear-gradient(135deg, #fff7ed 0%, #ffffff 70%);
+  box-shadow: 0 18px 42px -30px rgba(15, 23, 42, 0.55);
+  color: #334155;
+  font-size: clamp(1rem, 2.2vw, 1.16rem);
+  line-height: 1.72;
+  text-align: left;
+}
+.cdski-guided-lead::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 14%;
+  width: 4px; height: 72%;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #f97316, #fbbf24);
+}
+.cdski-guided-lead strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* Pasos */
+.cdski-guided-steps {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+.cdski-guided-steps::before {
+  content: '';
+  position: absolute;
+  top: 3.15rem;
+  left: 8%;
+  right: 8%;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, rgba(249,115,22,.45) 0 10px, transparent 10px 20px);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1.4s cubic-bezier(.16,1,.3,1) .25s;
+}
+.cdski-guided.cdski-inview .cdski-guided-steps::before { transform: scaleX(1); }
+@media (max-width: 900px) {
+  .cdski-guided-steps::before { display: none; }
+}
+.cdski-guided-step {
+  position: relative;
+  z-index: 1;
+  padding: 1.5rem 1.25rem 1.4rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  box-shadow: 0 16px 38px -30px rgba(15, 23, 42, 0.6);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1),
+              box-shadow .35s ease, border-color .35s ease;
+}
+.cdski-guided.cdski-inview .cdski-guided-step {
+  opacity: 1;
+  transform: translateY(0);
+}
+.cdski-guided-step:hover {
+  transform: translateY(-6px);
+  border-color: rgba(249, 115, 22, 0.45);
+  box-shadow: 0 26px 45px -28px rgba(249, 115, 22, 0.55);
+}
+.cdski-guided-step-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.35rem; height: 3.35rem;
+  margin: 0 auto .95rem;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #f97316, #fb923c);
+  color: #fff;
+  box-shadow: 0 12px 26px -14px rgba(249, 115, 22, 0.85);
+}
+.cdski-guided-step:hover .cdski-guided-step-icon {
+  animation: cdskiIconPop .6s ease;
+}
+@keyframes cdskiIconPop {
+  0%   { transform: scale(1) rotate(0deg); }
+  45%  { transform: scale(1.12) rotate(-6deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+.cdski-guided-step-num {
+  position: absolute;
+  top: -.5rem; right: -.5rem;
+  min-width: 1.5rem; height: 1.5rem;
+  padding: 0 .3rem;
+  border-radius: 999px;
+  background: #0f172a;
+  color: #fff;
+  font-size: .72rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+  text-align: center;
+  border: 2px solid #fff;
+}
+.cdski-guided-step h3 {
+  margin: 0 0 .45rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+.cdski-guided-step p {
+  margin: 0;
+  color: #64748b;
+  font-size: .92rem;
+  line-height: 1.62;
+}
+
+/* Sellos */
+.cdski-guided-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .6rem;
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+}
+.cdski-guided-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .5rem .95rem;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  color: #334155;
+  font-size: .84rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1), border-color .3s ease;
+}
+.cdski-guided.cdski-inview .cdski-guided-badge { opacity: 1; transform: translateY(0); }
+.cdski-guided-badge:hover { border-color: rgba(249, 115, 22, 0.5); }
+.cdski-guided-badge svg { color: #f97316; flex: 0 0 auto; }
+
+/* CTA */
+.cdski-guided-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(1.6rem, 3vw, 2.25rem);
+}
+.cdski-guided-cta a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .95rem 2rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f97316, #fb923c);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  overflow: hidden;
+  box-shadow: 0 18px 34px -18px rgba(249, 115, 22, 0.9);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.cdski-guided-cta a:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 24px 40px -18px rgba(249, 115, 22, 0.95);
+}
+.cdski-guided-cta a::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -60%;
+  width: 40%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.45), transparent);
+  animation: cdskiShine 5s ease-in-out 2s infinite;
+}
+
+/* Copos ambientales dentro de la sección guiada */
+.cdski-guided-snow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.cdski-guided-snow i {
+  position: absolute;
+  top: -8%;
+  color: rgba(56, 189, 248, 0.55);
+  font-style: normal;
+  animation: cdskiSnowFall linear infinite;
+}
+@keyframes cdskiSnowFall {
+  0%   { transform: translate3d(0, -10%, 0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: .8; }
+  100% { transform: translate3d(22px, 120vh, 0) rotate(220deg); opacity: 0; }
+}
+
+@media (max-width: 640px) {
+  .cdski-guided-lead { text-align: left; border-radius: 16px; }
+  .cdski-guided-step { padding: 1.25rem 1rem; }
+  .cdski-guided-kicker {
+    max-width: 100%;
+    padding: .38rem .8rem;
+    font-size: .62rem;
+    letter-spacing: .09em;
+    line-height: 1.45;
+    text-align: center;
+  }
+  .cdski-hero-pill {
+    max-width: 92%;
+    padding: .5rem .9rem;
+    font-size: .64rem;
+    letter-spacing: .03em;
+    line-height: 1.45;
+    text-align: center;
+  }
+}
+
+/* ---- Barra de progreso de lectura ---- */
+.cdski-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0;
+  z-index: 9999;
+  background: linear-gradient(90deg, #f97316, #fbbf24 60%, #38bdf8);
+  box-shadow: 0 0 12px rgba(249, 115, 22, 0.6);
+  transition: width .12s linear;
+  pointer-events: none;
+}
+
+/* ---- Subrayado animado de los títulos de sección ---- */
+#services h2::after,
+#pricing h2::after,
+#how-to-book h2::after,
+#gallery h2::after,
+#testimonials h2::after,
+#faq h2::after,
+#blog h2::after,
+#contact h2::after,
+#why-us h2::after {
+  content: '';
+  display: block;
+  width: 68px;
+  height: 3px;
+  margin: .85rem auto 0;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #f97316, #fbbf24);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform .9s cubic-bezier(.16,1,.3,1);
+}
+h2.cdski-h-inview::after { transform: scaleX(1) !important; }
+
+/* ---- Hero: leve ken burns + parallax ---- */
+.cdski-kenburns {
+  will-change: transform;
+  animation: cdskiKenBurns 26s ease-in-out infinite alternate;
+}
+@keyframes cdskiKenBurns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+
+/* ---- Brillo en CTAs principales ---- */
+a.bg-orange-500, button.bg-orange-500 { position: relative; overflow: hidden; }
+a.bg-orange-500::after, button.bg-orange-500::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -70%;
+  width: 45%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent);
+  transform: skewX(-18deg);
+  transition: left .65s cubic-bezier(.16,1,.3,1);
+  pointer-events: none;
+}
+a.bg-orange-500:hover::after, button.bg-orange-500:hover::after { left: 130%; }
+
+/* ---- Micro-vida en tarjetas e íconos existentes ---- */
+#why-us .grid > div > .flex > .shrink-0 {
+  transition: transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s ease, background-color .45s ease;
+}
+#why-us .grid > div:hover > .flex > .shrink-0 {
+  transform: translateY(-4px) rotate(-4deg);
+  background-color: rgba(249, 115, 22, 0.22);
+  box-shadow: 0 16px 30px -18px rgba(249, 115, 22, 0.9);
+}
+#services .grid > div, #how-to-book .grid > div {
+  transition: transform .45s cubic-bezier(.16,1,.3,1);
+}
+@media (hover: hover) and (pointer: fine) {
+  #services .grid > div:hover,
+  #how-to-book .grid > div:hover { transform: translateY(-6px) !important; }
+}
+
+/* ---- Respeto por reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .cdski-guided::before,
+  .cdski-guided::after,
+  .cdski-guided-snow,
+  .cdski-hero-pill::after,
+  .cdski-guided-cta a::after,
+  .cdski-kenburns,
+  .cdski-guided-dot,
+  .cdski-mark::after {
+    animation: none !important;
+  }
+  .cdski-guided-step,
+  .cdski-guided-badge { opacity: 1 !important; transform: none !important; }
+}

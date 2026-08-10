@@ -766,6 +766,345 @@
     insertFlagStrip();
   }
 
+  /* =========================================================
+     Experiencia guiada de aprendizaje
+     - Píldora en el hero
+     - Realce (sin cambiar el texto) del claim ya existente
+     - Sección propia con el método paso a paso
+     ========================================================= */
+
+  function currentLang() {
+    var path = location.pathname;
+    return path.indexOf('/en') === 0 ? 'en' : path.indexOf('/pt') === 0 ? 'pt' : 'es';
+  }
+
+  var GUIDED_COPY = {
+    es: {
+      pill: 'Experiencia guiada de aprendizaje · Instructor experto',
+      claim: 'Experiencias guiadas con instructores expertos',
+      softClaims: ['instructores expertos', 'instructor experto'],
+      kicker: 'Experiencia guiada de aprendizaje',
+      title: 'Más que una clase: una <em>experiencia guiada</em> con tu instructor experto',
+      lead: 'La experiencia comienza completamente desde cero y se adapta a tu ritmo, buscando que aprendas de manera progresiva, segura y, sobre todo, que disfrutes tu primera experiencia en la nieve 🏂❄️',
+      leadStrong: ['completamente desde cero', 'se adapta a tu ritmo', 'disfrutes tu primera experiencia en la nieve'],
+      steps: [
+        ['Partimos desde cero', 'Sin experiencia previa ni equipo propio. Tu instructor te acompaña desde el primer paso sobre la nieve.'],
+        ['Instructor experto contigo', 'Un profesional te guía durante toda la jornada: corrige en el momento y cuida cada detalle.'],
+        ['Progresión a tu ritmo', 'Equilibrio, deslizamiento, giros y control. Cada etapa avanza cuando tú estás listo.'],
+        ['Tu primera bajada, disfrutando', 'Terminas el día bajando con confianza, seguridad y ganas de volver a la montaña.']
+      ],
+      badges: [
+        'Instructor experto que te guía',
+        'Método progresivo paso a paso',
+        'Seguridad en cada etapa',
+        'Español · English · Português'
+      ],
+      cta: 'Reserva tu experiencia guiada'
+    },
+    en: {
+      pill: 'Guided learning experience · Expert instructor',
+      claim: 'Guided experiences with expert instructors',
+      softClaims: ['expert instructors', 'expert instructor'],
+      kicker: 'Guided learning experience',
+      title: 'More than a lesson: a <em>guided experience</em> with your expert instructor',
+      lead: 'The experience starts completely from scratch and adapts to your own pace, so you learn progressively, safely and — above all — enjoy your first time on the snow 🏂❄️',
+      leadStrong: ['completely from scratch', 'adapts to your own pace', 'enjoy your first time on the snow'],
+      steps: [
+        ['We start from zero', 'No previous experience or gear of your own. Your instructor is with you from your very first step on the snow.'],
+        ['An expert instructor with you', 'A professional guides you through the whole day: correcting on the spot and taking care of every detail.'],
+        ['Progress at your own pace', 'Balance, gliding, turns and control. Each stage moves forward when you are ready.'],
+        ['Your first run, enjoying it', 'You finish the day skiing down with confidence, safety and eager to come back to the mountain.']
+      ],
+      badges: [
+        'An expert instructor guiding you',
+        'Step-by-step progressive method',
+        'Safety at every stage',
+        'Español · English · Português'
+      ],
+      cta: 'Book your guided experience'
+    },
+    pt: {
+      pill: 'Experiência guiada de aprendizado · Instrutor experto',
+      claim: 'Experiências guiadas com instrutores expertos',
+      softClaims: ['instrutores expertos', 'instrutor experto'],
+      kicker: 'Experiência guiada de aprendizado',
+      title: 'Mais que uma aula: uma <em>experiência guiada</em> com seu instrutor experto',
+      lead: 'A experiência começa completamente do zero e se adapta ao seu ritmo, para que você aprenda de forma progressiva, segura e, acima de tudo, aproveite sua primeira experiência na neve 🏂❄️',
+      leadStrong: ['completamente do zero', 'se adapta ao seu ritmo', 'aproveite sua primeira experiência na neve'],
+      steps: [
+        ['Começamos do zero', 'Sem experiência prévia nem equipamento próprio. Seu instrutor acompanha você desde o primeiro passo na neve.'],
+        ['Instrutor experto com você', 'Um profissional guia toda a jornada: corrige na hora e cuida de cada detalhe.'],
+        ['Progressão no seu ritmo', 'Equilíbrio, deslize, curvas e controle. Cada etapa avança quando você estiver pronto.'],
+        ['Sua primeira descida, aproveitando', 'Você termina o dia descendo com confiança, segurança e vontade de voltar à montanha.']
+      ],
+      badges: [
+        'Instrutor experto que guia você',
+        'Método progressivo passo a passo',
+        'Segurança em cada etapa',
+        'Español · English · Português'
+      ],
+      cta: 'Reserve sua experiência guiada'
+    }
+  };
+
+  var GUIDED_ICONS = [
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>',
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M18 4l1.2 2.6L22 7.8l-2 1.9.5 2.8-2.5-1.4-2.5 1.4.5-2.8-2-1.9 2.8-.2z"/></svg>',
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg>',
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20l6-14 5 8 2-3 5 9z"/><circle cx="8" cy="4" r="1.6"/></svg>'
+  ];
+
+  var CHECK_ICON = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>';
+
+  // Envuelve una frase ya presente en el DOM sin alterar el texto.
+  function highlightPhrase(el, phrase, className) {
+    if (!el || !phrase) return false;
+    if (el.querySelector('.' + className)) return true;
+    var nodes = Array.prototype.slice.call(el.childNodes);
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      if (node.nodeType !== 3) continue;
+      var idx = node.nodeValue.toLowerCase().indexOf(phrase.toLowerCase());
+      if (idx === -1) continue;
+      var exact = node.nodeValue.substr(idx, phrase.length);
+      var after = node.splitText(idx);
+      after.nodeValue = after.nodeValue.substr(phrase.length);
+      var mark = document.createElement('span');
+      mark.className = className;
+      mark.textContent = exact;
+      after.parentNode.insertBefore(mark, after);
+      return true;
+    }
+    return false;
+  }
+
+  function emphasizeLead(text, phrases) {
+    var out = text;
+    phrases.forEach(function (p) {
+      var idx = out.indexOf(p);
+      if (idx === -1) return;
+      out = out.slice(0, idx) + '<strong>' + p + '</strong>' + out.slice(idx + p.length);
+    });
+    return out;
+  }
+
+  function setupGuidedExperience() {
+    var T = GUIDED_COPY[currentLang()];
+    var heroLead = null;
+
+    function findHeroLead() {
+      if (heroLead && document.contains(heroLead)) return heroLead;
+      var ps = document.querySelectorAll('main section p');
+      for (var i = 0; i < ps.length; i++) {
+        if ((ps[i].textContent || '').indexOf(T.claim) === 0) { heroLead = ps[i]; return heroLead; }
+      }
+      return null;
+    }
+
+    function insertHeroPill() {
+      var lead = findHeroLead();
+      if (!lead || !lead.parentNode) return false;
+      if (lead.parentNode.querySelector('.cdski-hero-pill')) return true;
+      var wrap = document.createElement('div');
+      wrap.className = 'cdski-hero-pill-wrap';
+      wrap.innerHTML = '<span class="cdski-hero-pill">'
+        + '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20l6-14 5 8 2-3 5 9z"/><circle cx="8" cy="4" r="1.6"/></svg>'
+        + T.pill + '</span>';
+      lead.parentNode.insertBefore(wrap, lead);
+      return true;
+    }
+
+    function markClaims() {
+      var lead = findHeroLead();
+      if (lead) highlightPhrase(lead, T.claim, 'cdski-mark');
+      var svc = document.getElementById('services');
+      if (svc) {
+        Array.prototype.forEach.call(svc.querySelectorAll('p'), function (p) {
+          for (var i = 0; i < T.softClaims.length; i++) {
+            if (highlightPhrase(p, T.softClaims[i], 'cdski-mark-soft')) break;
+          }
+        });
+      }
+    }
+
+    function stepsHtml() {
+      var html = '';
+      T.steps.forEach(function (s, i) {
+        html += '<article class="cdski-guided-step" style="transition-delay:' + (0.08 * i + 0.05).toFixed(2) + 's">'
+          + '<div class="cdski-guided-step-icon">' + GUIDED_ICONS[i]
+          + '<span class="cdski-guided-step-num">' + (i + 1) + '</span></div>'
+          + '<h3>' + s[0] + '</h3>'
+          + '<p>' + s[1] + '</p>'
+          + '</article>';
+      });
+      return html;
+    }
+
+    function badgesHtml() {
+      var html = '';
+      T.badges.forEach(function (b, i) {
+        html += '<span class="cdski-guided-badge" style="transition-delay:' + (0.4 + 0.07 * i).toFixed(2) + 's">'
+          + CHECK_ICON + b + '</span>';
+      });
+      return html;
+    }
+
+    function snowHtml() {
+      var html = '';
+      for (var i = 0; i < 14; i++) {
+        var size = 8 + (i % 4) * 4;
+        html += '<i aria-hidden="true" style="left:' + ((i * 7.3) % 98).toFixed(1) + '%;'
+          + 'font-size:' + size + 'px;'
+          + 'animation-duration:' + (11 + (i % 5) * 3) + 's;'
+          + 'animation-delay:' + (i * 0.9).toFixed(1) + 's">❄</i>';
+      }
+      return html;
+    }
+
+    function insertSection() {
+      if (document.querySelector('.cdski-guided')) return true;
+      var services = document.getElementById('services');
+      if (!services || !services.parentNode) return false;
+
+      var sec = document.createElement('section');
+      sec.className = 'cdski-guided';
+      sec.setAttribute('aria-label', T.kicker);
+      sec.innerHTML =
+        '<div class="cdski-guided-snow" aria-hidden="true">' + snowHtml() + '</div>'
+        + '<div class="cdski-guided-inner">'
+        +   '<div class="cdski-guided-head">'
+        +     '<span class="cdski-guided-kicker"><span class="cdski-guided-dot"></span>' + T.kicker + '</span>'
+        +     '<h2 class="cdski-guided-title">' + T.title + '</h2>'
+        +     '<p class="cdski-guided-lead">' + emphasizeLead(T.lead, T.leadStrong) + '</p>'
+        +   '</div>'
+        +   '<div class="cdski-guided-steps">' + stepsHtml() + '</div>'
+        +   '<div class="cdski-guided-badges">' + badgesHtml() + '</div>'
+        +   '<div class="cdski-guided-cta"><a href="#contact">' + T.cta
+        +     '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
+        +   '</a></div>'
+        + '</div>';
+      services.parentNode.insertBefore(sec, services.nextSibling);
+
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add('cdski-inview');
+              io.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        io.observe(sec);
+      } else {
+        sec.classList.add('cdski-inview');
+      }
+      return true;
+    }
+
+    // La hidratación de React descarta nodos inyectados: reintentamos unos segundos.
+    var attempts = 0;
+    var iv = setInterval(function () {
+      insertSection();
+      insertHeroPill();
+      markClaims();
+      attempts++;
+      if (attempts > 20) clearInterval(iv);
+    }, 500);
+    insertSection();
+    insertHeroPill();
+    markClaims();
+  }
+
+  /* =========================================================
+     "Vida": barra de progreso, subrayados animados y parallax
+     ========================================================= */
+  var HEAD_SELECTOR = '#services h2, #pricing h2, #how-to-book h2, #gallery h2, #testimonials h2, #faq h2, #blog h2, #contact h2, #why-us h2';
+
+  function setupLiveMotion() {
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Barra de progreso de lectura.
+    // La hidratación de React descarta nodos sueltos, así que la reponemos.
+    var bar = null;
+    var ticking = false;
+    function updateProgress() {
+      ticking = false;
+      if (!bar) return;
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = h > 0 ? Math.min(100, (window.scrollY / h) * 100) : 0;
+      bar.style.width = pct + '%';
+    }
+    function ensureProgressBar() {
+      if (bar && document.body.contains(bar)) return true;
+      bar = document.querySelector('.cdski-progress');
+      if (!bar) {
+        bar = document.createElement('div');
+        bar.className = 'cdski-progress';
+      }
+      document.body.appendChild(bar);
+      updateProgress();
+      return true;
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; window.requestAnimationFrame(updateProgress); }
+    }, { passive: true });
+
+    // Subrayado animado de los títulos de sección.
+    var headObserver = null;
+    function observeHeadings() {
+      var heads = document.querySelectorAll(HEAD_SELECTOR);
+      if (!heads.length) return false;
+      if (!('IntersectionObserver' in window)) {
+        Array.prototype.forEach.call(heads, function (h) { h.classList.add('cdski-h-inview'); });
+        return true;
+      }
+      if (headObserver) headObserver.disconnect();
+      headObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) e.target.classList.add('cdski-h-inview');
+        });
+      }, { threshold: 0.35 });
+      Array.prototype.forEach.call(heads, function (h) { headObserver.observe(h); });
+      return true;
+    }
+
+    // Hero: ken burns + parallax suave del fondo.
+    var heroBg = null;
+    function findHeroBg() {
+      var hero = document.querySelector('main section');
+      heroBg = hero ? hero.querySelector('.bg-cover.bg-center') : null;
+      if (heroBg && !reduced) heroBg.classList.add('cdski-kenburns');
+      return !!heroBg;
+    }
+
+    if (!reduced) {
+      var pTicking = false;
+      var parallax = function () {
+        var y = window.scrollY;
+        if (heroBg && y < window.innerHeight * 1.2) {
+          heroBg.style.backgroundPosition = 'center calc(50% + ' + (y * 0.12).toFixed(1) + 'px)';
+        }
+        pTicking = false;
+      };
+      window.addEventListener('scroll', function () {
+        if (!pTicking) { pTicking = true; window.requestAnimationFrame(parallax); }
+      }, { passive: true });
+    }
+
+    // La hidratación de React reescribe clases y nodos: reaplicamos unos segundos.
+    var attempts = 0;
+    var iv = setInterval(function () {
+      ensureProgressBar();
+      observeHeadings();
+      findHeroBg();
+      attempts++;
+      if (attempts > 20) clearInterval(iv);
+    }, 500);
+    ensureProgressBar();
+    observeHeadings();
+    findHeroBg();
+  }
+
   ready(function () {
     document.documentElement.classList.add('cdski-reveal-ready');
     revealInlineHidden();
@@ -779,5 +1118,7 @@
     setupFooter();
     setupWelcomeBanner();
     setupMissionSection();
+    setupGuidedExperience();
+    setupLiveMotion();
   });
 })();
