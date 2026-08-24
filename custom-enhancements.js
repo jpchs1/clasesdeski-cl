@@ -55,98 +55,160 @@
     onScroll();
   }
 
+  // React hidrata el documento completo y descarta todo lo que colgamos de
+  // <body> antes de que termine. El menú móvil y el botón de volver arriba
+  // desaparecían por eso: se reponen hasta que la hidratación se asienta.
+  function keepAlive(ensure) {
+    var attempts = 0;
+    var iv = setInterval(function () {
+      ensure();
+      attempts++;
+      if (attempts > 20) clearInterval(iv);
+    }, 500);
+    ensure();
+  }
+
   function setupMobileMenu() {
-    var header = document.querySelector('header');
-    if (!header) return;
-    var toggleBtn = header.querySelector('button[aria-label="Toggle menu"]');
-    if (!toggleBtn) return;
+    var menu = null;
 
-    // Build panel from desktop nav so labels are already localised
-    var desktopNav = header.querySelector('nav');
-    var navLinks = desktopNav
-      ? Array.prototype.slice.call(desktopNav.querySelectorAll('a'))
-      : [];
+    function buildMenu(header) {
+      // Build panel from desktop nav so labels are already localised
+      var desktopNav = header.querySelector('nav');
+      var navLinks = desktopNav
+        ? Array.prototype.slice.call(desktopNav.querySelectorAll('a'))
+        : [];
 
-    var menu = document.createElement('div');
-    menu.className = 'cdski-mobile-menu';
-    menu.setAttribute('role', 'dialog');
-    menu.setAttribute('aria-modal', 'true');
-    menu.setAttribute('aria-label', 'Menú principal');
+      var panel = document.createElement('div');
+      panel.className = 'cdski-mobile-menu';
+      panel.setAttribute('role', 'dialog');
+      panel.setAttribute('aria-modal', 'true');
+      panel.setAttribute('aria-label', 'Menú principal');
 
-    var html = '';
-    navLinks.forEach(function (a) {
-      var href = a.getAttribute('href') || '#';
-      var label = (a.textContent || '').trim();
-      if (!label) return;
-      html += '<a href="' + href + '">' + label + '</a>';
-    });
+      var html = '';
+      navLinks.forEach(function (a) {
+        var href = a.getAttribute('href') || '#';
+        var label = (a.textContent || '').trim();
+        if (!label) return;
+        html += '<a href="' + href + '">' + label + '</a>';
+      });
 
-    // CTA — prefer the existing visible CTA in the header
-    var ctaEl = header.querySelector('a.bg-orange-500[href="#contact"], a.bg-orange-500[href*="#contact"]');
-    var ctaText = ctaEl && ctaEl.textContent ? ctaEl.textContent.trim() : 'Reservar';
-    html += '<a href="#contact" class="cdski-mm-cta">' + ctaText + '</a>';
-    menu.innerHTML = html;
+      // CTA — prefer the existing visible CTA in the header
+      var ctaEl = header.querySelector('a.bg-orange-500[href="#contact"], a.bg-orange-500[href*="#contact"]');
+      var ctaText = ctaEl && ctaEl.textContent ? ctaEl.textContent.trim() : 'Reservar';
+      html += '<a href="#contact" class="cdski-mm-cta">' + ctaText + '</a>';
+      panel.innerHTML = html;
 
-    document.body.appendChild(menu);
+      panel.addEventListener('click', function (e) {
+        var t = e.target;
+        while (t && t !== panel) {
+          if (t.tagName === 'A') { setOpen(false); break; }
+          t = t.parentNode;
+        }
+      });
+      return panel;
+    }
 
-    var setOpen = function (open) {
+    function setOpen(open) {
+      if (!menu) return;
       menu.classList.toggle('open', open);
       document.body.classList.toggle('cdski-menu-open', open);
-      toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    };
+      var btn = document.querySelector('header button[aria-label="Toggle menu"]');
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
 
-    toggleBtn.setAttribute('aria-expanded', 'false');
-    toggleBtn.addEventListener('click', function (e) {
-      e.preventDefault();
-      setOpen(!menu.classList.contains('open'));
-    });
-
-    menu.addEventListener('click', function (e) {
-      var t = e.target;
-      while (t && t !== menu) {
-        if (t.tagName === 'A') { setOpen(false); break; }
-        t = t.parentNode;
+    // Tras hidratar, el propio sitio maneja su menú móvil. Nuestro panel sólo
+    // existe como respaldo para cuando React todavía no tomó el control (o falló);
+    // si React ya lo maneja, lo retiramos para no mostrar dos menús encima.
+    function reactOwnsToggle(btn) {
+      for (var k in btn) {
+        if (k.indexOf('__reactProps') === 0) {
+          var p = btn[k];
+          if (p && typeof p.onClick === 'function') return true;
+        }
       }
-    });
+      return false;
+    }
+
+    function ensure() {
+      var header = document.querySelector('header');
+      if (!header) return;
+      var toggleBtn = header.querySelector('button[aria-label="Toggle menu"]');
+      if (!toggleBtn) return;
+
+      if (reactOwnsToggle(toggleBtn)) {
+        if (menu && menu.parentNode) menu.parentNode.removeChild(menu);
+        var stray = document.querySelector('.cdski-mobile-menu');
+        if (stray && stray.parentNode) stray.parentNode.removeChild(stray);
+        menu = null;
+        document.body.classList.remove('cdski-menu-open');
+        return;
+      }
+
+      if (!menu || !document.body.contains(menu)) {
+        var existing = document.querySelector('.cdski-mobile-menu');
+        menu = existing || buildMenu(header);
+        document.body.appendChild(menu);
+      }
+
+      // El botón también se recrea al hidratar: reenganchamos una sola vez por nodo.
+      if (toggleBtn.getAttribute('data-cdski-menu') !== '1') {
+        toggleBtn.setAttribute('data-cdski-menu', '1');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        toggleBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          setOpen(!(menu && menu.classList.contains('open')));
+        });
+      }
+    }
 
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && menu.classList.contains('open')) setOpen(false);
+      if (e.key === 'Escape' && menu && menu.classList.contains('open')) setOpen(false);
     });
-
-    // Close on resize to desktop
     window.addEventListener('resize', function () {
       if (window.innerWidth >= 1024) setOpen(false);
     });
+
+    keepAlive(ensure);
   }
 
   function setupScrollToTop() {
-    var btn = document.createElement('button');
-    btn.className = 'cdski-to-top';
-    btn.type = 'button';
-    btn.setAttribute('aria-label', 'Volver arriba');
-    btn.innerHTML =
-      '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
-      'stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<path d="M18 15l-6-6-6 6"/></svg>';
-    document.body.appendChild(btn);
+    var btn = null;
 
-    btn.addEventListener('click', function () {
-      try {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } catch (e) {
-        window.scrollTo(0, 0);
-      }
-    });
-
-    var onScroll = function () {
+    function onScroll() {
+      if (!btn) return;
       if (window.scrollY > CONFIG.scrollThresholdTopBtn) {
         btn.classList.add('visible');
       } else {
         btn.classList.remove('visible');
       }
-    };
+    }
+
+    function ensure() {
+      if (btn && document.body.contains(btn)) return;
+      btn = document.querySelector('.cdski-to-top');
+      if (!btn) {
+        btn = document.createElement('button');
+        btn.className = 'cdski-to-top';
+        btn.type = 'button';
+        btn.setAttribute('aria-label', 'Volver arriba');
+        btn.innerHTML =
+          '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+          'stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+          '<path d="M18 15l-6-6-6 6"/></svg>';
+        btn.addEventListener('click', function () {
+          try {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } catch (e) {
+            window.scrollTo(0, 0);
+          }
+        });
+      }
+      document.body.appendChild(btn);
+      onScroll();
+    }
+
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    keepAlive(ensure);
   }
 
   function setupSmoothAnchors() {
@@ -1230,6 +1292,285 @@
     insert();
   }
 
+  /* =========================================================
+     FASE 1 — Destapar el embudo
+     1. El modal de reserva era ilegible (texto blanco sobre panel
+        blanco): el color se corrige por CSS, aquí se le ponen
+        etiquetas accesibles a unos campos que sólo tenían placeholder.
+     2. El home no enlazaba a /pago/ en ninguna parte.
+     3. El formulario de contacto no tenía dónde guardar el lead.
+     ========================================================= */
+
+  var FUNNEL_COPY = {
+    es: {
+      pay: 'Pagar mi reserva',
+      payHint: 'Pago seguro: Webpay, Mercado Pago, PayPal y transferencia.',
+      payAfterQuote: '¿Ya coordinaste tu clase? Paga aquí',
+      labelName: 'Nombre completo',
+      labelEmail: 'Email',
+      labelPhone: 'WhatsApp',
+      labelDate: 'Fecha tentativa',
+      labelMsg: 'Mensaje',
+      waIntro: 'Hola! Quiero consultar por clases con CDSKI:'
+    },
+    en: {
+      pay: 'Pay my booking',
+      payHint: 'Secure payment: Webpay, Mercado Pago, PayPal and bank transfer.',
+      payAfterQuote: 'Already arranged your lesson? Pay here',
+      labelName: 'Full name',
+      labelEmail: 'Email',
+      labelPhone: 'WhatsApp',
+      labelDate: 'Preferred date',
+      labelMsg: 'Message',
+      waIntro: 'Hola! Quiero consultar por clases con CDSKI:'
+    },
+    pt: {
+      pay: 'Pagar minha reserva',
+      payHint: 'Pagamento seguro: Webpay, Mercado Pago, PayPal e transferência.',
+      payAfterQuote: 'Já combinou sua aula? Pague aqui',
+      labelName: 'Nome completo',
+      labelEmail: 'Email',
+      labelPhone: 'WhatsApp',
+      labelDate: 'Data pretendida',
+      labelMsg: 'Mensagem',
+      waIntro: 'Hola! Quiero consultar por clases con CDSKI:'
+    }
+  };
+
+  var PAY_URL = '/pago/';
+
+  var CARD_ICON = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>';
+
+  function payLink(cls, label) {
+    var a = document.createElement('a');
+    a.className = 'cdski-pay-link ' + cls;
+    a.href = PAY_URL;
+    a.innerHTML = CARD_ICON + '<span>' + label + '</span>';
+    return a;
+  }
+
+  /* ---- 2. Caminos hacia la pasarela de pago ---- */
+  function setupPaymentPaths() {
+    var T = FUNNEL_COPY[currentLang()];
+
+    // a) Footer, junto a los logos de medios de pago que ya están ahí.
+    function inFooter() {
+      var footer = document.querySelector('footer');
+      if (!footer) return false;
+      if (footer.querySelector('.cdski-pay-footer')) return true;
+      var host = null;
+      var nodes = footer.querySelectorAll('div, span, p');
+      for (var i = 0; i < nodes.length; i++) {
+        var txt = (nodes[i].textContent || '');
+        if (txt.indexOf('PCI') !== -1 && nodes[i].children.length <= 2) { host = nodes[i]; break; }
+      }
+      var anchor = host ? (host.closest ? host.closest('div') : host) : null;
+      if (!anchor || !anchor.parentNode) {
+        // Si la fila de medios de pago no está, colgamos del pie igual.
+        anchor = footer.querySelector('.grid');
+        if (!anchor || !anchor.parentNode) return false;
+      }
+      var wrap = document.createElement('div');
+      wrap.className = 'cdski-pay-footer';
+      wrap.appendChild(payLink('cdski-pay-primary', T.pay));
+      var hint = document.createElement('span');
+      hint.className = 'cdski-pay-hint';
+      hint.textContent = T.payHint;
+      wrap.appendChild(hint);
+      anchor.parentNode.insertBefore(wrap, anchor.nextSibling);
+      return true;
+    }
+
+    // b) Bajo los botones de la calculadora, para quien ya cotizó.
+    function inCalculator() {
+      var links = document.querySelectorAll('a[href*="wa.me/56940211459"]');
+      var target = null;
+      for (var i = 0; i < links.length; i++) {
+        var href = '';
+        try { href = decodeURIComponent(links[i].getAttribute('href') || ''); } catch (e) { href = ''; }
+        if (href.indexOf('Quiero reservar clases con CDSKI') !== -1) { target = links[i]; break; }
+      }
+      if (!target || !target.parentNode) return false;
+      if (target.parentNode.querySelector('.cdski-pay-quote')) return true;
+      target.parentNode.insertBefore(payLink('cdski-pay-quote', T.payAfterQuote), target.nextSibling);
+      return true;
+    }
+
+    // c) Menú móvil nativo del sitio: se monta y desmonta con React.
+    function inNativeMenu() {
+      var panel = document.querySelector('header div[class*="bg-white/95"]');
+      if (!panel) return false;
+      var list = panel.querySelector('div');
+      if (!list) return false;
+      if (list.querySelector('.cdski-pay-nav')) return true;
+      list.appendChild(payLink('cdski-pay-nav', T.pay));
+      return true;
+    }
+
+    // El panel se monta al pulsar la hamburguesa: reintentamos justo después.
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      var hit = t && t.closest ? t.closest('button[aria-label="Toggle menu"]') : null;
+      if (!hit) return;
+      setTimeout(inNativeMenu, 60);
+      setTimeout(inNativeMenu, 260);
+      setTimeout(inNativeMenu, 700);
+    });
+
+    var attempts = 0;
+    var iv = setInterval(function () {
+      inFooter(); inCalculator(); inNativeMenu();
+      attempts++;
+      if (attempts > 20) clearInterval(iv);
+    }, 500);
+    inFooter(); inCalculator(); inNativeMenu();
+  }
+
+  /* ---- 1. Modal de reserva: etiquetas accesibles + salida a pago ---- */
+  function setupReservationModal() {
+    var T = FUNNEL_COPY[currentLang()];
+
+    function labelFor(el) {
+      var ph = (el.getAttribute('placeholder') || '').toLowerCase();
+      if (el.type === 'date') return T.labelDate;
+      if (el.tagName === 'TEXTAREA') return T.labelMsg;
+      if (ph.indexOf('mail') !== -1) return T.labelEmail;
+      if (ph.indexOf('whats') !== -1 || el.type === 'tel') return T.labelPhone;
+      if (ph) return el.getAttribute('placeholder');
+      return T.labelName;
+    }
+
+    function dressModal(modal) {
+      if (!modal || modal.getAttribute('data-cdski-modal') === '1') return;
+      modal.setAttribute('data-cdski-modal', '1');
+      modal.classList.add('cdski-modal-fixed');
+
+      var fields = modal.querySelectorAll('input, select, textarea');
+      Array.prototype.forEach.call(fields, function (el) {
+        if (!el.getAttribute('aria-label')) el.setAttribute('aria-label', labelFor(el));
+      });
+
+      // Salida a la pasarela desde el propio modal.
+      var btns = modal.querySelectorAll('button');
+      var confirm = null;
+      for (var i = 0; i < btns.length; i++) {
+        if (btns[i].type === 'submit' || (btns[i].textContent || '').length > 6) confirm = btns[i];
+      }
+      if (confirm && confirm.parentNode && !modal.querySelector('.cdski-pay-modal')) {
+        confirm.parentNode.insertBefore(payLink('cdski-pay-modal', T.pay), confirm.nextSibling);
+      }
+      guardForm(modal.querySelector('form') || modal);
+    }
+
+    function scan() {
+      var candidates = document.querySelectorAll('[class*="z-[60]"], [class*="z-[70]"], [role="dialog"]');
+      Array.prototype.forEach.call(candidates, function (el) {
+        if (el.querySelector && el.querySelector('input')) dressModal(el);
+      });
+    }
+
+    if (window.MutationObserver) {
+      var mo = new MutationObserver(function () { scan(); });
+      mo.observe(document.body, { childList: true, subtree: true });
+    }
+    document.addEventListener('click', function () { setTimeout(scan, 120); });
+    scan();
+  }
+
+  /* ---- 3. Resguardo de leads ---- */
+  var LEAD_KEY = 'cdski_leads';
+
+  function collectLead(scope) {
+    var out = {};
+    var els = scope.querySelectorAll('input, select, textarea');
+    Array.prototype.forEach.call(els, function (el, i) {
+      if (el.type === 'hidden' || el.type === 'button' || el.type === 'submit') return;
+      var key = el.name || el.getAttribute('aria-label') || el.getAttribute('placeholder') || (el.type + '_' + i);
+      var val = (el.value || '').trim();
+      if (val) out[key] = val;
+    });
+    return out;
+  }
+
+  function persistLead(data) {
+    try {
+      var raw = window.localStorage.getItem(LEAD_KEY);
+      var list = raw ? JSON.parse(raw) : [];
+      list.push({ at: new Date().toISOString(), page: location.pathname, data: data });
+      while (list.length > 20) list.shift();
+      window.localStorage.setItem(LEAD_KEY, JSON.stringify(list));
+    } catch (e) { /* modo privado o storage lleno: seguimos igual */ }
+  }
+
+  function sendLead(data) {
+    var endpoint = window.CDSKI_LEAD_ENDPOINT;
+    if (!endpoint || !window.fetch) return;
+    try {
+      window.fetch(endpoint, {
+        method: 'POST',
+        mode: 'cors',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      })['catch'](function () { /* el lead ya quedó en localStorage */ });
+    } catch (e) { /* no-op */ }
+  }
+
+  function leadWhatsAppUrl(data) {
+    var T = FUNNEL_COPY[currentLang()];
+    var text = T.waIntro + '\n';
+    for (var k in data) {
+      if (Object.prototype.hasOwnProperty.call(data, k)) text += '\n- ' + k + ': ' + data[k];
+    }
+    return 'https://wa.me/56940211459?text=' + encodeURIComponent(text);
+  }
+
+  function reactHandles(form) {
+    for (var k in form) {
+      if (k.indexOf('__reactProps') === 0) {
+        var p = form[k];
+        if (p && typeof p.onSubmit === 'function') return true;
+      }
+    }
+    return false;
+  }
+
+  function guardForm(form) {
+    if (!form || form.tagName !== 'FORM') return;
+    if (form.getAttribute('data-cdski-guarded') === '1') return;
+    form.setAttribute('data-cdski-guarded', '1');
+
+    // Nunca por GET: los datos del lead no pueden terminar en la URL.
+    if ((form.getAttribute('method') || 'get').toLowerCase() !== 'post') {
+      form.setAttribute('method', 'post');
+    }
+
+    form.addEventListener('submit', function (e) {
+      var data = collectLead(form);
+      persistLead(data);
+      sendLead(data);
+      // Si React no llegó a hidratar, el envío lo completamos nosotros.
+      if (!reactHandles(form)) {
+        e.preventDefault();
+        window.location.href = leadWhatsAppUrl(data);
+      }
+    }, true);
+  }
+
+  function setupLeadSafety() {
+    function scan() {
+      var forms = document.querySelectorAll('#contact form, form');
+      Array.prototype.forEach.call(forms, guardForm);
+    }
+    var attempts = 0;
+    var iv = setInterval(function () {
+      scan();
+      attempts++;
+      if (attempts > 20) clearInterval(iv);
+    }, 500);
+    scan();
+  }
+
   ready(function () {
     document.documentElement.classList.add('cdski-reveal-ready');
     revealInlineHidden();
@@ -1246,5 +1587,8 @@
     setupGuidedExperience();
     setupCareersSection();
     setupLiveMotion();
+    setupPaymentPaths();
+    setupReservationModal();
+    setupLeadSafety();
   });
 })();

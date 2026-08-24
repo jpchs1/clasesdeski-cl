@@ -1389,3 +1389,134 @@ a.bg-orange-500:hover::after, button.bg-orange-500:hover::after { left: 130%; }
 @media (prefers-reduced-motion: reduce) {
   .cdski-careers-role, .cdski-careers-cta { transition: none; }
 }
+
+/* =========================================================
+   CDSKI — Fase 1: destapar el embudo
+   1. Modal de reserva legible  2. Salidas a /pago/
+   ========================================================= */
+
+/* ---- 1. El modal heredaba clases de fondo oscuro sobre panel blanco ---- */
+[class*="z-[60]"] input,
+[class*="z-[60]"] select,
+[class*="z-[60]"] textarea,
+.cdski-modal-fixed input,
+.cdski-modal-fixed select,
+.cdski-modal-fixed textarea {
+  color: #0f172a !important;
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+}
+[class*="z-[60]"] input::placeholder,
+[class*="z-[60]"] textarea::placeholder,
+.cdski-modal-fixed input::placeholder,
+.cdski-modal-fixed textarea::placeholder {
+  color: #64748b !important;
+  opacity: 1;
+}
+[class*="z-[60]"] input:focus,
+[class*="z-[60]"] select:focus,
+[class*="z-[60]"] textarea:focus,
+.cdski-modal-fixed input:focus,
+.cdski-modal-fixed select:focus,
+.cdski-modal-fixed textarea:focus {
+  border-color: #f97316 !important;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.18);
+}
+/* El resumen del total dentro del modal también venía en blanco */
+.cdski-modal-fixed .text-slate-400,
+.cdski-modal-fixed .text-slate-500 { color: #64748b !important; }
+
+/* ---- 2. Enlaces a la pasarela de pago ---- */
+.cdski-pay-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 999px;
+  transition: transform .25s ease, background-color .25s ease, border-color .25s ease, color .25s ease;
+}
+.cdski-pay-link svg { flex: 0 0 auto; }
+
+/* Footer */
+.cdski-pay-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem 1.15rem;
+  margin: 1.35rem auto 0;
+  padding: 0 1rem;
+  text-align: center;
+}
+.cdski-pay-primary {
+  padding: .8rem 1.6rem;
+  background: linear-gradient(135deg, #f97316, #fb923c);
+  color: #fff;
+  font-size: .95rem;
+  box-shadow: 0 14px 30px -16px rgba(249, 115, 22, 0.9);
+}
+.cdski-pay-primary:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.cdski-pay-hint {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: .82rem;
+}
+
+/* Bajo los botones de la calculadora */
+.cdski-pay-quote {
+  width: 100%;
+  margin-top: .1rem;
+  padding: .7rem 1rem;
+  border: 1px dashed rgba(249, 115, 22, 0.5);
+  background: rgba(249, 115, 22, 0.06);
+  color: #c2410c;
+  font-size: .84rem;
+}
+.cdski-pay-quote:hover {
+  background: rgba(249, 115, 22, 0.12);
+  border-color: rgba(249, 115, 22, 0.8);
+}
+
+/* Dentro del modal de reserva */
+.cdski-pay-modal {
+  width: 100%;
+  margin-top: .6rem;
+  padding: .75rem 1rem;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #334155;
+  font-size: .88rem;
+}
+.cdski-pay-modal:hover { border-color: #f97316; color: #c2410c; background: #fff7ed; }
+
+/* Menú móvil nativo del sitio: era translúcido sobre la foto del hero */
+header div[class*="bg-white/95"] { background-color: #ffffff !important; }
+.cdski-pay-nav {
+  margin-top: .35rem;
+  padding: .75rem 1rem;
+  border: 1px solid rgba(249, 115, 22, 0.45);
+  background: rgba(249, 115, 22, 0.07);
+  color: #c2410c;
+  font-size: .95rem;
+}
+.cdski-pay-nav:hover { background: rgba(249, 115, 22, 0.14); }
+
+/* Menú móvil de respaldo (sólo si React aún no tomó el control) */
+.cdski-mobile-menu .cdski-mm-pay {
+  margin-top: 1rem;
+  justify-content: center;
+  border: 1px solid rgba(249, 115, 22, 0.45);
+  border-radius: 999px;
+  color: #fdba74;
+  font-weight: 600;
+}
+.cdski-mobile-menu .cdski-mm-pay::before { display: none; }
+.cdski-mobile-menu .cdski-mm-pay:hover {
+  background: rgba(249, 115, 22, 0.12);
+  padding-left: 1.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cdski-pay-link { transition: none; }
+}
