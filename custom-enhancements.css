@@ -1611,3 +1611,82 @@ header div[class*="bg-white/95"] { background-color: #ffffff !important; }
   .cdski-hero-price { animation: none; }
   .cdski-blog-toggle { transition: none; }
 }
+
+/* =========================================================
+   CDSKI — Fase 3: reforzar la confianza
+   ========================================================= */
+
+/* ---- 09. Barra de reputación del hero: era blanco al 50% sobre nieve ---- */
+.cdski-trust-row {
+  flex-wrap: wrap;
+  gap: .6rem 1.25rem !important;
+  max-width: 34rem;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: .7rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(10, 22, 40, 0.42);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+.cdski-trust-row span { color: rgba(255, 255, 255, 0.92); font-weight: 500; }
+.cdski-trust-row svg { color: #fbbf24 !important; }
+
+/* ---- 10. La valoración agregada, junto a los testimonios ---- */
+.cdski-rating-badge {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .35rem .7rem;
+  margin: .9rem auto 0;
+  padding: .55rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  background: rgba(251, 191, 36, 0.1);
+}
+.cdski-rating-stars { display: inline-flex; gap: 1px; color: #fbbf24; }
+.cdski-rating-value {
+  color: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.cdski-rating-count { color: rgba(255, 255, 255, 0.65); font-size: .85rem; }
+
+/* ---- 11. El partner conserva su color, adopta nuestra forma ---- */
+.cdski-partner-aligned .tv-head,
+.cdski-partner-aligned h2,
+.cdski-partner-aligned h3 {
+  font-family: 'Montserrat', sans-serif !important;
+  letter-spacing: -.01em;
+}
+.cdski-partner-aligned .tv-btn-primary,
+.cdski-partner-aligned .tv-btn-ghost {
+  border-radius: 999px !important;
+  padding: .9rem 1.7rem !important;
+  font-weight: 700 !important;
+  transition: transform .3s ease, filter .3s ease;
+}
+.cdski-partner-aligned .tv-btn-primary:hover,
+.cdski-partner-aligned .tv-btn-ghost:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.cdski-partner-aligned .tv-card,
+.cdski-partner-aligned .tv-stat {
+  border-radius: 20px !important;
+}
+
+@media (max-width: 640px) {
+  .cdski-trust-row {
+    justify-content: center;
+    padding: .6rem 1rem;
+    font-size: .82rem;
+  }
+  .cdski-trust-row > .h-4 { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cdski-partner-aligned .tv-btn-primary,
+  .cdski-partner-aligned .tv-btn-ghost { transition: none; }
+}
