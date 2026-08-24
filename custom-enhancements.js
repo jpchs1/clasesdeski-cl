@@ -1777,6 +1777,134 @@
     keepAlive(ensure);
   }
 
+  /* =========================================================
+     FASE 3 — Reforzar la confianza
+     09. La barra de reputación del hero estaba en inglés en las
+         versiones ES y PT, y en blanco al 50% sobre una foto clara.
+     10. Un solo testimonio en toda la página.
+     11. El bloque del partner se leía como otro sitio.
+     ========================================================= */
+
+  var TRUST_COPY = {
+    es: {
+      rating: '5,0 en Google',
+      years: '+10 años',
+      resorts: '3 centros de ski',
+      reviewsLabel: 'reseñas verificadas',
+      reviewsCta: 'Ver las reseñas en Google'
+    },
+    en: {
+      rating: '5.0 on Google',
+      years: '10+ years',
+      resorts: '3 ski resorts',
+      reviewsLabel: 'verified reviews',
+      reviewsCta: 'Read the reviews on Google'
+    },
+    pt: {
+      rating: '5,0 no Google',
+      years: '+10 anos',
+      resorts: '3 centros de esqui',
+      reviewsLabel: 'avaliações verificadas',
+      reviewsCta: 'Ver as avaliações no Google'
+    }
+  };
+
+  /* ---- 09. Barra de reputación: idioma y contraste ---- */
+  function setupTrustBar() {
+    var T = TRUST_COPY[currentLang()];
+    var MAP = [
+      [/^5\.0\s*Google Reviews$/i, T.rating],
+      [/^10\+\s*years$/i, T.years],
+      [/^3\s*ski resorts$/i, T.resorts]
+    ];
+
+    function ensure() {
+      var hero = document.querySelector('main section');
+      if (!hero) return;
+      var spans = hero.querySelectorAll('span');
+      var touched = 0;
+      Array.prototype.forEach.call(spans, function (el) {
+        if (el.children.length) return;
+        var txt = (el.textContent || '').trim();
+        for (var i = 0; i < MAP.length; i++) {
+          if (MAP[i][0].test(txt)) {
+            if (txt !== MAP[i][1]) el.textContent = MAP[i][1];
+            touched++;
+            var row = el.parentNode;
+            while (row && row !== hero && !/mt-16/.test(row.className || '')) row = row.parentNode;
+            if (row && row !== hero) row.classList.add('cdski-trust-row');
+            break;
+          }
+        }
+      });
+      return touched > 0;
+    }
+    keepAlive(ensure);
+  }
+
+  /* ---- 10. La reputación que el sitio ya declara, junto al testimonio ----
+     No se inventan testimonios: se muestra el agregado que el propio
+     JSON-LD del sitio publica y se invita a leer las reseñas reales. */
+  function setupSocialProof() {
+    var T = TRUST_COPY[currentLang()];
+
+    function readAggregate() {
+      var scripts = document.querySelectorAll('script[type="application/ld+json"]');
+      for (var i = 0; i < scripts.length; i++) {
+        var raw = scripts[i].textContent || '';
+        if (raw.indexOf('aggregateRating') === -1) continue;
+        try {
+          var data = JSON.parse(raw);
+          var graph = data['@graph'] || [data];
+          for (var j = 0; j < graph.length; j++) {
+            var ar = graph[j] && graph[j].aggregateRating;
+            if (ar && ar.ratingValue && ar.reviewCount) {
+              return { value: String(ar.ratingValue), count: String(ar.reviewCount) };
+            }
+          }
+        } catch (e) { /* seguimos con el siguiente bloque */ }
+      }
+      return null;
+    }
+
+    function starsHtml(n) {
+      var html = '';
+      for (var i = 0; i < n; i++) {
+        html += '<svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>';
+      }
+      return html;
+    }
+
+    function ensure() {
+      var section = document.getElementById('testimonials');
+      if (!section) return;
+      if (section.querySelector('.cdski-rating-badge')) return;
+      var agg = readAggregate();
+      if (!agg) return;
+      var heading = section.querySelector('h2');
+      if (!heading || !heading.parentNode) return;
+
+      var badge = document.createElement('div');
+      badge.className = 'cdski-rating-badge';
+      badge.innerHTML =
+        '<span class="cdski-rating-stars">' + starsHtml(5) + '</span>'
+        + '<span class="cdski-rating-value">' + agg.value.replace('.', ',') + '</span>'
+        + '<span class="cdski-rating-count">' + agg.count + ' ' + T.reviewsLabel + '</span>';
+      heading.parentNode.insertBefore(badge, heading.nextSibling);
+    }
+    keepAlive(ensure);
+  }
+
+  /* ---- 11. El bloque del partner, con la forma del resto del sitio ---- */
+  function setupPartnerAlignment() {
+    function ensure() {
+      var tourevo = document.getElementById('tourevo');
+      if (!tourevo) return;
+      tourevo.classList.add('cdski-partner-aligned');
+    }
+    keepAlive(ensure);
+  }
+
   ready(function () {
     document.documentElement.classList.add('cdski-reveal-ready');
     revealInlineHidden();
@@ -1801,5 +1929,8 @@
     setupHeroPrice();
     setupCtaConsistency();
     setupResponseExpectation();
+    setupTrustBar();
+    setupSocialProof();
+    setupPartnerAlignment();
   });
 })();
