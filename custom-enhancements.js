@@ -248,9 +248,9 @@
     var I18N = {
       es: {
         title: 'Detalles adicionales',
-        hint: 'Necesitamos estos datos para revisar disponibilidad. Todos los campos son obligatorios.',
+        hint: 'Con las fechas y el centro nos basta para revisar disponibilidad. El resto es opcional y nos ayuda a preparar mejor tu clase.',
         required: 'Obligatorio',
-        errorMsg: 'Por favor completa todos los campos antes de enviar por WhatsApp.',
+        errorMsg: 'Completa las fechas y el centro de ski antes de enviar por WhatsApp.',
         dates: 'Fechas exactas',
         datesPh: 'Ej: 15 al 18 de julio 2026',
         resort: 'Centro de ski',
@@ -264,9 +264,9 @@
       },
       en: {
         title: 'Additional details',
-        hint: 'We need these to check availability. All fields are required.',
+        hint: 'Dates and resort are all we need to check availability. The rest is optional and helps us prepare your lesson.',
         required: 'Required',
-        errorMsg: 'Please complete all fields before sending via WhatsApp.',
+        errorMsg: 'Please fill in the dates and the ski resort before sending via WhatsApp.',
         dates: 'Exact dates',
         datesPh: 'E.g. 15-18 July 2026',
         resort: 'Ski resort',
@@ -280,9 +280,9 @@
       },
       pt: {
         title: 'Detalhes adicionais',
-        hint: 'Precisamos destes dados para verificar disponibilidade. Todos os campos são obrigatórios.',
+        hint: 'Com as datas e o centro já verificamos a disponibilidade. O resto é opcional e nos ajuda a preparar sua aula.',
         required: 'Obrigatório',
-        errorMsg: 'Por favor preencha todos os campos antes de enviar por WhatsApp.',
+        errorMsg: 'Preencha as datas e o centro de esqui antes de enviar por WhatsApp.',
         dates: 'Datas exatas',
         datesPh: 'Ex: 15 a 18 de julho 2026',
         resort: 'Centro de esqui',
@@ -355,11 +355,13 @@
       var span = document.createElement('span');
       span.className = 'cdski-extras-label';
       span.textContent = emoji + ' ' + labelText;
-      var star = document.createElement('span');
-      star.className = 'cdski-extras-required';
-      star.textContent = ' *';
-      star.setAttribute('aria-label', t.required);
-      span.appendChild(star);
+      if (control && control.required) {
+        var star = document.createElement('span');
+        star.className = 'cdski-extras-required';
+        star.textContent = ' *';
+        star.setAttribute('aria-label', t.required);
+        span.appendChild(star);
+      }
       wrap.appendChild(span);
       wrap.appendChild(control);
       return wrap;
@@ -411,14 +413,14 @@
 
       var lSel = document.createElement('select');
       lSel.name = 'level';
-      lSel.required = true;
+      lSel.required = false;
       t.levelOpts.forEach(function (o, i) { lSel.appendChild(buildOption(o, o, i === 0)); });
       if (saved.level) lSel.value = saved.level;
       grid.appendChild(buildField('⛷️', t.level, lSel, '', 'level'));
 
       var loSel = document.createElement('select');
       loSel.name = 'lodging';
-      loSel.required = true;
+      loSel.required = false;
       t.lodgingOpts.forEach(function (o, i) { loSel.appendChild(buildOption(o, o, i === 0)); });
       if (saved.lodging) loSel.value = saved.lodging;
       grid.appendChild(buildField('🏨', t.lodging, loSel, 'cdski-extras-full', 'lodging'));
@@ -1571,6 +1573,210 @@
     scan();
   }
 
+  /* =========================================================
+     FASE 2 — Acortar el camino
+     04. El partner y el blog se interponían antes de contactar.
+     06. No había ningún precio arriba del pliegue.
+     08. "Reservar Ahora" apuntaba a dos destinos distintos.
+     05. Ningún camino decía qué pasa después de enviar.
+     ========================================================= */
+
+  var PATH_COPY = {
+    es: {
+      blogMore: 'Ver todas las notas',
+      blogLess: 'Ver menos',
+      priceFrom: 'Desde',
+      pricePer: 'por persona',
+      priceLink: 'Calcula tu precio',
+      answer: 'Respondemos por WhatsApp tan pronto nos sea posible, con la disponibilidad confirmada.'
+    },
+    en: {
+      blogMore: 'See all posts',
+      blogLess: 'Show less',
+      priceFrom: 'From',
+      pricePer: 'per person',
+      priceLink: 'Calculate your price',
+      answer: 'We reply on WhatsApp as soon as we can, with availability confirmed.'
+    },
+    pt: {
+      blogMore: 'Ver todas as notas',
+      blogLess: 'Ver menos',
+      priceFrom: 'A partir de',
+      pricePer: 'por pessoa',
+      priceLink: 'Calcule seu preço',
+      answer: 'Respondemos pelo WhatsApp assim que possível, com a disponibilidade confirmada.'
+    }
+  };
+
+  /* ---- 04. El blog y el partner, después del formulario ---- */
+  function setupPageOrder() {
+    function ensure() {
+      var contact = document.getElementById('contact');
+      var blog = document.getElementById('blog');
+      var tourevo = document.getElementById('tourevo');
+      if (!contact || !blog || !tourevo || !contact.parentNode) return;
+      if (contact.nextElementSibling === blog && blog.nextElementSibling === tourevo) return;
+      contact.parentNode.insertBefore(blog, contact.nextSibling);
+      blog.parentNode.insertBefore(tourevo, blog.nextSibling);
+    }
+    keepAlive(ensure);
+  }
+
+  /* ---- 04b. El blog mostraba 15 tarjetas: dejamos 3 ---- */
+  function setupBlogDigest() {
+    var T = PATH_COPY[currentLang()];
+    function ensure() {
+      var blog = document.getElementById('blog');
+      if (!blog) return;
+      var grid = blog.querySelector('.grid');
+      if (!grid || grid.children.length <= 3) return;
+      if (blog.querySelector('.cdski-blog-toggle')) {
+        grid.classList.add('cdski-blog-collapsed');
+        return;
+      }
+      grid.classList.add('cdski-blog-collapsed');
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cdski-blog-toggle';
+      btn.textContent = T.blogMore + ' (' + grid.children.length + ')';
+      btn.addEventListener('click', function () {
+        var open = grid.classList.toggle('cdski-blog-collapsed');
+        btn.textContent = open ? T.blogMore + ' (' + grid.children.length + ')' : T.blogLess;
+      });
+      if (grid.parentNode) grid.parentNode.insertBefore(btn, grid.nextSibling);
+    }
+    keepAlive(ensure);
+  }
+
+  /* ---- 06. Precio de entrada en el hero ----
+     Se lee del propio cotizador para que nunca quede desfasado; si no se
+     puede leer, no se inventa nada y la franja simplemente no aparece. */
+  function setupHeroPrice() {
+    var T = PATH_COPY[currentLang()];
+
+    // Se lee dentro del bloque de resumen del cotizador, no del texto suelto
+    // de la sección: fuera de ahí hay otros números ("desde 1 persona…").
+    function readQuote() {
+      var pricing = document.getElementById('pricing');
+      if (!pricing) return null;
+
+      var marker = null;
+      var nodes = pricing.querySelectorAll('div, span, p');
+      for (var i = 0; i < nodes.length; i++) {
+        if (nodes[i].children.length) continue;
+        if (/^\d+\s*(persona|pessoa|person|people)/i.test((nodes[i].textContent || '').trim())) {
+          marker = nodes[i];
+          break;
+        }
+      }
+      if (!marker) return null;
+
+      var box = marker.parentNode;
+      for (var up = 0; up < 4 && box; up++) {
+        if ((box.innerText || '').indexOf('Total') !== -1) break;
+        box = box.parentNode;
+      }
+      if (!box) return null;
+
+      var txt = box.innerText || '';
+      var mTotal = /Total\s*\$\s*([\d.]+)/.exec(txt);
+      var mPeople = /(\d+)\s*(?:persona|pessoa|person|people)/i.exec(txt);
+      if (!mTotal || !mPeople) return null;
+
+      var total = parseInt(mTotal[1].replace(/\./g, ''), 10);
+      var n = parseInt(mPeople[1], 10);
+      if (!total || !n) return null;
+
+      // La modalidad son las dos líneas justo antes de "N persona(s)":
+      // se saltan el horario (lleva ':'), los montos y los subtotales.
+      var lines = txt.split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+      var at = -1;
+      for (var j = 0; j < lines.length; j++) {
+        if (/^\d+\s*(persona|pessoa|person|people)/i.test(lines[j])) { at = j; break; }
+      }
+      var mode = [];
+      for (var k = at - 1; k >= 0 && mode.length < 2; k--) {
+        var l = lines[k];
+        if (/^(CLP|USD)$/i.test(l)) break;
+        if (!l || l.indexOf('$') !== -1 || l.indexOf(':') !== -1 || l.indexOf('/') !== -1) continue;
+        mode.unshift(l);
+      }
+      return { per: Math.round(total / n), mode: mode.join(' · ') };
+    }
+
+    function ensure() {
+      var q = readQuote();
+      if (!q || !q.per) return;
+      var formatted;
+      try { formatted = q.per.toLocaleString('es-CL'); } catch (e) { formatted = String(q.per); }
+
+      var existing = document.querySelector('.cdski-hero-price');
+      if (existing) {
+        var val = existing.querySelector('.cdski-hero-price-val');
+        if (val) val.textContent = '$' + formatted;
+        return;
+      }
+      var hero = document.querySelector('main section');
+      if (!hero) return;
+      var ctas = hero.querySelector('.flex.flex-col.sm\\:flex-row.gap-4');
+      if (!ctas || !ctas.parentNode) return;
+
+      var band = document.createElement('div');
+      band.className = 'cdski-hero-price';
+      band.innerHTML = (q.mode ? '<span class="cdski-hero-price-from">' + q.mode + '</span>' : '')
+        + '<span class="cdski-hero-price-val">$' + formatted + '</span>'
+        + '<span class="cdski-hero-price-unit">' + T.pricePer + '</span>'
+        + '<a href="#pricing">' + T.priceLink + '</a>';
+      ctas.parentNode.insertBefore(band, ctas.nextSibling);
+    }
+    keepAlive(ensure);
+  }
+
+  /* ---- 08. "Reservar" siempre lleva al cotizador ---- */
+  function setupCtaConsistency() {
+    var BOOK = /(reserv|book|agenda)/i;
+    function ensure() {
+      var links = document.querySelectorAll('a[href="#contact"], a[href$="/#contact"]');
+      Array.prototype.forEach.call(links, function (a) {
+        var txt = (a.textContent || '').trim();
+        if (!txt || !BOOK.test(txt)) return;
+        if (a.className && a.className.indexOf('cdski-') !== -1) return;
+        a.setAttribute('href', '#pricing');
+      });
+    }
+    keepAlive(ensure);
+  }
+
+  /* ---- 05. Qué pasa después de enviar ---- */
+  function setupResponseExpectation() {
+    var T = PATH_COPY[currentLang()];
+
+    function note() {
+      var el = document.createElement('p');
+      el.className = 'cdski-answer-note';
+      el.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
+        + '<span>' + T.answer + '</span>';
+      return el;
+    }
+
+    function ensure() {
+      // Bajo el enlace de pago de la calculadora (queda al final de esa columna).
+      var quote = document.querySelector('.cdski-pay-quote');
+      if (quote && quote.parentNode && !quote.parentNode.querySelector('.cdski-answer-note')) {
+        quote.parentNode.insertBefore(note(), quote.nextSibling);
+      }
+      // Bajo el botón de envío del formulario de contacto.
+      var form = document.querySelector('#contact form');
+      if (form && !form.querySelector('.cdski-answer-note')) {
+        var submit = form.querySelector('button[type="submit"]');
+        if (submit && submit.parentNode) {
+          submit.parentNode.insertBefore(note(), submit.nextSibling);
+        }
+      }
+    }
+    keepAlive(ensure);
+  }
+
   ready(function () {
     document.documentElement.classList.add('cdski-reveal-ready');
     revealInlineHidden();
@@ -1590,5 +1796,10 @@
     setupPaymentPaths();
     setupReservationModal();
     setupLeadSafety();
+    setupPageOrder();
+    setupBlogDigest();
+    setupHeroPrice();
+    setupCtaConsistency();
+    setupResponseExpectation();
   });
 })();
