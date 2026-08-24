@@ -1701,14 +1701,16 @@
         if (!l || l.indexOf('$') !== -1 || l.indexOf(':') !== -1 || l.indexOf('/') !== -1) continue;
         mode.unshift(l);
       }
-      return { per: Math.round(total / n), mode: mode.join(' · ') };
+      // "2 persona(s) · 1 día(s)" -> "2 persona(s)": ya viene localizado por el sitio
+      var quienes = (lines[at] || '').split('·')[0].trim();
+      return { per: Math.round(total / n), total: total, mode: mode.join(' · '), quienes: quienes };
     }
 
     function ensure() {
       var q = readQuote();
-      if (!q || !q.per) return;
+      if (!q || !q.total) return;
       var formatted;
-      try { formatted = q.per.toLocaleString('es-CL'); } catch (e) { formatted = String(q.per); }
+      try { formatted = q.total.toLocaleString('es-CL'); } catch (e) { formatted = String(q.total); }
 
       var existing = document.querySelector('.cdski-hero-price');
       if (existing) {
@@ -1716,6 +1718,7 @@
         if (val) val.textContent = '$' + formatted;
         return;
       }
+      var etiqueta = q.mode + (q.quienes ? ' · ' + q.quienes : '');
       var hero = document.querySelector('main section');
       if (!hero) return;
       var ctas = hero.querySelector('.flex.flex-col.sm\\:flex-row.gap-4');
@@ -1723,9 +1726,8 @@
 
       var band = document.createElement('div');
       band.className = 'cdski-hero-price';
-      band.innerHTML = (q.mode ? '<span class="cdski-hero-price-from">' + q.mode + '</span>' : '')
+      band.innerHTML = '<span class="cdski-hero-price-from">' + etiqueta + '</span>'
         + '<span class="cdski-hero-price-val">$' + formatted + '</span>'
-        + '<span class="cdski-hero-price-unit">' + T.pricePer + '</span>'
         + '<a href="#pricing">' + T.priceLink + '</a>';
       ctas.parentNode.insertBefore(band, ctas.nextSibling);
     }
