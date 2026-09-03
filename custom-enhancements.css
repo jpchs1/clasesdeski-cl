@@ -1690,3 +1690,20 @@ header div[class*="bg-white/95"] { background-color: #ffffff !important; }
   .cdski-partner-aligned .tv-btn-primary,
   .cdski-partner-aligned .tv-btn-ghost { transition: none; }
 }
+
+/* =========================================================
+   CDSKI — Acompañantes (sólo traslado)
+   La fila clona el contador de "Cantidad de días" del sitio:
+   sólo se ajusta la etiqueta y su nota.
+   ========================================================= */
+.cdski-companions { flex-wrap: wrap; }
+.cdski-companions .cdski-companions-label { display: block; }
+.cdski-companions .cdski-companions-desc {
+  display: block;
+  width: 100%;
+  margin-top: .1rem;
+  color: #94a3b8;
+  font-size: .75rem;
+  line-height: 1.35;
+  order: 3;
+}

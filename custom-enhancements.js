@@ -306,6 +306,7 @@
       ages: 'Edades de los niños',
       level: 'Nivel',
       lodging: 'Alojamiento',
+      companions: 'Acompañantes (sólo traslado)',
       thanks: '¡Gracias! Quedo atento(a) para coordinar.'
     };
 
@@ -496,6 +497,9 @@
         var wrap = card.querySelector('[data-field="' + name + '"]');
         if (!wrap) return;
         var input = wrap.querySelector('input,select');
+        // Sólo se exigen los campos marcados como obligatorios: nivel y
+        // alojamiento son opcionales y no deben bloquear el envío.
+        if (input && !input.required) { wrap.classList.remove('cdski-extras-invalid'); return; }
         var val = input ? (input.value || '').trim() : '';
         if (!val) {
           wrap.classList.add('cdski-extras-invalid');
@@ -521,8 +525,14 @@
       out.push('*' + MSG.title + '* 🎿❄️');
       out.push('');
       out.push('📋 *' + MSG.planLabel + ':*');
+      // Los acompañantes sólo existen en nuestro contador: sin esta línea, el
+      // total llegaría con un traslado que no cuadra con las personas listadas.
+      var acomp = 0;
+      try { acomp = (window.__cdskiQuote && window.__cdskiQuote.state && window.__cdskiQuote.state.companions) || 0; } catch (e) { acomp = 0; }
+
       bullets.forEach(function (b) {
         if (/Total estimado:/i.test(b)) {
+          if (acomp > 0) out.push('• ' + MSG.companions + ': ' + acomp);
           // Bold the total amount line
           out.push(b.replace(/^• (.*)$/, '• *$1*'));
         } else {
@@ -1907,6 +1917,126 @@
     keepAlive(ensure);
   }
 
+
+  /* =========================================================
+     Acompanantes que sólo van en el traslado
+     Suman al traslado (y al vehículo), no a las clases.
+     El cálculo vive en el bundle; aquí va el control.
+     ========================================================= */
+
+  var COMPANION_COPY = {
+    es: {
+      label: 'Acompañantes',
+      desc: 'Sólo traslado, no toman clases',
+      hint: 'Cada acompañante suma $61.750 al traslado.'
+    },
+    en: {
+      label: 'Companions',
+      desc: 'Transfer only, no lessons',
+      hint: 'Each companion adds $61.750 to the transfer.'
+    },
+    pt: {
+      label: 'Acompanhantes',
+      desc: 'Só traslado, não fazem aulas',
+      hint: 'Cada acompanhante soma $61.750 ao traslado.'
+    }
+  };
+
+  function setupCompanions() {
+    var T = COMPANION_COPY[currentLang()];
+    var DIAS = /(Cantidad de d|Number of days|N.mero de d|Quantidade de d|days)/i;
+
+    function quote() { return window.__cdskiQuote; }
+
+    function current() {
+      var q = quote();
+      return (q && q.state && q.state.companions) || 0;
+    }
+
+    function setCompanions(n) {
+      var q = quote();
+      if (!q || typeof q.set !== 'function') return;
+      var next = {};
+      for (var k in q.state) {
+        if (Object.prototype.hasOwnProperty.call(q.state, k)) next[k] = q.state[k];
+      }
+      next.companions = Math.max(0, Math.min(12, n));
+      q.set(next);
+      setTimeout(refresh, 60);
+    }
+
+    // Se clona la fila de "Cantidad de días" para que el control quede
+    // idéntico a los contadores que el sitio ya tiene.
+    function build(modelo) {
+      var row = modelo.cloneNode(true);
+      row.classList.add('cdski-companions');
+      var label = row.querySelector('span');
+      if (label) {
+        label.textContent = T.label;
+        var nota = document.createElement('span');
+        nota.className = 'cdski-companions-desc';
+        nota.textContent = T.desc;
+        label.parentNode.insertBefore(nota, label.nextSibling);
+        label.classList.add('cdski-companions-label');
+      }
+      var btns = row.querySelectorAll('button');
+      if (btns.length < 2) return null;
+      btns[0].classList.add('cdski-companions-minus');
+      btns[1].classList.add('cdski-companions-plus');
+      btns[0].removeAttribute('disabled');
+      btns[0].addEventListener('click', function (e) {
+        e.preventDefault(); e.stopPropagation();
+        setCompanions(current() - 1);
+      });
+      btns[1].addEventListener('click', function (e) {
+        e.preventDefault(); e.stopPropagation();
+        setCompanions(current() + 1);
+      });
+      var val = row.querySelector('.cdski-companions-value')
+        || btns[0].nextElementSibling;
+      if (val) val.classList.add('cdski-companions-value');
+      return row;
+    }
+
+    function refresh() {
+      var row = document.querySelector('.cdski-companions');
+      if (!row) return;
+      var n = current();
+      var val = row.querySelector('.cdski-companions-value');
+      if (val) val.textContent = String(n);
+      var minus = row.querySelector('.cdski-companions-minus');
+      if (minus) minus.disabled = n === 0;
+    }
+
+    function ensure() {
+      if (!quote()) return;
+      var grupos = document.querySelectorAll('#pricing .space-y-3');
+      var modelo = null, grupo = null;
+      for (var i = 0; i < grupos.length && !modelo; i++) {
+        var hijos = grupos[i].children;
+        for (var j = 0; j < hijos.length; j++) {
+          if (hijos[j].classList.contains('cdski-companions')) continue;
+          if (DIAS.test(hijos[j].textContent || '')) { modelo = hijos[j]; grupo = grupos[i]; break; }
+        }
+      }
+      if (!modelo || !grupo) return;
+
+      var row = document.querySelector('.cdski-companions');
+      if (!row || !document.body.contains(row)) {
+        row = build(modelo);
+        if (!row) return;
+        grupo.insertBefore(row, modelo.nextSibling);
+      } else if (row.parentNode !== grupo) {
+        grupo.insertBefore(row, modelo.nextSibling);
+      }
+      refresh();
+    }
+
+    keepAlive(ensure);
+    // React vuelve a renderizar con cada interacción: resincronizamos el número.
+    document.addEventListener('click', function () { setTimeout(refresh, 80); });
+  }
+
   ready(function () {
     document.documentElement.classList.add('cdski-reveal-ready');
     revealInlineHidden();
@@ -1934,5 +2064,6 @@
     setupTrustBar();
     setupSocialProof();
     setupPartnerAlignment();
+    setupCompanions();
   });
 })();
