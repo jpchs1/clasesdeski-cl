@@ -1962,6 +1962,337 @@ video[class*="h-full"] {
 @media (prefers-reduced-motion: reduce) {
   .cdski-fab-auto { transition: none; }
 }
+
+/* =========================================================
+   Campaña de Septiembre — Fiestas Patrias en la nieve
+   Sólo existe en el DOM entre el 20 de agosto y el 30 de septiembre;
+   el JS decide, aquí sólo se le da forma.
+   ========================================================= */
+.cdski-sept {
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: clamp(2.6rem, 6vw, 4.4rem) clamp(1rem, 4vw, 3rem);
+  background:
+    radial-gradient(105% 80% at 12% 0%, rgba(125, 211, 252, 0.28) 0%, rgba(125, 211, 252, 0) 60%),
+    linear-gradient(135deg, #0b3f8f 0%, #12539f 42%, #072451 100%);
+  color: #e8f1ff;
+  isolation: isolate;
+}
+.cdski-sept::before,
+.cdski-sept::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+.cdski-sept::before {
+  width: 24rem; height: 24rem;
+  top: -9rem; right: -7rem;
+  background: rgba(220, 38, 38, 0.34);
+  animation: cdskiFloatBlob 18s ease-in-out infinite;
+}
+.cdski-sept::after {
+  width: 20rem; height: 20rem;
+  bottom: -8rem; left: -6rem;
+  background: rgba(56, 189, 248, 0.24);
+  animation: cdskiFloatBlob 22s ease-in-out reverse infinite;
+}
+
+/* Confeti/nieve de fondo */
+.cdski-sept-confetti {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.cdski-sept-confetti i {
+  position: absolute;
+  top: -8%;
+  font-size: 13px;
+  font-style: normal;
+  line-height: 1;
+  opacity: .5;
+  animation-name: cdskiSeptFall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes cdskiSeptFall {
+  0%   { transform: translate3d(0, -10%, 0) rotate(0deg); opacity: 0; }
+  12%  { opacity: .6; }
+  88%  { opacity: .45; }
+  100% { transform: translate3d(18px, 120vh, 0) rotate(320deg); opacity: 0; }
+}
+
+.cdski-sept-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+.cdski-sept-head { text-align: center; }
+
+.cdski-sept-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .4rem 1rem .4rem .5rem;
+  margin-bottom: 1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.cdski-sept-kicker .cdski-flag-img {
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .35);
+}
+
+.cdski-sept-title {
+  margin: 0 auto .9rem;
+  max-width: 22ch;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.75rem, 4.6vw, 3rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: #ffffff;
+  text-wrap: balance;
+}
+.cdski-sept-title em {
+  font-style: normal;
+  background: linear-gradient(90deg, #fecaca, #ffffff 45%, #fca5a5);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cdski-sept-lead {
+  max-width: 60ch;
+  margin: 0 auto;
+  color: rgba(232, 241, 255, 0.92);
+  font-size: clamp(.98rem, 2.1vw, 1.12rem);
+  line-height: 1.7;
+}
+.cdski-sept-lead strong {
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: inset 0 -.16em 0 rgba(248, 113, 113, .85);
+}
+
+/* Cuenta atrás */
+.cdski-sept-countdown {
+  margin: 1.8rem auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .7rem;
+}
+.cdski-sept-cd-label {
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(232, 241, 255, 0.75);
+}
+.cdski-sept-boxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .6rem;
+}
+.cdski-sept-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .15rem;
+  min-width: 4.2rem;
+  padding: .65rem .8rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(6px);
+}
+.cdski-sept-box b {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.35rem, 3.4vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+}
+.cdski-sept-box i {
+  font-style: normal;
+  font-size: .64rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(232, 241, 255, 0.72);
+}
+
+/* Estado "ya estamos en el 18" */
+.cdski-sept-live {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  max-width: 44rem;
+  margin: 1.8rem auto 0;
+  padding: 1rem 1.3rem;
+  border-radius: 18px;
+  background: rgba(220, 38, 38, 0.22);
+  border: 1px solid rgba(254, 202, 202, 0.45);
+  text-align: center;
+}
+.cdski-sept-live strong {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.05rem, 2.6vw, 1.3rem);
+  font-weight: 800;
+  color: #ffffff;
+}
+.cdski-sept-live span {
+  font-size: .95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.cdski-sept-cards-title {
+  margin: clamp(2.2rem, 5vw, 3rem) 0 1.2rem;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.1rem, 2.6vw, 1.45rem);
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.cdski-sept-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: clamp(.9rem, 2.2vw, 1.4rem);
+}
+.cdski-sept-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1.35rem 1.3rem;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 22px 48px -30px rgba(2, 12, 33, 0.9);
+  color: #1e293b;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .6s ease, transform .6s cubic-bezier(.16, 1, .3, 1), box-shadow .3s ease;
+}
+.cdski-sept.cdski-inview .cdski-sept-card {
+  opacity: 1;
+  transform: none;
+}
+.cdski-sept-card:hover {
+  box-shadow: 0 26px 54px -26px rgba(2, 12, 33, 0.95);
+}
+.cdski-sept-tag {
+  position: absolute;
+  top: -.7rem;
+  left: 1.2rem;
+  padding: .28rem .7rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #dc2626, #f97316);
+  color: #ffffff;
+  font-size: .66rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  box-shadow: 0 6px 16px -8px rgba(220, 38, 38, .9);
+}
+.cdski-sept-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  margin-bottom: .85rem;
+  border-radius: 14px;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+.cdski-sept-card h3 {
+  margin: 0 0 .5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.08rem;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #0f172a;
+}
+.cdski-sept-card p {
+  margin: 0 0 1.1rem;
+  font-size: .93rem;
+  line-height: 1.62;
+  color: #475569;
+}
+.cdski-sept-card a {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  margin-top: auto;
+  color: #1d4ed8;
+  font-weight: 800;
+  font-size: .92rem;
+  text-decoration: none;
+}
+.cdski-sept-card a svg { transition: transform .25s ease; }
+.cdski-sept-card a:hover svg { transform: translateX(4px); }
+
+.cdski-sept-foot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .7rem;
+  margin-top: clamp(1.8rem, 4vw, 2.6rem);
+  text-align: center;
+}
+.cdski-sept-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: .9rem 1.8rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #dc2626, #f97316);
+  color: #ffffff !important;
+  font-weight: 800;
+  font-size: 1rem;
+  text-decoration: none;
+  box-shadow: 0 18px 38px -18px rgba(220, 38, 38, .95);
+  transition: transform .25s cubic-bezier(.16, 1, .3, 1), box-shadow .25s ease;
+}
+.cdski-sept-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 46px -18px rgba(220, 38, 38, 1);
+}
+.cdski-sept-note {
+  font-size: .84rem;
+  color: rgba(232, 241, 255, 0.78);
+}
+
+@media (max-width: 480px) {
+  .cdski-sept-box { min-width: 3.6rem; padding: .55rem .6rem; }
+  .cdski-sept-card { padding: 1.4rem 1.15rem 1.2rem; }
+  .cdski-sept-cta { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cdski-sept::before,
+  .cdski-sept::after,
+  .cdski-sept-confetti i { animation: none; }
+  .cdski-sept-confetti { display: none; }
+  .cdski-sept-card { opacity: 1; transform: none; transition: none; }
+}
 </style><!--cdski-jobs--><script type="application/ld+json">{"@context":"https://schema.org","@type":"JobPosting","title":"Ski Guide","description":"Ski guide for our guided snow experiences in Valle Nevado, El Colorado and La Parva. You accompany skiers through the whole day, pick the best runs for the day's conditions and look after the group's safety. Mandatory: attach the qualifications and certifications that prove your training as a guide or instructor. Applications without attached documentation are not reviewed. Mountain safety, first aid and avalanche certifications are valued.","qualifications":"Mandatory: attach the qualifications and certifications that prove your training as a guide or instructor. Applications without attached documentation are not reviewed. Mountain safety, first aid and avalanche certifications are valued.","datePosted":"2026-08-24","validThrough":"2026-11-30T23:59","employmentType":["SEASONAL","PART_TIME"],"industry":"Ski & Snowboard","directApply":true,"applicantLocationRequirements":{"@type":"Country","name":"Chile"},"hiringOrganization":{"@type":"Organization","name":"CDSKI — Clases de Ski","sameAs":"https://clasesdeski.cl/","logo":"https://clasesdeski.cl/images/logo-cdski.png"},"jobLocation":{"@type":"Place","address":{"@type":"PostalAddress","addressLocality":"Lo Barnechea","addressRegion":"Región Metropolitana","addressCountry":"CL"},"name":"Valle Nevado · El Colorado · La Parva"}}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"JobPosting","title":"Freeride Guide","description":"Freeride guide for lift-accessed off-piste terrain in the Tres Valles area. You assess terrain and snow conditions and guide advanced riders with sound mountain-safety judgement. Mandatory: attach the qualifications and certifications that prove your training as a guide or instructor. Applications without attached documentation are not reviewed. Mountain safety, first aid and avalanche certifications are valued.","qualifications":"Mandatory: attach the qualifications and certifications that prove your training as a guide or instructor. Applications without attached documentation are not reviewed. Mountain safety, first aid and avalanche certifications are valued.","datePosted":"2026-08-24","validThrough":"2026-11-30T23:59","employmentType":["SEASONAL","PART_TIME"],"industry":"Ski & Snowboard","directApply":true,"applicantLocationRequirements":{"@type":"Country","name":"Chile"},"hiringOrganization":{"@type":"Organization","name":"CDSKI — Clases de Ski","sameAs":"https://clasesdeski.cl/","logo":"https://clasesdeski.cl/images/logo-cdski.png"},"jobLocation":{"@type":"Place","address":{"@type":"PostalAddress","addressLocality":"Lo Barnechea","addressRegion":"Región Metropolitana","addressCountry":"CL"},"name":"Valle Nevado · El Colorado · La Parva"}}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"JobPosting","title":"Backcountry Guide","description":"Backcountry guide for ski touring and uncontrolled terrain in the Andes. You plan routes, assess avalanche risk and lead the group following safety protocol. Mandatory: attach the qualifications and certifications that prove your training as a guide or instructor. Applications without attached documentation are not reviewed. Mountain safety, first aid and avalanche certifications are valued.","qualifications":"Mandatory: attach the qualifications and certifications that prove your training as a guide or instructor. Applications without attached documentation are not reviewed. Mountain safety, first aid and avalanche certifications are valued.","datePosted":"2026-08-24","validThrough":"2026-11-30T23:59","employmentType":["SEASONAL","PART_TIME"],"industry":"Ski & Snowboard","directApply":true,"applicantLocationRequirements":{"@type":"Country","name":"Chile"},"hiringOrganization":{"@type":"Organization","name":"CDSKI — Clases de Ski","sameAs":"https://clasesdeski.cl/","logo":"https://clasesdeski.cl/images/logo-cdski.png"},"jobLocation":{"@type":"Place","address":{"@type":"PostalAddress","addressLocality":"Lo Barnechea","addressRegion":"Región Metropolitana","addressCountry":"CL"},"name":"Valle Nevado · El Colorado · La Parva"}}</script><!--cdski-jobs--></head><body class="antialiased" style="font-family:&#x27;Open Sans&#x27;, sans-serif"><div hidden=""><!--$--><!--/$--></div><html lang="en"><head><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"LocalBusiness","@id":"https://clasesdeski.cl/#business","name":"CDSKI — Clases de Ski y Snowboard Chile","description":"Ski and snowboard lessons for all levels at Valle Nevado, El Colorado, and La Parva. Expert instructors, all-inclusive packages, and guided snow experiences in the Chilean Andes.","url":"https://clasesdeski.cl","telephone":"+56940211459","email":"info@clasesdeski.cl","address":{"@type":"PostalAddress","streetAddress":"Lo Barnechea","addressLocality":"Lo Barnechea","addressRegion":"Región Metropolitana","addressCountry":"CL"},"geo":{"@type":"GeoCoordinates","latitude":-33.4028,"longitude":-70.5756},"openingHours":"Mo-Su 08:00-22:00","priceRange":"$$","image":"https://clasesdeski.cl/wp-content/uploads/2022/08/grupal-1.png","sameAs":["https://www.facebook.com/clasesdeski","https://www.instagram.com/clasesdeski"],"aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","reviewCount":"120","bestRating":"5"}},{"@type":"Course","name":"Ski & Snowboard Lessons","description":"Professional ski and snowboard lessons for all levels at Valle Nevado, El Colorado and La Parva","provider":{"@id":"https://clasesdeski.cl/#business"},"hasCourseInstance":[{"@type":"CourseInstance","courseMode":"onsite","location":{"@type":"Place","name":"Valle Nevado Ski Resort","address":{"@type":"PostalAddress","addressCountry":"CL"}}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://clasesdeski.cl/en/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://clasesdeski.cl/en/#services"},{"@type":"ListItem","position":3,"name":"Pricing","item":"https://clasesdeski.cl/en/#pricing"}]},{"@type":"Service","name":"Group Ski Lessons","description":"Group ski lessons with a maximum of 6 people. Ideal for beginners and intermediate level at Valle Nevado, El Colorado, and La Parva.","provider":{"@id":"https://clasesdeski.cl/#business"},"areaServed":{"@type":"Place","name":"Santiago, Chile"},"url":"https://clasesdeski.cl/en/#services"},{"@type":"Service","name":"Private Snowboard Lessons","description":"Private 1-on-1 snowboard lessons with an expert instructor. Learn at your own pace at Chile's best ski resorts.","provider":{"@id":"https://clasesdeski.cl/#business"},"areaServed":{"@type":"Place","name":"Santiago, Chile"},"url":"https://clasesdeski.cl/en/#services"},{"@type":"Service","name":"Heliski","description":"Heliski experience in the Chilean Andes. Access virgin snow and exclusive slopes with professional guides.","provider":{"@id":"https://clasesdeski.cl/#business"},"areaServed":{"@type":"Place","name":"Andes, Chile"},"url":"https://clasesdeski.cl/en/#services"},{"@type":"Service","name":"Guided Snow Experience","description":"Guided snow experience for families and groups. Includes transportation, equipment, and professional accompaniment.","provider":{"@id":"https://clasesdeski.cl/#business"},"areaServed":{"@type":"Place","name":"Santiago, Chile"},"url":"https://clasesdeski.cl/en/#services"}]}</script><style id="cdski-enhancements">/* =========================================================
    CDSKI — Pro UI/UX & Responsive Enhancements
    Overrides the compiled Tailwind output without a rebuild.
@@ -6048,6 +6379,256 @@ video[class*="h-full"] {
 
 
   /* =========================================================
+     Campaña de Septiembre — Fiestas Patrias en la nieve
+     Vive sola: se arma con la fecha del sistema, cuenta atrás al 18 y
+     desaparece por sí misma el 1 de octubre. Al año siguiente vuelve a
+     aparecer sin tocar el código.
+     ========================================================= */
+
+  var SEPT_COPY = {
+    es: {
+      aria: 'Fiestas Patrias en la nieve',
+      kicker: 'Septiembre en la nieve',
+      title: 'Este <em>18 de Septiembre</em> celebra arriba en la montaña',
+      lead: 'Viernes 18 y sábado 19: el fin de semana largo llega con los días más largos, sol de primavera y nieve blanda. La mejor combinación del año para <strong>aprender desde cero</strong>, <strong>subir de nivel</strong> o <strong>salir por primera vez fuera de pista</strong>.',
+      countdownLabel: 'Faltan para el 18',
+      units: ['días', 'horas', 'min', 'seg'],
+      liveTitle: '¡Estamos en Fiestas Patrias!',
+      liveText: 'Quedan cupos esta semana larga. Escríbenos y te confirmamos disponibilidad hoy mismo.',
+      cardsTitle: 'Elige cómo quieres vivir tu 18',
+      cards: [
+        {
+          tag: 'Primera vez',
+          title: 'Aprende a esquiar desde cero',
+          text: '¿Nunca te has puesto unos esquís? Este 18 es tu momento. Partimos desde cero, con equipo incluido y un instructor experto contigo toda la jornada.',
+          cta: 'Quiero aprender'
+        },
+        {
+          tag: 'Sube de nivel',
+          title: 'Pasa de bajar a esquiar bien',
+          text: 'Ya te deslizas, pero quieres girar limpio, tomar velocidad y perderle el miedo a las pistas difíciles. Clases enfocadas justo en lo que te falta.',
+          cta: 'Quiero mejorar'
+        },
+        {
+          tag: 'Freeride',
+          title: 'Sal fuera de pista con guía',
+          text: 'Nieve virgen, guía experto y equipo de seguridad completo. La experiencia de la que todos hablan cuando vuelven de la montaña.',
+          cta: 'Quiero fuera de pista'
+        }
+      ],
+      note: 'Cupos limitados: el fin de semana largo se llena primero.',
+      cta: 'Reserva tu 18 en la nieve'
+    },
+    en: {
+      aria: 'Chilean Independence week in the snow',
+      kicker: 'September in the snow',
+      title: 'Spend this <em>September 18th</em> up in the mountains',
+      lead: 'Friday the 18th and Saturday the 19th: Chile’s long weekend arrives with longer days, spring sun and soft snow. The best mix of the year to <strong>learn from scratch</strong>, <strong>level up</strong> or <strong>ride off-piste for the first time</strong>.',
+      countdownLabel: 'Countdown to the 18th',
+      units: ['days', 'hours', 'min', 'sec'],
+      liveTitle: 'Independence week is on!',
+      liveText: 'There are still spots left this long week. Message us and we confirm availability today.',
+      cardsTitle: 'Choose how you want to spend it',
+      cards: [
+        {
+          tag: 'First time',
+          title: 'Learn to ski from scratch',
+          text: 'Never had skis on? This is your moment. We start from zero, gear included and an expert instructor with you all day long.',
+          cta: 'I want to learn'
+        },
+        {
+          tag: 'Level up',
+          title: 'Go from surviving to really skiing',
+          text: 'You already slide down, but you want clean turns, more speed and no fear of the steeper runs. Lessons aimed exactly at what you are missing.',
+          cta: 'I want to improve'
+        },
+        {
+          tag: 'Freeride',
+          title: 'Head off-piste with a guide',
+          text: 'Untracked snow, an expert guide and full safety equipment. The experience everyone talks about on the way back down.',
+          cta: 'I want off-piste'
+        }
+      ],
+      note: 'Limited spots: the long weekend fills up first.',
+      cta: 'Book your September 18th on the snow'
+    },
+    pt: {
+      aria: 'Feriado do 18 de Setembro na neve',
+      kicker: 'Setembro na neve',
+      title: 'Passe este <em>18 de Setembro</em> lá em cima na montanha',
+      lead: 'Sexta 18 e sábado 19: o feriadão chega com os dias mais longos, sol de primavera e neve macia. A melhor combinação do ano para <strong>aprender do zero</strong>, <strong>subir de nível</strong> ou <strong>sair pela primeira vez fora de pista</strong>.',
+      countdownLabel: 'Faltam para o dia 18',
+      units: ['dias', 'horas', 'min', 'seg'],
+      liveTitle: 'O feriadão já começou!',
+      liveText: 'Ainda há vagas nesta semana longa. Fale com a gente e confirmamos a disponibilidade hoje mesmo.',
+      cardsTitle: 'Escolha como quer viver o feriadão',
+      cards: [
+        {
+          tag: 'Primeira vez',
+          title: 'Aprenda a esquiar do zero',
+          text: 'Nunca calçou um esqui? Este é o seu momento. Começamos do zero, com equipamento incluído e um instrutor experto com você o dia inteiro.',
+          cta: 'Quero aprender'
+        },
+        {
+          tag: 'Suba de nível',
+          title: 'Deixe de só descer e esquie de verdade',
+          text: 'Você já desliza, mas quer curvas limpas, mais velocidade e perder o medo das pistas difíceis. Aulas focadas exatamente no que falta.',
+          cta: 'Quero melhorar'
+        },
+        {
+          tag: 'Freeride',
+          title: 'Saia fora de pista com guia',
+          text: 'Neve virgem, guia experto e equipamento de segurança completo. A experiência de que todos falam na volta da montanha.',
+          cta: 'Quero fora de pista'
+        }
+      ],
+      note: 'Vagas limitadas: o feriadão enche primeiro.',
+      cta: 'Reserve seu 18 de Setembro na neve'
+    }
+  };
+
+  var SEPT_ICONS = [
+    '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2.5l1.9 4.4 4.4 1.9-4.4 1.9L10 15.1 8.1 10.7 3.7 8.8l4.4-1.9z"/><path d="M17.5 14l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></svg>',
+    '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg>',
+    '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20l6-14 5 8 2-3 5 9z"/><circle cx="8" cy="4" r="1.6"/></svg>'
+  ];
+
+  // Chile está en UTC-3 durante septiembre, así que las fechas se fijan en UTC.
+  function septWindow(now) {
+    var year = now.getUTCFullYear();
+    var start = Date.UTC(year, 7, 20, 3, 0, 0);   // 20 de agosto
+    var target = Date.UTC(year, 8, 18, 3, 0, 0);  // 18 de septiembre, 00:00
+    var end = Date.UTC(year, 9, 1, 3, 0, 0);      // 1 de octubre, 00:00
+    var t = now.getTime();
+    if (t < start || t >= end) return null;
+    return { target: target, live: t >= target };
+  }
+
+  function setupSeptember() {
+    var win = septWindow(new Date());
+    if (!win) return;
+
+    var T = SEPT_COPY[currentLang()];
+    var tick = null;
+
+    function boxesHtml() {
+      var html = '';
+      T.units.forEach(function (u, i) {
+        html += '<span class="cdski-sept-box">'
+          + '<b data-unit="' + i + '">--</b>'
+          + '<i>' + u + '</i>'
+          + '</span>';
+      });
+      return html;
+    }
+
+    function cardsHtml() {
+      var html = '';
+      T.cards.forEach(function (c, i) {
+        html += '<article class="cdski-sept-card" style="transition-delay:' + (0.08 * i + 0.05).toFixed(2) + 's">'
+          + '<span class="cdski-sept-tag">' + c.tag + '</span>'
+          + '<div class="cdski-sept-card-icon">' + SEPT_ICONS[i] + '</div>'
+          + '<h3>' + c.title + '</h3>'
+          + '<p>' + c.text + '</p>'
+          + '<a href="#contact">' + c.cta
+          + '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
+          + '</a>'
+          + '</article>';
+      });
+      return html;
+    }
+
+    function confettiHtml() {
+      var html = '';
+      for (var i = 0; i < 16; i++) {
+        html += '<i aria-hidden="true" style="left:' + ((i * 6.4) % 97).toFixed(1) + '%;'
+          + 'animation-duration:' + (9 + (i % 5) * 2.5) + 's;'
+          + 'animation-delay:' + (i * 0.7).toFixed(1) + 's">'
+          + (i % 3 === 0 ? '❄' : i % 3 === 1 ? '★' : '✦') + '</i>';
+      }
+      return html;
+    }
+
+    function countdownHtml() {
+      if (win.live) {
+        return '<div class="cdski-sept-live">'
+          + '<strong>' + T.liveTitle + '</strong>'
+          + '<span>' + T.liveText + '</span>'
+          + '</div>';
+      }
+      return '<div class="cdski-sept-countdown" role="timer" aria-live="off">'
+        + '<span class="cdski-sept-cd-label">' + T.countdownLabel + '</span>'
+        + '<div class="cdski-sept-boxes">' + boxesHtml() + '</div>'
+        + '</div>';
+    }
+
+    function refresh(sec) {
+      if (win.live) return;
+      var left = Math.max(0, win.target - Date.now());
+      var s = Math.floor(left / 1000);
+      var vals = [Math.floor(s / 86400), Math.floor(s / 3600) % 24, Math.floor(s / 60) % 60, s % 60];
+      Array.prototype.forEach.call(sec.querySelectorAll('.cdski-sept-box b'), function (b, i) {
+        var v = String(vals[i]);
+        if (i > 0 && v.length < 2) v = '0' + v;
+        if (b.textContent !== v) b.textContent = v;
+      });
+    }
+
+    function insertSection() {
+      var existing = document.querySelector('.cdski-sept');
+      if (existing && document.contains(existing)) return true;
+
+      var services = document.getElementById('services');
+      if (!services || !services.parentNode) return false;
+
+      var sec = document.createElement('section');
+      sec.className = 'cdski-sept';
+      sec.setAttribute('aria-label', T.aria);
+      sec.innerHTML =
+        '<div class="cdski-sept-confetti" aria-hidden="true">' + confettiHtml() + '</div>'
+        + '<div class="cdski-sept-inner">'
+        +   '<div class="cdski-sept-head">'
+        +     '<span class="cdski-sept-kicker">' + cdskiFlag('cl', 'Chile', 22) + T.kicker + '</span>'
+        +     '<h2 class="cdski-sept-title">' + T.title + '</h2>'
+        +     '<p class="cdski-sept-lead">' + T.lead + '</p>'
+        +     countdownHtml()
+        +   '</div>'
+        +   '<h3 class="cdski-sept-cards-title">' + T.cardsTitle + '</h3>'
+        +   '<div class="cdski-sept-cards">' + cardsHtml() + '</div>'
+        +   '<div class="cdski-sept-foot">'
+        +     '<a class="cdski-sept-cta" href="#contact">' + T.cta + '</a>'
+        +     '<span class="cdski-sept-note">' + T.note + '</span>'
+        +   '</div>'
+        + '</div>';
+
+      // Va delante del saludo a los vecinos, lo más arriba posible del scroll.
+      var banner = document.querySelector('.cdski-welcome-banner');
+      services.parentNode.insertBefore(sec, banner && banner.parentNode === services.parentNode ? banner : services);
+
+      refresh(sec);
+      if (tick) clearInterval(tick);
+      if (!win.live) tick = setInterval(function () {
+        if (!document.contains(sec)) { clearInterval(tick); tick = null; return; }
+        refresh(sec);
+      }, 1000);
+
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('cdski-inview'); io.unobserve(e.target); }
+          });
+        }, { threshold: 0.1 });
+        io.observe(sec);
+      } else {
+        sec.classList.add('cdski-inview');
+      }
+      return true;
+    }
+
+    keepAlive(insertSection);
+  }
+
+  /* =========================================================
      Botones flotantes: apilado según la barra inferior
      La barra "Reservar Clase" sólo aparece al desplazarse, así que su alto
      se mide en vivo y los flotantes se colocan encima. Sin barra, vuelven
@@ -6133,6 +6714,7 @@ video[class*="h-full"] {
     setupWhatsAppFab();
     setupFooter();
     setupWelcomeBanner();
+    setupSeptember();
     setupMissionSection();
     setupGuidedExperience();
     setupCareersSection();
