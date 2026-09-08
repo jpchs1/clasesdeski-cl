@@ -2039,6 +2039,256 @@
 
 
   /* =========================================================
+     Campaña de Septiembre — Fiestas Patrias en la nieve
+     Vive sola: se arma con la fecha del sistema, cuenta atrás al 18 y
+     desaparece por sí misma el 1 de octubre. Al año siguiente vuelve a
+     aparecer sin tocar el código.
+     ========================================================= */
+
+  var SEPT_COPY = {
+    es: {
+      aria: 'Fiestas Patrias en la nieve',
+      kicker: 'Septiembre en la nieve',
+      title: 'Este <em>18 de Septiembre</em> celebra arriba en la montaña',
+      lead: 'Viernes 18 y sábado 19: el fin de semana largo llega con los días más largos, sol de primavera y nieve blanda. La mejor combinación del año para <strong>aprender desde cero</strong>, <strong>subir de nivel</strong> o <strong>salir por primera vez fuera de pista</strong>.',
+      countdownLabel: 'Faltan para el 18',
+      units: ['días', 'horas', 'min', 'seg'],
+      liveTitle: '¡Estamos en Fiestas Patrias!',
+      liveText: 'Quedan cupos esta semana larga. Escríbenos y te confirmamos disponibilidad hoy mismo.',
+      cardsTitle: 'Elige cómo quieres vivir tu 18',
+      cards: [
+        {
+          tag: 'Primera vez',
+          title: 'Aprende a esquiar desde cero',
+          text: '¿Nunca te has puesto unos esquís? Este 18 es tu momento. Partimos desde cero, con equipo incluido y un instructor experto contigo toda la jornada.',
+          cta: 'Quiero aprender'
+        },
+        {
+          tag: 'Sube de nivel',
+          title: 'Pasa de bajar a esquiar bien',
+          text: 'Ya te deslizas, pero quieres girar limpio, tomar velocidad y perderle el miedo a las pistas difíciles. Clases enfocadas justo en lo que te falta.',
+          cta: 'Quiero mejorar'
+        },
+        {
+          tag: 'Freeride',
+          title: 'Sal fuera de pista con guía',
+          text: 'Nieve virgen, guía experto y equipo de seguridad completo. La experiencia de la que todos hablan cuando vuelven de la montaña.',
+          cta: 'Quiero fuera de pista'
+        }
+      ],
+      note: 'Cupos limitados: el fin de semana largo se llena primero.',
+      cta: 'Reserva tu 18 en la nieve'
+    },
+    en: {
+      aria: 'Chilean Independence week in the snow',
+      kicker: 'September in the snow',
+      title: 'Spend this <em>September 18th</em> up in the mountains',
+      lead: 'Friday the 18th and Saturday the 19th: Chile’s long weekend arrives with longer days, spring sun and soft snow. The best mix of the year to <strong>learn from scratch</strong>, <strong>level up</strong> or <strong>ride off-piste for the first time</strong>.',
+      countdownLabel: 'Countdown to the 18th',
+      units: ['days', 'hours', 'min', 'sec'],
+      liveTitle: 'Independence week is on!',
+      liveText: 'There are still spots left this long week. Message us and we confirm availability today.',
+      cardsTitle: 'Choose how you want to spend it',
+      cards: [
+        {
+          tag: 'First time',
+          title: 'Learn to ski from scratch',
+          text: 'Never had skis on? This is your moment. We start from zero, gear included and an expert instructor with you all day long.',
+          cta: 'I want to learn'
+        },
+        {
+          tag: 'Level up',
+          title: 'Go from surviving to really skiing',
+          text: 'You already slide down, but you want clean turns, more speed and no fear of the steeper runs. Lessons aimed exactly at what you are missing.',
+          cta: 'I want to improve'
+        },
+        {
+          tag: 'Freeride',
+          title: 'Head off-piste with a guide',
+          text: 'Untracked snow, an expert guide and full safety equipment. The experience everyone talks about on the way back down.',
+          cta: 'I want off-piste'
+        }
+      ],
+      note: 'Limited spots: the long weekend fills up first.',
+      cta: 'Book your September 18th on the snow'
+    },
+    pt: {
+      aria: 'Feriado do 18 de Setembro na neve',
+      kicker: 'Setembro na neve',
+      title: 'Passe este <em>18 de Setembro</em> lá em cima na montanha',
+      lead: 'Sexta 18 e sábado 19: o feriadão chega com os dias mais longos, sol de primavera e neve macia. A melhor combinação do ano para <strong>aprender do zero</strong>, <strong>subir de nível</strong> ou <strong>sair pela primeira vez fora de pista</strong>.',
+      countdownLabel: 'Faltam para o dia 18',
+      units: ['dias', 'horas', 'min', 'seg'],
+      liveTitle: 'O feriadão já começou!',
+      liveText: 'Ainda há vagas nesta semana longa. Fale com a gente e confirmamos a disponibilidade hoje mesmo.',
+      cardsTitle: 'Escolha como quer viver o feriadão',
+      cards: [
+        {
+          tag: 'Primeira vez',
+          title: 'Aprenda a esquiar do zero',
+          text: 'Nunca calçou um esqui? Este é o seu momento. Começamos do zero, com equipamento incluído e um instrutor experto com você o dia inteiro.',
+          cta: 'Quero aprender'
+        },
+        {
+          tag: 'Suba de nível',
+          title: 'Deixe de só descer e esquie de verdade',
+          text: 'Você já desliza, mas quer curvas limpas, mais velocidade e perder o medo das pistas difíceis. Aulas focadas exatamente no que falta.',
+          cta: 'Quero melhorar'
+        },
+        {
+          tag: 'Freeride',
+          title: 'Saia fora de pista com guia',
+          text: 'Neve virgem, guia experto e equipamento de segurança completo. A experiência de que todos falam na volta da montanha.',
+          cta: 'Quero fora de pista'
+        }
+      ],
+      note: 'Vagas limitadas: o feriadão enche primeiro.',
+      cta: 'Reserve seu 18 de Setembro na neve'
+    }
+  };
+
+  var SEPT_ICONS = [
+    '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2.5l1.9 4.4 4.4 1.9-4.4 1.9L10 15.1 8.1 10.7 3.7 8.8l4.4-1.9z"/><path d="M17.5 14l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></svg>',
+    '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg>',
+    '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20l6-14 5 8 2-3 5 9z"/><circle cx="8" cy="4" r="1.6"/></svg>'
+  ];
+
+  // Chile está en UTC-3 durante septiembre, así que las fechas se fijan en UTC.
+  function septWindow(now) {
+    var year = now.getUTCFullYear();
+    var start = Date.UTC(year, 7, 20, 3, 0, 0);   // 20 de agosto
+    var target = Date.UTC(year, 8, 18, 3, 0, 0);  // 18 de septiembre, 00:00
+    var end = Date.UTC(year, 9, 1, 3, 0, 0);      // 1 de octubre, 00:00
+    var t = now.getTime();
+    if (t < start || t >= end) return null;
+    return { target: target, live: t >= target };
+  }
+
+  function setupSeptember() {
+    var win = septWindow(new Date());
+    if (!win) return;
+
+    var T = SEPT_COPY[currentLang()];
+    var tick = null;
+
+    function boxesHtml() {
+      var html = '';
+      T.units.forEach(function (u, i) {
+        html += '<span class="cdski-sept-box">'
+          + '<b data-unit="' + i + '">--</b>'
+          + '<i>' + u + '</i>'
+          + '</span>';
+      });
+      return html;
+    }
+
+    function cardsHtml() {
+      var html = '';
+      T.cards.forEach(function (c, i) {
+        html += '<article class="cdski-sept-card" style="transition-delay:' + (0.08 * i + 0.05).toFixed(2) + 's">'
+          + '<span class="cdski-sept-tag">' + c.tag + '</span>'
+          + '<div class="cdski-sept-card-icon">' + SEPT_ICONS[i] + '</div>'
+          + '<h3>' + c.title + '</h3>'
+          + '<p>' + c.text + '</p>'
+          + '<a href="#contact">' + c.cta
+          + '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
+          + '</a>'
+          + '</article>';
+      });
+      return html;
+    }
+
+    function confettiHtml() {
+      var html = '';
+      for (var i = 0; i < 16; i++) {
+        html += '<i aria-hidden="true" style="left:' + ((i * 6.4) % 97).toFixed(1) + '%;'
+          + 'animation-duration:' + (9 + (i % 5) * 2.5) + 's;'
+          + 'animation-delay:' + (i * 0.7).toFixed(1) + 's">'
+          + (i % 3 === 0 ? '❄' : i % 3 === 1 ? '★' : '✦') + '</i>';
+      }
+      return html;
+    }
+
+    function countdownHtml() {
+      if (win.live) {
+        return '<div class="cdski-sept-live">'
+          + '<strong>' + T.liveTitle + '</strong>'
+          + '<span>' + T.liveText + '</span>'
+          + '</div>';
+      }
+      return '<div class="cdski-sept-countdown" role="timer" aria-live="off">'
+        + '<span class="cdski-sept-cd-label">' + T.countdownLabel + '</span>'
+        + '<div class="cdski-sept-boxes">' + boxesHtml() + '</div>'
+        + '</div>';
+    }
+
+    function refresh(sec) {
+      if (win.live) return;
+      var left = Math.max(0, win.target - Date.now());
+      var s = Math.floor(left / 1000);
+      var vals = [Math.floor(s / 86400), Math.floor(s / 3600) % 24, Math.floor(s / 60) % 60, s % 60];
+      Array.prototype.forEach.call(sec.querySelectorAll('.cdski-sept-box b'), function (b, i) {
+        var v = String(vals[i]);
+        if (i > 0 && v.length < 2) v = '0' + v;
+        if (b.textContent !== v) b.textContent = v;
+      });
+    }
+
+    function insertSection() {
+      var existing = document.querySelector('.cdski-sept');
+      if (existing && document.contains(existing)) return true;
+
+      var services = document.getElementById('services');
+      if (!services || !services.parentNode) return false;
+
+      var sec = document.createElement('section');
+      sec.className = 'cdski-sept';
+      sec.setAttribute('aria-label', T.aria);
+      sec.innerHTML =
+        '<div class="cdski-sept-confetti" aria-hidden="true">' + confettiHtml() + '</div>'
+        + '<div class="cdski-sept-inner">'
+        +   '<div class="cdski-sept-head">'
+        +     '<span class="cdski-sept-kicker">' + cdskiFlag('cl', 'Chile', 22) + T.kicker + '</span>'
+        +     '<h2 class="cdski-sept-title">' + T.title + '</h2>'
+        +     '<p class="cdski-sept-lead">' + T.lead + '</p>'
+        +     countdownHtml()
+        +   '</div>'
+        +   '<h3 class="cdski-sept-cards-title">' + T.cardsTitle + '</h3>'
+        +   '<div class="cdski-sept-cards">' + cardsHtml() + '</div>'
+        +   '<div class="cdski-sept-foot">'
+        +     '<a class="cdski-sept-cta" href="#contact">' + T.cta + '</a>'
+        +     '<span class="cdski-sept-note">' + T.note + '</span>'
+        +   '</div>'
+        + '</div>';
+
+      // Va delante del saludo a los vecinos, lo más arriba posible del scroll.
+      var banner = document.querySelector('.cdski-welcome-banner');
+      services.parentNode.insertBefore(sec, banner && banner.parentNode === services.parentNode ? banner : services);
+
+      refresh(sec);
+      if (tick) clearInterval(tick);
+      if (!win.live) tick = setInterval(function () {
+        if (!document.contains(sec)) { clearInterval(tick); tick = null; return; }
+        refresh(sec);
+      }, 1000);
+
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('cdski-inview'); io.unobserve(e.target); }
+          });
+        }, { threshold: 0.1 });
+        io.observe(sec);
+      } else {
+        sec.classList.add('cdski-inview');
+      }
+      return true;
+    }
+
+    keepAlive(insertSection);
+  }
+
+  /* =========================================================
      Botones flotantes: apilado según la barra inferior
      La barra "Reservar Clase" sólo aparece al desplazarse, así que su alto
      se mide en vivo y los flotantes se colocan encima. Sin barra, vuelven
@@ -2124,6 +2374,7 @@
     setupWhatsAppFab();
     setupFooter();
     setupWelcomeBanner();
+    setupSeptember();
     setupMissionSection();
     setupGuidedExperience();
     setupCareersSection();
