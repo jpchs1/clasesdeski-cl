@@ -2085,16 +2085,31 @@
       raiz.style.setProperty('--cdski-bottom-bar', a + 'px');
     }
 
+    // El botón de WhatsApp se solapaba con el CTA del hero en pantallas
+    // bajas. Se muestra apenas se empieza a bajar, igual que el de volver
+    // arriba, para no tapar el botón principal.
+    var fab = null;
+    function ensureFab() {
+      if (fab && document.body.contains(fab)) return;
+      fab = document.querySelector('div[class~="fixed"][class~="bottom-6"][class~="right-6"]');
+      if (fab) fab.classList.add('cdski-fab-auto');
+    }
+    function ajustarFab() {
+      ensureFab();
+      if (!fab) return;
+      fab.classList.toggle('cdski-fab-oculto', window.scrollY < 160);
+    }
+
     var pendiente = false;
     function pedir() {
       if (pendiente) return;
       pendiente = true;
-      window.requestAnimationFrame(function () { pendiente = false; aplicar(); });
+      window.requestAnimationFrame(function () { pendiente = false; aplicar(); ajustarFab(); });
     }
 
     window.addEventListener('scroll', pedir, { passive: true });
     window.addEventListener('resize', pedir);
-    keepAlive(aplicar);
+    keepAlive(function () { aplicar(); ajustarFab(); });
   }
 
   ready(function () {
