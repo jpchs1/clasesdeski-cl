@@ -2037,6 +2037,66 @@
     document.addEventListener('click', function () { setTimeout(refresh, 80); });
   }
 
+
+  /* =========================================================
+     Botones flotantes: apilado según la barra inferior
+     La barra "Reservar Clase" sólo aparece al desplazarse, así que su alto
+     se mide en vivo y los flotantes se colocan encima. Sin barra, vuelven
+     a su posición de siempre.
+     ========================================================= */
+  function setupFloatingStack() {
+    var raiz = document.documentElement;
+
+    // La barra se busca recorriendo el árbol, que es caro: se cachea la
+    // referencia y en cada scroll sólo se mide ese nodo.
+    var barra = null;
+
+    function buscarBarra() {
+      var vh = window.innerHeight, vw = window.innerWidth;
+      var nodos = document.querySelectorAll('body *');
+      for (var i = 0; i < nodos.length; i++) {
+        var el = nodos[i];
+        var cs = window.getComputedStyle(el);
+        if (cs.position !== 'fixed') continue;
+        var r = el.getBoundingClientRect();
+        if (r.width >= vw * 0.85 && r.height > 36 && r.height < 140 && Math.abs(r.bottom - vh) < 4) {
+          return el;
+        }
+      }
+      return null;
+    }
+
+    function altoBarra() {
+      if (!barra || !document.body.contains(barra)) barra = buscarBarra();
+      if (!barra) return 0;
+      var cs = window.getComputedStyle(barra);
+      if (cs.display === 'none' || cs.visibility === 'hidden' || Number(cs.opacity) === 0) return 0;
+      var r = barra.getBoundingClientRect();
+      // Sólo cuenta mientras esté pegada al borde inferior
+      if (Math.abs(r.bottom - window.innerHeight) > 4) return 0;
+      return Math.round(r.height);
+    }
+
+    var ultimo = -1;
+    function aplicar() {
+      var a = altoBarra();
+      if (a === ultimo) return;
+      ultimo = a;
+      raiz.style.setProperty('--cdski-bottom-bar', a + 'px');
+    }
+
+    var pendiente = false;
+    function pedir() {
+      if (pendiente) return;
+      pendiente = true;
+      window.requestAnimationFrame(function () { pendiente = false; aplicar(); });
+    }
+
+    window.addEventListener('scroll', pedir, { passive: true });
+    window.addEventListener('resize', pedir);
+    keepAlive(aplicar);
+  }
+
   ready(function () {
     document.documentElement.classList.add('cdski-reveal-ready');
     revealInlineHidden();
@@ -2065,5 +2125,6 @@
     setupSocialProof();
     setupPartnerAlignment();
     setupCompanions();
+    setupFloatingStack();
   });
 })();

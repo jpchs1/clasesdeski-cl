@@ -1707,3 +1707,221 @@ header div[class*="bg-white/95"] { background-color: #ffffff !important; }
   line-height: 1.35;
   order: 3;
 }
+
+/* =========================================================
+   CDSKI — Revisión de responsive
+   Medido en Chromium a 320/360/375/390/430/768/1024/1280/1440.
+   ========================================================= */
+
+/* ---- 1. El hero quedaba debajo del header fijo en pantallas chicas ----
+   La sección centra su contenido con flex; cuando el contenido es más alto
+   que la pantalla (320-375 px), el centrado lo empujaba hacia arriba y la
+   píldora de centros de ski terminaba bajo el logo y el selector de idioma.
+   El relleno reserva el alto del header y deja crecer la sección. */
+main > section:first-of-type {
+  padding-top: 5.5rem;
+  padding-bottom: 3rem;
+}
+
+/* ---- 2. En escritorio el hero llegaba sólo al 80% de la pantalla ----
+   Desde 1024 px el body va con zoom .8, así que el 100vh de min-h-screen
+   se escalaba a 80vh visuales y la sección siguiente asomaba por debajo.
+   125vh compensa el zoom exactamente (100 / 0.8). */
+@media (min-width: 1024px) {
+  main > section:first-of-type {
+    min-height: 125vh;
+    padding-top: 6rem;
+  }
+}
+
+/* ---- 3. Objetivos táctiles ----
+   21 controles quedaban por debajo de 44 px en móvil. Donde el tamaño
+   visual es intencional (interruptores, puntos del carrusel) se agranda
+   sólo el área sensible con un pseudo-elemento, sin tocar el aspecto. */
+@media (max-width: 767px) {
+  #services a.inline-flex,
+  #tourevo a.tv-link,
+  #tourevo a.tv-a,
+  footer a[href^="#"],
+  footer a[href^="/"],
+  footer a[href^="http"] {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  #pricing button.text-xs {
+    min-height: 40px;
+    padding-top: .5rem !important;
+    padding-bottom: .5rem !important;
+  }
+
+  header a[href="/es/"],
+  header a[href="/en/"],
+  header a[href="/pt/"] {
+    min-width: 42px;
+    justify-content: center;
+  }
+
+  /* Interruptores de equipo y traslado: 48x28 visuales */
+  #pricing button[class*="w-12"] { position: relative; }
+  #pricing button[class*="w-12"]::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 44px;
+  }
+
+  /* Puntos del carrusel de testimonios: medían 4x10 px */
+  #testimonials button[class*="rounded-full"] { position: relative; }
+  #testimonials button[class*="rounded-full"]::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
+  }
+
+  .cdski-hero-price a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 .25rem;
+  }
+}
+
+/* ---- 4. El latido de WhatsApp se aplicaba a todos sus enlaces ----
+   Incluía los botones de ancho completo del formulario y de postulación,
+   donde la sombra expansiva se lee como un borde suelto. Queda sólo en el
+   botón flotante, que es el que debe llamar la atención. */
+@media (max-width: 768px) {
+  a[href*="wa.me"] { animation: none; }
+  .cdski-wa-fab,
+  a[href*="wa.me"][class*="w-14"] {
+    animation: cdski-pulse 2.5s ease-in-out infinite;
+  }
+}
+
+/* ---- 5. Cotizador en pantallas de 320-380 px ----
+   "Adultos (13+ años)" se partía en tres líneas y las filas quedaban
+   desproporcionadas frente a sus controles. */
+@media (max-width: 380px) {
+  #pricing .space-y-3 > div,
+  .cdski-companions {
+    padding-left: .85rem !important;
+    padding-right: .85rem !important;
+    gap: .5rem;
+  }
+  #pricing .space-y-3 > div > span:first-child,
+  .cdski-companions .cdski-companions-label {
+    font-size: .84rem;
+    line-height: 1.3;
+  }
+  #pricing .space-y-3 > div > div { gap: .5rem !important; }
+}
+
+/* ---- 6. Los cuatro pasos quedaban 3+1 en tablet ----
+   Con auto-fit caben tres columnas entre 620 y 900 px y el cuarto paso
+   bajaba solo, dejando un hueco. En ese rango van dos por fila. */
+@media (min-width: 620px) and (max-width: 900px) {
+  .cdski-guided-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---- 7. Los botones flotantes se apilaban unos sobre otros ----
+   En la esquina inferior derecha convivían el botón de WhatsApp (56x56),
+   el de volver arriba (48x48) y, en móvil, la barra fija "Reservar Clase"
+   de 73 px: los tres se solapaban. Ahora se escalonan en vertical. */
+.cdski-to-top { transition: bottom .25s ease, opacity .35s cubic-bezier(.16,1,.3,1), transform .35s cubic-bezier(.16,1,.3,1); }
+
+:root { --cdski-bottom-bar: 0px; }
+
+/* --cdski-bottom-bar la mide el JS: es el alto de la barra "Reservar
+   Clase", que sólo existe al desplazarse. Sin barra vale 0 y los botones
+   vuelven a su sitio de siempre. */
+@media (max-width: 768px) {
+  .fixed.bottom-6.right-6,
+  div[class~="fixed"][class~="bottom-6"][class~="right-6"] {
+    bottom: calc(var(--cdski-bottom-bar, 0px) + 1rem) !important;
+  }
+  .cdski-to-top {
+    bottom: calc(var(--cdski-bottom-bar, 0px) + 5.4rem) !important;
+    right: 1.35rem !important;
+  }
+}
+@supports (padding: env(safe-area-inset-bottom)) {
+  @media (max-width: 768px) {
+    .fixed.bottom-6.right-6,
+    div[class~="fixed"][class~="bottom-6"][class~="right-6"] {
+      bottom: calc(var(--cdski-bottom-bar, 0px) + 1rem + env(safe-area-inset-bottom)) !important;
+    }
+    .cdski-to-top {
+      bottom: calc(var(--cdski-bottom-bar, 0px) + 5.4rem + env(safe-area-inset-bottom)) !important;
+    }
+  }
+}
+@media (min-width: 769px) {
+  .cdski-to-top { bottom: 5.75rem !important; right: 1.6rem !important; }
+}
+
+/* ---- 8. El hero ocupaba casi dos pantallas en móviles chicos ----
+   Entre el distintivo de centros, el título, el subtítulo, la píldora, el
+   claim, los dos botones, el precio y la barra de reputación se acumulaban
+   900 px de alto sobre una pantalla de 568. Se ajustan los espacios sin
+   tocar la jerarquía. */
+@media (max-width: 480px) {
+  main > section:first-of-type h1 { margin-bottom: .6rem !important; }
+  main > section:first-of-type .mb-8 { margin-bottom: .9rem !important; }
+  main > section:first-of-type .mb-10 { margin-bottom: 1.1rem !important; }
+  main > section:first-of-type .mb-6 { margin-bottom: .75rem !important; }
+  main > section:first-of-type .mb-4 { margin-bottom: .55rem !important; }
+  main > section:first-of-type .mt-16 { margin-top: 1.25rem !important; }
+  main > section:first-of-type .gap-4 { gap: .65rem !important; }
+  main > section:first-of-type .py-4 { padding-top: .85rem !important; padding-bottom: .85rem !important; }
+  .cdski-hero-pill { margin-bottom: .7rem; }
+  .cdski-hero-price { margin-top: .9rem; }
+  .cdski-trust-row { padding: .55rem 1rem; }
+}
+
+/* ---- 9. Los tres pasos de "¿Cómo Reservar?" no alineaban ----
+   Con títulos de una y dos líneas, los párrafos arrancaban a distinta
+   altura y la fila se veía desordenada. */
+@media (min-width: 640px) {
+  #how-to-book .grid > div h3 {
+    min-height: 2.6em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ---- 10. Viñetas de las tarjetas de servicio en pantallas muy chicas ----
+   A dos columnas, "Grupos reducidos (máx. 6 personas)" caía en tres líneas
+   contra un borde. Por debajo de 380 px van en una sola columna. */
+@media (max-width: 380px) {
+  #services .grid-cols-2 { grid-template-columns: minmax(0, 1fr) !important; }
+}
+
+/* ---- 11. "Traslado en vehículo particular" caía en cuatro líneas ----
+   El interruptor y el precio dejaban 126 px para el texto. Por debajo de
+   380 px el texto toma el ancho completo y el interruptor baja a su
+   derecha, que es como se leen estas filas en un teléfono chico. */
+@media (max-width: 380px) {
+  #pricing .space-y-3 > div { flex-wrap: wrap; row-gap: .55rem; }
+  #pricing .space-y-3 > div > .flex-1 { flex: 1 1 100%; }
+  #pricing .space-y-3 > div > .flex-1 + button { margin-left: auto !important; }
+}
+
+/* ---- 12. Las imágenes con alto propio quedaban a media altura ----
+   El reset de arriba (img { height: auto }) pisaba el h-full de las fotos
+   posicionadas: en la galería, un marco de 352x352 mostraba una imagen de
+   352x235 y debajo quedaba un rectángulo gris; en otras, la foto se salía
+   del marco. Se les devuelve el alto que declaran. */
+img[class*="h-full"],
+video[class*="h-full"] {
+  height: 100% !important;
+}
