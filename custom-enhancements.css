@@ -2271,3 +2271,300 @@ video[class*="h-full"] {
   .cdski-sept-confetti { display: none; }
   .cdski-sept-card { opacity: 1; transform: none; transition: none; }
 }
+
+/* =========================================================
+   Guiados — En Pista / Fuera de Pista
+   Precio por persona que baja al crecer el grupo. La moneda la
+   manda el sitio; aquí sólo se refleja.
+   ========================================================= */
+.cdski-guides {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2.6rem, 6vw, 4.4rem) clamp(1rem, 4vw, 3rem);
+  background:
+    radial-gradient(90% 70% at 85% 0%, rgba(249, 115, 22, 0.10) 0%, rgba(249, 115, 22, 0) 60%),
+    linear-gradient(180deg, #f8fafc 0%, #ffffff 60%);
+}
+.cdski-guides-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+.cdski-guides-head { text-align: center; }
+.cdski-guides-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .4rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 999px;
+  background: #ffedd5;
+  color: #c2410c;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.cdski-guides-title {
+  margin: 0 auto .9rem;
+  max-width: 24ch;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.7rem, 4.2vw, 2.7rem);
+  font-weight: 800;
+  line-height: 1.18;
+  color: #0f172a;
+  text-wrap: balance;
+}
+.cdski-guides-title em {
+  font-style: normal;
+  background: linear-gradient(90deg, #f97316, #fb923c 55%, #fbbf24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.cdski-guides-lead {
+  max-width: 62ch;
+  margin: 0 auto;
+  color: #475569;
+  font-size: clamp(.98rem, 2.1vw, 1.1rem);
+  line-height: 1.7;
+}
+.cdski-guides-lead strong { color: #0f172a; font-weight: 700; }
+
+/* Controles: tamaño del grupo y moneda */
+.cdski-guides-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(1rem, 3vw, 2.4rem);
+  margin: clamp(1.6rem, 4vw, 2.4rem) 0 clamp(1.4rem, 3.5vw, 2rem);
+}
+.cdski-guides-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .55rem;
+}
+.cdski-guides-control-label {
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.cdski-guides-size,
+.cdski-guides-cur {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .4rem;
+  padding: .3rem;
+  border-radius: 999px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+}
+.cdski-guides-size button,
+.cdski-guides-cur button {
+  min-width: 2.9rem;
+  min-height: 2.6rem;
+  padding: .45rem .85rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #475569;
+  font-family: inherit;
+  font-size: .92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, box-shadow .2s ease;
+}
+.cdski-guides-size button:hover,
+.cdski-guides-cur button:hover { background: #e2e8f0; }
+.cdski-guides-size button.cdski-on,
+.cdski-guides-cur button.cdski-on {
+  background: linear-gradient(135deg, #f97316, #fb923c);
+  color: #ffffff;
+  box-shadow: 0 8px 18px -10px rgba(249, 115, 22, .95);
+}
+
+/* Tarjetas */
+.cdski-guides-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+  gap: clamp(1rem, 2.4vw, 1.6rem);
+}
+.cdski-guides-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.6rem 1.4rem 1.4rem;
+  border-radius: 22px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 18px 44px -34px rgba(15, 23, 42, .7);
+}
+.cdski-guides-offpiste {
+  border-color: rgba(249, 115, 22, .38);
+  background: linear-gradient(180deg, #fff7ed 0%, #ffffff 45%);
+}
+.cdski-guides-tag {
+  align-self: flex-start;
+  padding: .3rem .75rem;
+  margin-bottom: .8rem;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #075985;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.cdski-guides-offpiste .cdski-guides-tag {
+  background: linear-gradient(135deg, #f97316, #fb923c);
+  color: #ffffff;
+}
+.cdski-guides-card h3 {
+  margin: 0 0 .5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+.cdski-guides-card > p {
+  margin: 0 0 1.1rem;
+  font-size: .94rem;
+  line-height: 1.62;
+  color: #475569;
+}
+
+.cdski-guides-rows {
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  padding: .9rem 1rem;
+  border-radius: 16px;
+  background: #f8fafc;
+  border: 1px solid #eef2f7;
+}
+.cdski-guides-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .35rem .8rem;
+}
+.cdski-guides-row + .cdski-guides-row {
+  padding-top: .55rem;
+  border-top: 1px dashed #e2e8f0;
+}
+.cdski-guides-dur {
+  font-size: .86rem;
+  font-weight: 700;
+  color: #334155;
+}
+.cdski-guides-amount {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.15;
+}
+.cdski-guides-amount b {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.22rem;
+  font-weight: 800;
+  color: #0f172a;
+  font-variant-numeric: tabular-nums;
+}
+.cdski-guides-amount i {
+  font-style: normal;
+  font-size: .68rem;
+  font-weight: 600;
+  color: #64748b;
+}
+.cdski-guides-total {
+  flex: 1 1 100%;
+  text-align: right;
+  font-size: .78rem;
+  font-weight: 700;
+  color: #64748b;
+  font-variant-numeric: tabular-nums;
+}
+.cdski-guides-saving {
+  align-self: flex-start;
+  margin-top: .8rem;
+  padding: .3rem .7rem;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #15803d;
+  font-size: .76rem;
+  font-weight: 800;
+}
+
+.cdski-guides-bullets {
+  list-style: none;
+  margin: 1rem 0 1.3rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+.cdski-guides-bullets li {
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+  font-size: .88rem;
+  line-height: 1.5;
+  color: #475569;
+}
+.cdski-guides-bullets svg {
+  flex: 0 0 auto;
+  margin-top: .15rem;
+  color: #16a34a;
+}
+
+.cdski-guides-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  margin-top: auto;
+  padding: .85rem 1.5rem;
+  border-radius: 999px;
+  background: #0f172a;
+  color: #ffffff !important;
+  font-weight: 800;
+  font-size: .95rem;
+  text-decoration: none;
+  transition: transform .25s cubic-bezier(.16, 1, .3, 1), background .25s ease;
+}
+.cdski-guides-cta:hover { transform: translateY(-2px); background: #1e293b; }
+.cdski-guides-offpiste .cdski-guides-cta {
+  background: linear-gradient(135deg, #ea580c, #f97316);
+}
+.cdski-guides-offpiste .cdski-guides-cta:hover {
+  background: linear-gradient(135deg, #c2410c, #ea580c);
+}
+
+.cdski-guides-note {
+  max-width: 60ch;
+  margin: clamp(1.3rem, 3vw, 1.9rem) auto 0;
+  text-align: center;
+  font-size: .82rem;
+  line-height: 1.6;
+  color: #64748b;
+}
+
+@media (max-width: 480px) {
+  .cdski-guides-size button,
+  .cdski-guides-cur button { min-width: 2.5rem; padding: .45rem .6rem; font-size: .85rem; }
+  .cdski-guides-card { padding: 1.4rem 1.15rem 1.2rem; }
+  .cdski-guides-cta { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cdski-guides-cta,
+  .cdski-guides-size button,
+  .cdski-guides-cur button { transition: none; }
+  .cdski-guides-cta:hover { transform: none; }
+}

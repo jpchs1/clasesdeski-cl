@@ -2293,6 +2293,303 @@ video[class*="h-full"] {
   .cdski-sept-confetti { display: none; }
   .cdski-sept-card { opacity: 1; transform: none; transition: none; }
 }
+
+/* =========================================================
+   Guiados — En Pista / Fuera de Pista
+   Precio por persona que baja al crecer el grupo. La moneda la
+   manda el sitio; aquí sólo se refleja.
+   ========================================================= */
+.cdski-guides {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2.6rem, 6vw, 4.4rem) clamp(1rem, 4vw, 3rem);
+  background:
+    radial-gradient(90% 70% at 85% 0%, rgba(249, 115, 22, 0.10) 0%, rgba(249, 115, 22, 0) 60%),
+    linear-gradient(180deg, #f8fafc 0%, #ffffff 60%);
+}
+.cdski-guides-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+.cdski-guides-head { text-align: center; }
+.cdski-guides-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .4rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 999px;
+  background: #ffedd5;
+  color: #c2410c;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.cdski-guides-title {
+  margin: 0 auto .9rem;
+  max-width: 24ch;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.7rem, 4.2vw, 2.7rem);
+  font-weight: 800;
+  line-height: 1.18;
+  color: #0f172a;
+  text-wrap: balance;
+}
+.cdski-guides-title em {
+  font-style: normal;
+  background: linear-gradient(90deg, #f97316, #fb923c 55%, #fbbf24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.cdski-guides-lead {
+  max-width: 62ch;
+  margin: 0 auto;
+  color: #475569;
+  font-size: clamp(.98rem, 2.1vw, 1.1rem);
+  line-height: 1.7;
+}
+.cdski-guides-lead strong { color: #0f172a; font-weight: 700; }
+
+/* Controles: tamaño del grupo y moneda */
+.cdski-guides-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(1rem, 3vw, 2.4rem);
+  margin: clamp(1.6rem, 4vw, 2.4rem) 0 clamp(1.4rem, 3.5vw, 2rem);
+}
+.cdski-guides-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .55rem;
+}
+.cdski-guides-control-label {
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.cdski-guides-size,
+.cdski-guides-cur {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .4rem;
+  padding: .3rem;
+  border-radius: 999px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+}
+.cdski-guides-size button,
+.cdski-guides-cur button {
+  min-width: 2.9rem;
+  min-height: 2.6rem;
+  padding: .45rem .85rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #475569;
+  font-family: inherit;
+  font-size: .92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, box-shadow .2s ease;
+}
+.cdski-guides-size button:hover,
+.cdski-guides-cur button:hover { background: #e2e8f0; }
+.cdski-guides-size button.cdski-on,
+.cdski-guides-cur button.cdski-on {
+  background: linear-gradient(135deg, #f97316, #fb923c);
+  color: #ffffff;
+  box-shadow: 0 8px 18px -10px rgba(249, 115, 22, .95);
+}
+
+/* Tarjetas */
+.cdski-guides-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+  gap: clamp(1rem, 2.4vw, 1.6rem);
+}
+.cdski-guides-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.6rem 1.4rem 1.4rem;
+  border-radius: 22px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 18px 44px -34px rgba(15, 23, 42, .7);
+}
+.cdski-guides-offpiste {
+  border-color: rgba(249, 115, 22, .38);
+  background: linear-gradient(180deg, #fff7ed 0%, #ffffff 45%);
+}
+.cdski-guides-tag {
+  align-self: flex-start;
+  padding: .3rem .75rem;
+  margin-bottom: .8rem;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #075985;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.cdski-guides-offpiste .cdski-guides-tag {
+  background: linear-gradient(135deg, #f97316, #fb923c);
+  color: #ffffff;
+}
+.cdski-guides-card h3 {
+  margin: 0 0 .5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+.cdski-guides-card > p {
+  margin: 0 0 1.1rem;
+  font-size: .94rem;
+  line-height: 1.62;
+  color: #475569;
+}
+
+.cdski-guides-rows {
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  padding: .9rem 1rem;
+  border-radius: 16px;
+  background: #f8fafc;
+  border: 1px solid #eef2f7;
+}
+.cdski-guides-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .35rem .8rem;
+}
+.cdski-guides-row + .cdski-guides-row {
+  padding-top: .55rem;
+  border-top: 1px dashed #e2e8f0;
+}
+.cdski-guides-dur {
+  font-size: .86rem;
+  font-weight: 700;
+  color: #334155;
+}
+.cdski-guides-amount {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.15;
+}
+.cdski-guides-amount b {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.22rem;
+  font-weight: 800;
+  color: #0f172a;
+  font-variant-numeric: tabular-nums;
+}
+.cdski-guides-amount i {
+  font-style: normal;
+  font-size: .68rem;
+  font-weight: 600;
+  color: #64748b;
+}
+.cdski-guides-total {
+  flex: 1 1 100%;
+  text-align: right;
+  font-size: .78rem;
+  font-weight: 700;
+  color: #64748b;
+  font-variant-numeric: tabular-nums;
+}
+.cdski-guides-saving {
+  align-self: flex-start;
+  margin-top: .8rem;
+  padding: .3rem .7rem;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #15803d;
+  font-size: .76rem;
+  font-weight: 800;
+}
+
+.cdski-guides-bullets {
+  list-style: none;
+  margin: 1rem 0 1.3rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+.cdski-guides-bullets li {
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+  font-size: .88rem;
+  line-height: 1.5;
+  color: #475569;
+}
+.cdski-guides-bullets svg {
+  flex: 0 0 auto;
+  margin-top: .15rem;
+  color: #16a34a;
+}
+
+.cdski-guides-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  margin-top: auto;
+  padding: .85rem 1.5rem;
+  border-radius: 999px;
+  background: #0f172a;
+  color: #ffffff !important;
+  font-weight: 800;
+  font-size: .95rem;
+  text-decoration: none;
+  transition: transform .25s cubic-bezier(.16, 1, .3, 1), background .25s ease;
+}
+.cdski-guides-cta:hover { transform: translateY(-2px); background: #1e293b; }
+.cdski-guides-offpiste .cdski-guides-cta {
+  background: linear-gradient(135deg, #ea580c, #f97316);
+}
+.cdski-guides-offpiste .cdski-guides-cta:hover {
+  background: linear-gradient(135deg, #c2410c, #ea580c);
+}
+
+.cdski-guides-note {
+  max-width: 60ch;
+  margin: clamp(1.3rem, 3vw, 1.9rem) auto 0;
+  text-align: center;
+  font-size: .82rem;
+  line-height: 1.6;
+  color: #64748b;
+}
+
+@media (max-width: 480px) {
+  .cdski-guides-size button,
+  .cdski-guides-cur button { min-width: 2.5rem; padding: .45rem .6rem; font-size: .85rem; }
+  .cdski-guides-card { padding: 1.4rem 1.15rem 1.2rem; }
+  .cdski-guides-cta { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cdski-guides-cta,
+  .cdski-guides-size button,
+  .cdski-guides-cur button { transition: none; }
+  .cdski-guides-cta:hover { transform: none; }
+}
 </style><!--cdski-jobs--><script type="application/ld+json">{"@context":"https://schema.org","@type":"JobPosting","title":"Guía de Ski","description":"Guía de ski para nuestros guiados de experiencias en la nieve en Valle Nevado, El Colorado y La Parva. Acompañas a esquiadores durante toda la jornada, eliges las mejores pistas según las condiciones del día y velas por la seguridad del grupo. Excluyente: adjuntar títulos y certificaciones que acrediten la formación como guía o instructor. Las postulaciones sin documentación adjunta no se revisan. Se valoran certificaciones de seguridad en montaña, primeros auxilios y avalanchas.","qualifications":"Excluyente: adjuntar títulos y certificaciones que acrediten la formación como guía o instructor. Las postulaciones sin documentación adjunta no se revisan. Se valoran certificaciones de seguridad en montaña, primeros auxilios y avalanchas.","datePosted":"2026-08-24","validThrough":"2026-11-30T23:59","employmentType":["SEASONAL","PART_TIME"],"industry":"Ski & Snowboard","directApply":true,"applicantLocationRequirements":{"@type":"Country","name":"Chile"},"hiringOrganization":{"@type":"Organization","name":"CDSKI — Clases de Ski","sameAs":"https://clasesdeski.cl/","logo":"https://clasesdeski.cl/images/logo-cdski.png"},"jobLocation":{"@type":"Place","address":{"@type":"PostalAddress","addressLocality":"Lo Barnechea","addressRegion":"Región Metropolitana","addressCountry":"CL"},"name":"Valle Nevado · El Colorado · La Parva"}}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"JobPosting","title":"Guía de Freeride","description":"Guía de freeride para terreno fuera de pista accesible desde andarivel en los Tres Valles. Evalúas terreno y condiciones de nieve, y guías a riders avanzados con criterio de seguridad en montaña. Excluyente: adjuntar títulos y certificaciones que acrediten la formación como guía o instructor. Las postulaciones sin documentación adjunta no se revisan. Se valoran certificaciones de seguridad en montaña, primeros auxilios y avalanchas.","qualifications":"Excluyente: adjuntar títulos y certificaciones que acrediten la formación como guía o instructor. Las postulaciones sin documentación adjunta no se revisan. Se valoran certificaciones de seguridad en montaña, primeros auxilios y avalanchas.","datePosted":"2026-08-24","validThrough":"2026-11-30T23:59","employmentType":["SEASONAL","PART_TIME"],"industry":"Ski & Snowboard","directApply":true,"applicantLocationRequirements":{"@type":"Country","name":"Chile"},"hiringOrganization":{"@type":"Organization","name":"CDSKI — Clases de Ski","sameAs":"https://clasesdeski.cl/","logo":"https://clasesdeski.cl/images/logo-cdski.png"},"jobLocation":{"@type":"Place","address":{"@type":"PostalAddress","addressLocality":"Lo Barnechea","addressRegion":"Región Metropolitana","addressCountry":"CL"},"name":"Valle Nevado · El Colorado · La Parva"}}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"JobPosting","title":"Guía Backcountry","description":"Guía backcountry para salidas de ski de travesía y terreno no controlado en la Cordillera de los Andes. Planificas rutas, evalúas riesgo de avalanchas y conduces al grupo con protocolo de seguridad. Excluyente: adjuntar títulos y certificaciones que acrediten la formación como guía o instructor. Las postulaciones sin documentación adjunta no se revisan. Se valoran certificaciones de seguridad en montaña, primeros auxilios y avalanchas.","qualifications":"Excluyente: adjuntar títulos y certificaciones que acrediten la formación como guía o instructor. Las postulaciones sin documentación adjunta no se revisan. Se valoran certificaciones de seguridad en montaña, primeros auxilios y avalanchas.","datePosted":"2026-08-24","validThrough":"2026-11-30T23:59","employmentType":["SEASONAL","PART_TIME"],"industry":"Ski & Snowboard","directApply":true,"applicantLocationRequirements":{"@type":"Country","name":"Chile"},"hiringOrganization":{"@type":"Organization","name":"CDSKI — Clases de Ski","sameAs":"https://clasesdeski.cl/","logo":"https://clasesdeski.cl/images/logo-cdski.png"},"jobLocation":{"@type":"Place","address":{"@type":"PostalAddress","addressLocality":"Lo Barnechea","addressRegion":"Región Metropolitana","addressCountry":"CL"},"name":"Valle Nevado · El Colorado · La Parva"}}</script><!--cdski-jobs--></head><body class="antialiased" style="font-family:&#x27;Open Sans&#x27;, sans-serif"><div hidden=""><!--$--><!--/$--></div><html lang="es-CL"><head><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"LocalBusiness","@id":"https://clasesdeski.cl/#business","name":"CDSKI — Clases de Ski y Snowboard Chile","description":"Clases de ski y snowboard para todos los niveles en Valle Nevado, El Colorado y La Parva. Instructores expertos, paquetes all-inclusive y experiencias guiadas en la nieve de los Andes chilenos.","url":"https://clasesdeski.cl","telephone":"+56940211459","email":"info@clasesdeski.cl","address":{"@type":"PostalAddress","streetAddress":"Lo Barnechea","addressLocality":"Lo Barnechea","addressRegion":"Región Metropolitana","addressCountry":"CL"},"geo":{"@type":"GeoCoordinates","latitude":-33.4028,"longitude":-70.5756},"openingHours":"Mo-Su 08:00-22:00","priceRange":"$$","image":"https://clasesdeski.cl/wp-content/uploads/2022/08/grupal-1.png","sameAs":["https://www.facebook.com/clasesdeski","https://www.instagram.com/clasesdeski"],"aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","reviewCount":"120","bestRating":"5"}},{"@type":"Course","name":"Ski & Snowboard Lessons","description":"Professional ski and snowboard lessons for all levels at Valle Nevado, El Colorado and La Parva","provider":{"@id":"https://clasesdeski.cl/#business"},"hasCourseInstance":[{"@type":"CourseInstance","courseMode":"onsite","location":{"@type":"Place","name":"Valle Nevado Ski Resort","address":{"@type":"PostalAddress","addressCountry":"CL"}}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://clasesdeski.cl/es/"},{"@type":"ListItem","position":2,"name":"Servicios","item":"https://clasesdeski.cl/es/#services"},{"@type":"ListItem","position":3,"name":"Precios","item":"https://clasesdeski.cl/es/#pricing"}]},{"@type":"Service","name":"Clases Grupales de Ski","description":"Clases de ski en grupo con máximo 6 personas. Ideal para principiantes y nivel intermedio en Valle Nevado, El Colorado y La Parva.","provider":{"@id":"https://clasesdeski.cl/#business"},"areaServed":{"@type":"Place","name":"Santiago, Chile"},"url":"https://clasesdeski.cl/es/#services"},{"@type":"Service","name":"Clases Privadas de Snowboard","description":"Clases privadas de snowboard 1 a 1 con instructor experto. Aprende a tu ritmo en los mejores centros de ski de Chile.","provider":{"@id":"https://clasesdeski.cl/#business"},"areaServed":{"@type":"Place","name":"Santiago, Chile"},"url":"https://clasesdeski.cl/es/#services"},{"@type":"Service","name":"Heliski","description":"Experiencia de heliski en los Andes chilenos. Accede a nieve virgen y pendientes exclusivas con guías profesionales.","provider":{"@id":"https://clasesdeski.cl/#business"},"areaServed":{"@type":"Place","name":"Andes, Chile"},"url":"https://clasesdeski.cl/es/#services"},{"@type":"Service","name":"Experiencia Guiada en Nieve","description":"Experiencia guiada en la nieve para familias y grupos. Incluye transporte, equipo y acompañamiento profesional.","provider":{"@id":"https://clasesdeski.cl/#business"},"areaServed":{"@type":"Place","name":"Santiago, Chile"},"url":"https://clasesdeski.cl/es/#services"}]}</script><style id="cdski-enhancements">/* =========================================================
    CDSKI — Pro UI/UX & Responsive Enhancements
    Overrides the compiled Tailwind output without a rebuild.
@@ -6629,6 +6926,283 @@ video[class*="h-full"] {
   }
 
   /* =========================================================
+     Guiados — nueva modalidad (En Pista / Fuera de Pista)
+     Precio por persona que baja al crecer el grupo. La moneda no la
+     decide esta sección: sigue la que el visitante eligió en la web
+     (window.__cdskiQuote.currency + evento "cdski:moneda").
+     ========================================================= */
+
+  // Tarifas base en USD, por persona y por día (1 persona).
+  var GUIDES_USD = {
+    onpiste: { half: 316, full: 418 },
+    offpiste: { half: 428, full: 568 }
+  };
+
+  // Factor por persona según el tamaño del grupo: 1, 2, 3, 4, 5, 6 o más.
+  var GUIDES_SCALE = [1, 0.92, 0.86, 0.82, 0.78, 0.75];
+
+  var GUIDES_RATE = 950; // misma paridad que usa la calculadora del sitio
+
+  function guidesFactor(n) {
+    return GUIDES_SCALE[Math.min(Math.max(n, 1), GUIDES_SCALE.length) - 1];
+  }
+
+  function guidesPrice(usdBase, n, currency) {
+    var usd = usdBase * guidesFactor(n);
+    if (currency === 'USD') return 'US$' + Math.round(usd).toLocaleString('en-US');
+    // En pesos se redondea al millar para que no queden cifras rotas.
+    return '$' + (Math.round(usd * GUIDES_RATE / 1000) * 1000).toLocaleString('es-CL');
+  }
+
+  var GUIDES_COPY = {
+    es: {
+      aria: 'Guiados en pista y fuera de pista',
+      kicker: 'Nueva modalidad · Guiados',
+      title: 'Guiados con <em>guía experto</em>: en pista y fuera de pista',
+      lead: 'No es una clase: es un día de montaña con un <strong>guía de ski</strong> que te lleva a lo mejor del cerro según tu nivel, la nieve y la hora. El valor es por persona, y mientras más grande el grupo, menos paga cada uno.',
+      sizeLabel: '¿Cuántos van?',
+      people: ['1', '2', '3', '4', '5', '6 o más'],
+      peopleAria: 'personas',
+      perPerson: 'por persona / día',
+      groupTotal: 'Total del grupo',
+      saving: 'por persona vs. 1 solo',
+      durations: { half: 'Half Day · 3 hrs', full: 'Full Day · 6 hrs' },
+      cards: [
+        {
+          key: 'onpiste',
+          tag: 'Guía de Ski',
+          title: 'Guiado En Pista',
+          text: 'Recorres el cerro con tu guía: las mejores pistas según la nieve y la hora, sin perder el día buscando dónde ir.',
+          bullets: ['Guía experto todo el día', 'Ruta armada a tu nivel', 'Ideal para conocer el cerro']
+        },
+        {
+          key: 'offpiste',
+          tag: 'Guía de Freeride · Backcountry',
+          title: 'Guiado Fuera de Pista',
+          text: 'Nieve virgen fuera del área marcada, con guía de freeride y equipo de seguridad completo incluido en la salida.',
+          bullets: ['ARVA, pala y sonda incluidos', 'Evaluación de nieve y terreno', 'Requiere nivel intermedio-avanzado']
+        }
+      ],
+      cta: 'Consultar disponibilidad',
+      note: 'Valores por persona y por día. El guiado fuera de pista se confirma según condiciones de nieve y seguridad del terreno.',
+      currencyLabel: 'Ver precios en'
+    },
+    en: {
+      aria: 'Guided on-piste and off-piste days',
+      kicker: 'New format · Guided days',
+      title: 'Guided days with an <em>expert guide</em>: on-piste and off-piste',
+      lead: 'This is not a lesson: it is a day on the mountain with a <strong>ski guide</strong> who takes you to the best of the resort according to your level, the snow and the time of day. The price is per person, and the bigger the group, the less each one pays.',
+      sizeLabel: 'How many of you?',
+      people: ['1', '2', '3', '4', '5', '6 or more'],
+      peopleAria: 'people',
+      perPerson: 'per person / day',
+      groupTotal: 'Group total',
+      saving: 'per person vs. going alone',
+      durations: { half: 'Half Day · 3 hrs', full: 'Full Day · 6 hrs' },
+      cards: [
+        {
+          key: 'onpiste',
+          tag: 'Ski guide',
+          title: 'Guided On-Piste',
+          text: 'You ride the mountain with your guide: the best runs for the snow and the hour, without wasting the day figuring out where to go.',
+          bullets: ['Expert guide all day long', 'Route built around your level', 'Ideal to get to know the resort']
+        },
+        {
+          key: 'offpiste',
+          tag: 'Freeride · Backcountry guide',
+          title: 'Guided Off-Piste',
+          text: 'Untracked snow outside the marked area, with a freeride guide and full safety equipment included in the outing.',
+          bullets: ['Transceiver, shovel and probe included', 'Snow and terrain assessment', 'Intermediate-advanced level required']
+        }
+      ],
+      cta: 'Check availability',
+      note: 'Prices are per person and per day. Off-piste guiding is confirmed based on snow conditions and terrain safety.',
+      currencyLabel: 'Show prices in'
+    },
+    pt: {
+      aria: 'Guiados na pista e fora de pista',
+      kicker: 'Nova modalidade · Guiados',
+      title: 'Guiados com <em>guia experto</em>: na pista e fora de pista',
+      lead: 'Não é uma aula: é um dia de montanha com um <strong>guia de ski</strong> que leva você ao melhor da estação conforme seu nível, a neve e o horário. O valor é por pessoa, e quanto maior o grupo, menos cada um paga.',
+      sizeLabel: 'Quantos vão?',
+      people: ['1', '2', '3', '4', '5', '6 ou mais'],
+      peopleAria: 'pessoas',
+      perPerson: 'por pessoa / dia',
+      groupTotal: 'Total do grupo',
+      saving: 'por pessoa vs. sozinho',
+      durations: { half: 'Half Day · 3 hrs', full: 'Full Day · 6 hrs' },
+      cards: [
+        {
+          key: 'onpiste',
+          tag: 'Guia de Ski',
+          title: 'Guiado Na Pista',
+          text: 'Você percorre a montanha com seu guia: as melhores pistas conforme a neve e o horário, sem perder o dia procurando para onde ir.',
+          bullets: ['Guia experto o dia todo', 'Roteiro montado no seu nível', 'Ideal para conhecer a estação']
+        },
+        {
+          key: 'offpiste',
+          tag: 'Guia de Freeride · Backcountry',
+          title: 'Guiado Fora de Pista',
+          text: 'Neve virgem fora da área demarcada, com guia de freeride e equipamento de segurança completo incluído na saída.',
+          bullets: ['ARVA, pá e sonda incluídos', 'Avaliação de neve e terreno', 'Exige nível intermediário-avançado']
+        }
+      ],
+      cta: 'Consultar disponibilidade',
+      note: 'Valores por pessoa e por dia. O guiado fora de pista é confirmado conforme as condições de neve e a segurança do terreno.',
+      currencyLabel: 'Ver preços em'
+    }
+  };
+
+  function setupGuides() {
+    var T = GUIDES_COPY[currentLang()];
+    var people = 1;
+    var moneda = 'CLP';
+    var sec = null;
+
+    function monedaDelSitio() {
+      var q = window.__cdskiQuote;
+      return q && q.currency === 'USD' ? 'USD' : 'CLP';
+    }
+
+    function pintar() {
+      if (!sec || !document.contains(sec)) return;
+
+      sec.querySelectorAll('[data-precio]').forEach(function (el) {
+        var ref = el.getAttribute('data-precio').split('.');
+        el.textContent = guidesPrice(GUIDES_USD[ref[0]][ref[1]], people, moneda);
+      });
+
+      sec.querySelectorAll('[data-total]').forEach(function (el) {
+        var ref = el.getAttribute('data-total').split('.');
+        var totalUsd = GUIDES_USD[ref[0]][ref[1]] * guidesFactor(people) * people;
+        el.textContent = T.groupTotal + ': ' + (moneda === 'USD'
+          ? 'US$' + Math.round(totalUsd).toLocaleString('en-US')
+          : '$' + (Math.round(totalUsd * GUIDES_RATE / 1000) * 1000).toLocaleString('es-CL'));
+        el.hidden = people === 1;
+      });
+
+      var ahorro = Math.round((1 - guidesFactor(people)) * 100);
+      sec.querySelectorAll('[data-ahorro]').forEach(function (el) {
+        el.textContent = '−' + ahorro + '% ' + T.saving;
+        el.hidden = ahorro === 0;
+      });
+
+      sec.querySelectorAll('.cdski-guides-size button').forEach(function (b, i) {
+        var activo = i + 1 === people;
+        b.classList.toggle('cdski-on', activo);
+        b.setAttribute('aria-pressed', activo ? 'true' : 'false');
+      });
+
+      sec.querySelectorAll('.cdski-guides-cur button').forEach(function (b) {
+        var activo = b.getAttribute('data-cur') === moneda;
+        b.classList.toggle('cdski-on', activo);
+        b.setAttribute('aria-pressed', activo ? 'true' : 'false');
+      });
+    }
+
+    function sizeHtml() {
+      var html = '';
+      T.people.forEach(function (p, i) {
+        html += '<button type="button" data-n="' + (i + 1) + '" aria-pressed="false" '
+          + 'aria-label="' + p + ' ' + T.peopleAria + '">' + p + '</button>';
+      });
+      return html;
+    }
+
+    function cardHtml(c) {
+      var filas = '';
+      ['half', 'full'].forEach(function (d) {
+        filas += '<div class="cdski-guides-row">'
+          + '<span class="cdski-guides-dur">' + T.durations[d] + '</span>'
+          + '<span class="cdski-guides-amount">'
+          +   '<b data-precio="' + c.key + '.' + d + '">—</b>'
+          +   '<i>' + T.perPerson + '</i>'
+          + '</span>'
+          + '<span class="cdski-guides-total" data-total="' + c.key + '.' + d + '" hidden></span>'
+          + '</div>';
+      });
+      var bullets = '';
+      c.bullets.forEach(function (b) {
+        bullets += '<li>' + CHECK_ICON + '<span>' + b + '</span></li>';
+      });
+      return '<article class="cdski-guides-card cdski-guides-' + c.key + '">'
+        + '<span class="cdski-guides-tag">' + c.tag + '</span>'
+        + '<h3>' + c.title + '</h3>'
+        + '<p>' + c.text + '</p>'
+        + '<div class="cdski-guides-rows">' + filas + '</div>'
+        + '<span class="cdski-guides-saving" data-ahorro hidden></span>'
+        + '<ul class="cdski-guides-bullets">' + bullets + '</ul>'
+        + '<a class="cdski-guides-cta" href="#contact">' + T.cta + '</a>'
+        + '</article>';
+    }
+
+    function insertSection() {
+      var existing = document.querySelector('.cdski-guides');
+      if (existing && document.contains(existing)) { sec = existing; return true; }
+
+      var pricing = document.getElementById('pricing');
+      if (!pricing || !pricing.parentNode) return false;
+
+      var el = document.createElement('section');
+      el.className = 'cdski-guides';
+      el.id = 'guiados';
+      el.setAttribute('aria-label', T.aria);
+      el.innerHTML =
+        '<div class="cdski-guides-inner">'
+        +   '<div class="cdski-guides-head">'
+        +     '<span class="cdski-guides-kicker"><span class="cdski-guided-dot"></span>' + T.kicker + '</span>'
+        +     '<h2 class="cdski-guides-title">' + T.title + '</h2>'
+        +     '<p class="cdski-guides-lead">' + T.lead + '</p>'
+        +   '</div>'
+        +   '<div class="cdski-guides-controls">'
+        +     '<div class="cdski-guides-control">'
+        +       '<span class="cdski-guides-control-label">' + T.sizeLabel + '</span>'
+        +       '<div class="cdski-guides-size" role="group">' + sizeHtml() + '</div>'
+        +     '</div>'
+        +     '<div class="cdski-guides-control">'
+        +       '<span class="cdski-guides-control-label">' + T.currencyLabel + '</span>'
+        +       '<div class="cdski-guides-cur" role="group">'
+        +         '<button type="button" data-cur="CLP" aria-pressed="false">CLP</button>'
+        +         '<button type="button" data-cur="USD" aria-pressed="false">USD</button>'
+        +       '</div>'
+        +     '</div>'
+        +   '</div>'
+        +   '<div class="cdski-guides-cards">' + cardHtml(T.cards[0]) + cardHtml(T.cards[1]) + '</div>'
+        +   '<p class="cdski-guides-note">' + T.note + '</p>'
+        + '</div>';
+
+      el.addEventListener('click', function (ev) {
+        var btn = ev.target.closest ? ev.target.closest('button[data-n], button[data-cur]') : null;
+        if (!btn) return;
+        if (btn.hasAttribute('data-n')) {
+          people = parseInt(btn.getAttribute('data-n'), 10) || 1;
+        } else {
+          moneda = btn.getAttribute('data-cur');
+          // Si la calculadora está montada, mandamos la moneda al sitio entero.
+          var q = window.__cdskiQuote;
+          if (q && typeof q.setCurrency === 'function') q.setCurrency(moneda);
+        }
+        pintar();
+      });
+
+      pricing.parentNode.insertBefore(el, pricing.nextSibling);
+      sec = el;
+      moneda = monedaDelSitio();
+      pintar();
+      return true;
+    }
+
+    window.addEventListener('cdski:moneda', function (ev) {
+      var nueva = ev.detail === 'USD' ? 'USD' : 'CLP';
+      if (nueva === moneda) return;
+      moneda = nueva;
+      pintar();
+    });
+
+    keepAlive(insertSection);
+  }
+
+  /* =========================================================
      Botones flotantes: apilado según la barra inferior
      La barra "Reservar Clase" sólo aparece al desplazarse, así que su alto
      se mide en vivo y los flotantes se colocan encima. Sin barra, vuelven
@@ -6715,6 +7289,7 @@ video[class*="h-full"] {
     setupFooter();
     setupWelcomeBanner();
     setupSeptember();
+    setupGuides();
     setupMissionSection();
     setupGuidedExperience();
     setupCareersSection();
