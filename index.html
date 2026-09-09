@@ -2613,6 +2613,7 @@ video[class*="h-full"] {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   box-shadow: 0 20px 44px -26px rgba(0, 0, 0, .95);
+  overflow: hidden;
   text-decoration: none;
   animation: cdskiHuasoEntra .8s cubic-bezier(.16, 1, .3, 1) .6s both;
   transition: transform .3s cubic-bezier(.16, 1, .3, 1), border-color .3s ease;
@@ -2634,6 +2635,22 @@ video[class*="h-full"] {
   gap: .1rem;
   width: 100%;
 }
+/* Suelo de nieve: la superficie sobre la que van la bandera y el huaso.
+   Baja y casi plana a proposito: si la loma sube, se traga las tablas. */
+.cdski-huaso-escena::after {
+  content: '';
+  position: absolute;
+  left: -22%;
+  right: -22%;
+  bottom: -1px;
+  height: 16%;
+  z-index: 0;
+  border-radius: 45% 55% 0 0 / 30% 24% 0 0;
+  background: linear-gradient(180deg, #ffffff 0%, #eaf0f7 60%, #d7e1ec 100%);
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, .95);
+}
+.cdski-huaso-bandera,
+.cdski-huaso-fig { position: relative; z-index: 1; }
 .cdski-huaso-bandera {
   width: 34%;
   height: auto;
@@ -2659,12 +2676,32 @@ video[class*="h-full"] {
 /* El zapateo: el cuerpo se mece y los pies alternan el golpe. */
 .cdski-huaso-cuerpo {
   transform-box: fill-box;
-  transform-origin: 50% 95%;
-  animation: cdskiZapateo 1.1s ease-in-out infinite;
+  transform-origin: 50% 96%;
+  animation: cdskiCurvas 1.7s ease-in-out infinite;
 }
-@keyframes cdskiZapateo {
-  0%, 100% { transform: translateY(0) rotate(-3deg); }
-  50%      { transform: translateY(-3px) rotate(3deg); }
+/* Curvas enlazadas: se inclina de un lado al otro y rebota apenas al
+   cambiar de canto, que es lo que hace que se lea como esquiando. */
+@keyframes cdskiCurvas {
+  0%, 100% { transform: translate3d(-3px, 0, 0) rotate(-8deg); }
+  25%      { transform: translate3d(0, -2.5px, 0) rotate(0deg); }
+  50%      { transform: translate3d(3px, 0, 0) rotate(8deg); }
+  75%      { transform: translate3d(0, -2.5px, 0) rotate(0deg); }
+}
+
+/* Polvo de nieve saliendo de las colas de las tablas. */
+.cdski-huaso-nube {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  opacity: 0;
+  animation: cdskiPolvo 1.15s ease-out infinite;
+}
+.cdski-huaso-nube:nth-child(2) { animation-delay: -.38s; }
+.cdski-huaso-nube:nth-child(3) { animation-delay: -.76s; }
+@keyframes cdskiPolvo {
+  0%   { opacity: 0; transform: translate(0, 0) scale(.3); }
+  15%  { opacity: 1; }
+  55%  { opacity: .85; }
+  100% { opacity: 0; transform: translate(16px, -14px) scale(1.9); }
 }
 .cdski-huaso-pierna {
   transform-box: fill-box;
@@ -2673,8 +2710,8 @@ video[class*="h-full"] {
 }
 .cdski-huaso-pierna-d { animation-delay: -.275s; }
 @keyframes cdskiPaso {
-  from { transform: translateY(0) rotate(-3deg); }
-  to   { transform: translateY(-1.5px) rotate(3deg); }
+  from { transform: translateY(0) rotate(-2deg); }
+  to   { transform: translateY(-1px) rotate(2deg); }
 }
 /* Las tablas van plantadas: el balanceo se lo pone el cuerpo, que las
    contiene. Una animación propia encima se veía como doble movimiento. */
@@ -2691,7 +2728,7 @@ video[class*="h-full"] {
 .cdski-huaso-panuelo {
   transform-box: fill-box;
   transform-origin: 90% 100%;
-  animation: cdskiPanuelo .75s ease-in-out infinite alternate;
+  animation: cdskiPanuelo .62s ease-in-out infinite alternate;
 }
 @keyframes cdskiPanuelo {
   from { transform: rotate(-22deg) scaleX(.92); }
@@ -2729,6 +2766,15 @@ video[class*="h-full"] {
     width: 3.4rem;
     flex: 0 0 auto;
   }
+  /* En el chip la nieve no cruza toda la tarjeta: es un montículo bajo
+     las dos figuras, redondeado por abajo para que no corte en seco. */
+  .cdski-huaso-escena::after {
+    left: -16%;
+    right: -16%;
+    bottom: -6%;
+    height: 24%;
+    border-radius: 50% 50% 46% 46% / 62% 62% 38% 38%;
+  }
   .cdski-huaso-bandera { width: 38%; margin-bottom: 4%; }
   .cdski-huaso-fig { width: 58%; }
   .cdski-huaso-texto {
@@ -2748,9 +2794,11 @@ video[class*="h-full"] {
   .cdski-huaso-tela,
   .cdski-huaso-cuerpo,
   .cdski-huaso-skis,
+  .cdski-huaso-nube,
   .cdski-huaso-pierna,
   .cdski-huaso-mano,
   .cdski-huaso-panuelo { animation: none; }
+  .cdski-huaso-nube { opacity: .8; }
   .cdski-huaso { transition: none; }
   .cdski-huaso:hover { transform: none; }
 }
@@ -5174,11 +5222,16 @@ video[class*="h-full"] {
     + '</svg>';
 
   var HUASO_SVG =
-    '<svg class="cdski-huaso-fig" viewBox="0 0 120 118" role="img" aria-hidden="true">'
+    '<svg class="cdski-huaso-fig" viewBox="0 0 120 130" role="img" aria-hidden="true">'
     +  '<defs><clipPath id="cdskiMantaClip">'
     +    '<path d="M44 50 L80 50 L86 88 L38 88 Z"/>'
     +  '</clipPath></defs>'
-    +  '<ellipse cx="56" cy="113" rx="36" ry="3.6" fill="rgba(15,23,42,.22)"/>'
+    +  '<ellipse cx="56" cy="108" rx="33" ry="2.8" fill="rgba(100,116,139,.32)"/>'
+    +  '<g class="cdski-huaso-polvo">'
+    +    '<circle class="cdski-huaso-nube" cx="89" cy="100" r="5" fill="#ffffff"/>'
+    +    '<circle class="cdski-huaso-nube" cx="96" cy="96" r="3.4" fill="#e0f2fe"/>'
+    +    '<circle class="cdski-huaso-nube" cx="84" cy="102" r="4.2" fill="#ffffff"/>'
+    +  '</g>'
     +  '<g class="cdski-huaso-cuerpo">'
     +    '<g class="cdski-huaso-skis">'
     +      '<g transform="translate(32,104)">'
@@ -5215,8 +5268,11 @@ video[class*="h-full"] {
     +    '</g>'
     +    '<path d="M52 50 L62 60 L72 50 Z" fill="#f8fafc"/>'
     +    '<circle cx="62" cy="38" r="10" fill="#f2c9a2"/>'
-    +    '<circle cx="58.4" cy="36.4" r="1.2" fill="#1f2937"/>'
-    +    '<circle cx="65.6" cy="36.4" r="1.2" fill="#1f2937"/>'
+    +    '<ellipse cx="53.8" cy="40.4" rx="2.6" ry="1.8" fill="rgba(244,63,94,.35)"/>'
+    +    '<ellipse cx="70.2" cy="40.4" rx="2.6" ry="1.8" fill="rgba(244,63,94,.35)"/>'
+    +    '<path d="M56.5 36.8 Q58.4 34.4 60.3 36.8 M63.7 36.8 Q65.6 34.4 67.5 36.8"'
+    +      ' fill="none" stroke="#1f2937" stroke-width="1.7" stroke-linecap="round"/>'
+    +    '<path d="M56.6 43.4 Q62 48.6 67.4 43.4 Q62 45.4 56.6 43.4 Z" fill="#7f1d1d"/>'
     +    '<path d="M55.6 40.6 q3.4 -1.4 6.4 .8 q3 -2.2 6.4 -.8 q-3.4 3.4 -6.4 1.8 q-3 1.6 -6.4 -1.8 z" fill="#4a2c17"/>'
     +    '<ellipse cx="62" cy="27" rx="27" ry="6.4" fill="#e0b972"/>'
     +    '<path d="M49 27 q0 -14 13 -14 q13 0 13 14 z" fill="#eccb8d"/>'
