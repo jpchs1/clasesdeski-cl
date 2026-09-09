@@ -2479,26 +2479,38 @@ var HUASO_SVG =
       return true;
     }
 
-    window.addEventListener('resize', function () { insertar(); });
-    keepAlive(insertar);
+    window.addEventListener('resize', function () { intentar(); });
+
+    // Si algo falla aca dentro no puede llevarse por delante el resto de
+    // las mejoras de la pagina, que se inicializan despues.
+    function intentar() {
+      try { return insertar(); } catch (e) { return false; }
+    }
+
+    keepAlive(intentar);
+    // keepAlive solo cubre los primeros 10 segundos. La escena tiene que
+    // seguir viva aunque React reubique el nodo mucho despues.
+    setInterval(intentar, 2500);
   }
 
   // El movimiento de la escena NO lo lleva CSS sino requestAnimationFrame.
   // Con @keyframes dependiamos de que el navegador los ejecute, y hay
   // entornos donde no lo hace: la tarjeta se veia entera pero congelada.
-  // Escribiendo el transform en cada cuadro, se mueve igual, y ademas
+  // Escribiendo el transform en cada cuadro se mueve igual, y ademas
   // sobrevive a que React reubique el nodo, que reiniciaba los keyframes.
   function animarEscena(escena) {
-    if (escena.cdskiAnimada) return;
+    if (!escena || escena.cdskiAnimada) return;
     escena.cdskiAnimada = true;
 
-    // Quien pidio menos movimiento ve la escena completa, pero quieta.
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      Array.prototype.forEach.call(escena.querySelectorAll('.cdski-huaso-copos i'), function (c) {
-        c.style.opacity = '.7';
-      });
-      return;
-    }
+    // Con "reducir movimiento" activado no se apaga la escena: se baja el
+    // tono. Lo que molesta de esa preferencia es el movimiento grande y
+    // brusco (parallax rapido, saltos, destellos), no que algo respire.
+    // Apagarla del todo dejaba la tarjeta como una foto.
+    var calma = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+    var V = calma
+      ? { cerros: 70, ladera: 11, ciclo: 9, lean: 5, salto: 0, rayas: false, copos: 7 }
+      : { cerros: 26, ladera: 2.2, ciclo: 3.4, lean: 13, salto: -46, rayas: true, copos: 2.6 };
 
     var cerros = escena.querySelector('.cdski-huaso-cerros');
     var ladera = escena.querySelector('.cdski-huaso-ladera');
@@ -2506,12 +2518,14 @@ var HUASO_SVG =
     var rayas = Array.prototype.slice.call(escena.querySelectorAll('.cdski-huaso-rayas i'));
     var copos = Array.prototype.slice.call(escena.querySelectorAll('.cdski-huaso-copos i'));
 
+    if (!V.rayas) rayas.forEach(function (r) { r.style.display = 'none'; });
+
     // Cada copo y cada raya arrancan en un punto distinto del ciclo.
-    var faseCopo = copos.map(function (c, i) { return { d: 2.6 + (i % 4) * 0.9, p: (i * 0.37) % 1 }; });
+    var faseCopo = copos.map(function (c, i) { return { d: V.copos + (i % 4) * 0.9, p: (i * 0.37) % 1 }; });
     var faseRaya = rayas.map(function (r, i) { return { d: 1.15, p: (i * 0.25) % 1 }; });
 
     var t0 = 0;
-    var ancho = 0, alto = 0;
+    var ancho = 160, alto = 100;
     function medir() {
       ancho = escena.clientWidth || 160;
       alto = escena.clientHeight || 100;
@@ -2525,15 +2539,15 @@ var HUASO_SVG =
       var s = (t - t0) / 1000;
 
       // Fondo corriendo: media pasada por ciclo, que es donde el dibujo repite.
-      if (cerros) cerros.style.transform = 'translate3d(' + (-((s / 26) % 1) * 50).toFixed(3) + '%,0,0)';
-      if (ladera) ladera.style.transform = 'translate3d(' + (-((s / 2.6) % 1) * 50).toFixed(3) + '%,0,0)';
+      if (cerros) cerros.style.transform = 'translate3d(' + (-((s / V.cerros) % 1) * 50).toFixed(3) + '%,0,0)';
+      if (ladera) ladera.style.transform = 'translate3d(' + (-((s / V.ladera) % 1) * 50).toFixed(3) + '%,0,0)';
 
       if (fig) {
-        var f = (s / 3.4) % 1;
-        var lean = 13 * Math.sin(2 * Math.PI * f);          // curvas enlazadas
-        var bob = -3 * Math.abs(Math.sin(4 * Math.PI * f));  // los lomos de la ladera
+        var f = (s / V.ciclo) % 1;
+        var lean = V.lean * Math.sin(2 * Math.PI * f);
+        var bob = -3 * Math.abs(Math.sin(4 * Math.PI * f));
         var salto = 0;
-        if (f > 0.62 && f < 0.9) salto = -46 * Math.sin(Math.PI * (f - 0.62) / 0.28);
+        if (V.salto && f > 0.62 && f < 0.9) salto = V.salto * Math.sin(Math.PI * (f - 0.62) / 0.28);
         fig.style.transform = 'translate3d(' + (lean * 0.45).toFixed(2) + '%,'
           + (bob + salto).toFixed(2) + '%,0) rotate(' + (lean + salto * 0.12).toFixed(2) + 'deg)';
       }

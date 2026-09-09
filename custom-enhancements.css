@@ -2824,20 +2824,20 @@ video[class*="h-full"] {
   .cdski-huaso-texto { font-size: .63rem; }
 }
 
-/* Quien pide menos movimiento ve la escena quieta, pero completa. */
+/* Con "reducir movimiento" se baja el tono, no se apaga. Aquí se sacan
+   el destello y los golpes rápidos; el fondo y la figura siguen, lentos,
+   porque los mueve el JS con su propia escala de velocidades. */
 @media (prefers-reduced-motion: reduce) {
   .cdski-huaso,
-  .cdski-huaso-sol,
   .cdski-huaso-nube,
   .cdski-huaso-pierna,
-  .cdski-huaso-mano,
-  .cdski-huaso-panuelo,
-  .cdski-huaso-tela,
   .cdski-huaso-escena::after { animation: none; }
-  .cdski-huaso-copos i,
-  .cdski-huaso-nube { opacity: .75; }
-  .cdski-huaso-rayas i { opacity: 0; }
+  .cdski-huaso-nube { opacity: .55; }
   .cdski-huaso-escena::after { opacity: 0; }
+  .cdski-huaso-sol  { animation-duration: 9s; }
+  .cdski-huaso-tela { animation-duration: 6s; }
+  .cdski-huaso-mano { animation-duration: 5s; }
+  .cdski-huaso-panuelo { animation-duration: 3.4s; }
   .cdski-huaso { transition: none; }
   .cdski-huaso:hover { transform: none; }
 }
