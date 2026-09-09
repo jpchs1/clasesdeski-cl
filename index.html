@@ -2784,9 +2784,9 @@ video[class*="h-full"] {
 /* Banderita clavada en la esquina de la escena */
 .cdski-huaso-bandera {
   position: absolute;
-  top: 6%;
-  right: 5%;
-  width: 20%;
+  top: 5%;
+  right: 4%;
+  width: 24%;
   height: auto;
   overflow: visible;
   z-index: 4;
@@ -5354,32 +5354,45 @@ video[class*="h-full"] {
   var ESTRELLA = [[18, 9], [19.41, 13.06], [23.71, 13.15], [20.28, 15.74], [21.53, 19.85],
                   [18, 17.4], [14.47, 19.85], [15.72, 15.74], [12.29, 13.15], [16.59, 13.06]];
 
-  var XS_LARGO = [9, 14.5, 20, 25.5, 31, 36.5, 42, 47.5, 53];
-  var XS_BLANCO = [27, 33.5, 40, 46.5, 53];
-  var XS_AZUL = [9, 13.5, 18, 22.5, 27];
+  var TS_LARGO = [0, .0833, .1667, .25, .3333, .4167, .5,
+                  .5833, .6667, .75, .8333, .9167, 1];
+  var TS_BLANCO = [.409, .4934, .5779, .6624, .7469, .8314, .9159, 1];
+  var TS_AZUL = [0, .0682, .1364, .2045, .2727, .3409, .409];
 
-  // Ondea mas cuanto mas lejos del asta, como una tela de verdad.
-  function ondaBandera(x, fase, amplitud) {
-    var t = (x - 9) / 44;
-    return amplitud * Math.pow(t, 1.25) * Math.sin(2 * Math.PI * t * 1.35 - fase);
+  // t recorre la tela de 0 (asta) a 1 (extremo libre). Ondea mas cuanto
+  // mas lejos del asta, y al ondear la tela se acorta de ancho, que es lo
+  // que termina de darle el golpe de viento.
+  function ondaBandera(t, fase, amplitud) {
+    return amplitud * Math.pow(t, 1.15) * Math.sin(2 * Math.PI * t * 1.6 - fase);
   }
 
-  function franjaBandera(xs, arriba, abajo, fase, amplitud) {
-    var d = '', i;
-    for (i = 0; i < xs.length; i++) {
-      d += (i ? 'L' : 'M') + xs[i] + ' ' + (arriba + ondaBandera(xs[i], fase, amplitud)).toFixed(2);
+  function anchoBandera(fase, aprieta) {
+    return 1 - aprieta * (1 - Math.cos(fase));
+  }
+
+  function franjaBandera(ts, arriba, abajo, fase, amplitud, ancho) {
+    var d = '', i, x, dy;
+    for (i = 0; i < ts.length; i++) {
+      x = (9 + 44 * ts[i] * ancho).toFixed(2);
+      dy = ondaBandera(ts[i], fase, amplitud);
+      d += (i ? 'L' : 'M') + x + ' ' + (arriba + dy).toFixed(2);
     }
-    for (i = xs.length - 1; i >= 0; i--) {
-      d += 'L' + xs[i] + ' ' + (abajo + ondaBandera(xs[i], fase, amplitud)).toFixed(2);
+    for (i = ts.length - 1; i >= 0; i--) {
+      x = (9 + 44 * ts[i] * ancho).toFixed(2);
+      dy = ondaBandera(ts[i], fase, amplitud);
+      d += 'L' + x + ' ' + (abajo + dy).toFixed(2);
     }
     return d + 'Z';
   }
 
-  function estrellaBandera(fase, amplitud) {
-    var dy = ondaBandera(18, fase, amplitud);
+  function estrellaBandera(fase, amplitud, ancho) {
+    var t = 9 / 44;
+    var dy = ondaBandera(t, fase, amplitud);
+    var dx = 44 * t * (ancho - 1);
     var d = '', i;
     for (i = 0; i < ESTRELLA.length; i++) {
-      d += (i ? 'L' : 'M') + ESTRELLA[i][0] + ' ' + (ESTRELLA[i][1] + dy).toFixed(2);
+      d += (i ? 'L' : 'M') + (ESTRELLA[i][0] + dx).toFixed(2)
+        + ' ' + (ESTRELLA[i][1] + dy).toFixed(2);
     }
     return d + 'Z';
   }
@@ -5389,10 +5402,10 @@ video[class*="h-full"] {
   function dibujarBandera(raiz) {
     var roja = raiz.querySelector('.cdski-bandera-roja');
     if (!roja || roja.getAttribute('d')) return;
-    roja.setAttribute('d', franjaBandera(XS_LARGO, 24, 42, 0, 3.6));
-    raiz.querySelector('.cdski-bandera-blanca').setAttribute('d', franjaBandera(XS_BLANCO, 6, 24, 0, 3.6));
-    raiz.querySelector('.cdski-bandera-azul').setAttribute('d', franjaBandera(XS_AZUL, 6, 24, 0, 3.6));
-    raiz.querySelector('.cdski-bandera-estrella').setAttribute('d', estrellaBandera(0, 3.6));
+    roja.setAttribute('d', franjaBandera(TS_LARGO, 24, 42, 0, 9, 1));
+    raiz.querySelector('.cdski-bandera-blanca').setAttribute('d', franjaBandera(TS_BLANCO, 6, 24, 0, 9, 1));
+    raiz.querySelector('.cdski-bandera-azul').setAttribute('d', franjaBandera(TS_AZUL, 6, 24, 0, 9, 1));
+    raiz.querySelector('.cdski-bandera-estrella').setAttribute('d', estrellaBandera(0, 9, 1));
   }
 
 var HUASO_SVG =
@@ -5701,12 +5714,13 @@ var HUASO_SVG =
 
       // Bandera: se redibuja la tela, no se transforma.
       if (roja) {
-        var fase = 2 * Math.PI * ((s / (calma ? 4.4 : 1.35)) % 1);
-        var amp = calma ? 1.8 : 3.6;
-        roja.setAttribute('d', franjaBandera(XS_LARGO, 24, 42, fase, amp));
-        blanca.setAttribute('d', franjaBandera(XS_BLANCO, 6, 24, fase, amp));
-        azul.setAttribute('d', franjaBandera(XS_AZUL, 6, 24, fase, amp));
-        estrella.setAttribute('d', estrellaBandera(fase, amp));
+        var fase = 2 * Math.PI * ((s / (calma ? 3.6 : 1.05)) % 1);
+        var amp = calma ? 4 : 9;
+        var anchoT = anchoBandera(fase, calma ? 0.04 : 0.11);
+        roja.setAttribute('d', franjaBandera(TS_LARGO, 24, 42, fase, amp, anchoT));
+        blanca.setAttribute('d', franjaBandera(TS_BLANCO, 6, 24, fase, amp, anchoT));
+        azul.setAttribute('d', franjaBandera(TS_AZUL, 6, 24, fase, amp, anchoT));
+        estrella.setAttribute('d', estrellaBandera(fase, amp, anchoT));
       }
 
       // Brazo con el baston, y el panuelo colgando de el.

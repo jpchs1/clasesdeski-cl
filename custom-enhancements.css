@@ -2762,9 +2762,9 @@ video[class*="h-full"] {
 /* Banderita clavada en la esquina de la escena */
 .cdski-huaso-bandera {
   position: absolute;
-  top: 6%;
-  right: 5%;
-  width: 20%;
+  top: 5%;
+  right: 4%;
+  width: 24%;
   height: auto;
   overflow: visible;
   z-index: 4;
