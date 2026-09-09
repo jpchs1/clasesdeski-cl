@@ -2459,7 +2459,7 @@ var HUASO_SVG =
         a.href = '#septiembre';
         a.setAttribute('aria-label', texto);
         a.innerHTML =
-          '<span class="cdski-huaso-escena">'
+          '<span class="cdski-huaso-escena cdski-huaso-css">'
           +   '<span class="cdski-huaso-sol" aria-hidden="true"></span>'
           +   '<span class="cdski-huaso-capa cdski-huaso-cerros" aria-hidden="true">'
           +     CERROS_SVG + CERROS_SVG
@@ -2469,7 +2469,7 @@ var HUASO_SVG =
           +   '<span class="cdski-huaso-capa cdski-huaso-ladera" aria-hidden="true">'
           +     LADERA_SVG + LADERA_SVG
           +   '</span>'
-          +   '<span class="cdski-huaso-figura">' + HUASO_SVG + '</span>'
+          +   '<span class="cdski-huaso-figura"><span class="cdski-huaso-actor">' + HUASO_SVG + '</span></span>'
           +   BANDERA_SVG
           + '</span>'
           + '<span class="cdski-huaso-texto">' + texto + '</span>';
@@ -2514,42 +2514,59 @@ var HUASO_SVG =
 
     var cerros = escena.querySelector('.cdski-huaso-cerros');
     var ladera = escena.querySelector('.cdski-huaso-ladera');
-    var fig = escena.querySelector('.cdski-huaso-fig');
+    var actor = escena.querySelector('.cdski-huaso-actor');
     var rayas = Array.prototype.slice.call(escena.querySelectorAll('.cdski-huaso-rayas i'));
     var copos = Array.prototype.slice.call(escena.querySelectorAll('.cdski-huaso-copos i'));
 
     if (!V.rayas) rayas.forEach(function (r) { r.style.display = 'none'; });
+    if (!('requestAnimationFrame' in window)) return;  // se queda el respaldo CSS
 
     // Cada copo y cada raya arrancan en un punto distinto del ciclo.
     var faseCopo = copos.map(function (c, i) { return { d: V.copos + (i % 4) * 0.9, p: (i * 0.37) % 1 }; });
     var faseRaya = rayas.map(function (r, i) { return { d: 1.15, p: (i * 0.25) % 1 }; });
 
     var t0 = 0;
-    var ancho = 160, alto = 100;
+    var ancho = 160, alto = 100, anchoCapa = 160, anchoActor = 60, altoActor = 60;
     function medir() {
       ancho = escena.clientWidth || 160;
       alto = escena.clientHeight || 100;
+      // Cada capa lleva el dibujo dos veces: una pasada es la mitad.
+      anchoCapa = (cerros ? cerros.offsetWidth / 2 : 0) || ancho;
+      if (actor) {
+        anchoActor = actor.offsetWidth || 60;
+        altoActor = actor.offsetHeight || 60;
+      }
     }
     medir();
     window.addEventListener('resize', medir);
 
     function cuadro(t) {
       if (!document.contains(escena)) { escena.cdskiAnimada = false; return; }
-      if (!t0) t0 = t;
+      if (!t0) {
+        t0 = t;
+        // Desde aca manda el JS: si quedara la animacion CSS puesta, ganaria
+        // sobre el style inline y no se veria nada de lo que calculamos.
+        escena.className = escena.className.replace(/\s*cdski-huaso-css\b/, '');
+        medir();
+      }
       var s = (t - t0) / 1000;
 
-      // Fondo corriendo: media pasada por ciclo, que es donde el dibujo repite.
-      if (cerros) cerros.style.transform = 'translate3d(' + (-((s / V.cerros) % 1) * 50).toFixed(3) + '%,0,0)';
-      if (ladera) ladera.style.transform = 'translate3d(' + (-((s / V.ladera) % 1) * 50).toFixed(3) + '%,0,0)';
+      // Fondo corriendo. En pixeles, no en porcentaje: un translate en %
+      // sobre estas capas depende de como cada navegador resuelva el ancho
+      // del contenedor, y ahi es donde se nos quedaba quieto.
+      if (cerros) cerros.style.transform = 'translate3d(' + (-((s / V.cerros) % 1) * anchoCapa).toFixed(2) + 'px,0,0)';
+      if (ladera) ladera.style.transform = 'translate3d(' + (-((s / V.ladera) % 1) * anchoCapa).toFixed(2) + 'px,0,0)';
 
-      if (fig) {
+      if (actor) {
         var f = (s / V.ciclo) % 1;
         var lean = V.lean * Math.sin(2 * Math.PI * f);
-        var bob = -3 * Math.abs(Math.sin(4 * Math.PI * f));
+        var bob = -0.03 * altoActor * Math.abs(Math.sin(4 * Math.PI * f));
         var salto = 0;
-        if (V.salto && f > 0.62 && f < 0.9) salto = V.salto * Math.sin(Math.PI * (f - 0.62) / 0.28);
-        fig.style.transform = 'translate3d(' + (lean * 0.45).toFixed(2) + '%,'
-          + (bob + salto).toFixed(2) + '%,0) rotate(' + (lean + salto * 0.12).toFixed(2) + 'deg)';
+        if (V.salto && f > 0.62 && f < 0.9) {
+          salto = (V.salto / 100) * altoActor * Math.sin(Math.PI * (f - 0.62) / 0.28);
+        }
+        actor.style.transform = 'translate3d(' + (lean * 0.006 * anchoActor).toFixed(2) + 'px,'
+          + (bob + salto).toFixed(2) + 'px,0) rotate(' + (lean + salto * 0.12).toFixed(2) + 'deg)';
       }
 
       for (var i = 0; i < rayas.length; i++) {
