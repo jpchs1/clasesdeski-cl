@@ -2243,6 +2243,7 @@
 
       var sec = document.createElement('section');
       sec.className = 'cdski-sept';
+      sec.id = 'septiembre';
       sec.setAttribute('aria-label', T.aria);
       sec.innerHTML =
         '<div class="cdski-sept-confetti" aria-hidden="true">' + confettiHtml() + '</div>'
@@ -2286,6 +2287,133 @@
     }
 
     keepAlive(insertSection);
+  }
+
+  /* =========================================================
+     Huaso bailando cueca — adorno del hero durante Septiembre
+     Va arriba a la derecha de la primera vista, con la bandera y el
+     pañuelo animados. Vive dentro de la misma ventana que la campaña.
+     ========================================================= */
+
+  var HUASO_TEXTO = {
+    es: '¡Disfruta este 18 en la nieve!',
+    en: 'Enjoy this September 18th on the snow!',
+    pt: 'Aproveite este 18 de Setembro na neve!'
+  };
+
+  var BANDERA_SVG =
+    '<svg class="cdski-huaso-bandera" viewBox="0 0 58 56" role="img" aria-hidden="true">'
+    +  '<rect x="6" y="4" width="3" height="50" rx="1.5" fill="#8b5a2b"/>'
+    +  '<circle cx="7.5" cy="3.4" r="2.6" fill="#e0b972"/>'
+    +  '<g class="cdski-huaso-tela">'
+    +    '<rect x="9" y="6" width="44" height="36" fill="#d52b1e"/>'
+    +    '<rect x="9" y="6" width="44" height="18" fill="#ffffff"/>'
+    +    '<rect x="9" y="6" width="18" height="18" fill="#0039a6"/>'
+    +    '<path fill="#ffffff" d="M18 9 L19.41 13.06 L23.71 13.15 L20.28 15.74 L21.53 19.85'
+    +      ' L18 17.4 L14.47 19.85 L15.72 15.74 L12.29 13.15 L16.59 13.06 Z"/>'
+    +  '</g>'
+    + '</svg>';
+
+  var HUASO_SVG =
+    '<svg class="cdski-huaso-fig" viewBox="0 0 120 118" role="img" aria-hidden="true">'
+    +  '<defs><clipPath id="cdskiMantaClip">'
+    +    '<path d="M44 50 L80 50 L86 88 L38 88 Z"/>'
+    +  '</clipPath></defs>'
+    +  '<ellipse cx="56" cy="113" rx="36" ry="3.6" fill="rgba(15,23,42,.22)"/>'
+    +  '<g class="cdski-huaso-cuerpo">'
+    +    '<g class="cdski-huaso-skis">'
+    +      '<g transform="translate(32,104)">'
+    +        '<path d="M0 4 Q-9 2.2 -10.5 -3.2 Q-3.4 -2 1.6 0 Z" fill="#0284c7"/>'
+    +        '<rect x="0" y="0" width="54" height="4" rx="2" fill="#0284c7"/>'
+    +        '<rect x="8" y="1.1" width="34" height="1.2" rx=".6" fill="rgba(255,255,255,.45)"/>'
+    +        '<rect x="33.5" y="-1.6" width="8" height="2.4" rx="1" fill="#1f2937"/>'
+    +      '</g>'
+    +      '<g transform="translate(36,106)">'
+    +        '<path d="M0 4 Q-9 2.2 -10.5 -3.2 Q-3.4 -2 1.6 0 Z" fill="#38bdf8"/>'
+    +        '<rect x="0" y="0" width="54" height="4" rx="2" fill="#38bdf8"/>'
+    +        '<rect x="8" y="1.1" width="34" height="1.2" rx=".6" fill="rgba(255,255,255,.6)"/>'
+    +        '<rect x="10.5" y="-1.6" width="8" height="2.4" rx="1" fill="#1f2937"/>'
+    +      '</g>'
+    +    '</g>'
+    +    '<g class="cdski-huaso-pierna cdski-huaso-pierna-i">'
+    +      '<rect x="47" y="86" width="11" height="16" rx="3" fill="#1f2937"/>'
+    +      '<path d="M45 100 h13 v6 h-15 a2 2 0 0 1 -2 -3 z" fill="#5b3a1e"/>'
+    +      '<circle cx="43" cy="104" r="2.2" fill="none" stroke="#e0b972" stroke-width="1.1"/>'
+    +    '</g>'
+    +    '<g class="cdski-huaso-pierna cdski-huaso-pierna-d">'
+    +      '<rect x="64" y="86" width="11" height="16" rx="3" fill="#1f2937"/>'
+    +      '<path d="M64 100 h13 v6 h-15 a2 2 0 0 1 -2 -3 z" fill="#5b3a1e"/>'
+    +      '<circle cx="62" cy="104" r="2.2" fill="none" stroke="#e0b972" stroke-width="1.1"/>'
+    +    '</g>'
+    +    '<path d="M78 55 Q89 61 85 71" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linecap="round"/>'
+    +    '<path d="M46 56 Q35 47 30 34" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linecap="round"/>'
+    +    '<path d="M44 50 L80 50 L86 88 L38 88 Z" fill="#b91c1c"/>'
+    +    '<g clip-path="url(#cdskiMantaClip)">'
+    +      '<rect x="30" y="58" width="70" height="5" fill="#f59e0b"/>'
+    +      '<rect x="30" y="67" width="70" height="3" fill="#fde68a"/>'
+    +      '<rect x="30" y="74" width="70" height="5" fill="#7f1d1d"/>'
+    +      '<rect x="60" y="50" width="4" height="40" fill="rgba(0,0,0,.14)"/>'
+    +    '</g>'
+    +    '<path d="M52 50 L62 60 L72 50 Z" fill="#f8fafc"/>'
+    +    '<circle cx="62" cy="38" r="10" fill="#f2c9a2"/>'
+    +    '<circle cx="58.4" cy="36.4" r="1.2" fill="#1f2937"/>'
+    +    '<circle cx="65.6" cy="36.4" r="1.2" fill="#1f2937"/>'
+    +    '<path d="M55.6 40.6 q3.4 -1.4 6.4 .8 q3 -2.2 6.4 -.8 q-3.4 3.4 -6.4 1.8 q-3 1.6 -6.4 -1.8 z" fill="#4a2c17"/>'
+    +    '<ellipse cx="62" cy="27" rx="27" ry="6.4" fill="#e0b972"/>'
+    +    '<path d="M49 27 q0 -14 13 -14 q13 0 13 14 z" fill="#eccb8d"/>'
+    +    '<rect x="49" y="22" width="26" height="4" fill="#7f1d1d"/>'
+    +    '<circle cx="86" cy="72" r="3.6" fill="#f2c9a2"/>'
+    +    '<g class="cdski-huaso-mano">'
+    +      '<circle cx="29" cy="32" r="4" fill="#f2c9a2"/>'
+    +      '<g class="cdski-huaso-panuelo">'
+    +        '<path d="M0 0 Q-11 -1 -20 -7 Q-19 -17 -14 -26 Q-5 -23 4 -17'
+    +          ' Q2 -8 0 0 Z" transform="translate(29,30)"'
+    +          ' fill="#ffffff" stroke="#d8e0e9" stroke-width="1"/>'
+    +        '<path d="M-14 -26 Q-9 -14 -20 -7" transform="translate(29,30)"'
+    +          ' fill="rgba(15,23,42,.07)" stroke="none"/>'
+    +        '<path d="M-2 -3 Q-9 -11 -13 -24"'
+    +          ' transform="translate(29,30)" fill="none" stroke="#d8e0e9" stroke-width=".9"/>'
+    +      '</g>'
+    +    '</g>'
+    +  '</g>'
+    + '</svg>';
+
+  function setupHuaso() {
+    if (!septWindow(new Date())) return;
+    var texto = HUASO_TEXTO[currentLang()];
+
+    // En el hero movil no hay rincon libre: cualquier adorno flotante tapa
+    // el listado de centros o el titular. Ahi entra en el flujo, sobre el
+    // titulo; en pantallas grandes se despega al rincon superior derecho.
+    function ubicar(a, hero) {
+      var movil = window.matchMedia('(max-width: 767px)').matches;
+      var h1 = hero.querySelector('h1');
+      var destino = movil && h1 && h1.parentNode ? h1.parentNode : hero;
+      if (a.parentNode === destino) return;
+      if (destino === hero) destino.appendChild(a);
+      else destino.insertBefore(a, h1);
+    }
+
+    function insertar() {
+      var hero = document.querySelector('main section');
+      if (!hero) return false;
+
+      var a = document.querySelector('.cdski-huaso');
+      if (!a || !document.contains(a)) {
+        a = document.createElement('a');
+        a.className = 'cdski-huaso';
+        a.href = '#septiembre';
+        a.setAttribute('aria-label', texto);
+        a.innerHTML =
+          '<span class="cdski-huaso-escena">' + BANDERA_SVG + HUASO_SVG + '</span>'
+          + '<span class="cdski-huaso-texto">' + texto + '</span>';
+      }
+      ubicar(a, hero);
+      return true;
+    }
+
+    window.addEventListener('resize', function () { insertar(); });
+    keepAlive(insertar);
   }
 
   /* =========================================================
@@ -2652,6 +2780,7 @@
     setupFooter();
     setupWelcomeBanner();
     setupSeptember();
+    setupHuaso();
     setupGuides();
     setupMissionSection();
     setupGuidedExperience();
