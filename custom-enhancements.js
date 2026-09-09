@@ -2305,18 +2305,64 @@
     pt: 'Aproveite este 18 de Setembro na neve!'
   };
 
-var BANDERA_SVG =
+// La tela no se transforma: se vuelve a dibujar en cada cuadro. Es la
+  // unica forma que no depende de que el navegador aplique transformaciones
+  // sobre elementos SVG, y ademas ondula de verdad en vez de deformarse.
+  var BANDERA_SVG =
     '<svg class="cdski-huaso-bandera" viewBox="0 0 58 56" role="img" aria-hidden="true">'
     +  '<rect x="6" y="4" width="3" height="50" rx="1.5" fill="#8b5a2b"/>'
     +  '<circle cx="7.5" cy="3.4" r="2.6" fill="#e0b972"/>'
     +  '<g class="cdski-huaso-tela">'
-    +    '<rect x="9" y="6" width="44" height="36" fill="#d52b1e"/>'
-    +    '<rect x="9" y="6" width="44" height="18" fill="#ffffff"/>'
-    +    '<rect x="9" y="6" width="18" height="18" fill="#0039a6"/>'
-    +    '<path fill="#ffffff" d="M18 9 L19.41 13.06 L23.71 13.15 L20.28 15.74 L21.53 19.85'
-    +      ' L18 17.4 L14.47 19.85 L15.72 15.74 L12.29 13.15 L16.59 13.06 Z"/>'
+    +    '<path class="cdski-bandera-roja" fill="#d52b1e" d=""/>'
+    +    '<path class="cdski-bandera-blanca" fill="#ffffff" d=""/>'
+    +    '<path class="cdski-bandera-azul" fill="#0039a6" d=""/>'
+    +    '<path class="cdski-bandera-estrella" fill="#ffffff" d=""/>'
     +  '</g>'
     + '</svg>';
+
+  var ESTRELLA = [[18, 9], [19.41, 13.06], [23.71, 13.15], [20.28, 15.74], [21.53, 19.85],
+                  [18, 17.4], [14.47, 19.85], [15.72, 15.74], [12.29, 13.15], [16.59, 13.06]];
+
+  var XS_LARGO = [9, 14.5, 20, 25.5, 31, 36.5, 42, 47.5, 53];
+  var XS_BLANCO = [27, 33.5, 40, 46.5, 53];
+  var XS_AZUL = [9, 13.5, 18, 22.5, 27];
+
+  // Ondea mas cuanto mas lejos del asta, como una tela de verdad.
+  function ondaBandera(x, fase, amplitud) {
+    var t = (x - 9) / 44;
+    return amplitud * Math.pow(t, 1.25) * Math.sin(2 * Math.PI * t * 1.35 - fase);
+  }
+
+  function franjaBandera(xs, arriba, abajo, fase, amplitud) {
+    var d = '', i;
+    for (i = 0; i < xs.length; i++) {
+      d += (i ? 'L' : 'M') + xs[i] + ' ' + (arriba + ondaBandera(xs[i], fase, amplitud)).toFixed(2);
+    }
+    for (i = xs.length - 1; i >= 0; i--) {
+      d += 'L' + xs[i] + ' ' + (abajo + ondaBandera(xs[i], fase, amplitud)).toFixed(2);
+    }
+    return d + 'Z';
+  }
+
+  function estrellaBandera(fase, amplitud) {
+    var dy = ondaBandera(18, fase, amplitud);
+    var d = '', i;
+    for (i = 0; i < ESTRELLA.length; i++) {
+      d += (i ? 'L' : 'M') + ESTRELLA[i][0] + ' ' + (ESTRELLA[i][1] + dy).toFixed(2);
+    }
+    return d + 'Z';
+  }
+
+  // Si el bucle de JS no llegara a correr, la bandera saldria vacia: se
+  // dibuja una vez al armarla para que al menos exista.
+  function dibujarBandera(raiz) {
+    var roja = raiz.querySelector('.cdski-bandera-roja');
+    if (!roja || roja.getAttribute('d')) return;
+    roja.setAttribute('d', franjaBandera(XS_LARGO, 24, 42, 0, 3.6));
+    raiz.querySelector('.cdski-bandera-blanca').setAttribute('d', franjaBandera(XS_BLANCO, 6, 24, 0, 3.6));
+    raiz.querySelector('.cdski-bandera-azul').setAttribute('d', franjaBandera(XS_AZUL, 6, 24, 0, 3.6));
+    raiz.querySelector('.cdski-bandera-estrella').setAttribute('d', estrellaBandera(0, 3.6));
+  }
 
 var HUASO_SVG =
     '<svg class="cdski-huaso-fig" viewBox="0 0 120 114" role="img" aria-hidden="true">'
@@ -2511,6 +2557,7 @@ var HUASO_SVG =
           + '<span class="cdski-huaso-texto">' + texto + '</span>';
       }
       ubicar(a, hero);
+      dibujarBandera(a);
       animarEscena(a.querySelector('.cdski-huaso-escena'));
       return true;
     }
@@ -2550,7 +2597,10 @@ var HUASO_SVG =
 
     var cerros = escena.querySelector('.cdski-huaso-cerros');
     var pinos = escena.querySelector('.cdski-huaso-pinos');
-    var tela = escena.querySelector('.cdski-huaso-tela');
+    var roja = escena.querySelector('.cdski-bandera-roja');
+    var blanca = escena.querySelector('.cdski-bandera-blanca');
+    var azul = escena.querySelector('.cdski-bandera-azul');
+    var estrella = escena.querySelector('.cdski-bandera-estrella');
     var mano = escena.querySelector('.cdski-huaso-mano');
     var panuelo = escena.querySelector('.cdski-huaso-panuelo');
     var piernas = Array.prototype.slice.call(escena.querySelectorAll('.cdski-huaso-pierna'));
@@ -2618,14 +2668,14 @@ var HUASO_SVG =
           + (bob + salto).toFixed(2) + 'px,0) rotate(' + (lean + salto * 0.12).toFixed(2) + 'deg)';
       }
 
-      // Bandera: ondeo tomado del asta, con un poco de giro y de ancho.
-      if (tela) {
-        var w = 2 * Math.PI * (s / (calma ? 5.2 : 1.5));
-        var sesgo = (calma ? 1.6 : 3.4) * Math.sin(w);
-        var anchoTela = 1 - (calma ? 0.04 : 0.11) * (1 - Math.cos(w));
-        tela.setAttribute('transform',
-          'translate(9,24) rotate(' + ((calma ? 0.8 : 1.8) * Math.sin(w + 1)).toFixed(2) + ')'
-          + ' scale(' + anchoTela.toFixed(3) + ',1) skewY(' + sesgo.toFixed(2) + ') translate(-9,-24)');
+      // Bandera: se redibuja la tela, no se transforma.
+      if (roja) {
+        var fase = 2 * Math.PI * ((s / (calma ? 4.4 : 1.35)) % 1);
+        var amp = calma ? 1.8 : 3.6;
+        roja.setAttribute('d', franjaBandera(XS_LARGO, 24, 42, fase, amp));
+        blanca.setAttribute('d', franjaBandera(XS_BLANCO, 6, 24, fase, amp));
+        azul.setAttribute('d', franjaBandera(XS_AZUL, 6, 24, fase, amp));
+        estrella.setAttribute('d', estrellaBandera(fase, amp));
       }
 
       // Brazo con el baston, y el panuelo colgando de el.
