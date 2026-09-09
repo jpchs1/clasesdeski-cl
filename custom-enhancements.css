@@ -2570,154 +2570,257 @@ video[class*="h-full"] {
 }
 
 /* =========================================================
-   Huaso bailando cueca — adorno del hero en Septiembre
-   Arriba a la derecha de la primera vista. Sólo lo inserta el JS
-   dentro de la ventana de la campaña.
+   Huaso esquiando — escena animada del hero en Septiembre
+
+   La primera versión era un muñeco meciéndose sobre un fondo quieto y
+   no se notaba que se movía. Acá se mueve la escena, no el muñeco: el
+   cerro, la ladera y las líneas de velocidad corren de derecha a
+   izquierda a distintas velocidades, y el huaso se queda en el centro
+   haciendo curvas y un salto por vuelta.
    ========================================================= */
 .cdski-huaso {
   position: absolute;
-  top: 5.4rem;
+  top: 5.2rem;
   right: clamp(.7rem, 2.2vw, 2rem);
   z-index: 20;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: .35rem;
-  width: clamp(9rem, 13vw, 11.5rem);
-  padding: .7rem .8rem .75rem;
-  border-radius: 20px;
-  background: rgba(10, 22, 40, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  align-items: stretch;
+  gap: .5rem;
+  width: clamp(10.5rem, 15vw, 13.5rem);
+  padding: .55rem .55rem .7rem;
+  border-radius: 22px;
+  background: linear-gradient(160deg, rgba(9, 20, 38, .82), rgba(12, 32, 60, .78));
+  border: 1px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 20px 44px -26px rgba(0, 0, 0, .95);
-  overflow: hidden;
+  box-shadow: 0 22px 48px -24px rgba(0, 0, 0, .95);
   text-decoration: none;
-  animation: cdskiHuasoEntra .8s cubic-bezier(.16, 1, .3, 1) .6s both;
+  animation: cdskiHuasoEntra .8s cubic-bezier(.16, 1, .3, 1) .5s both;
   transition: transform .3s cubic-bezier(.16, 1, .3, 1), border-color .3s ease;
 }
 .cdski-huaso:hover {
   transform: translateY(-3px);
-  border-color: rgba(255, 255, 255, .55);
+  border-color: rgba(255, 255, 255, .6);
 }
 @keyframes cdskiHuasoEntra {
-  from { opacity: 0; transform: translateY(-14px) scale(.9); }
+  from { opacity: 0; transform: translateY(-16px) scale(.92); }
   to   { opacity: 1; transform: none; }
 }
 
+/* ---- La ventana de la escena ---- */
 .cdski-huaso-escena {
   position: relative;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: .1rem;
+  display: block;
   width: 100%;
+  aspect-ratio: 8 / 5;
+  overflow: hidden;
+  border-radius: 15px;
+  background: linear-gradient(180deg, #93c5fd 0%, #cfe4fb 46%, #eef5fd 76%, #ffffff 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .5);
 }
-/* Suelo de nieve: la superficie sobre la que van la bandera y el huaso.
-   Baja y casi plana a proposito: si la loma sube, se traga las tablas. */
-.cdski-huaso-escena::after {
-  content: '';
+.cdski-huaso-capa {
   position: absolute;
-  left: -22%;
-  right: -22%;
-  bottom: -1px;
-  height: 16%;
-  z-index: 0;
-  border-radius: 45% 55% 0 0 / 30% 24% 0 0;
-  background: linear-gradient(180deg, #ffffff 0%, #eaf0f7 60%, #d7e1ec 100%);
-  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, .95);
+  left: 0;
+  bottom: 0;
+  display: flex;
+  width: 200%;
+  will-change: transform;
 }
-.cdski-huaso-bandera,
-.cdski-huaso-fig { position: relative; z-index: 1; }
-.cdski-huaso-bandera {
-  width: 34%;
+.cdski-huaso-capa svg {
+  width: 50%;
   height: auto;
-  margin-bottom: 6%;
-  overflow: visible;
-}
-.cdski-huaso-tela {
-  transform-origin: 9px 24px;
-  animation: cdskiFlamea 2.4s ease-in-out infinite;
-}
-@keyframes cdskiFlamea {
-  0%, 100% { transform: perspective(120px) rotateY(0deg) skewY(0deg); }
-  25%      { transform: perspective(120px) rotateY(-16deg) skewY(1.8deg); }
-  50%      { transform: perspective(120px) rotateY(0deg) skewY(0deg); }
-  75%      { transform: perspective(120px) rotateY(16deg) skewY(-1.8deg); }
+  flex: 0 0 50%;
+  display: block;
 }
 
+/* Sol tibio de primavera arriba a la izquierda */
+.cdski-huaso-sol {
+  position: absolute;
+  top: 9%;
+  left: 9%;
+  width: 17%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff7d6 0%, #fde68a 55%, rgba(253, 230, 138, 0) 72%);
+  animation: cdskiSol 3.4s ease-in-out infinite;
+}
+@keyframes cdskiSol {
+  0%, 100% { transform: scale(1);    opacity: .95; }
+  50%      { transform: scale(1.12); opacity: 1; }
+}
+
+/* Cordillera de fondo: lenta, es la que da profundidad */
+.cdski-huaso-cerros {
+  height: 46%;
+  bottom: 26%;
+  opacity: .55;
+  animation: cdskiScroll 26s linear infinite;
+}
+/* Ladera del frente: rápida, es la que se lee como velocidad */
+.cdski-huaso-ladera {
+  height: 34%;
+  animation: cdskiScroll 2.6s linear infinite;
+}
+@keyframes cdskiScroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+/* Nieve cayendo */
+.cdski-huaso-copos i {
+  position: absolute;
+  top: -12%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #ffffff;
+  opacity: 0;
+  animation: cdskiCae linear infinite;
+}
+@keyframes cdskiCae {
+  0%   { opacity: 0;   transform: translate3d(0, 0, 0); }
+  12%  { opacity: .9; }
+  100% { opacity: 0;   transform: translate3d(-26px, 150px, 0); }
+}
+
+/* Líneas de velocidad: lo que más vende el movimiento */
+.cdski-huaso-rayas i {
+  position: absolute;
+  right: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .95));
+  opacity: 0;
+  animation: cdskiRaya 1.15s linear infinite;
+}
+@keyframes cdskiRaya {
+  0%   { opacity: 0;   transform: translate3d(30px, 0, 0) scaleX(.5); }
+  14%  { opacity: .9; }
+  72%  { opacity: .5; }
+  100% { opacity: 0;   transform: translate3d(-230px, 0, 0) scaleX(1.6); }
+}
+
+/* ---- El huaso ---- */
+.cdski-huaso-figura {
+  position: absolute;
+  left: 46%;
+  bottom: 12.5%;
+  width: 36%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
 .cdski-huaso-fig {
-  width: 62%;
+  display: block;
+  width: 100%;
   height: auto;
   overflow: visible;
+  transform-origin: 50% 92%;
+  animation: cdskiRide 3.4s cubic-bezier(.45, 0, .55, 1) infinite;
 }
-/* El zapateo: el cuerpo se mece y los pies alternan el golpe. */
-.cdski-huaso-cuerpo {
-  transform-box: fill-box;
-  transform-origin: 50% 96%;
-  animation: cdskiCurvas 1.7s ease-in-out infinite;
-}
-/* Curvas enlazadas: se inclina de un lado al otro y rebota apenas al
-   cambiar de canto, que es lo que hace que se lea como esquiando. */
-@keyframes cdskiCurvas {
-  0%, 100% { transform: translate3d(-3px, 0, 0) rotate(-8deg); }
-  25%      { transform: translate3d(0, -2.5px, 0) rotate(0deg); }
-  50%      { transform: translate3d(3px, 0, 0) rotate(8deg); }
-  75%      { transform: translate3d(0, -2.5px, 0) rotate(0deg); }
+/* Curvas enlazadas y, una vez por vuelta, un salto con su aterrizaje. */
+@keyframes cdskiRide {
+  0%   { transform: translate3d(-6%, 0, 0)   rotate(-13deg); }
+  14%  { transform: translate3d(-3%, -6%, 0) rotate(-5deg); }
+  28%  { transform: translate3d(3%, 0, 0)    rotate(6deg); }
+  40%  { transform: translate3d(6%, -4%, 0)  rotate(13deg); }
+  52%  { transform: translate3d(2%, 0, 0)    rotate(4deg); }
+  62%  { transform: translate3d(-1%, -34%, 0) rotate(-8deg); }
+  70%  { transform: translate3d(-3%, -42%, 0) rotate(-14deg); }
+  80%  { transform: translate3d(-5%, -12%, 0) rotate(-6deg); }
+  88%  { transform: translate3d(-6%, 3%, 0)  rotate(-10deg); }
+  100% { transform: translate3d(-6%, 0, 0)   rotate(-13deg); }
 }
 
-/* Polvo de nieve saliendo de las colas de las tablas. */
+/* Polvo de nieve saliendo de las colas */
 .cdski-huaso-nube {
   transform-box: fill-box;
   transform-origin: 50% 50%;
   opacity: 0;
-  animation: cdskiPolvo 1.15s ease-out infinite;
+  animation: cdskiPolvo 1.05s ease-out infinite;
 }
-.cdski-huaso-nube:nth-child(2) { animation-delay: -.38s; }
-.cdski-huaso-nube:nth-child(3) { animation-delay: -.76s; }
+.cdski-huaso-nube:nth-child(2) { animation-delay: -.35s; }
+.cdski-huaso-nube:nth-child(3) { animation-delay: -.7s; }
 @keyframes cdskiPolvo {
   0%   { opacity: 0; transform: translate(0, 0) scale(.3); }
   15%  { opacity: 1; }
-  55%  { opacity: .85; }
-  100% { opacity: 0; transform: translate(16px, -14px) scale(1.9); }
+  55%  { opacity: .8; }
+  100% { opacity: 0; transform: translate(20px, -16px) scale(2); }
 }
+
 .cdski-huaso-pierna {
   transform-box: fill-box;
   transform-origin: 50% 0%;
-  animation: cdskiPaso .55s ease-in-out infinite alternate;
+  animation: cdskiPaso .85s ease-in-out infinite alternate;
 }
-.cdski-huaso-pierna-d { animation-delay: -.275s; }
+.cdski-huaso-pierna-d { animation-delay: -.42s; }
 @keyframes cdskiPaso {
-  from { transform: translateY(0) rotate(-2deg); }
-  to   { transform: translateY(-1px) rotate(2deg); }
+  from { transform: translateY(0) rotate(-2.5deg); }
+  to   { transform: translateY(-1px) rotate(2.5deg); }
 }
-/* Las tablas van plantadas: el balanceo se lo pone el cuerpo, que las
-   contiene. Una animación propia encima se veía como doble movimiento. */
-/* El pañuelo, que es lo que de verdad dice "cueca". */
 .cdski-huaso-mano {
   transform-box: fill-box;
   transform-origin: 100% 100%;
-  animation: cdskiBrazo 1.1s ease-in-out infinite;
+  animation: cdskiBrazo .9s ease-in-out infinite;
 }
 @keyframes cdskiBrazo {
-  0%, 100% { transform: rotate(-6deg); }
-  50%      { transform: rotate(6deg); }
+  0%, 100% { transform: rotate(-9deg); }
+  50%      { transform: rotate(9deg); }
 }
 .cdski-huaso-panuelo {
   transform-box: fill-box;
   transform-origin: 90% 100%;
-  animation: cdskiPanuelo .62s ease-in-out infinite alternate;
+  animation: cdskiPanuelo .48s ease-in-out infinite alternate;
 }
 @keyframes cdskiPanuelo {
-  from { transform: rotate(-22deg) scaleX(.92); }
-  to   { transform: rotate(22deg) scaleX(1.06); }
+  from { transform: rotate(-26deg) scaleX(.9); }
+  to   { transform: rotate(26deg) scaleX(1.08); }
+}
+
+/* Banderita clavada en la esquina de la escena */
+.cdski-huaso-bandera {
+  position: absolute;
+  top: 6%;
+  right: 5%;
+  width: 20%;
+  height: auto;
+  overflow: visible;
+  z-index: 4;
+  filter: drop-shadow(0 2px 4px rgba(15, 23, 42, .3));
+}
+.cdski-huaso-tela {
+  transform-origin: 9px 24px;
+  animation: cdskiFlamea 1.9s ease-in-out infinite;
+}
+@keyframes cdskiFlamea {
+  0%, 100% { transform: perspective(120px) rotateY(0deg) skewY(0deg); }
+  25%      { transform: perspective(120px) rotateY(-22deg) skewY(2.4deg); }
+  50%      { transform: perspective(120px) rotateY(0deg) skewY(0deg); }
+  75%      { transform: perspective(120px) rotateY(22deg) skewY(-2.4deg); }
+}
+
+/* Brillo que barre la tarjeta cada tanto, para pescar el ojo */
+.cdski-huaso-escena::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(105deg, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, .55) 50%, rgba(255, 255, 255, 0) 62%);
+  transform: translateX(-120%);
+  animation: cdskiBrillo 4.6s ease-in-out infinite;
+}
+@keyframes cdskiBrillo {
+  0%, 62% { transform: translateX(-120%); }
+  82%     { transform: translateX(120%); }
+  100%    { transform: translateX(120%); }
 }
 
 .cdski-huaso-texto {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(.62rem, 1vw, .74rem);
+  font-size: clamp(.63rem, 1vw, .76rem);
   font-weight: 800;
-  line-height: 1.28;
+  line-height: 1.25;
   text-align: center;
   text-wrap: balance;
   color: #ffffff;
@@ -2725,58 +2828,57 @@ video[class*="h-full"] {
 }
 
 /* En móvil el hero no tiene rincón libre: flotando tapaba el listado de
-   centros. Ahí el JS lo mete en el flujo, sobre el titular, y se muestra
-   como chip horizontal alineado a la derecha. */
+   centros. Ahí el JS lo mete en el flujo, sobre el titular, y la escena
+   se muestra como una ventanita al costado del texto. */
 @media (max-width: 767px) {
   .cdski-huaso {
     position: static;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
-    gap: .5rem;
+    gap: .55rem;
     width: max-content;
     max-width: 100%;
     margin: 0 0 .85rem auto;
-    padding: .4rem .7rem .4rem .5rem;
+    padding: .35rem .75rem .35rem .35rem;
     border-radius: 999px;
   }
   .cdski-huaso-escena {
-    width: 3.4rem;
+    width: 4.4rem;
     flex: 0 0 auto;
+    border-radius: 999px;
   }
-  /* En el chip la nieve no cruza toda la tarjeta: es un montículo bajo
-     las dos figuras, redondeado por abajo para que no corte en seco. */
-  .cdski-huaso-escena::after {
-    left: -16%;
-    right: -16%;
-    bottom: -6%;
-    height: 24%;
-    border-radius: 50% 50% 46% 46% / 62% 62% 38% 38%;
-  }
-  .cdski-huaso-bandera { width: 38%; margin-bottom: 4%; }
-  .cdski-huaso-fig { width: 58%; }
   .cdski-huaso-texto {
-    font-size: .68rem;
+    font-size: .69rem;
     line-height: 1.2;
     text-align: right;
   }
 }
 @media (max-width: 360px) {
-  .cdski-huaso { gap: .4rem; padding-right: .55rem; }
-  .cdski-huaso-escena { width: 2.9rem; }
-  .cdski-huaso-texto { font-size: .62rem; }
+  .cdski-huaso { gap: .45rem; padding-right: .6rem; }
+  .cdski-huaso-escena { width: 3.8rem; }
+  .cdski-huaso-texto { font-size: .63rem; }
 }
 
+/* Quien pide menos movimiento ve la escena quieta, pero completa. */
 @media (prefers-reduced-motion: reduce) {
   .cdski-huaso,
-  .cdski-huaso-tela,
-  .cdski-huaso-cuerpo,
-  .cdski-huaso-skis,
+  .cdski-huaso-sol,
+  .cdski-huaso-cerros,
+  .cdski-huaso-ladera,
+  .cdski-huaso-copos i,
+  .cdski-huaso-rayas i,
+  .cdski-huaso-fig,
   .cdski-huaso-nube,
   .cdski-huaso-pierna,
   .cdski-huaso-mano,
-  .cdski-huaso-panuelo { animation: none; }
-  .cdski-huaso-nube { opacity: .8; }
+  .cdski-huaso-panuelo,
+  .cdski-huaso-tela,
+  .cdski-huaso-escena::after { animation: none; }
+  .cdski-huaso-copos i,
+  .cdski-huaso-nube { opacity: .75; }
+  .cdski-huaso-rayas i { opacity: 0; }
+  .cdski-huaso-escena::after { opacity: 0; }
   .cdski-huaso { transition: none; }
   .cdski-huaso:hover { transform: none; }
 }
