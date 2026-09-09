@@ -2475,11 +2475,86 @@ var HUASO_SVG =
           + '<span class="cdski-huaso-texto">' + texto + '</span>';
       }
       ubicar(a, hero);
+      animarEscena(a.querySelector('.cdski-huaso-escena'));
       return true;
     }
 
     window.addEventListener('resize', function () { insertar(); });
     keepAlive(insertar);
+  }
+
+  // El movimiento de la escena NO lo lleva CSS sino requestAnimationFrame.
+  // Con @keyframes dependiamos de que el navegador los ejecute, y hay
+  // entornos donde no lo hace: la tarjeta se veia entera pero congelada.
+  // Escribiendo el transform en cada cuadro, se mueve igual, y ademas
+  // sobrevive a que React reubique el nodo, que reiniciaba los keyframes.
+  function animarEscena(escena) {
+    if (escena.cdskiAnimada) return;
+    escena.cdskiAnimada = true;
+
+    // Quien pidio menos movimiento ve la escena completa, pero quieta.
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      Array.prototype.forEach.call(escena.querySelectorAll('.cdski-huaso-copos i'), function (c) {
+        c.style.opacity = '.7';
+      });
+      return;
+    }
+
+    var cerros = escena.querySelector('.cdski-huaso-cerros');
+    var ladera = escena.querySelector('.cdski-huaso-ladera');
+    var fig = escena.querySelector('.cdski-huaso-fig');
+    var rayas = Array.prototype.slice.call(escena.querySelectorAll('.cdski-huaso-rayas i'));
+    var copos = Array.prototype.slice.call(escena.querySelectorAll('.cdski-huaso-copos i'));
+
+    // Cada copo y cada raya arrancan en un punto distinto del ciclo.
+    var faseCopo = copos.map(function (c, i) { return { d: 2.6 + (i % 4) * 0.9, p: (i * 0.37) % 1 }; });
+    var faseRaya = rayas.map(function (r, i) { return { d: 1.15, p: (i * 0.25) % 1 }; });
+
+    var t0 = 0;
+    var ancho = 0, alto = 0;
+    function medir() {
+      ancho = escena.clientWidth || 160;
+      alto = escena.clientHeight || 100;
+    }
+    medir();
+    window.addEventListener('resize', medir);
+
+    function cuadro(t) {
+      if (!document.contains(escena)) { escena.cdskiAnimada = false; return; }
+      if (!t0) t0 = t;
+      var s = (t - t0) / 1000;
+
+      // Fondo corriendo: media pasada por ciclo, que es donde el dibujo repite.
+      if (cerros) cerros.style.transform = 'translate3d(' + (-((s / 26) % 1) * 50).toFixed(3) + '%,0,0)';
+      if (ladera) ladera.style.transform = 'translate3d(' + (-((s / 2.6) % 1) * 50).toFixed(3) + '%,0,0)';
+
+      if (fig) {
+        var f = (s / 3.4) % 1;
+        var lean = 13 * Math.sin(2 * Math.PI * f);          // curvas enlazadas
+        var bob = -3 * Math.abs(Math.sin(4 * Math.PI * f));  // los lomos de la ladera
+        var salto = 0;
+        if (f > 0.62 && f < 0.9) salto = -46 * Math.sin(Math.PI * (f - 0.62) / 0.28);
+        fig.style.transform = 'translate3d(' + (lean * 0.45).toFixed(2) + '%,'
+          + (bob + salto).toFixed(2) + '%,0) rotate(' + (lean + salto * 0.12).toFixed(2) + 'deg)';
+      }
+
+      for (var i = 0; i < rayas.length; i++) {
+        var u = ((s / faseRaya[i].d) + faseRaya[i].p) % 1;
+        rayas[i].style.transform = 'translate3d(' + (30 - u * (ancho + 70)).toFixed(1) + 'px,0,0) scaleX('
+          + (0.5 + u).toFixed(2) + ')';
+        rayas[i].style.opacity = (u < 0.14 ? u / 0.14 : u > 0.8 ? (1 - u) / 0.2 : 0.85).toFixed(2);
+      }
+
+      for (var j = 0; j < copos.length; j++) {
+        var v = ((s / faseCopo[j].d) + faseCopo[j].p) % 1;
+        copos[j].style.transform = 'translate3d(' + (-v * 26).toFixed(1) + 'px,'
+          + (v * alto * 1.3).toFixed(1) + 'px,0)';
+        copos[j].style.opacity = (v < 0.12 ? v / 0.12 : v > 0.85 ? (1 - v) / 0.15 : 0.9).toFixed(2);
+      }
+
+      requestAnimationFrame(cuadro);
+    }
+    requestAnimationFrame(cuadro);
   }
 
   /* =========================================================

@@ -2590,10 +2590,8 @@ video[class*="h-full"] {
   width: clamp(10.5rem, 15vw, 13.5rem);
   padding: .55rem .55rem .7rem;
   border-radius: 22px;
-  background: linear-gradient(160deg, rgba(9, 20, 38, .82), rgba(12, 32, 60, .78));
+  background: linear-gradient(160deg, #0d1c34 0%, #10294c 100%);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   box-shadow: 0 22px 48px -24px rgba(0, 0, 0, .95);
   text-decoration: none;
   animation: cdskiHuasoEntra .8s cubic-bezier(.16, 1, .3, 1) .5s both;
@@ -2625,7 +2623,6 @@ video[class*="h-full"] {
   bottom: 0;
   display: flex;
   width: 200%;
-  will-change: transform;
 }
 .cdski-huaso-capa svg {
   width: 50%;
@@ -2655,16 +2652,10 @@ video[class*="h-full"] {
   height: 46%;
   bottom: 26%;
   opacity: .55;
-  animation: cdskiScroll 26s linear infinite;
 }
 /* Ladera del frente: rápida, es la que se lee como velocidad */
 .cdski-huaso-ladera {
   height: 34%;
-  animation: cdskiScroll 2.6s linear infinite;
-}
-@keyframes cdskiScroll {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(-50%, 0, 0); }
 }
 
 /* Nieve cayendo */
@@ -2676,12 +2667,6 @@ video[class*="h-full"] {
   border-radius: 50%;
   background: #ffffff;
   opacity: 0;
-  animation: cdskiCae linear infinite;
-}
-@keyframes cdskiCae {
-  0%   { opacity: 0;   transform: translate3d(0, 0, 0); }
-  12%  { opacity: .9; }
-  100% { opacity: 0;   transform: translate3d(-26px, 150px, 0); }
 }
 
 /* Líneas de velocidad: lo que más vende el movimiento */
@@ -2692,13 +2677,6 @@ video[class*="h-full"] {
   border-radius: 2px;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .95));
   opacity: 0;
-  animation: cdskiRaya 1.15s linear infinite;
-}
-@keyframes cdskiRaya {
-  0%   { opacity: 0;   transform: translate3d(30px, 0, 0) scaleX(.5); }
-  14%  { opacity: .9; }
-  72%  { opacity: .5; }
-  100% { opacity: 0;   transform: translate3d(-230px, 0, 0) scaleX(1.6); }
 }
 
 /* ---- El huaso ---- */
@@ -2716,20 +2694,6 @@ video[class*="h-full"] {
   height: auto;
   overflow: visible;
   transform-origin: 50% 92%;
-  animation: cdskiRide 3.4s cubic-bezier(.45, 0, .55, 1) infinite;
-}
-/* Curvas enlazadas y, una vez por vuelta, un salto con su aterrizaje. */
-@keyframes cdskiRide {
-  0%   { transform: translate3d(-6%, 0, 0)   rotate(-13deg); }
-  14%  { transform: translate3d(-3%, -6%, 0) rotate(-5deg); }
-  28%  { transform: translate3d(3%, 0, 0)    rotate(6deg); }
-  40%  { transform: translate3d(6%, -4%, 0)  rotate(13deg); }
-  52%  { transform: translate3d(2%, 0, 0)    rotate(4deg); }
-  62%  { transform: translate3d(-1%, -34%, 0) rotate(-8deg); }
-  70%  { transform: translate3d(-3%, -42%, 0) rotate(-14deg); }
-  80%  { transform: translate3d(-5%, -12%, 0) rotate(-6deg); }
-  88%  { transform: translate3d(-6%, 3%, 0)  rotate(-10deg); }
-  100% { transform: translate3d(-6%, 0, 0)   rotate(-13deg); }
 }
 
 /* Polvo de nieve saliendo de las colas */
@@ -2864,11 +2828,6 @@ video[class*="h-full"] {
 @media (prefers-reduced-motion: reduce) {
   .cdski-huaso,
   .cdski-huaso-sol,
-  .cdski-huaso-cerros,
-  .cdski-huaso-ladera,
-  .cdski-huaso-copos i,
-  .cdski-huaso-rayas i,
-  .cdski-huaso-fig,
   .cdski-huaso-nube,
   .cdski-huaso-pierna,
   .cdski-huaso-mano,
