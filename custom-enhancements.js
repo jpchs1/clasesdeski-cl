@@ -2290,9 +2290,13 @@
   }
 
   /* =========================================================
-     Huaso bailando cueca — adorno del hero durante Septiembre
-     Va arriba a la derecha de la primera vista, con la bandera y el
-     pañuelo animados. Vive dentro de la misma ventana que la campaña.
+     Huaso esquiando — escena animada del hero durante Septiembre
+
+     La primera version era un muñeco meciendose sobre un fondo quieto y
+     no se notaba que se movia. Acá se mueve la escena: el cerro, la
+     ladera y las lineas de velocidad corren de derecha a izquierda a
+     distintas velocidades, y el huaso se queda en el centro haciendo
+     curvas y un salto por vuelta.
      ========================================================= */
 
   var HUASO_TEXTO = {
@@ -2301,7 +2305,7 @@
     pt: 'Aproveite este 18 de Setembro na neve!'
   };
 
-  var BANDERA_SVG =
+var BANDERA_SVG =
     '<svg class="cdski-huaso-bandera" viewBox="0 0 58 56" role="img" aria-hidden="true">'
     +  '<rect x="6" y="4" width="3" height="50" rx="1.5" fill="#8b5a2b"/>'
     +  '<circle cx="7.5" cy="3.4" r="2.6" fill="#e0b972"/>'
@@ -2314,12 +2318,11 @@
     +  '</g>'
     + '</svg>';
 
-  var HUASO_SVG =
-    '<svg class="cdski-huaso-fig" viewBox="0 0 120 130" role="img" aria-hidden="true">'
+var HUASO_SVG =
+    '<svg class="cdski-huaso-fig" viewBox="0 0 120 114" role="img" aria-hidden="true">'
     +  '<defs><clipPath id="cdskiMantaClip">'
     +    '<path d="M44 50 L80 50 L86 88 L38 88 Z"/>'
     +  '</clipPath></defs>'
-    +  '<ellipse cx="56" cy="108" rx="33" ry="2.8" fill="rgba(100,116,139,.32)"/>'
     +  '<g class="cdski-huaso-polvo">'
     +    '<circle class="cdski-huaso-nube" cx="89" cy="100" r="5" fill="#ffffff"/>'
     +    '<circle class="cdski-huaso-nube" cx="96" cy="96" r="3.4" fill="#e0f2fe"/>'
@@ -2386,6 +2389,49 @@
     +  '</g>'
     + '</svg>';
 
+  // Las capas del fondo se repiten dos veces y el CSS las corre media
+  // pasada: por eso el dibujo empieza y termina a la misma altura, para
+  // que el corte no se note.
+  var CERROS_SVG =
+    '<svg viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true">'
+    +  '<path fill="#7ea8d8" d="M0 60 L0 34 L18 13 L32 30 L48 7 L66 30 L82 17'
+    +    ' L100 38 L118 15 L134 32 L152 11 L168 30 L186 19 L200 34 L200 60 Z"/>'
+    +  '<path fill="#e8f1fb" d="M48 7 L54 15 L50 17 L44 16 Z M152 11 L158 19 L153 21 L146 19 Z'
+    +    ' M18 13 L23 20 L18 22 L13 20 Z M118 15 L123 22 L118 24 L113 22 Z"/>'
+    + '</svg>';
+
+  var LADERA_SVG =
+    '<svg viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">'
+    +  '<path fill="#ffffff" d="M0 40 L0 16 Q25 7 50 16 Q75 25 100 16 Q125 7 150 16'
+    +    ' Q175 25 200 16 L200 40 Z"/>'
+    +  '<path fill="#dbe6f2" d="M0 40 L0 22 Q25 13 50 22 Q75 31 100 22 Q125 13 150 22'
+    +    ' Q175 31 200 22 L200 40 Z" opacity=".55"/>'
+    + '</svg>';
+
+  function coposHtml() {
+    var html = '';
+    for (var i = 0; i < 9; i++) {
+      html += '<i style="left:' + ((i * 11.7) % 96).toFixed(1) + '%;'
+        + 'animation-duration:' + (2.6 + (i % 4) * 0.9).toFixed(1) + 's;'
+        + 'animation-delay:-' + (i * 0.55).toFixed(2) + 's;'
+        + 'transform:scale(' + (0.7 + (i % 3) * 0.35).toFixed(2) + ')"></i>';
+    }
+    return html;
+  }
+
+  function rayasHtml() {
+    var anchos = [26, 34, 20, 30];
+    var alturas = [34, 52, 64, 44];
+    var html = '';
+    for (var i = 0; i < 4; i++) {
+      html += '<i style="top:' + alturas[i] + '%;'
+        + 'right:-' + anchos[i] + 'px;'
+        + 'width:' + anchos[i] + 'px;'
+        + 'animation-delay:-' + (i * 0.29).toFixed(2) + 's"></i>';
+    }
+    return html;
+  }
+
   function setupHuaso() {
     if (!septWindow(new Date())) return;
     var texto = HUASO_TEXTO[currentLang()];
@@ -2413,7 +2459,19 @@
         a.href = '#septiembre';
         a.setAttribute('aria-label', texto);
         a.innerHTML =
-          '<span class="cdski-huaso-escena">' + BANDERA_SVG + HUASO_SVG + '</span>'
+          '<span class="cdski-huaso-escena">'
+          +   '<span class="cdski-huaso-sol" aria-hidden="true"></span>'
+          +   '<span class="cdski-huaso-capa cdski-huaso-cerros" aria-hidden="true">'
+          +     CERROS_SVG + CERROS_SVG
+          +   '</span>'
+          +   '<span class="cdski-huaso-copos" aria-hidden="true">' + coposHtml() + '</span>'
+          +   '<span class="cdski-huaso-rayas" aria-hidden="true">' + rayasHtml() + '</span>'
+          +   '<span class="cdski-huaso-capa cdski-huaso-ladera" aria-hidden="true">'
+          +     LADERA_SVG + LADERA_SVG
+          +   '</span>'
+          +   '<span class="cdski-huaso-figura">' + HUASO_SVG + '</span>'
+          +   BANDERA_SVG
+          + '</span>'
           + '<span class="cdski-huaso-texto">' + texto + '</span>';
       }
       ubicar(a, hero);
