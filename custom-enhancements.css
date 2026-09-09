@@ -2614,8 +2614,13 @@ video[class*="h-full"] {
   aspect-ratio: 8 / 5;
   overflow: hidden;
   border-radius: 15px;
-  background: linear-gradient(180deg, #93c5fd 0%, #cfe4fb 46%, #eef5fd 76%, #ffffff 100%);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .5);
+  background:
+    radial-gradient(70% 48% at 22% 24%, rgba(255, 247, 214, .55) 0%, rgba(255, 247, 214, 0) 62%),
+    linear-gradient(180deg, #7fb6f5 0%, #a9d0f8 34%, #dbeafe 62%, #f4f9ff 82%, #ffffff 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .55),
+    inset 0 -22px 26px -18px rgba(30, 58, 95, .35),
+    inset 0 16px 20px -16px rgba(255, 255, 255, .8);
 }
 .cdski-huaso-capa {
   position: absolute;
@@ -2639,7 +2644,7 @@ video[class*="h-full"] {
   width: 17%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle, #fff7d6 0%, #fde68a 55%, rgba(253, 230, 138, 0) 72%);
+  background: radial-gradient(circle, #fffdf2 0%, #fff3bf 38%, #fde68a 56%, rgba(253, 230, 138, 0) 76%);
   animation: cdskiSol 3.4s ease-in-out infinite;
 }
 @keyframes cdskiSol {
@@ -2653,9 +2658,16 @@ video[class*="h-full"] {
   bottom: 26%;
   opacity: .55;
 }
+/* Pinos: el paralaje intermedio, entre la cordillera y la ladera */
+.cdski-huaso-pinos {
+  height: 30%;
+  bottom: 15.5%;
+  opacity: .95;
+}
 /* Ladera del frente: rápida, es la que se lee como velocidad */
 .cdski-huaso-ladera {
   height: 34%;
+  filter: drop-shadow(0 -2px 3px rgba(30, 58, 95, .12));
 }
 
 /* Nieve cayendo */
@@ -2709,11 +2721,13 @@ video[class*="h-full"] {
 }
 .cdski-huaso-nube:nth-child(2) { animation-delay: -.35s; }
 .cdski-huaso-nube:nth-child(3) { animation-delay: -.7s; }
+.cdski-huaso-nube:nth-child(4) { animation-delay: -.18s; }
+.cdski-huaso-nube:nth-child(5) { animation-delay: -.52s; }
 @keyframes cdskiPolvo {
   0%   { opacity: 0; transform: translate(0, 0) scale(.3); }
   15%  { opacity: 1; }
   55%  { opacity: .8; }
-  100% { opacity: 0; transform: translate(20px, -16px) scale(2); }
+  100% { opacity: 0; transform: translate(-22px, -17px) scale(2.1); }
 }
 
 .cdski-huaso-pierna {
@@ -2791,6 +2805,7 @@ video[class*="h-full"] {
    la anima por keyframes, y el JS se la quita en su primer cuadro. Para
    que quede quieta tendrian que fallar los dos mecanismos a la vez. */
 .cdski-huaso-css .cdski-huaso-cerros { animation: cdskiScroll 26s linear infinite; }
+.cdski-huaso-css .cdski-huaso-pinos  { animation: cdskiScroll 4.2s linear infinite; }
 .cdski-huaso-css .cdski-huaso-ladera { animation: cdskiScroll 2.2s linear infinite; }
 @keyframes cdskiScroll {
   from { transform: translate3d(0, 0, 0); }
@@ -2881,6 +2896,7 @@ video[class*="h-full"] {
   .cdski-huaso-nube { opacity: .55; }
   .cdski-huaso-escena::after { opacity: 0; }
   .cdski-huaso-css .cdski-huaso-cerros { animation-duration: 70s; }
+  .cdski-huaso-css .cdski-huaso-pinos  { animation-duration: 20s; }
   .cdski-huaso-css .cdski-huaso-ladera { animation-duration: 11s; }
   .cdski-huaso-css .cdski-huaso-actor  { animation-duration: 9s; }
   .cdski-huaso-css .cdski-huaso-rayas i { animation: none; opacity: 0; }

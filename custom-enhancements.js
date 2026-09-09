@@ -2324,19 +2324,21 @@ var HUASO_SVG =
     +    '<path d="M44 50 L80 50 L86 88 L38 88 Z"/>'
     +  '</clipPath></defs>'
     +  '<g class="cdski-huaso-polvo">'
-    +    '<circle class="cdski-huaso-nube" cx="89" cy="100" r="5" fill="#ffffff"/>'
-    +    '<circle class="cdski-huaso-nube" cx="96" cy="96" r="3.4" fill="#e0f2fe"/>'
-    +    '<circle class="cdski-huaso-nube" cx="84" cy="102" r="4.2" fill="#ffffff"/>'
+    +    '<circle class="cdski-huaso-nube" cx="34" cy="100" r="5" fill="#ffffff"/>'
+    +    '<circle class="cdski-huaso-nube" cx="26" cy="95" r="3.4" fill="#e0f2fe"/>'
+    +    '<circle class="cdski-huaso-nube" cx="39" cy="103" r="4.4" fill="#ffffff"/>'
+    +    '<circle class="cdski-huaso-nube" cx="30" cy="98" r="2.6" fill="#ffffff"/>'
+    +    '<circle class="cdski-huaso-nube" cx="36" cy="93" r="2.2" fill="#e0f2fe"/>'
     +  '</g>'
     +  '<g class="cdski-huaso-cuerpo">'
     +    '<g class="cdski-huaso-skis">'
-    +      '<g transform="translate(32,104)">'
+    +      '<g transform="translate(86,104) scale(-1,1)">'
     +        '<path d="M0 4 Q-9 2.2 -10.5 -3.2 Q-3.4 -2 1.6 0 Z" fill="#0284c7"/>'
     +        '<rect x="0" y="0" width="54" height="4" rx="2" fill="#0284c7"/>'
     +        '<rect x="8" y="1.1" width="34" height="1.2" rx=".6" fill="rgba(255,255,255,.45)"/>'
     +        '<rect x="33.5" y="-1.6" width="8" height="2.4" rx="1" fill="#1f2937"/>'
     +      '</g>'
-    +      '<g transform="translate(36,106)">'
+    +      '<g transform="translate(90,106) scale(-1,1)">'
     +        '<path d="M0 4 Q-9 2.2 -10.5 -3.2 Q-3.4 -2 1.6 0 Z" fill="#38bdf8"/>'
     +        '<rect x="0" y="0" width="54" height="4" rx="2" fill="#38bdf8"/>'
     +        '<rect x="8" y="1.1" width="34" height="1.2" rx=".6" fill="rgba(255,255,255,.6)"/>'
@@ -2353,14 +2355,13 @@ var HUASO_SVG =
     +      '<path d="M64 100 h13 v6 h-15 a2 2 0 0 1 -2 -3 z" fill="#5b3a1e"/>'
     +      '<circle cx="62" cy="104" r="2.2" fill="none" stroke="#e0b972" stroke-width="1.1"/>'
     +    '</g>'
-    +    '<path d="M78 55 Q89 61 85 71" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linecap="round"/>'
-    +    '<path d="M46 56 Q35 47 30 34" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linecap="round"/>'
+    +    '<path d="M78 55 Q88 58 92 64" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linecap="round"/>'
+    +    '<path d="M46 55 Q37 57 30 62" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linecap="round"/>'
     +    '<path d="M44 50 L80 50 L86 88 L38 88 Z" fill="#b91c1c"/>'
     +    '<g clip-path="url(#cdskiMantaClip)">'
     +      '<rect x="30" y="58" width="70" height="5" fill="#f59e0b"/>'
     +      '<rect x="30" y="67" width="70" height="3" fill="#fde68a"/>'
     +      '<rect x="30" y="74" width="70" height="5" fill="#7f1d1d"/>'
-    +      '<rect x="60" y="50" width="4" height="40" fill="rgba(0,0,0,.14)"/>'
     +    '</g>'
     +    '<path d="M52 50 L62 60 L72 50 Z" fill="#f8fafc"/>'
     +    '<circle cx="62" cy="38" r="10" fill="#f2c9a2"/>'
@@ -2373,17 +2374,29 @@ var HUASO_SVG =
     +    '<ellipse cx="62" cy="27" rx="27" ry="6.4" fill="#e0b972"/>'
     +    '<path d="M49 27 q0 -14 13 -14 q13 0 13 14 z" fill="#eccb8d"/>'
     +    '<rect x="49" y="22" width="26" height="4" fill="#7f1d1d"/>'
-    +    '<circle cx="86" cy="72" r="3.6" fill="#f2c9a2"/>'
+    +    '<g class="cdski-huaso-baston">'
+    +      '<line x1="97" y1="56" x2="77" y2="102" stroke="#475569" stroke-width="2.4" stroke-linecap="round"/>'
+    +      '<line x1="95.6" y1="59" x2="79" y2="97" stroke="#94a3b8" stroke-width=".9" stroke-linecap="round"/>'
+    +      '<ellipse cx="78.6" cy="98" rx="3.8" ry="1.7" fill="none" stroke="#475569" stroke-width="1.5"'
+    +        ' transform="rotate(-24 78.6 98)"/>'
+    +      '<line x1="96" y1="58" x2="92" y2="67" stroke="#1f2937" stroke-width="3.6" stroke-linecap="round"/>'
+    +    '</g>'
+    +    '<circle cx="93" cy="64" r="3.9" fill="#f2c9a2"/>'
     +    '<g class="cdski-huaso-mano">'
-    +      '<circle cx="29" cy="32" r="4" fill="#f2c9a2"/>'
+    +      '<g class="cdski-huaso-baston">'
+    +        '<line x1="33" y1="54" x2="13" y2="100" stroke="#475569" stroke-width="2.4" stroke-linecap="round"/>'
+    +        '<line x1="31.6" y1="57" x2="15" y2="95" stroke="#94a3b8" stroke-width=".9" stroke-linecap="round"/>'
+    +        '<ellipse cx="14.6" cy="96" rx="3.8" ry="1.7" fill="none" stroke="#475569" stroke-width="1.5"'
+    +          ' transform="rotate(-24 14.6 96)"/>'
+    +        '<line x1="32" y1="56" x2="28" y2="65" stroke="#1f2937" stroke-width="3.6" stroke-linecap="round"/>'
+    +      '</g>'
+    +      '<circle cx="29.5" cy="62" r="3.9" fill="#f2c9a2"/>'
     +      '<g class="cdski-huaso-panuelo">'
-    +        '<path d="M0 0 Q-11 -1 -20 -7 Q-19 -17 -14 -26 Q-5 -23 4 -17'
-    +          ' Q2 -8 0 0 Z" transform="translate(29,30)"'
-    +          ' fill="#ffffff" stroke="#d8e0e9" stroke-width="1"/>'
-    +        '<path d="M-14 -26 Q-9 -14 -20 -7" transform="translate(29,30)"'
-    +          ' fill="rgba(15,23,42,.07)" stroke="none"/>'
-    +        '<path d="M-2 -3 Q-9 -11 -13 -24"'
-    +          ' transform="translate(29,30)" fill="none" stroke="#d8e0e9" stroke-width=".9"/>'
+    +        '<g transform="translate(29,50) scale(0.6)">'
+    +          '<path d="M0 0 Q-11 -1 -20 -7 Q-19 -17 -14 -26 Q-5 -23 4 -17 Q2 -8 0 0 Z"'
+    +            ' fill="#ffffff" stroke="#d8e0e9" stroke-width="1.8"/>'
+    +          '<path d="M-14 -26 Q-9 -14 -20 -7" fill="rgba(15,23,42,.08)" stroke="none"/>'
+    +        '</g>'
     +      '</g>'
     +    '</g>'
     +  '</g>'
@@ -2400,12 +2413,32 @@ var HUASO_SVG =
     +    ' M18 13 L23 20 L18 22 L13 20 Z M118 15 L123 22 L118 24 L113 22 Z"/>'
     + '</svg>';
 
+  function pinoSvg(x, k) {
+    return '<g transform="translate(' + x + ',44) scale(' + k + ')">'
+      +  '<rect x="-1.3" y="-10" width="2.6" height="10" fill="#6b4423"/>'
+      +  '<path d="M0 -34 L8.5 -9 L-8.5 -9 Z" fill="#1e5e48"/>'
+      +  '<path d="M0 -25 L10.5 -1 L-10.5 -1 Z" fill="#26735c"/>'
+      +  '<path d="M0 -34 L3.8 -22 L-3.8 -22 Z" fill="#eef5fd"/>'
+      +  '<path d="M0 -25 L4.6 -11 L-4.6 -11 Z" fill="rgba(238,245,253,.75)"/>'
+      + '</g>';
+  }
+
+  var PINOS_SVG = (function () {
+    var puestos = [[11, .56], [31, .82], [49, .44], [72, .7], [93, .52],
+                   [113, .86], [135, .48], [157, .74], [179, .58]];
+    var g = '';
+    for (var i = 0; i < puestos.length; i++) g += pinoSvg(puestos[i][0], puestos[i][1]);
+    return '<svg viewBox="0 0 200 44" preserveAspectRatio="none" aria-hidden="true">' + g + '</svg>';
+  })();
+
   var LADERA_SVG =
     '<svg viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">'
     +  '<path fill="#ffffff" d="M0 40 L0 16 Q25 7 50 16 Q75 25 100 16 Q125 7 150 16'
     +    ' Q175 25 200 16 L200 40 Z"/>'
     +  '<path fill="#dbe6f2" d="M0 40 L0 22 Q25 13 50 22 Q75 31 100 22 Q125 13 150 22'
     +    ' Q175 31 200 22 L200 40 Z" opacity=".55"/>'
+    +  '<path fill="none" stroke="#c3d3e6" stroke-width="1.1" opacity=".85"'
+    +    ' d="M0 19 Q25 10 50 19 Q75 28 100 19 Q125 10 150 19 Q175 28 200 19"/>'
     + '</svg>';
 
   function coposHtml() {
@@ -2464,6 +2497,9 @@ var HUASO_SVG =
           +   '<span class="cdski-huaso-capa cdski-huaso-cerros" aria-hidden="true">'
           +     CERROS_SVG + CERROS_SVG
           +   '</span>'
+          +   '<span class="cdski-huaso-capa cdski-huaso-pinos" aria-hidden="true">'
+          +     PINOS_SVG + PINOS_SVG
+          +   '</span>'
           +   '<span class="cdski-huaso-copos" aria-hidden="true">' + coposHtml() + '</span>'
           +   '<span class="cdski-huaso-rayas" aria-hidden="true">' + rayasHtml() + '</span>'
           +   '<span class="cdski-huaso-capa cdski-huaso-ladera" aria-hidden="true">'
@@ -2509,10 +2545,11 @@ var HUASO_SVG =
     var calma = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
     var V = calma
-      ? { cerros: 70, ladera: 11, ciclo: 9, lean: 5, salto: 0, rayas: false, copos: 7 }
-      : { cerros: 26, ladera: 2.2, ciclo: 3.4, lean: 13, salto: -46, rayas: true, copos: 2.6 };
+      ? { cerros: 70, pinos: 20, ladera: 11, ciclo: 9, lean: 5, salto: 0, rayas: false, copos: 7 }
+      : { cerros: 26, pinos: 4.2, ladera: 2.2, ciclo: 3.4, lean: 13, salto: -46, rayas: true, copos: 2.6 };
 
     var cerros = escena.querySelector('.cdski-huaso-cerros');
+    var pinos = escena.querySelector('.cdski-huaso-pinos');
     var ladera = escena.querySelector('.cdski-huaso-ladera');
     var actor = escena.querySelector('.cdski-huaso-actor');
     var rayas = Array.prototype.slice.call(escena.querySelectorAll('.cdski-huaso-rayas i'));
@@ -2555,6 +2592,7 @@ var HUASO_SVG =
       // sobre estas capas depende de como cada navegador resuelva el ancho
       // del contenedor, y ahi es donde se nos quedaba quieto.
       if (cerros) cerros.style.transform = 'translate3d(' + (-((s / V.cerros) % 1) * anchoCapa).toFixed(2) + 'px,0,0)';
+      if (pinos) pinos.style.transform = 'translate3d(' + (-((s / V.pinos) % 1) * anchoCapa).toFixed(2) + 'px,0,0)';
       if (ladera) ladera.style.transform = 'translate3d(' + (-((s / V.ladera) % 1) * anchoCapa).toFixed(2) + 'px,0,0)';
 
       if (actor) {
