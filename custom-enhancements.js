@@ -2550,6 +2550,17 @@ var HUASO_SVG =
 
     var cerros = escena.querySelector('.cdski-huaso-cerros');
     var pinos = escena.querySelector('.cdski-huaso-pinos');
+    var tela = escena.querySelector('.cdski-huaso-tela');
+    var mano = escena.querySelector('.cdski-huaso-mano');
+    var panuelo = escena.querySelector('.cdski-huaso-panuelo');
+    var piernas = Array.prototype.slice.call(escena.querySelectorAll('.cdski-huaso-pierna'));
+    var nubes = Array.prototype.slice.call(escena.querySelectorAll('.cdski-huaso-nube'));
+    var radios = nubes.map(function (n) { return parseFloat(n.getAttribute('r')) || 4; });
+    // Giro alrededor de un punto, escrito como atributo SVG: la propiedad
+    // CSS transform sobre elementos SVG no es fiable en todos los motores.
+    function giro(el, ang, px, py, extra) {
+      el.setAttribute('transform', 'rotate(' + ang.toFixed(2) + ' ' + px + ' ' + py + ')' + (extra || ''));
+    }
     var ladera = escena.querySelector('.cdski-huaso-ladera');
     var actor = escena.querySelector('.cdski-huaso-actor');
     var rayas = Array.prototype.slice.call(escena.querySelectorAll('.cdski-huaso-rayas i'));
@@ -2605,6 +2616,38 @@ var HUASO_SVG =
         }
         actor.style.transform = 'translate3d(' + (lean * 0.006 * anchoActor).toFixed(2) + 'px,'
           + (bob + salto).toFixed(2) + 'px,0) rotate(' + (lean + salto * 0.12).toFixed(2) + 'deg)';
+      }
+
+      // Bandera: ondeo tomado del asta, con un poco de giro y de ancho.
+      if (tela) {
+        var w = 2 * Math.PI * (s / (calma ? 5.2 : 1.5));
+        var sesgo = (calma ? 1.6 : 3.4) * Math.sin(w);
+        var anchoTela = 1 - (calma ? 0.04 : 0.11) * (1 - Math.cos(w));
+        tela.setAttribute('transform',
+          'translate(9,24) rotate(' + ((calma ? 0.8 : 1.8) * Math.sin(w + 1)).toFixed(2) + ')'
+          + ' scale(' + anchoTela.toFixed(3) + ',1) skewY(' + sesgo.toFixed(2) + ') translate(-9,-24)');
+      }
+
+      // Brazo con el baston, y el panuelo colgando de el.
+      if (mano) giro(mano, (calma ? 1.4 : 3) * Math.sin(2 * Math.PI * (s / (calma ? 4.5 : 1.5))), 13, 100);
+      if (panuelo) {
+        var wp = 2 * Math.PI * (s / (calma ? 3.2 : 0.9));
+        giro(panuelo, (calma ? 9 : 24) * Math.sin(wp), 29, 50,
+          ' translate(29,50) scale(' + (1 + 0.07 * Math.cos(wp)).toFixed(3) + ',1) translate(-29,-50)');
+      }
+      for (var q = 0; q < piernas.length; q++) {
+        giro(piernas[q], (calma ? 1 : 2.2) * Math.sin(2 * Math.PI * (s / 0.9) + q * Math.PI),
+          q === 0 ? 52.5 : 69.5, 86);
+      }
+
+      // Penacho: se dibuja moviendo el circulo y cambiando su radio.
+      for (var k = 0; k < nubes.length; k++) {
+        var un = ((s / (calma ? 2.2 : 1.05)) + k * 0.19) % 1;
+        nubes[k].setAttribute('transform',
+          'translate(' + (-un * 22).toFixed(1) + ',' + (-un * 17).toFixed(1) + ')');
+        nubes[k].setAttribute('r', (radios[k] * (0.3 + un * 1.8)).toFixed(2));
+        nubes[k].setAttribute('opacity',
+          (un < 0.15 ? un / 0.15 : (1 - un) / 0.85 * 0.9).toFixed(2));
       }
 
       for (var i = 0; i < rayas.length; i++) {

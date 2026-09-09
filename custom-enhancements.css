@@ -2713,16 +2713,16 @@ video[class*="h-full"] {
 }
 
 /* Polvo de nieve saliendo de las colas */
-.cdski-huaso-nube {
+.cdski-huaso-nube { opacity: 0; }
+.cdski-huaso-css .cdski-huaso-nube {
   transform-box: fill-box;
   transform-origin: 50% 50%;
-  opacity: 0;
   animation: cdskiPolvo 1.05s ease-out infinite;
 }
-.cdski-huaso-nube:nth-child(2) { animation-delay: -.35s; }
-.cdski-huaso-nube:nth-child(3) { animation-delay: -.7s; }
-.cdski-huaso-nube:nth-child(4) { animation-delay: -.18s; }
-.cdski-huaso-nube:nth-child(5) { animation-delay: -.52s; }
+.cdski-huaso-css .cdski-huaso-nube:nth-child(2) { animation-delay: -.35s; }
+.cdski-huaso-css .cdski-huaso-nube:nth-child(3) { animation-delay: -.7s; }
+.cdski-huaso-css .cdski-huaso-nube:nth-child(4) { animation-delay: -.18s; }
+.cdski-huaso-css .cdski-huaso-nube:nth-child(5) { animation-delay: -.52s; }
 @keyframes cdskiPolvo {
   0%   { opacity: 0; transform: translate(0, 0) scale(.3); }
   15%  { opacity: 1; }
@@ -2730,17 +2730,17 @@ video[class*="h-full"] {
   100% { opacity: 0; transform: translate(-22px, -17px) scale(2.1); }
 }
 
-.cdski-huaso-pierna {
+.cdski-huaso-css .cdski-huaso-pierna {
   transform-box: fill-box;
   transform-origin: 50% 0%;
   animation: cdskiPaso .85s ease-in-out infinite alternate;
 }
-.cdski-huaso-pierna-d { animation-delay: -.42s; }
+.cdski-huaso-css .cdski-huaso-pierna-d { animation-delay: -.42s; }
 @keyframes cdskiPaso {
   from { transform: translateY(0) rotate(-2.5deg); }
   to   { transform: translateY(-1px) rotate(2.5deg); }
 }
-.cdski-huaso-mano {
+.cdski-huaso-css .cdski-huaso-mano {
   transform-box: fill-box;
   transform-origin: 100% 100%;
   animation: cdskiBrazo .9s ease-in-out infinite;
@@ -2749,7 +2749,7 @@ video[class*="h-full"] {
   0%, 100% { transform: rotate(-9deg); }
   50%      { transform: rotate(9deg); }
 }
-.cdski-huaso-panuelo {
+.cdski-huaso-css .cdski-huaso-panuelo {
   transform-box: fill-box;
   transform-origin: 90% 100%;
   animation: cdskiPanuelo .48s ease-in-out infinite alternate;
@@ -2770,7 +2770,7 @@ video[class*="h-full"] {
   z-index: 4;
   filter: drop-shadow(0 2px 4px rgba(15, 23, 42, .3));
 }
-.cdski-huaso-tela {
+.cdski-huaso-css .cdski-huaso-tela {
   transform-origin: 9px 24px;
   animation: cdskiFlamea 1.9s ease-in-out infinite;
 }
@@ -2890,20 +2890,17 @@ video[class*="h-full"] {
    porque los mueve el JS con su propia escala de velocidades. */
 @media (prefers-reduced-motion: reduce) {
   .cdski-huaso,
-  .cdski-huaso-nube,
-  .cdski-huaso-pierna,
   .cdski-huaso-escena::after { animation: none; }
-  .cdski-huaso-nube { opacity: .55; }
   .cdski-huaso-escena::after { opacity: 0; }
   .cdski-huaso-css .cdski-huaso-cerros { animation-duration: 70s; }
   .cdski-huaso-css .cdski-huaso-pinos  { animation-duration: 20s; }
   .cdski-huaso-css .cdski-huaso-ladera { animation-duration: 11s; }
   .cdski-huaso-css .cdski-huaso-actor  { animation-duration: 9s; }
   .cdski-huaso-css .cdski-huaso-rayas i { animation: none; opacity: 0; }
-  .cdski-huaso-sol  { animation-duration: 9s; }
-  .cdski-huaso-tela { animation-duration: 6s; }
-  .cdski-huaso-mano { animation-duration: 5s; }
-  .cdski-huaso-panuelo { animation-duration: 3.4s; }
+  .cdski-huaso-sol { animation-duration: 9s; }
+  .cdski-huaso-css .cdski-huaso-tela { animation-duration: 6s; }
+  .cdski-huaso-css .cdski-huaso-mano { animation-duration: 5s; }
+  .cdski-huaso-css .cdski-huaso-panuelo { animation-duration: 3.4s; }
   .cdski-huaso { transition: none; }
   .cdski-huaso:hover { transform: none; }
 }
