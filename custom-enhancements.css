@@ -2626,7 +2626,7 @@ video[class*="h-full"] {
 }
 .cdski-huaso-capa svg {
   width: 50%;
-  height: auto;
+  height: 100%;
   flex: 0 0 50%;
   display: block;
 }
@@ -2688,12 +2688,16 @@ video[class*="h-full"] {
   transform: translateX(-50%);
   z-index: 3;
 }
+.cdski-huaso-actor {
+  display: block;
+  width: 100%;
+  transform-origin: 50% 92%;
+}
 .cdski-huaso-fig {
   display: block;
   width: 100%;
   height: auto;
   overflow: visible;
-  transform-origin: 50% 92%;
 }
 
 /* Polvo de nieve saliendo de las colas */
@@ -2780,6 +2784,48 @@ video[class*="h-full"] {
   100%    { transform: translateX(120%); }
 }
 
+/* ---- Respaldo por CSS ----
+   El movimiento lo lleva el JS. Pero si por lo que sea ese bucle no
+   corriera, la escena quedaria como una foto y no hay forma de saberlo
+   desde aca. Asi que la escena nace con la clase .cdski-huaso-css, que
+   la anima por keyframes, y el JS se la quita en su primer cuadro. Para
+   que quede quieta tendrian que fallar los dos mecanismos a la vez. */
+.cdski-huaso-css .cdski-huaso-cerros { animation: cdskiScroll 26s linear infinite; }
+.cdski-huaso-css .cdski-huaso-ladera { animation: cdskiScroll 2.2s linear infinite; }
+@keyframes cdskiScroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+.cdski-huaso-css .cdski-huaso-actor {
+  animation: cdskiRide 3.4s cubic-bezier(.45, 0, .55, 1) infinite;
+}
+@keyframes cdskiRide {
+  0%   { transform: translate3d(-6%, 0, 0)    rotate(-13deg); }
+  25%  { transform: translate3d(0, -3%, 0)    rotate(0deg); }
+  50%  { transform: translate3d(6%, 0, 0)     rotate(13deg); }
+  70%  { transform: translate3d(-2%, -40%, 0) rotate(-10deg); }
+  85%  { transform: translate3d(-5%, -6%, 0)  rotate(-6deg); }
+  100% { transform: translate3d(-6%, 0, 0)    rotate(-13deg); }
+}
+.cdski-huaso-css .cdski-huaso-copos i { animation: cdskiCae 3.6s linear infinite; }
+.cdski-huaso-css .cdski-huaso-copos i:nth-child(2n) { animation-duration: 4.8s; }
+.cdski-huaso-css .cdski-huaso-copos i:nth-child(3n) { animation-duration: 5.6s; }
+@keyframes cdskiCae {
+  0%   { opacity: 0;  transform: translate3d(0, 0, 0); }
+  12%  { opacity: .9; }
+  100% { opacity: 0;  transform: translate3d(-26px, 150px, 0); }
+}
+.cdski-huaso-css .cdski-huaso-rayas i { animation: cdskiRaya 1.15s linear infinite; }
+.cdski-huaso-css .cdski-huaso-rayas i:nth-child(2) { animation-delay: -.29s; }
+.cdski-huaso-css .cdski-huaso-rayas i:nth-child(3) { animation-delay: -.58s; }
+.cdski-huaso-css .cdski-huaso-rayas i:nth-child(4) { animation-delay: -.87s; }
+@keyframes cdskiRaya {
+  0%   { opacity: 0;  transform: translate3d(30px, 0, 0) scaleX(.5); }
+  14%  { opacity: .9; }
+  72%  { opacity: .5; }
+  100% { opacity: 0;  transform: translate3d(-230px, 0, 0) scaleX(1.6); }
+}
+
 .cdski-huaso-texto {
   font-family: 'Montserrat', sans-serif;
   font-size: clamp(.63rem, 1vw, .76rem);
@@ -2834,6 +2880,10 @@ video[class*="h-full"] {
   .cdski-huaso-escena::after { animation: none; }
   .cdski-huaso-nube { opacity: .55; }
   .cdski-huaso-escena::after { opacity: 0; }
+  .cdski-huaso-css .cdski-huaso-cerros { animation-duration: 70s; }
+  .cdski-huaso-css .cdski-huaso-ladera { animation-duration: 11s; }
+  .cdski-huaso-css .cdski-huaso-actor  { animation-duration: 9s; }
+  .cdski-huaso-css .cdski-huaso-rayas i { animation: none; opacity: 0; }
   .cdski-huaso-sol  { animation-duration: 9s; }
   .cdski-huaso-tela { animation-duration: 6s; }
   .cdski-huaso-mano { animation-duration: 5s; }
